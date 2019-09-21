@@ -5,10 +5,14 @@ import Tasks from '../components/Tasks/Tasks'
 import Cockpit from '../components/Cockpit/Cockpit'
 import '../components/Tasks/Task/Task'
 import TodayTasks from '../components/TodayTasks/TodayTasks'
-//import classNames from 'classnames';
 
-//import Radium, {StyleRoot} from 'radium';
-//import wtf from './SpecialBtn.module.css';
+//import for bootstraps
+import axios from 'axios';
+import { Container, Row, Col } from 'reactstrap';
+
+import Post from '../components/Post';
+import Header from '../components/Header';
+import SideCard from '../components/SideCard';
 
 class App extends Component {
   //data
@@ -97,7 +101,7 @@ class App extends Component {
 
     //update the task with id of interest w/ new task description
     Monday[0].task = 'higher love'
-    
+
     const doesShowToday = this.state.showTasksToday;
     this.setState({showTasksToday: !doesShowToday}) 
    }
@@ -142,7 +146,21 @@ class App extends Component {
      console.log(tasklength)
     
     return (
+     
+      
+      
       <div className={rocky.App}>  
+      
+        
+
+     
+     <React.Fragment>
+
+
+    <Header />
+    
+    <main className="my-5 py-5">
+      <Container className="px-0">
         <Cockpit
         clicked = {this.toggleShowTasksHandler}
         tasks = {this.state.tasks}
@@ -150,6 +168,26 @@ class App extends Component {
      />
      {displayTasks}
      {displayTasksToday}
+        <Row noGutters className="pt-2 pt-md-5 w-100 px-4 px-xl-0 position-relative">
+        
+          <Col xs={{ order: 2 }} md={{ size: 4, order: 1 }} tag="aside" className="pb-5 mb-5 pb-md-0 mb-md-0 mx-auto mx-md-0">
+          
+
+            <SideCard />
+          </Col>
+          
+          <Col xs={{ order: 1 }} md={{ size: 7, offset: 1 }} tag="section" className="py-5 mb-5 py-md-0 mb-md-0">
+            <Post />
+          </Col>
+          
+        </Row>
+      </Container>
+    </main>
+    
+  </React.Fragment>
+
+
+  
 
       </div>
      

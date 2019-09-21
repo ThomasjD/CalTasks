@@ -1,5 +1,6 @@
 import React from 'react'
 import taskStyle from './Task.module.css'
+
 // import './Task.css'
 // import Radium from 'radium';
 //import rocky from '../../../containers/App.module.css'
@@ -7,6 +8,11 @@ import taskStyle from './Task.module.css'
 const task = (props) => {
 
 //onmouseenter = 'props.mouseover'
+
+const rnd = Math.random();
+
+
+
     return (
         <div className = {taskStyle.Task}>
         <div className = {taskStyle.TaskDeadlineSep}>
@@ -27,3 +33,9 @@ const task = (props) => {
     }
 //export default Radium(task)
 export default task
+
+/*
+if (rnd > 0.7) {
+    throw new Error ('Something went wrong')
+}
+*/
