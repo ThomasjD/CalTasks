@@ -1,7 +1,10 @@
 import React from 'react'
 import Task from './Task/Task'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+
 const tasks = (props) => {
+
+    console.log('[Tasks.js] rendering')
 
 //get props from app.js, run through each element in state to feed into <Task>
     //todo,deadline,location,key,click, changed sent to <Task>

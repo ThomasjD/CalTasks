@@ -12,3 +12,4 @@ import ThemeSwitcher from './components/ThemeSwitcher'
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
+//appTitle = 'CalTasks'

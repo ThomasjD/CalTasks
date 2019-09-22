@@ -5,16 +5,22 @@ import Tasks from '../components/Tasks/Tasks'
 import Cockpit from '../components/Cockpit/Cockpit'
 import '../components/Tasks/Task/Task'
 import TodayTasks from '../components/TodayTasks/TodayTasks'
+//import MaxReact from '../components/Syllabus/MaxReact'
 
 //import for bootstraps
 import axios from 'axios';
 import { Container, Row, Col } from 'reactstrap';
-
 import Post from '../components/Post';
 import Header from '../components/Header';
 import SideCard from '../components/SideCard';
 
 class App extends Component {
+
+  constructor(props) {
+    super(props)
+    console.log('[App.js] constructor')
+    //console.log(this.props.maxReact)
+  }
   //data
   state = {
     tasks: [
@@ -22,11 +28,11 @@ class App extends Component {
       {id: 'egewhw', todo: 'buy shoes', deadline : 'Martes', location: 'Floresta'},
       {id: 'asfasv', todo: 'mail package', deadline : 'Jueves', location: 'Laureles'}
     ],
-    maxReact: [
-      {id: 'xvlwil', lesson: '90. (for props Changes)', completion: false },
-      {id: 'bbbskk', lesson: '91. (for state Changes)', completion: false },
-      {id: 'kjhck2', lesson: '92. Using useEffect() in Functional Components ', completion: false },   
-    ],
+    // maxReact: [
+    //   {id: 'xvlwil', lesson: '90. (for props Changes)', completion: false },
+    //   {id: 'bbbskk', lesson: '91. (for state Changes)', completion: false },
+    //   {id: 'kjhck2', lesson: '92. Using useEffect() in Functional Components ', completion: false },   
+    // ],
     Monday: [
       {id: 'morning', task: ""},
       {id: 'afternoon', task: ""},
@@ -42,6 +48,18 @@ class App extends Component {
 
   };
 
+  static getDerivedStateFromProps = (state,props) => {
+    console.log('[App.js] getDerivedStateFromProps', props)
+    return state
+  }
+
+  // componentWillMount() {
+  //   console.log('[App.js] componentWillMount')
+  // }
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount') 
+  }
   //show list of tasks
   toggleShowTasksHandler = () => {
     const doesShow = this.state.showTasks;
@@ -152,43 +170,14 @@ class App extends Component {
       <div className={rocky.App}>  
       
         
-
-     
-     <React.Fragment>
-
-
-    <Header />
-    
-    <main className="my-5 py-5">
-      <Container className="px-0">
-        <Cockpit
+      <Cockpit
         clicked = {this.toggleShowTasksHandler}
         tasks = {this.state.tasks}
         todayClicked = {this.displayTodayScheduleHandler}
      />
      {displayTasks}
      {displayTasksToday}
-        <Row noGutters className="pt-2 pt-md-5 w-100 px-4 px-xl-0 position-relative">
-        
-          <Col xs={{ order: 2 }} md={{ size: 4, order: 1 }} tag="aside" className="pb-5 mb-5 pb-md-0 mb-md-0 mx-auto mx-md-0">
-          
-
-            <SideCard />
-          </Col>
-          
-          <Col xs={{ order: 1 }} md={{ size: 7, offset: 1 }} tag="section" className="py-5 mb-5 py-md-0 mb-md-0">
-            <Post />
-          </Col>
-          
-        </Row>
-      </Container>
-    </main>
-    
-  </React.Fragment>
-
-
-  
-
+     
       </div>
      
       
@@ -206,3 +195,34 @@ export default App
 //using css modules on multiple classNames 
 //{classNames({[styles.foo]: true, [styles.bar]: true})}
 //<p className={classNames({[rocky[classes]]: true, [rocky.red]: true})}>Things to Do!</p>
+
+
+
+
+/*Template for Bootstrap
+<React.Fragment>
+
+
+    <Header />
+    
+    <main className="my-5 py-5">
+      <Container className="px-0">
+        
+        <Row noGutters className="pt-2 pt-md-5 w-100 px-4 px-xl-0 position-relative">
+        
+          <Col xs={{ order: 2 }} md={{ size: 4, order: 1 }} tag="aside" className="pb-5 mb-5 pb-md-0 mb-md-0 mx-auto mx-md-0">
+          
+
+            <SideCard />
+          </Col>
+          
+          <Col xs={{ order: 1 }} md={{ size: 7, offset: 1 }} tag="section" className="py-5 mb-5 py-md-0 mb-md-0">
+            <Post />
+          </Col>
+          
+        </Row>
+      </Container>
+    </main>
+    
+  </React.Fragment>
+  */

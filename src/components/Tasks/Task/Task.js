@@ -11,7 +11,7 @@ const task = (props) => {
 
 const rnd = Math.random();
 
-
+    console.log('[Task] rendering')
 
     return (
         <div className = {taskStyle.Task}>

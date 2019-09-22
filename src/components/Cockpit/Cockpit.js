@@ -41,21 +41,7 @@ const cockpit = (props) => {
                 <h1>Medellin</h1>
                 <p className={classNames({[classes[assignedClasses[0]]]: true, [classes[assignedClasses[1]]]: true})}>Things to Do!</p>
             
-        <React.Fragment>
-            <div>
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-secondary active">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked/> Today
-                    </label>
-                    <label class="btn btn-secondary">
-                        <input type="radio" name="options" id="option2" autocomplete="off"/> Week
-                        </label>
-                <label class="btn btn-secondary">
-                    <input type="radio" name="options" id="option3" autocomplete="off"/> Month
-                    </label>
-                </div>
-            </div>
-        </React.Fragment> 
+        
 
         <button 
           className = {classes.specialbtn}
@@ -80,7 +66,7 @@ export default cockpit;
 
 
 // </div>
-{/* <React.Fragment>
+/* <React.Fragment>
         <div>
 
       
@@ -96,4 +82,24 @@ export default cockpit;
         </label>
       </div>
       </div>
-      </React.Fragment>     */}
+      </React.Fragment>     */
+
+
+
+/* Radio Buttons
+<React.Fragment>
+            <div>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-secondary active">
+                        <input type="radio" name="options" id="option1" autocomplete="off" checked/> Today
+                    </label>
+                    <label class="btn btn-secondary">
+                        <input type="radio" name="options" id="option2" autocomplete="off"/> Week
+                        </label>
+                <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option3" autocomplete="off"/> Month
+                    </label>
+                </div>
+            </div>
+        </React.Fragment> 
+*/
