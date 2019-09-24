@@ -1,10 +1,23 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 //import rocky from '../../containers/App.module.css'
 import classNames from 'classnames';
 import classes from './Cockpit.module.css'
 
-const cockpit = (props) => {
+const Cockpit = (props) => {
 
+    useEffect(() => {
+      //can do anything that componentDidUpdate can do
+      //can send http request here
+      console.log('[Cockpit.js] useffect')
+    
+
+    setTimeout(() => {
+      alert('Saved data to cloud')
+    }, 1000);
+  }, [props.tasks]); 
+
+
+    
     //styling the 'Things to Do' using strings for classnames
     const assignedClasses = [];
     let btnClass = '';
@@ -62,7 +75,7 @@ const cockpit = (props) => {
 }
 
 
-export default cockpit;
+export default Cockpit;
 
 
 // </div>

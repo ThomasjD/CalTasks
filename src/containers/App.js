@@ -56,10 +56,22 @@ class App extends Component {
   // componentWillMount() {
   //   console.log('[App.js] componentWillMount')
   // }
-
+  
+  shouldComponentUpdate () {
+    console.log('[App.js] shouldComponentUpdate')
+    return true
+  }
+  
   componentDidMount() {
     console.log('[App.js] componentDidMount') 
   }
+
+  componentDidUpdate(nextProps, nextState) {
+    console.log('[App.js] componentDidUpdate ')
+  }
+
+  
+
   //show list of tasks
   toggleShowTasksHandler = () => {
     const doesShow = this.state.showTasks;
