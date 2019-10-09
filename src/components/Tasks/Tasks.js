@@ -1,47 +1,104 @@
-import React, {Component} from 'react'
-import Task from './Task/Task'
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import React, { PureComponent } from 'react';
+import Task from './Task/Task';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import student from '../../containers/Student.css';
 
+class Tasks extends PureComponent {
+  constructor(props) {
+    super(props);
+  }
 
-class Tasks extends Component {
+  allTasksHandler() {
+    return this.props.tasks.map((task, index) => {
+      return (
+        <ErrorBoundary key={task.id}>
+          <Task
+            todo={task.todo}
+            deadline={task.deadline}
+            location={task.location}
+            key={task.id}
+            click={() => this.props.clicked(index)}
+            changed={event => this.props.changed(event, task.id)}
+          ></Task>
+        </ErrorBoundary>
+      );
+    });
+  }
 
-    constructor(props) {
-        super(props)
-    }
+  renderTableHeaderAllTasksHandler() {
+    let header = Object.keys(this.props.tasks[0]);
+    return header.map((key, index) => {
+      if (key == 'id') {
+        return <th key={index}>Click to Delete</th>;
+      } else {
+        return <th key={index}>{key.toUpperCase()}</th>;
+      }
+    });
+  }
 
-    // static getDerivedStateFromProps(props, state) {
-    //     console.log('[Tasks] getDerivedStateFromProps')
-    //     return state
-    // }
+  // static getDerivedStateFromProps(props, state) {
+  //     console.log('[Tasks] getDerivedStateFromProps')
+  //     return state
+  // }
 
-    //niche -removed
-    // componentWillReceiveProps(props) {
-    //    console.log('[Persons.js] componentWillReceiveProps', props); 
-    // }
+  //niche -removed
+  // componentWillReceiveProps(props) {
+  //    console.log('[Persons.js] componentWillReceiveProps', props);
+  // }
 
+  /*
     shouldComponentUpdate (nextProps, nextState) {
         console.log('[Tasks] shouldComponentUpdate')
-        return true
+        //comparing if props have changed
+        if (nextProps.tasks !== this.props.tasks) {
+            return true
+        } else {
+            return false
+        }
+       
     }
+    */
 
-    getSnapshotBeforeUpdate (prevProps, prevState) {
-        console.log('[Tasks] getSnapshotBeforeUpdate')
-        return {message: 'Snapshot'}
-    }
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    console.log('[Tasks] getSnapshotBeforeUpdate');
+    return { message: 'Snapshot' };
+  }
 
-    // componentWillUpdate() {
-    //     return 
-    // }
+  // componentWillUpdate() {
+  //     return
+  // }
 
-    componentDidUpdate(prevProps, prevState, message) {
-        console.log('[Tasks] componentDidUpdate')
-        console.log(message)
-    }
+  componentDidUpdate(prevProps, prevState, message) {
+    console.log('[Tasks] componentDidUpdate');
+    console.log(message);
+  }
 
-    render () {
-        console.log('[Tasks] rendering...')
-        
-        return this.props.tasks.map((task, index) => {
+  componentWillUnmount() {
+    console.log('[Tasks.js] componentWillUnmount');
+  }
+
+  render() {
+    console.log('[Tasks] rendering...');
+
+    return (
+      <div>
+        <h1 id="title"> All Tasks</h1>
+        <table id="students">
+          <tbody>
+            <tr>{this.renderTableHeaderAllTasksHandler()}</tr>
+            {this.allTasksHandler()}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
+export default Tasks;
+
+/*
+original
+this.props.tasks.map((task, index) => {
             return (<ErrorBoundary key = {task.id}>
             <Task 
             todo = {task.todo} 
@@ -53,18 +110,7 @@ class Tasks extends Component {
             </ErrorBoundary>
             )
           })
-        } 
-
-    }
-
-
-export default Tasks;
-
-
-
-
-
-
+*/
 
 /* original functional component
 

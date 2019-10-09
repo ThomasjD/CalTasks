@@ -1,85 +1,88 @@
-import React, {Component} from 'react'
-import taskStyle from './Task.module.css'
-
+import React, { Component } from 'react';
+import taskStyle from './Task.module.css';
+import Aux from '../../../hoc/Aux';
 
 class Task extends Component {
-    shouldComponentUpdate (nextProps, nextState) {
-        console.log('[Task] shouldComponentUpdate')
-        return true
-    }
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('[Task] shouldComponentUpdate');
+    return true;
+  }
 
-    getSnapshotBeforeUpdate (prevProps, prevState) {
-        console.log('[Task] getSnapshotBeforeUpdate')
-        return null
-    }
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    console.log('[Task] getSnapshotBeforeUpdate');
+    return null;
+  }
 
-    componentDidUpdate() {
-        console.log('[Task] componentDidUpdate')
-    }
-    
-    
-  
+  componentDidUpdate() {
+    console.log('[Task] componentDidUpdate');
+  }
 
-    render() {
-        console.log('[Task.js] rendering...')
+  // <Aux>
+  // </Aux>
 
-        return (
-            <div className = {taskStyle.Task}>
-            <div className = {taskStyle.TaskDeadlineSep}>
-                <p className = {taskStyle.TaskDeadline} >Task: {this.props.todo}</p>
-                <p className = {taskStyle.TaskDeadline} >Deadline:  {this.props.deadline}</p>
-                <div className = {taskStyle.showTaskDetails2}> Hover to show Location
-                <p className = {taskStyle.showTaskDetails}>{this.props.location}</p>
-                </div>
-                <p className = {taskStyle.delete} onClick = {this.props.click}>Delete Task</p>   
-            </div>
-            
-    
-            <p>{this.props.children}</p>
-    
-            <input className = {taskStyle.inputStyle} type= 'text' onChange = {this.props.changed} value={this.props.todo}/>
-            </div>
-        )
-            
-    }
-    
+  render() {
+    console.log('[Task.js] rendering...');
+
+    return (
+      <React.Fragment>
+        <tr key={this.props.key}>
+          <td>
+            <button className={taskStyle.delete} onClick={this.props.click}>
+              {this.props.key}
+            </button>
+          </td>
+          <td>
+            <input
+              className={taskStyle.inputStyle}
+              type="text"
+              onChange={this.props.changed}
+              value={this.props.todo}
+            />
+          </td>
+          <td>{this.props.deadline}</td>
+          <td>{this.props.location}</td>
+        </tr>
+        <p>{this.props.children}</p>
+      </React.Fragment>
+    );
+  }
 }
-
 
 export default Task;
 
+/*original
+ <React.Fragment>
+        <div className={taskStyle.Task}>
+          <div key="1a" className={taskStyle.TaskDeadlineSep}>
+            <p key="1b" className={taskStyle.TaskDeadline}>
+              Task: {this.props.todo}
+            </p>
 
+            <p key="1c" className={taskStyle.TaskDeadline}>
+              Deadline: {this.props.deadline}
+            </p>
 
+            <div key="1d" className={taskStyle.showTaskDetails2}>
+              {' '}
+              Hover to show Location
+              <p className={taskStyle.showTaskDetails}>{this.props.location}</p>
+            </div>
+            <p className={taskStyle.delete} onClick={this.props.click}>
+              Delete Task
+            </p>
+          </div>
 
+          <p key="1e">{this.props.children}</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+          <input
+            className={taskStyle.inputStyle}
+            type="text"
+            onChange={this.props.changed}
+            value={this.props.todo}
+          />
+        </div>
+      </React.Fragment>
+      */
 
 /*
 import React from 'react'
@@ -118,10 +121,6 @@ const rnd = Math.random();
 //export default Radium(task)
 export default task
 */
-
-
-
-
 
 /*
 if (rnd > 0.7) {

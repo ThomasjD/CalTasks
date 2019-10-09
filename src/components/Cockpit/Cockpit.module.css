@@ -1,52 +1,61 @@
 .red {
-    color: red;
-  }
-  
-  .orange {
-    color: rgb(218, 70, 2);
-  }
-  
-  .bold {
-    font-weight: bold;
-  }
-  
-  .green {
-    color: green;
-  }
-  
-  .Cockpit button {
-    border: 1px solid blue;
-    padding: 16px;
-    background-color: green;
-    font: inherit;
-    color: white;
-  }
-  
-  .Cockpit button.Red {
-    background-color: lightgreen;
-    color: black;
-  }
-  
-  .Cockpit button.Red:hover {
-    background-color: salmon;
-    color: black;
-  }
-  
-  
-  
-  .specialbtn {
-    background-color: green;
-    color: white;
-    font : inherit;
-    border: 1px blue;
-    padding: 8px;
-    cursor: pointer;
-    
-  }
-  
-  .specialbtn:hover {
-    background-color: pink;
-    color: black;
-  }
-  
-  
+  color: red;
+}
+
+.orange {
+  color: rgb(218, 70, 2);
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.green {
+  color: green;
+}
+
+.Cockpit button {
+  border: 1px solid blue;
+  padding: 16px;
+  background-color: green;
+  font: inherit;
+  color: white;
+}
+
+.Cockpit button.Red {
+  background-color: lightgreen;
+  color: black;
+}
+
+.Cockpit button.Red:hover {
+  background-color: salmon;
+  color: black;
+}
+
+.specialbtn {
+  font: inherit;
+  border: 1px blue;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.specialbtnAllTasks {
+  font: inherit;
+  background-color: lightblue;
+  border: 1px blue;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.specialbtnTodayTasks {
+  font: inherit;
+  background-color: lightgreen;
+  border: 1px blue;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.specialbtn:hover {
+  background-color: pink;
+  color: black;
+}
