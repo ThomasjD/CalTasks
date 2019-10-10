@@ -10,6 +10,7 @@ const Navbar = props => {
   const [newTaskState, setTaskState] = useState({
     showNewTaskForm: false
   });
+
   console.log(newTaskState.showNewTaskForm);
 
   const newTaskHandler = () => {
@@ -17,6 +18,44 @@ const Navbar = props => {
     console.log('inside newTaskHandler()');
     setTaskState({
       showNewTaskForm: !currentShowNewTaskForm
+    });
+  };
+
+  const [newTaskInfoState, setTaskInfoState] = useState({
+    newTaskTitle: '',
+    newTaskCategory: '',
+    newTaskLocation: ''
+    // newTaskDescription: '',
+    // newTaskTime: '',
+    // newTaskestimatedDuration: '' //estimation
+  });
+
+  //notify new title changed - set up new state
+  const newSetTaskInfoState = event => {
+    console.log('inside newTaskFormHandler()');
+    setTaskInfoState({
+      newTaskTitle: event.target.value,
+      newTaskCategory: newTaskInfoState.newTaskCategory,
+      newTaskLocation: newTaskInfoState.newTaskLocation
+    });
+  };
+
+  //notify new category changed - set up new state
+  const newSetTaskCategoryState = event => {
+    console.log('inside newSetTaskCategoryState()');
+    setTaskInfoState({
+      newTaskTitle: newTaskInfoState.newTaskTitle,
+      newTaskCategory: event.target.value,
+      newTaskLocation: newTaskInfoState.newTaskLocation
+    });
+  };
+
+  const newSetTaskLocationState = event => {
+    console.log('inside newSetTaskLocationState()');
+    setTaskInfoState({
+      newTaskTitle: newTaskInfoState.newTaskTitle,
+      newTaskCategory: newTaskInfoState.newTaskCategory,
+      newTaskLocation: event.target.value
     });
   };
 
@@ -125,10 +164,24 @@ const Navbar = props => {
   return (
     <React.Fragment>
       {navbarDisplay}
-      {newTaskState.showNewTaskForm ? <NewTask /> : null}
+      {newTaskState.showNewTaskForm ? (
+        <NewTask
+          changed={event => newSetTaskInfoState(event)}
+          newTaskTitle={newTaskInfoState.newTaskTitle}
+          selectionChange={event => newSetTaskCategoryState(event)}
+          category={newTaskInfoState.newTaskCategory}
+          locationChange={event => newSetTaskLocationState(event)}
+          location={newTaskInfoState.newTaskLocation}
+        />
+      ) : null}
     </React.Fragment>
   );
 };
 
 export default Navbar;
+
 //{newTaskDisplay}
+//
+//       selectionChange = {(event) => newSetTaskInfoState(event)}
+
+//       location = {newTaskLocation}
