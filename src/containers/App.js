@@ -3,6 +3,7 @@ import rocky from './App.module.css';
 import Tasks from '../components/Tasks/Tasks';
 //import Task from '../components/Tasks/Task/Task'
 import Cockpit from '../components/Cockpit/Cockpit';
+import Navbar2 from '../components/Cockpit/Navbar/Navbar2'
 import '../components/Tasks/Task/Task';
 import TodayTasks from '../components/TodayTasks/TodayTasks';
 //import MaxReact from '../components/Syllabus/MaxReact'
@@ -22,6 +23,8 @@ import SideCard from '../components/SideCard';
 
 class App extends Component {
   constructor(props) {
+    // const bigDaddy = {...this.DataStructure}
+    // console.log(bigDaddy.state.ShowView)
     super(props);
   }
 
@@ -46,11 +49,11 @@ class App extends Component {
         location: 'Laureles'
       }
     ],
-    // maxReact: [
-    //   {id: 'xvlwil', lesson: '90. (for props Changes)', completion: false },
-    //   {id: 'bbbskk', lesson: '91. (for state Changes)', completion: false },
-    //   {id: 'kjhck2', lesson: '92. Using useEffect() in Functional Components ', completion: false },
-    // ],
+    maxReact: [
+      {id: 'xvlwil', lesson: '90. (for props Changes)', completion: false },
+      {id: 'bbbskk', lesson: '91. (for state Changes)', completion: false },
+      {id: 'kjhck2', lesson: '92. Using useEffect() in Functional Components ', completion: false },
+    ],
     Monday: [
       { id: 'morning', task: '' },
       { id: 'afternoon', task: 'eat lunch' },
@@ -262,7 +265,17 @@ class App extends Component {
     let tasklength = this.state.tasks.length;
 
     return (
+
       <WithClass passClass={rocky.App}>
+       
+        <Navbar2
+          title={this.props.appTitle}
+          allTasksClicked={this.toggleShowTasksHandler}
+          tasksLength={this.state.tasks.length}
+          todayTasksClicked={this.displayTodayScheduleHandler}
+          deleteCockpit={() => {
+            this.setState({ showCockpit: false })}}
+          />
         {displayCockpit}
         {displayTasks}
       </WithClass>

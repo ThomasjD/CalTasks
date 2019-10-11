@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 import taskStyle from './Task.module.css';
 import Aux from '../../../hoc/Aux';
 
@@ -49,7 +49,7 @@ class Task extends Component {
 }
 
 export default Task;
-
+*/
 /*original
  <React.Fragment>
         <div className={taskStyle.Task}>
@@ -84,43 +84,70 @@ export default Task;
       </React.Fragment>
       */
 
-/*
-import React from 'react'
-import taskStyle from './Task.module.css'
+import React, { useState, useEffect } from 'react';
+import taskStyle from './Task.module.css';
 
 // import './Task.css'
 // import Radium from 'radium';
 //import rocky from '../../../containers/App.module.css'
 //import wtf from './SpecialBtn.module.css'
-const task = (props) => {
+const Task = props => {
+  //onmouseenter = 'props.mouseover'
+  //onst rnd = Math.random();
+  // alertFunction = () => {
 
-//onmouseenter = 'props.mouseover'
+  const [onCallDelete, setonCallDeleteState] = useState({
+    signalAlert: 'false'
+  });
 
-const rnd = Math.random();
-
-    console.log('[Task] rendering')
-
-    return (
-        <div className = {taskStyle.Task}>
-        <div className = {taskStyle.TaskDeadlineSep}>
-            <p className = {taskStyle.TaskDeadline} >Task: {props.todo}</p>
-            <p className = {taskStyle.TaskDeadline} >Deadline:  {props.deadline}</p>
-            <div className = {taskStyle.showTaskDetails2}> Hover to show Location
-            <p className = {taskStyle.showTaskDetails}>{props.location}</p>
-            </div>
-            <p className = {taskStyle.delete} onClick = {props.click}>Delete Task</p>   
-        </div>
-        
-
-        <p>{props.children}</p>
-
-        <input className = {taskStyle.inputStyle} type= 'text' onChange = {props.changed} value={props.todo}/>
-        </div>
-    )
+  const sureDelete = e => {
+    setonCallDeleteState({ signalAlert: e.value });
+  };
+  //props.click
+  // };
+  useEffect(() => {
+    console.log(`this is the state of alert ${onCallDelete.signalAlert}`);
+    if (onCallDelete.signalAlert === 'true') {
+      alert('Are you sure you want to delete this person?');
     }
+  }, []);
+  console.log('[Task] rendering');
+  //onCallDelete.signalAlert
+  //onClick={alertFunction()}
+  //onClick={props.click}
+  return (
+    <div className={taskStyle.Task}>
+      <div className={taskStyle.TaskDeadlineSep}>
+        <p className={taskStyle.TaskDeadline}>Task: {props.todo}</p>
+        <p className={taskStyle.TaskDeadline}>Deadline: {props.deadline}</p>
+        <div className={taskStyle.showTaskDetails2}>
+          {' '}
+          Hover to show Location
+          <p className={taskStyle.showTaskDetails}>{props.location}</p>
+        </div>
+
+        <p
+          className={taskStyle.delete}
+          value="true"
+          onClick={event => sureDelete(event)}
+        >
+          Delete Task
+        </p>
+      </div>
+
+      <p>{props.children}</p>
+
+      <input
+        className={taskStyle.inputStyle}
+        type="text"
+        onChange={props.changed}
+        value={props.todo}
+      />
+    </div>
+  );
+};
 //export default Radium(task)
-export default task
-*/
+export default Task;
 
 /*
 if (rnd > 0.7) {

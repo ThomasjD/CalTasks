@@ -135,12 +135,6 @@ const Cockpit = props => {
   // {cockpitBootstrap}
   return (
     <React.Fragment>
-      <Navbar
-        todayTasksClicked={props.todayTasksClicked}
-        allTasksClicked={props.allTasksClicked}
-        tittle={props.title}
-        deleteCockpit={props.deleteCockpit}
-      />
       <div className="">
         <p
           className={classNames({
@@ -194,3 +188,12 @@ export default React.memo(Cockpit);
             </div>
         </React.Fragment> 
 */
+
+/*original navbar
+<Navbar
+        todayTasksClicked={props.todayTasksClicked}
+        allTasksClicked={props.allTasksClicked}
+        tittle={props.title}
+        deleteCockpit={props.deleteCockpit}
+      />
+      */

@@ -46,6 +46,8 @@ const newTask = props => {
             onChange={props.locationChange}
           ></textarea>
         </div>
+
+        <input type="submit" value="Submit" />
       </div>
       <p>{props.newTaskTitle}</p>
       <p>{props.category}</p>

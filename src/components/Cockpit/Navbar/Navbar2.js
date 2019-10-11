@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 //import App from '../../containers/App';
-import Cockpit from './Cockpit';
-import classes from './Cockpit.module.css';
+import App from '../../../containers/App';
+import classes from '../Cockpit.module.css';
 import classNames from 'classnames';
-import NewTask from '../Creation/newTask';
+import NewTask from '../../Creation/newTask';
 
 const Navbar = props => {
   const [newTaskState, setTaskState] = useState({
@@ -181,9 +181,3 @@ const Navbar = props => {
 };
 
 export default Navbar;
-
-//{newTaskDisplay}
-//
-//       selectionChange = {(event) => newSetTaskInfoState(event)}
-
-//       location = {newTaskLocation}
