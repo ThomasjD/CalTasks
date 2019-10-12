@@ -3,7 +3,7 @@ import rocky from './App.module.css';
 import Tasks from '../components/Tasks/Tasks';
 //import Task from '../components/Tasks/Task/Task'
 import Cockpit from '../components/Cockpit/Cockpit';
-import Navbar2 from '../components/Cockpit/Navbar/Navbar2'
+import Navbar2 from '../components/Cockpit/Navbar/Navbar2';
 import '../components/Tasks/Task/Task';
 import TodayTasks from '../components/TodayTasks/TodayTasks';
 //import MaxReact from '../components/Syllabus/MaxReact'
@@ -50,9 +50,13 @@ class App extends Component {
       }
     ],
     maxReact: [
-      {id: 'xvlwil', lesson: '90. (for props Changes)', completion: false },
-      {id: 'bbbskk', lesson: '91. (for state Changes)', completion: false },
-      {id: 'kjhck2', lesson: '92. Using useEffect() in Functional Components ', completion: false },
+      { id: 'xvlwil', lesson: '90. (for props Changes)', completion: false },
+      { id: 'bbbskk', lesson: '91. (for state Changes)', completion: false },
+      {
+        id: 'kjhck2',
+        lesson: '92. Using useEffect() in Functional Components ',
+        completion: false
+      }
     ],
     Monday: [
       { id: 'morning', task: '' },
@@ -65,6 +69,7 @@ class App extends Component {
       { id: 'evening', task: '' }
     ],
     showTasks: false,
+    showTasksCounter: false,
     showTasksToday: false,
     showCockpit: true,
     showView: '0',
@@ -87,8 +92,12 @@ class App extends Component {
 
   //(year, month, day, hours, minutes, seconds, milliseconds)
 
-  shouldComponentUpdate() {
+  shouldComponentUpdate(nextProps, nextState) {
     console.log('[App.js] shouldComponentUpdate');
+    // let currentShowTaskStatus = this.state.showTasksCounter;
+    // if (nextState.tasks.length !== this.state.tasks.length) {
+    //   this.setState({ showTasksCounter: false });
+    // }
     return true;
   }
 
@@ -98,6 +107,9 @@ class App extends Component {
 
   componentDidUpdate(nextProps, nextState) {
     console.log('[App.js] componentDidUpdate ');
+    if (nextState.tasks.length !== this.state.tasks.length) {
+      this.setState({ showTasksCounter: false });
+    }
   }
 
   //show list of tasks
@@ -131,12 +143,16 @@ class App extends Component {
 
   //delete a task
   deleteTaskhandler = taskIndex => {
+    //alert('Are you sure you want to delete this task?');
+    this.setState({ showTasksCounter: true });
     //get tasks array
     const tasks = [...this.state.tasks];
     //splice task of interst
     tasks.splice(taskIndex, 1);
     //update new list of tasks to state
     this.setState({ tasks: tasks });
+    console.log(`I'm in the deleteTaskHandler ${this.state.tasks}`);
+    //this.setState({ showTasksCounter: false });
   };
 
   //dynamic edit task
@@ -230,7 +246,9 @@ class App extends Component {
       case '1':
         displayTasks = (
           <React.Fragment>
+            <p>tasks has # {this.state.tasks.length}</p>
             <Tasks
+              reRender={this.state.showTasksCounter}
               tasks={this.state.tasks}
               clicked={this.deleteTaskhandler}
               changed={this.taskChangeHandler}
@@ -265,17 +283,16 @@ class App extends Component {
     let tasklength = this.state.tasks.length;
 
     return (
-
       <WithClass passClass={rocky.App}>
-       
         <Navbar2
           title={this.props.appTitle}
           allTasksClicked={this.toggleShowTasksHandler}
           tasksLength={this.state.tasks.length}
           todayTasksClicked={this.displayTodayScheduleHandler}
           deleteCockpit={() => {
-            this.setState({ showCockpit: false })}}
-          />
+            this.setState({ showCockpit: false });
+          }}
+        />
         {displayCockpit}
         {displayTasks}
       </WithClass>

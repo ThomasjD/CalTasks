@@ -1,3 +1,4 @@
+/*
 import React, { PureComponent } from 'react';
 import Task from './Task/Task';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
@@ -58,7 +59,7 @@ class Tasks extends PureComponent {
        
     }
     */
-
+/*
   getSnapshotBeforeUpdate(prevProps, prevState) {
     console.log('[Tasks] getSnapshotBeforeUpdate');
     return { message: 'Snapshot' };
@@ -95,9 +96,11 @@ class Tasks extends PureComponent {
 }
 
 export default Tasks;
+*/
+
+//original
 
 /*
-original
 this.props.tasks.map((task, index) => {
             return (<ErrorBoundary key = {task.id}>
             <Task 
@@ -112,31 +115,109 @@ this.props.tasks.map((task, index) => {
           })
 */
 
-/* original functional component
+//original functional component
 
-import React from 'react'
-import Task from './Task/Task'
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import React, { useEffect } from 'react';
+import Task from './Task/Task';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import { isEmptyStatement } from '@babel/types';
 
-const tasks = (props) => {
+const Tasks = props => {
+  console.log('[Tasks.js] rendering');
 
-    console.log('[Tasks.js] rendering')
+  const allTasksHandler = () => {
+    return props.tasks.map((task, index) => {
+      return (
+        //<ErrorBoundary key={task.id}>
+        <Task
+          todo={task.todo}
+          deadline={task.deadline}
+          location={task.location}
+          key={task.id}
+          click={() => props.clicked(index)}
+          changed={event => props.changed(event, task.id)}
+        />
+        //</ErrorBoundary>
+      );
+    });
+  };
 
-//get props from app.js, run through each element in state to feed into <Task>
-    //todo,deadline,location,key,click, changed sent to <Task>
-return props.tasks.map((task, index) => {
-    return (<ErrorBoundary key = {task.id}>
-    <Task 
-    todo = {task.todo} 
-    deadline = {task.deadline}
-    location = {task.location}
-    key = {task.id}
-    click = {() => props.clicked(index)}
-    changed = {(event) => props.changed (event, task.id)}>Change Task (below)</Task>
-    </ErrorBoundary>
-    )
-  })
-}
-export default tasks;
+  const renderTableHeaderAllTasksHandler = () => {
+    //props.tasks.length !== 0
+    //if (Object.keys(props.tasks !== 0)) {
+    if (props.tasks.length !== 0) {
+      let header = Object.keys(props.tasks[0]);
+      return header.map((key, index) => {
+        console.log(`this is the key: (${key}) and the index: (${index})`);
+        if (key == 'id') {
+          return <th key={index}>Click to Delete</th>;
+        } else {
+          return <th key={index}>{key.toUpperCase()}</th>;
+        }
+      });
+    } else {
+      return (
+        <React.Fragment>
+          <th>Click To Delete</th>
+          <th>todo</th>
+          <th>deadline</th>
+          <th>location</th>
+        </React.Fragment>
+      );
+    }
+  };
 
-*/
+  //console.log('we out of tasks');
+
+  //? console.log('still got some tasks')
+
+  //let header = Object.keys(props.tasks);
+
+  //console.log(`this is the header: ${header}`);
+
+  useEffect(() => {
+    // console.log(`this is the state of alert ${onCallDelete.signalAlert}`);
+    // if (onCallDelete.signalAlert === 'true') {
+    if (props.reRender === true) {
+      alert('Are you sure you want to delete this task?');
+      //return (props.reRender = {})
+    }
+
+    // }
+
+    return () => {
+      console.log('i am in the return of useEffect in TASKS');
+    };
+  }, [props.reRender]);
+
+  return (
+    <div>
+      <h1 id="title"> All Tasks</h1>
+
+      <table id="students">
+        <tbody>
+          <tr>{renderTableHeaderAllTasksHandler()}</tr>
+          {allTasksHandler()}
+        </tbody>
+      </table>
+    </div>
+  );
+
+  // return props.tasks.map((task, index) => {
+  //   return (
+  //     <ErrorBoundary key={task.id}>
+  //       <Task
+  //         todo={task.todo}
+  //         deadline={task.deadline}
+  //         location={task.location}
+  //         key={task.id}
+  //         click={() => props.clicked(index)}
+  //         changed={event => props.changed(event, task.id)}
+  //       >
+  //         Change Task (below)
+  //       </Task>
+  //     </ErrorBoundary>
+  //   );
+  // });
+};
+export default Tasks;

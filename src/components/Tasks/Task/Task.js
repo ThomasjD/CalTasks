@@ -86,6 +86,7 @@ export default Task;
 
 import React, { useState, useEffect } from 'react';
 import taskStyle from './Task.module.css';
+import Tasks from '../Tasks';
 
 // import './Task.css'
 // import Radium from 'radium';
@@ -101,51 +102,76 @@ const Task = props => {
   });
 
   const sureDelete = e => {
-    setonCallDeleteState({ signalAlert: e.value });
+    setonCallDeleteState({ signalAlert: 'true' });
+    return <Tasks onClick={props.click} />;
   };
+
   //props.click
   // };
   useEffect(() => {
-    console.log(`this is the state of alert ${onCallDelete.signalAlert}`);
-    if (onCallDelete.signalAlert === 'true') {
-      alert('Are you sure you want to delete this person?');
-    }
-  }, []);
+    // console.log(`this is the state of alert ${onCallDelete.signalAlert}`);
+    // if (onCallDelete.signalAlert === 'true') {
+    //   alert('Are you sure you want to delete this task?');
+    // }
+    //alert('Are you sure you want to delete this task?');
+    return () => {
+      console.log('i am in the return of useEffect');
+    };
+  }, [props.todo]);
   console.log('[Task] rendering');
-  //onCallDelete.signalAlert
-  //onClick={alertFunction()}
-  //onClick={props.click}
+  //{props.key}
   return (
-    <div className={taskStyle.Task}>
-      <div className={taskStyle.TaskDeadlineSep}>
-        <p className={taskStyle.TaskDeadline}>Task: {props.todo}</p>
-        <p className={taskStyle.TaskDeadline}>Deadline: {props.deadline}</p>
-        <div className={taskStyle.showTaskDetails2}>
-          {' '}
-          Hover to show Location
-          <p className={taskStyle.showTaskDetails}>{props.location}</p>
-        </div>
-
-        <p
-          className={taskStyle.delete}
-          value="true"
-          onClick={event => sureDelete(event)}
-        >
-          Delete Task
-        </p>
-      </div>
-
+    <React.Fragment>
+      <tr key={props.key}>
+        <td>
+          <button className={taskStyle.delete} onClick={props.click}></button>
+        </td>
+        <td>
+          <input
+            className={taskStyle.inputStyle}
+            type="text"
+            onChange={props.changed}
+            value={props.todo}
+          />
+        </td>
+        <td>{props.deadline}</td>
+        <td>{props.location}</td>
+      </tr>
       <p>{props.children}</p>
-
-      <input
-        className={taskStyle.inputStyle}
-        type="text"
-        onChange={props.changed}
-        value={props.todo}
-      />
-    </div>
+    </React.Fragment>
   );
 };
+//onCallDelete.signalAlert
+//onClick={alertFunction()}
+//onClick={props.click}
+// return (
+//   <div className={taskStyle.Task}>
+//     <div className={taskStyle.TaskDeadlineSep}>
+//       <p className={taskStyle.TaskDeadline}>Task: {props.todo}</p>
+//       <p className={taskStyle.TaskDeadline}>Deadline: {props.deadline}</p>
+//       <div className={taskStyle.showTaskDetails2}>
+//         {' '}
+//         Hover to show Location
+//         <p className={taskStyle.showTaskDetails}>{props.location}</p>
+//       </div>
+
+//       <p className={taskStyle.delete} value="true" onClick={props.click}>
+//         Delete Task
+//       </p>
+//     </div>
+
+//     <p>{props.children}</p>
+
+//     <input
+//       className={taskStyle.inputStyle}
+//       type="text"
+//       onChange={props.changed}
+//       value={props.todo}
+//     />
+//   </div>
+// );
+
+//onClick={event => sureDelete(event)}
 //export default Radium(task)
 export default Task;
 
