@@ -13,6 +13,8 @@ import WithClass from '../hoc/WithClass';
 //import StudentTable from './StudentTable'
 import StudentTable from './StudentTable';
 import Navbar from '../components/Cockpit/navBar';
+import Syllabus from '../components/Syllabus/Syllabus';
+import NewTaskContext from '../context/newTask-context';
 
 //import for bootstraps
 import axios from 'axios';
@@ -73,6 +75,7 @@ class App extends Component {
     showTasksToday: false,
     showCockpit: true,
     showView: '0',
+    showNewTask: false,
     students: [
       { id: 1, name: 'Wasif', age: 21, email: 'wasif@email.com' },
       { id: 2, name: 'Ali', age: 19, email: 'ali@email.com' },
@@ -299,7 +302,7 @@ class App extends Component {
     );
   }
 }
-
+//<Syllabus />
 export default App;
 //<p className={rocky[classes]}>Things to Do!</p>
 

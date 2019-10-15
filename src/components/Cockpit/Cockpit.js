@@ -5,9 +5,9 @@ import classes from './Cockpit.module.css';
 import Navbar from './navBar';
 
 const Cockpit = props => {
+  //can do anything that componentDidUpdate can do
+  //can send http request here
   useEffect(() => {
-    //can do anything that componentDidUpdate can do
-    //can send http request here
     console.log('[Cockpit.js] useffect');
 
     //getting rid of timer
