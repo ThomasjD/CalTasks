@@ -117,7 +117,7 @@ this.props.tasks.map((task, index) => {
 
 //original functional component
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Task from './Task/Task';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { isEmptyStatement } from '@babel/types';
@@ -145,7 +145,9 @@ const Tasks = props => {
   const renderTableHeaderAllTasksHandler = () => {
     //props.tasks.length !== 0
     //if (Object.keys(props.tasks !== 0)) {
-    if (props.tasks.length !== 0) {
+
+    //if there are still tasks left
+    if (props.tasks.length > 1) {
       let header = Object.keys(props.tasks[0]);
       return header.map((key, index) => {
         console.log(`this is the key: (${key}) and the index: (${index})`);
@@ -156,14 +158,25 @@ const Tasks = props => {
         }
       });
     } else {
-      return (
-        <React.Fragment>
-          <th>Click To Delete</th>
-          <th>todo</th>
-          <th>deadline</th>
-          <th>location</th>
-        </React.Fragment>
-      );
+      //if there are no tasks left then these will be used to print the log
+      // return (
+      //   <React.Fragment>
+      //     <th>Click To Delete</th>
+      //     <th>todo</th>
+      //     <th>deadline</th>
+      //     <th>location</th>
+      //   </React.Fragment>
+      // );
+      let header = Object.keys(lastTaskHeader.lastHeader[0]);
+
+      return header.map((key, index) => {
+        console.log(`this is the key: (${key}) and the index: (${index})`);
+        if (key == 'id') {
+          return <th key={index}>Click to Delete</th>;
+        } else {
+          return <th key={index}>{key.toUpperCase()}</th>;
+        }
+      });
     }
   };
 
@@ -174,10 +187,22 @@ const Tasks = props => {
   //let header = Object.keys(props.tasks);
 
   //console.log(`this is the header: ${header}`);
+  const [lastTaskHeader, setLastTaskHeader] = useState({
+    lastHeader: props.tasks
+  });
 
   useEffect(() => {
     // console.log(`this is the state of alert ${onCallDelete.signalAlert}`);
     // if (onCallDelete.signalAlert === 'true') {
+
+    if (props.tasks.length === 1) {
+      //let savedHeader = Object.keys(props.tasks[0]);
+      //let savedHeader = props.tasks
+      console.log(props.tasks);
+      setLastTaskHeader({ lastHeader: props.tasks });
+
+      console.log(`this is the last task alert ${lastTaskHeader.lastHeader}`);
+    }
     if (props.reRender === true) {
       alert('Are you sure you want to delete this task?');
       //return (props.reRender = {})
