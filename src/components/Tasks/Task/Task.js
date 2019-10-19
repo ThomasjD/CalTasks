@@ -97,14 +97,14 @@ const Task = props => {
   //onst rnd = Math.random();
   // alertFunction = () => {
 
-  const [onCallDelete, setonCallDeleteState] = useState({
-    signalAlert: 'false'
-  });
+  // const [onCallDelete, setonCallDeleteState] = useState({
+  //   signalAlert: 'false'
+  // });
 
-  const sureDelete = e => {
-    setonCallDeleteState({ signalAlert: 'true' });
-    return <Tasks onClick={props.click} />;
-  };
+  // const sureDelete = e => {
+  //   setonCallDeleteState({ signalAlert: 'true' });
+  //   return <Tasks onClick={props.click} />;
+  // };
 
   //props.click
   // };
@@ -137,10 +137,10 @@ const Task = props => {
         <td>{props.deadline}</td>
         <td>{props.location}</td>
       </tr>
-      <p>{props.children}</p>
     </React.Fragment>
   );
 };
+// <p>{props.children}</p>
 //onCallDelete.signalAlert
 //onClick={alertFunction()}
 //onClick={props.click}

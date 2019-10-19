@@ -8,18 +8,18 @@ const Cockpit = props => {
   //can do anything that componentDidUpdate can do
   //can send http request here
   useEffect(() => {
-    console.log('[Cockpit.js] useffect');
+    console.log('I am inside of [Cockpit.js] useffect');
 
     //getting rid of timer
     // const timer = setTimeout(() => {
-    //   alert('Saved data to cloud');
+    //   alert('Cockpit timer alert');
     // }, 1000);
 
     return () => {
       //clearTimeout(timer);
       console.log('[Cockpit.js] cleanup work in useEffect');
     };
-  });
+  }, []);
 
   /*
     setTimeout(() => {
@@ -136,6 +136,7 @@ const Cockpit = props => {
   return (
     <React.Fragment>
       <div className="">
+        <h1>nigga be like</h1>
         <p
           className={classNames({
             [classes[assignedClasses[0]]]: true,

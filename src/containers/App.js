@@ -3,25 +3,26 @@ import rocky from './App.module.css';
 import Tasks from '../components/Tasks/Tasks';
 //import Task from '../components/Tasks/Task/Task'
 import Cockpit from '../components/Cockpit/Cockpit';
+import Cockpit2 from '../components/Cockpit/Cockpit2';
 import Navbar2 from '../components/Cockpit/Navbar/Navbar2';
 import '../components/Tasks/Task/Task';
 import TodayTasks from '../components/TodayTasks/TodayTasks';
 //import MaxReact from '../components/Syllabus/MaxReact'
 import WithClass from '../hoc/WithClass';
+import NewTaskContext from '../context/newTask-context';
 //import DataStructure from './DataStructure';
 //import Student from './Student.css';
 //import StudentTable from './StudentTable'
-import StudentTable from './StudentTable';
-import Navbar from '../components/Cockpit/navBar';
-import Syllabus from '../components/Syllabus/Syllabus';
-import NewTaskContext from '../context/newTask-context';
+// import StudentTable from './StudentTable';
+//import Navbar from '../components/Cockpit/navBar';
+//import Syllabus from '../components/Syllabus/Syllabus';
 
 //import for bootstraps
-import axios from 'axios';
-import { Container, Row, Col } from 'reactstrap';
-import Post from '../components/Post';
-import Header from '../components/Header';
-import SideCard from '../components/SideCard';
+// import axios from 'axios';
+// import { Container, Row, Col } from 'reactstrap';
+// import Post from '../components/Post';
+// import Header from '../components/Header';
+// import SideCard from '../components/SideCard';
 
 class App extends Component {
   constructor(props) {
@@ -74,6 +75,7 @@ class App extends Component {
     showTasksCounter: false,
     showTasksToday: false,
     showCockpit: true,
+    showCockpit2: true,
     showView: '0',
     showNewTask: false,
     students: [
@@ -271,15 +273,31 @@ class App extends Component {
     let displayCockpit = null;
     if (this.state.showCockpit == true) {
       displayCockpit = (
-        <Cockpit
-          title={this.props.appTitle}
-          allTasksClicked={this.toggleShowTasksHandler}
-          tasksLength={this.state.tasks.length}
-          todayTasksClicked={this.displayTodayScheduleHandler}
-          deleteCockpit={() => {
-            this.setState({ showCockpit: false });
-          }}
-        />
+        <React.Fragment>
+          <Cockpit
+            title={this.props.appTitle}
+            allTasksClicked={this.toggleShowTasksHandler}
+            tasksLength={this.state.tasks.length}
+            todayTasksClicked={this.displayTodayScheduleHandler}
+            deleteCockpit={() => {
+              this.setState({ showCockpit: false });
+            }}
+          />
+        </React.Fragment>
+      );
+    }
+
+    let displayCockpit2 = null;
+
+    if (this.state.showCockpit2 == true) {
+      displayCockpit2 = (
+        <React.Fragment>
+          <Cockpit2
+            deleteCockpit2={() => {
+              this.setState({ showCockpit2: false });
+            }}
+          />
+        </React.Fragment>
       );
     }
 
@@ -298,6 +316,8 @@ class App extends Component {
         />
         {displayCockpit}
         {displayTasks}
+
+        {displayCockpit2}
       </WithClass>
     );
   }

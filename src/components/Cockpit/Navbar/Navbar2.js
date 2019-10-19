@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 //import App from '../../containers/App';
 import App from '../../../containers/App';
@@ -12,6 +12,20 @@ const Navbar = props => {
   });
 
   console.log(newTaskState.showNewTaskForm);
+
+  useEffect(() => {
+    console.log('[Cockpit.js] useffect');
+
+    //getting rid of timer
+    // const timer = setTimeout(() => {
+    //   alert('Delete Cockpit timer alert');
+    // }, 100);
+
+    return () => {
+      //clearTimeout(timer);
+      console.log('[Cockpit.js] cleanup work in useEffect');
+    };
+  }, []);
 
   const newTaskHandler = () => {
     let currentShowNewTaskForm = newTaskState.showNewTaskForm;
@@ -57,8 +71,6 @@ const Navbar = props => {
       newTaskCategory: newTaskInfoState.newTaskCategory,
       newTaskLocation: event.target.value
     });
-
-    
   };
 
   //const newTaskDisplay = <NewTask />;
@@ -134,7 +146,7 @@ const Navbar = props => {
               />
               <button className="btn btn-outline-success">Search</button>
             </form>
-            <div class="nav-item dropdown">
+            <div className="nav-item dropdown">
               <a
                 href="#"
                 className="nav-link dropdown-toggle"

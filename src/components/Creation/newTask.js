@@ -1,5 +1,5 @@
 import React from 'react';
-import NavBar from '../Cockpit/navBar';
+
 import { tsPropertySignature } from '@babel/types';
 
 const newTask = props => {

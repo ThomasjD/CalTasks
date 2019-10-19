@@ -1,4 +1,3 @@
-/*
 import React, { PureComponent } from 'react';
 import Task from './Task/Task';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
@@ -8,7 +7,9 @@ class Tasks extends PureComponent {
   constructor(props) {
     super(props);
   }
-
+  state = {
+    lastHeader: []
+  };
   allTasksHandler() {
     return this.props.tasks.map((task, index) => {
       return (
@@ -27,10 +28,19 @@ class Tasks extends PureComponent {
   }
 
   renderTableHeaderAllTasksHandler() {
-    let header = Object.keys(this.props.tasks[0]);
+    //console.log(`the first lastHeader is ${this.state.lastHeader}`);
+    // let header = Object.keys(this.props.tasks[0]);
+
+    if (this.props.tasks.length > 1) {
+      const wtf = { ...this.props.tasks };
+      this.setState({ lastHeader: wtf[0] });
+      console.log(`this is wtf ${wtf[0]}`);
+    }
+    let header = Object.keys(this.state.lastHeader);
     return header.map((key, index) => {
-      if (key == 'id') {
-        return <th key={index}>Click to Delete</th>;
+      //console.log(`this is the key: (${key}) and the index: (${index})`);
+      if (key === 'id') {
+        return <th key={index}>Click to Delete</th>;
       } else {
         return <th key={index}>{key.toUpperCase()}</th>;
       }
@@ -59,7 +69,7 @@ class Tasks extends PureComponent {
        
     }
     */
-/*
+
   getSnapshotBeforeUpdate(prevProps, prevState) {
     console.log('[Tasks] getSnapshotBeforeUpdate');
     return { message: 'Snapshot' };
@@ -96,7 +106,6 @@ class Tasks extends PureComponent {
 }
 
 export default Tasks;
-*/
 
 //original
 
@@ -117,10 +126,11 @@ this.props.tasks.map((task, index) => {
 
 //original functional component
 
+/*
 import React, { useEffect, useState } from 'react';
 import Task from './Task/Task';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import { isEmptyStatement } from '@babel/types';
+//import { isEmptyStatement } from '@babel/types';
 
 const Tasks = props => {
   console.log('[Tasks.js] rendering');
@@ -149,9 +159,10 @@ const Tasks = props => {
     //if there are still tasks left
     if (props.tasks.length > 1) {
       let header = Object.keys(props.tasks[0]);
+
       return header.map((key, index) => {
         console.log(`this is the key: (${key}) and the index: (${index})`);
-        if (key == 'id') {
+        if (key === 'id') {
           return <th key={index}>Click to Delete</th>;
         } else {
           return <th key={index}>{key.toUpperCase()}</th>;
@@ -167,11 +178,12 @@ const Tasks = props => {
       //     <th>location</th>
       //   </React.Fragment>
       // );
+      //console.log(Object.keys(lastTaskHeader.lastHeader));
       let header = Object.keys(lastTaskHeader.lastHeader[0]);
 
       return header.map((key, index) => {
         console.log(`this is the key: (${key}) and the index: (${index})`);
-        if (key == 'id') {
+        if (key === 'id') {
           return <th key={index}>Click to Delete</th>;
         } else {
           return <th key={index}>{key.toUpperCase()}</th>;
@@ -214,7 +226,7 @@ const Tasks = props => {
       console.log('i am in the return of useEffect in TASKS');
     };
   }, [props.reRender]);
-
+  //
   return (
     <div>
       <h1 id="title"> All Tasks</h1>
@@ -246,3 +258,4 @@ const Tasks = props => {
   // });
 };
 export default Tasks;
+*/
