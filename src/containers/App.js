@@ -52,6 +52,7 @@ class App extends Component {
         location: 'Laureles'
       }
     ],
+    lastHeader: [],
     maxReact: [
       { id: 'xvlwil', lesson: '90. (for props Changes)', completion: false },
       { id: 'bbbskk', lesson: '91. (for state Changes)', completion: false },
@@ -117,8 +118,24 @@ class App extends Component {
     }
   }
 
+  // if (this.state.tasks.length >= 1) {
+  //   this.setState({ lastHeader: this.state.tasks[0] });
+  // }
+
+  // console.log(`I'm in the deleteTaskHandler ${this.state.lastHeader}`);
+
   //show list of tasks
   toggleShowTasksHandler = () => {
+    if (this.state.tasks != 0) {
+      this.setState({ lastHeader: this.state.tasks[0] });
+    } else {
+      this.setState({ lastHeader: this.state.lastHeader });
+    }
+
+    // if (this.state.tasks > 1) {
+    //   this.setState({ lastHeader: this.state.tasks[0] });
+    // }
+
     switch (this.state.showView) {
       case '0':
         this.setState({ showView: '1' });
@@ -152,11 +169,13 @@ class App extends Component {
     this.setState({ showTasksCounter: true });
     //get tasks array
     const tasks = [...this.state.tasks];
+
     //splice task of interst
     tasks.splice(taskIndex, 1);
+
     //update new list of tasks to state
     this.setState({ tasks: tasks });
-    console.log(`I'm in the deleteTaskHandler ${this.state.tasks}`);
+
     //this.setState({ showTasksCounter: false });
   };
 
@@ -257,6 +276,7 @@ class App extends Component {
               tasks={this.state.tasks}
               clicked={this.deleteTaskhandler}
               changed={this.taskChangeHandler}
+              lastHeader={this.state.lastHeader}
             />
           </React.Fragment>
         );

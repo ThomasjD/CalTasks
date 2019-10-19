@@ -8,7 +8,7 @@ class Tasks extends PureComponent {
     super(props);
   }
   state = {
-    lastHeader: []
+    //lastHeader: this.props.lastHeader
   };
   allTasksHandler() {
     return this.props.tasks.map((task, index) => {
@@ -18,7 +18,7 @@ class Tasks extends PureComponent {
             todo={task.todo}
             deadline={task.deadline}
             location={task.location}
-            key={task.id}
+            particularKey={task.id}
             click={() => this.props.clicked(index)}
             changed={event => this.props.changed(event, task.id)}
           ></Task>
@@ -28,15 +28,7 @@ class Tasks extends PureComponent {
   }
 
   renderTableHeaderAllTasksHandler() {
-    //console.log(`the first lastHeader is ${this.state.lastHeader}`);
-    // let header = Object.keys(this.props.tasks[0]);
-
-    if (this.props.tasks.length > 1) {
-      const wtf = { ...this.props.tasks };
-      this.setState({ lastHeader: wtf[0] });
-      console.log(`this is wtf ${wtf[0]}`);
-    }
-    let header = Object.keys(this.state.lastHeader);
+    let header = Object.keys(this.props.lastHeader);
     return header.map((key, index) => {
       //console.log(`this is the key: (${key}) and the index: (${index})`);
       if (key === 'id') {
@@ -45,6 +37,31 @@ class Tasks extends PureComponent {
         return <th key={index}>{key.toUpperCase()}</th>;
       }
     });
+    // if (this.props.tasks.length != 0) {
+    //   // const wtf = { ...this.props.tasks };
+    //   // this.setState({ lastHeader: wtf[0] });
+    //   let header = Object.keys(this.props.lastHeader);
+    //   return header.map((key, index) => {
+    //     //console.log(`this is the key: (${key}) and the index: (${index})`);
+    //     if (key === 'id') {
+    //       return <th key={index}>Click to Delete</th>;
+    //     } else {
+    //       return <th key={index}>{key.toUpperCase()}</th>;
+    //     }
+    //   });
+    // } else {
+    //   console.log(`this is the lastHeader ${this.props.lastHeader}`);
+    //   //let header2 = null;
+    //   let header2 = Object.keys(this.props.lastHeader);
+    //   return header2.map((key, index) => {
+    //     //console.log(`this is the key: (${key}) and the index: (${index})`);
+    //     if (key === 'id') {
+    //       return <th key={index}>Click to Delete</th>;
+    //     } else {
+    //       return <th key={index}>{key.toUpperCase()}</th>;
+    //     }
+    //   });
+    // }
   }
 
   // static getDerivedStateFromProps(props, state) {

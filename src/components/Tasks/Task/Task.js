@@ -122,7 +122,7 @@ const Task = props => {
   //{props.key}
   return (
     <React.Fragment>
-      <tr key={props.key}>
+      <tr key={props.particularKey}>
         <td>
           <button className={taskStyle.delete} onClick={props.click}></button>
         </td>
