@@ -313,6 +313,7 @@ class App extends Component {
       displayCockpit2 = (
         <React.Fragment>
           <Cockpit2
+            tasks={this.state.tasks}
             deleteCockpit2={() => {
               this.setState({ showCockpit2: false });
             }}

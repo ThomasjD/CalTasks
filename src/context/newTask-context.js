@@ -9,3 +9,4 @@ const newtaskContext = React.createContext({
 });
 
 export default newtaskContext;
+//margin: 10px auto;
