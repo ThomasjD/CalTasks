@@ -136,7 +136,7 @@ const Cockpit = props => {
   return (
     <React.Fragment>
       <div className="">
-        <h1>nigga be like</h1>
+        <h1>Hello this is testing for cockpit!</h1>
         <p
           className={classNames({
             [classes[assignedClasses[0]]]: true,
