@@ -19,42 +19,75 @@ class Cockpit2 extends Component {
         completion: false
       }
     ],
-    showLessons: false,
-    showLessonsView: '0',
+    showLessons: '0',
+    showLessonsView: false,
     lastLessonHeader: []
   };
-  //let displayLessons = null
 
   toggleShowLessonsHandler = () => {
-    if (this.state.tasks !== 0) {
+    if (this.state.maxReact !== 0) {
       this.setState({ lastLessonHeader: this.state.maxReact[0] });
     } else {
       this.setState({ lastLessonHeader: this.state.lastLessonHeader });
     }
 
+    //reverting the status to show or not show
+    const doesShow = this.state.showLessonsView;
+    this.setState({ showLessonsView: !doesShow });
+
     //for handling headers
     switch (this.state.showLessonsView) {
-      case '0':
+      case true:
         this.setState({ showLessons: '1' });
-
         break;
 
-      case '1':
+      case false:
         this.setState({ showLessons: '0' });
-        break;
-
-      case '2':
-        this.setState({ showLessons: '1' });
         break;
     }
   };
-  //<p>tasks has # {this.state.maxReact.length}</p>
-  render() {
-    let displayAllLessons = null;
 
-    if (this.state.showLessons === '1') {
-      displayAllLessons = (
+  deleteLessonhandler = taskIndex => {
+    alert('Are you sure you want to delete this task?');
+    this.setState({ reRenderTasks: true });
+
+    //get tasks array
+    const lessons = [...this.state.maxReact];
+
+    //splice task of interst
+    lessons.splice(taskIndex, 1);
+
+    //update new list of tasks to state
+    this.setState({ maxReact: lessons });
+  };
+
+  lessonChangeHandler = (event, taskChangeId) => {
+    const foundTaskId = this.state.maxReact.findIndex(currentId => {
+      return currentId.id === taskChangeId;
+    });
+
+    //createnew task item to put into array
+    const updatedLessons = { ...this.state.maxReact[foundTaskId] };
+
+    //using updated values to define the lesson of the particular pulled out lesson
+    updatedLessons.lesson = event.target.value;
+
+    //pull out of states maxReact array
+    const lessons = [...this.state.maxReact];
+
+    //update the new lesson w/ ID of interest from the copy of MaxReact (lessons)
+    lessons[foundTaskId] = updatedLessons;
+
+    //final update of lessons
+    this.setState({ maxReact: lessons });
+  };
+  render() {
+    let displayLessons = null;
+
+    if (this.state.showLessonsView) {
+      displayLessons = (
         <React.Fragment>
+          <p>tasks has # {this.state.maxReact.length}</p>
           <Lessons
             reRender={this.state.showLessons}
             lessons={this.state.maxReact}
@@ -65,20 +98,6 @@ class Cockpit2 extends Component {
         </React.Fragment>
       );
     }
-
-    let displayLessons = null;
-    displayLessons = (
-      <React.Fragment>
-        <p>tasks has # {this.state.maxReact.length}</p>
-        <Lessons
-          reRender={this.state.showLessons}
-          lessons={this.state.maxReact}
-          clicked={this.deleteLessonhandler}
-          changed={this.lessonChangeHandler}
-          lastLessonHeader={this.state.lastLessonHeader}
-        />
-      </React.Fragment>
-    );
 
     let displayCockpit = null;
     if (this.state.showLessons == true) {
@@ -95,7 +114,7 @@ class Cockpit2 extends Component {
         </React.Fragment>
       );
     }
-    //{this.state.showLessons ? { displayAllLessons } : null}
+
     return (
       <React.Fragment>
         <button onClick={this.toggleShowLessonsHandler}>
@@ -118,6 +137,7 @@ class Cockpit2 extends Component {
 
 export default Cockpit2;
 
+//Cockpit2 Functional Component
 // import React, { useEffect } from 'react';
 // //import rocky from '../../containers/App.module.css'
 // import classNames from 'classnames';

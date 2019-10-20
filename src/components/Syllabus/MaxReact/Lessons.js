@@ -12,14 +12,14 @@ class Lessons extends Component {
     //lastHeader: this.props.lastHeader
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log('[maxReact Lessons.js] shouldComponentUpdate');
-    if (nextProps.lessonsLength !== this.props.lessonsLength) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('[maxReact Lessons.js] shouldComponentUpdate');
+  //   if (nextProps.lessonsLength !== this.props.lessonsLength) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   renderAllLessonsTableHeaderHandler() {
     let header = Object.keys(this.props.lastLessonHeader);

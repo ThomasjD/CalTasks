@@ -53,6 +53,7 @@ class App extends Component {
       }
     ],
     lastHeader: [],
+    lastTodayTasksHeader: [],
     maxReact: [
       { id: 'xvlwil', lesson: '90. (for props Changes)', completion: false },
       { id: 'bbbskk', lesson: '91. (for state Changes)', completion: false },
@@ -63,9 +64,9 @@ class App extends Component {
       }
     ],
     Monday: [
-      { id: 'morning', task: '' },
-      { id: 'afternoon', task: 'eat lunch' },
-      { id: 'evening', task: 'play ball' }
+      { id: 'morning', timeOfDay: '', task: '' },
+      { id: 'afternoon', timeOfDay: '', task: 'eat lunch' },
+      { id: 'evening', timeOfDay: '', task: 'play ball' }
     ],
     Tuesday: [
       { id: 'morning', task: '' },
@@ -73,7 +74,8 @@ class App extends Component {
       { id: 'evening', task: '' }
     ],
     showTasks: false,
-    showTasksCounter: false,
+    reRenderTasks: false,
+    reRenderTodayTasks: false,
     showTasksToday: false,
     showCockpit: true,
     showCockpit2: true,
@@ -114,7 +116,7 @@ class App extends Component {
   componentDidUpdate(nextProps, nextState) {
     console.log('[App.js] componentDidUpdate ');
     if (nextState.tasks.length !== this.state.tasks.length) {
-      this.setState({ showTasksCounter: false });
+      this.setState({ reRenderTasks: false });
     }
   }
 
@@ -132,14 +134,14 @@ class App extends Component {
       this.setState({ lastHeader: this.state.lastHeader });
     }
 
-    // if (this.state.tasks > 1) {
-    //   this.setState({ lastHeader: this.state.tasks[0] });
-    // }
+    //old way of showing all tasks
+    const doesShow = this.state.showTasks;
+    this.setState({ showTasks: !doesShow });
 
+    //this allows to either show <Tasks> or <TodayTasks> at one time (not both at the same time)
     switch (this.state.showView) {
       case '0':
         this.setState({ showView: '1' });
-
         break;
 
       case '1':
@@ -151,10 +153,6 @@ class App extends Component {
         break;
     }
 
-    //old way of showing all tasks
-    const doesShow = this.state.showTasks;
-    this.setState({ showTasks: !doesShow });
-
     //tryout
     const Monday = [...this.state.Monday];
 
@@ -165,8 +163,9 @@ class App extends Component {
 
   //delete a task
   deleteTaskhandler = taskIndex => {
-    //alert('Are you sure you want to delete this task?');
-    this.setState({ showTasksCounter: true });
+    alert('Are you sure you want to delete this task?');
+    this.setState({ reRenderTasks: true });
+
     //get tasks array
     const tasks = [...this.state.tasks];
 
@@ -200,9 +199,16 @@ class App extends Component {
     this.setState({ tasks: tasks });
   };
 
-  addTaskTodayHandler = (event, taskChangedId) => {};
+  //addTaskTodayHandler = (event, taskChangedId) => {};
 
   displayTodayScheduleHandler = () => {
+    if (this.state.Monday != 0) {
+      this.setState({ lastTodayTasksHeader: this.state.Monday[0] });
+    } else {
+      this.setState({ lastTodayTasksHeader: this.state.lastTodayTasksHeader });
+    }
+
+    //this allows to either show <Tasks> or <TodayTasks> at one time (not both at the same time)
     switch (this.state.showView) {
       case '0':
         this.setState({ showView: '2' });
@@ -250,17 +256,23 @@ class App extends Component {
     });
   };
 
+  deleteTodayTaskhandler = taskIndex => {
+    alert('Are you sure you want to delete this task?');
+    this.setState({ reRenderTodayTasks: true });
+
+    //get tasks array
+    const Monday = [...this.state.Monday];
+
+    //splice task of interst
+    Monday.splice(taskIndex, 1);
+
+    //update new list of tasks to state
+    this.setState({ Monday: Monday });
+
+    //this.setState({ showTasksCounter: false });
+  };
+
   render() {
-    // let TodayDateTime = new Date().toString();
-    // console.log(TodayDateTime);
-    // let dayToday = TodayDateTime;
-    //console.log(this.state.Monday[0])
-
-    //console.log(this.state.Monday[0])
-
-    //let newShit =
-    //this.setState (Monday: this.state.Monday[0].taskTime.afternoon) = thisData
-    //console.log(this.state.Monday[0].taskTime.afternoon)
     let displayTasks = null;
 
     //clicking on the show Tasks button to show available tasks
@@ -272,7 +284,7 @@ class App extends Component {
           <React.Fragment>
             <p>tasks has # {this.state.tasks.length}</p>
             <Tasks
-              reRender={this.state.showTasksCounter}
+              reRenderTasks={this.state.reRenderTasks}
               tasks={this.state.tasks}
               clicked={this.deleteTaskhandler}
               changed={this.taskChangeHandler}
@@ -285,11 +297,18 @@ class App extends Component {
       case '2':
         displayTasks = (
           <React.Fragment>
-            <TodayTasks monday={this.state.Monday} />
+            <TodayTasks
+              reRenderTodayTasks={this.state.reRenderTodayTasks}
+              lastTodayTasksHeader={this.state.lastTodayTasksHeader}
+              clicked={this.deleteTodayTaskhandler}
+              changed={this.todayTaskChangeHandler}
+              monday={this.state.Monday}
+            />
           </React.Fragment>
         );
         break;
     }
+
     let displayCockpit = null;
     if (this.state.showCockpit == true) {
       displayCockpit = (

@@ -9,6 +9,9 @@ const todayTask = props => {
   return (
     <React.Fragment>
       <tr key={props.id}>
+        <td>
+          <button onClick={props.deleteTodayTask}></button>
+        </td>
         <td>{props.id}</td>
         <td>{props.task}</td>
       </tr>

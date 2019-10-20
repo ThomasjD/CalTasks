@@ -11,6 +11,18 @@ class Tasks extends PureComponent {
     //lastHeader: this.props.lastHeader
   };
 
+  renderTableHeaderAllTasksHandler() {
+    let header = Object.keys(this.props.lastHeader);
+    return header.map((key, index) => {
+      //console.log(`this is the key: (${key}) and the index: (${index})`);
+      if (key === 'id') {
+        return <th key={index}>Click to Delete</th>;
+      } else {
+        return <th key={index}>{key.toUpperCase()}</th>;
+      }
+    });
+  }
+
   allTasksHandler() {
     return this.props.tasks.map((task, index) => {
       return (
@@ -28,18 +40,6 @@ class Tasks extends PureComponent {
     });
   }
 
-  renderTableHeaderAllTasksHandler() {
-    let header = Object.keys(this.props.lastHeader);
-    return header.map((key, index) => {
-      //console.log(`this is the key: (${key}) and the index: (${index})`);
-      if (key === 'id') {
-        return <th key={index}>Click to Delete</th>;
-      } else {
-        return <th key={index}>{key.toUpperCase()}</th>;
-      }
-    });
-  }
-
   // static getDerivedStateFromProps(props, state) {
   //     console.log('[Tasks] getDerivedStateFromProps')
   //     return state
@@ -50,15 +50,15 @@ class Tasks extends PureComponent {
   //    console.log('[Persons.js] componentWillReceiveProps', props);
   // }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log('[Tasks] shouldComponentUpdate');
-  //   //comparing if props have changed
-  //   if (nextProps.tasks !== this.props.tasks) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('[Tasks] shouldComponentUpdate');
+    //comparing if props have changed
+    if (nextProps.tasks !== this.props.tasks) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
     console.log('[Tasks] getSnapshotBeforeUpdate');

@@ -126,6 +126,7 @@ const Task = props => {
         <td>
           <button className={taskStyle.delete} onClick={props.click}></button>
         </td>
+
         <td>
           <input
             className={taskStyle.inputStyle}
