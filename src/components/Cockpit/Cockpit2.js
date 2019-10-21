@@ -20,7 +20,7 @@ class Cockpit2 extends Component {
       }
     ],
     showLessons: '0',
-    showLessonsView: false,
+    showLessonsView: true,
     lastLessonHeader: []
   };
 
@@ -31,20 +31,26 @@ class Cockpit2 extends Component {
       this.setState({ lastLessonHeader: this.state.lastLessonHeader });
     }
 
-    //reverting the status to show or not show
-    const doesShow = this.state.showLessonsView;
-    this.setState({ showLessonsView: !doesShow });
-
+    if (this.props.showSyllabusFromNav) {
+      this.setState({ showLessons: '1' });
+    }
     //for handling headers
     switch (this.state.showLessonsView) {
       case true:
+        //show the lessons
+        //let showLessons = this.state.showLessons
         this.setState({ showLessons: '1' });
         break;
 
       case false:
+        //don't show the lessons
         this.setState({ showLessons: '0' });
         break;
     }
+    //reverting the status to show or not show
+
+    const doesShow = this.state.showLessonsView;
+    this.setState({ showLessonsView: !doesShow });
   };
 
   deleteLessonhandler = taskIndex => {
@@ -82,9 +88,28 @@ class Cockpit2 extends Component {
     this.setState({ maxReact: lessons });
   };
   render() {
+    let showSyllabusFromNavToggle = null;
+
+    if (this.props.showSyllabusFromNav) {
+      showSyllabusFromNavToggle = (
+        <React.Fragment>
+          <p>tasks has # {this.state.maxReact.length}</p>
+          <Lessons
+            reRender={this.state.showLessons}
+            lessons={this.state.maxReact}
+            clicked={this.deleteLessonhandler}
+            changed={this.lessonChangeHandler}
+            lastLessonHeader={this.state.maxReact[0]}
+            lessonsLength={this.state.maxReact.length}
+          />
+        </React.Fragment>
+      );
+    }
+
+    console.log(this.props.showSyllabusFromNav);
     let displayLessons = null;
 
-    if (this.state.showLessonsView) {
+    if (this.state.showLessons === '1') {
       displayLessons = (
         <React.Fragment>
           <p>tasks has # {this.state.maxReact.length}</p>
@@ -94,6 +119,7 @@ class Cockpit2 extends Component {
             clicked={this.deleteLessonhandler}
             changed={this.lessonChangeHandler}
             lastLessonHeader={this.state.lastLessonHeader}
+            lessonsLength={this.state.maxReact.length}
           />
         </React.Fragment>
       );
@@ -114,9 +140,10 @@ class Cockpit2 extends Component {
         </React.Fragment>
       );
     }
-
+    //
     return (
       <React.Fragment>
+        {showSyllabusFromNavToggle}
         <button onClick={this.toggleShowLessonsHandler}>
           {' '}
           Show Lessons for React Max

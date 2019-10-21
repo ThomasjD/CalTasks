@@ -81,6 +81,7 @@ class App extends Component {
     showCockpit2: true,
     showView: '0',
     showNewTask: false,
+    showSyllabusFromNav: false,
     students: [
       { id: 1, name: 'Wasif', age: 21, email: 'wasif@email.com' },
       { id: 2, name: 'Ali', age: 19, email: 'ali@email.com' },
@@ -286,6 +287,28 @@ class App extends Component {
     //this.setState({ showTasksCounter: false });
   };
 
+  showSyllabusHandler = () => {
+    let doesShow = this.state.showSyllabusFromNav;
+    this.setState({ showSyllabusFromNav: !doesShow });
+    switch (this.state.showView) {
+      case '0':
+        this.setState({ showView: '3' });
+        break;
+
+      case '1':
+        this.setState({ showView: '3' });
+        break;
+
+      case '2':
+        this.setState({ showView: '3' });
+        break;
+
+      case '3':
+        this.setState({ showView: '0' });
+        break;
+    }
+  };
+
   render() {
     let displayTasks = null;
 
@@ -326,6 +349,7 @@ class App extends Component {
         displayTasks = (
           <React.Fragment>
             <Cockpit2
+              showSyllabusFromNav={this.state.showSyllabusFromNav}
               tasks={this.state.tasks}
               deleteCockpit2={() => {
                 this.setState({ showCockpit2: false });
@@ -358,6 +382,7 @@ class App extends Component {
       rightCockpit = (
         <React.Fragment>
           <Cockpit2
+            showSyllabusFromNav={this.state.showSyllabusFromNav}
             tasks={this.state.tasks}
             deleteCockpit2={() => {
               this.setState({ showCockpit2: false });
@@ -372,6 +397,7 @@ class App extends Component {
     return (
       <WithClass passClass={rocky.App}>
         <Navbar2
+          syllabusClicked={this.showSyllabusHandler}
           title={this.props.appTitle}
           allTasksClicked={this.toggleShowTasksHandler}
           tasksLength={this.state.tasks.length}
@@ -380,13 +406,12 @@ class App extends Component {
             this.setState({ showCockpit: false });
           }}
         />
-        <div class="container">
+        <div className="container">
           <div className="d-flex flex-row ">
-            <div class="card text-white bg-info m-1 p-1 col-3">
+            <div className="card text-white bg-info m-1 p-1 col-3">
               <div className="p-1 ">{leftCockpit}</div>
             </div>
             <div className="card bg-light m-1 p-1 col-9">
-              <div className="p-1 ">{rightCockpit}</div>
               <div className="p-1 ">{displayTasks}</div>
             </div>
           </div>
@@ -397,7 +422,7 @@ class App extends Component {
 }
 //<Syllabus />
 export default App;
-
+//<div className="p-1 ">{rightCockpit}</div>
 //<div className="d-flex flex-column "></div>;
 //<p className={rocky[classes]}>Things to Do!</p>
 
