@@ -72,7 +72,7 @@ class Lessons extends Component {
 
     return (
       <div>
-        <h1 id="title"> All Tasks</h1>
+        <h1 id="title"> Syllabus</h1>
         <table id="students">
           <tbody>
             <tr>{this.renderAllLessonsTableHeaderHandler()}</tr>

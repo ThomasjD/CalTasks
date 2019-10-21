@@ -139,6 +139,11 @@ class App extends Component {
     this.setState({ showTasks: !doesShow });
 
     //this allows to either show <Tasks> or <TodayTasks> at one time (not both at the same time)
+
+    //showView = '0' => showing Regular rightcockpit
+    //showView = '1' => showing AllTasks
+    //showView = '2' => showing TodaysTasks
+    //showView = '0' => showing <cockpit2> Syllabus (Reactmax)
     switch (this.state.showView) {
       case '0':
         this.setState({ showView: '1' });
@@ -209,6 +214,11 @@ class App extends Component {
     }
 
     //this allows to either show <Tasks> or <TodayTasks> at one time (not both at the same time)
+    //showView = '0' => showing Regular rightcockpit
+    //showView = '1' => showing AllTasks
+    //showView = '2' => showing TodaysTasks
+    //showView = '0' => showing <cockpit2> Syllabus (Reactmax)
+
     switch (this.state.showView) {
       case '0':
         this.setState({ showView: '2' });
@@ -220,6 +230,10 @@ class App extends Component {
 
       case '2':
         this.setState({ showView: '0' });
+        break;
+
+      case '3':
+        this.setState({ showView: '2' });
         break;
     }
 
@@ -307,11 +321,23 @@ class App extends Component {
           </React.Fragment>
         );
         break;
+
+      case '3':
+        displayTasks = (
+          <React.Fragment>
+            <Cockpit2
+              tasks={this.state.tasks}
+              deleteCockpit2={() => {
+                this.setState({ showCockpit2: false });
+              }}
+            />
+          </React.Fragment>
+        );
     }
 
-    let displayCockpit = null;
+    let leftCockpit = null;
     if (this.state.showCockpit == true) {
-      displayCockpit = (
+      leftCockpit = (
         <React.Fragment>
           <Cockpit
             title={this.props.appTitle}
@@ -326,10 +352,10 @@ class App extends Component {
       );
     }
 
-    let displayCockpit2 = null;
+    let rightCockpit = null;
 
     if (this.state.showCockpit2 == true) {
-      displayCockpit2 = (
+      rightCockpit = (
         <React.Fragment>
           <Cockpit2
             tasks={this.state.tasks}
@@ -354,16 +380,25 @@ class App extends Component {
             this.setState({ showCockpit: false });
           }}
         />
-        {displayCockpit}
-        {displayTasks}
-
-        {displayCockpit2}
+        <div class="container">
+          <div className="d-flex flex-row ">
+            <div class="card text-white bg-info m-1 p-1 col-3">
+              <div className="p-1 ">{leftCockpit}</div>
+            </div>
+            <div className="card bg-light m-1 p-1 col-9">
+              <div className="p-1 ">{rightCockpit}</div>
+              <div className="p-1 ">{displayTasks}</div>
+            </div>
+          </div>
+        </div>
       </WithClass>
     );
   }
 }
 //<Syllabus />
 export default App;
+
+//<div className="d-flex flex-column "></div>;
 //<p className={rocky[classes]}>Things to Do!</p>
 
 //using css modules on multiple classNames
