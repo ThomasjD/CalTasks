@@ -61,7 +61,7 @@ class App extends Component {
   };
 
   ContentViewHandler = choice => {
-    //Interpreting which view option is chosen
+    //Interpreting which view
     //there will be only 1 contentChoice stored in state
     switch (choice) {
       case '0': //only cockpit

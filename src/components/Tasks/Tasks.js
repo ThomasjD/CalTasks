@@ -11,6 +11,18 @@ class Tasks extends PureComponent {
     //lastHeader: this.props.lastHeader
   };
 
+  //check to see if there is last header
+  //if its empty then store it
+  //if not empty continue to use it
+
+  // setupLastTableHeader() {
+  //   if (this.props.tasks != 0) {
+  //     this.setState({ lastHeader: this.state.tasks[0] });
+  //   } else {
+  //     this.setState({ lastHeader: this.state.lastHeader });
+  //   }
+  // }
+
   renderTableHeaderAllTasksHandler() {
     let header = Object.keys(this.props.lastHeader);
     return header.map((key, index) => {

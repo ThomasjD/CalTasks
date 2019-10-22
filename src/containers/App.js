@@ -52,6 +52,7 @@ class App extends Component {
         location: 'Laureles'
       }
     ],
+    lastHeaderStatus: true,
     lastHeader: [],
     lastTodayTasksHeader: [],
     maxReact: [
@@ -82,12 +83,14 @@ class App extends Component {
     showView: '0',
     showNewTask: false,
     showSyllabusFromNav: false,
+    showSyllabus: true,
     students: [
       { id: 1, name: 'Wasif', age: 21, email: 'wasif@email.com' },
       { id: 2, name: 'Ali', age: 19, email: 'ali@email.com' },
       { id: 3, name: 'Saad', age: 16, email: 'saad@email.com' },
       { id: 4, name: 'Asad', age: 25, email: 'asad@email.com' }
-    ]
+    ],
+    contentChoice: '0'
   };
 
   static getDerivedStateFromProps = (state, props) => {
@@ -129,12 +132,13 @@ class App extends Component {
 
   //show list of tasks
 
-  ContentViewHandler = viewChoice => {
+  contentViewHandler = event => {
+    let newViewChoice = event.target.value;
+    console.log(newViewChoice);
+    //Comparing new contentChoice with previous contentChoice
+    //if newContentChoice === oldContentChoice
+    //turn off the view
     if (newViewChoice === this.state.contentChoice) {
-      //Comparing new contentChoice with previous contentChoice
-      //if newContentChoice === oldContentChoice
-      //turn off the view
-
       return this.setState({ contentChoice: '0' });
     } else {
       //Setting which Content view to show
@@ -145,23 +149,41 @@ class App extends Component {
           break;
         case '1': //All tasks
           this.setState({ contentChoice: '1' });
+          if (this.state.tasks != 0) {
+            this.setState({ lastHeader: this.state.tasks[0] });
+          } else {
+            this.setState({ lastHeader: this.state.lastHeader });
+          }
           break;
+
         case '2': //TodaysTasks
           this.setState({ contentChoice: '2' });
+          if (this.state.Monday != 0) {
+            this.setState({ lastTodayTasksHeader: this.state.Monday[0] });
+          } else {
+            this.setState({
+              lastTodayTasksHeader: this.state.lastTodayTasksHeader
+            });
+          }
           break;
         case '3': //Syllabus
-          this.setState({ contentChoice: '3' });
+          this.setState({ contentChoice: '3', showSyllabus: true });
+
           break;
       }
     }
-
+    console.log('Yo MATE IM TESTING THE LASTHEADER');
     //Setting the lastHeader for each contentChoice
     //there will be 3 diff. lastHeader depending on # of dif lists to be displayed
-    switch (contentChoice) {
+    switch (this.state.contentChoice) {
       case '0': //only cockpit
         break;
       case '1': //All tasks
-        this.setState({ lastHeader: this.state.tasks[0] });
+        // if (this.state.lastHeaderStatus) {
+        //   let lastHeader = { ...this.state.tasks };
+        //   let newLastHeader = lastHeader[0];
+        //   this.setState({ lastHeader: newLastHeader });
+        // }
         break;
       case '2': //TodaysTasks
         this.setState({ lastTodayTasksHeader: this.state.Monday[0] });
@@ -438,6 +460,66 @@ class App extends Component {
 
     let tasklength = this.state.tasks.length;
 
+    //Trying out toggleShowTasksHandler
+
+    let displayContent = null;
+
+    switch (this.state.contentChoice) {
+      case '0':
+        break;
+
+      case '1':
+        displayContent = (
+          <React.Fragment>
+                        <p>tasks has # {this.state.tasks.length}</p>
+                        
+            <Tasks
+              reRenderTasks={this.state.reRenderTasks}
+              tasks={this.state.tasks}
+              clicked={this.deleteTaskhandler}
+              changed={this.taskChangeHandler}
+              lastHeader={this.state.lastHeader}
+            />
+                      
+          </React.Fragment>
+        );
+        break;
+
+      case '2':
+        displayContent = (
+          <React.Fragment>
+                        
+            <TodayTasks
+              reRenderTodayTasks={this.state.reRenderTodayTasks}
+              lastTodayTasksHeader={this.state.lastTodayTasksHeader}
+              clicked={this.deleteTodayTaskhandler}
+              changed={this.todayTaskChangeHandler}
+              monday={this.state.Monday}
+            />
+                      
+          </React.Fragment>
+        );
+        break;
+
+      case '3':
+        displayContent = (
+          <React.Fragment>
+                        
+            <Cockpit2
+              showSyllabusFromNav={this.state.showSyllabusFromNav}
+              showSyllabus={this.state.showSyllabus}
+              tasks={this.state.tasks}
+              lastHeader={this.state.lastHeader}
+              deleteCockpit2={() => {
+                this.setState({ showCockpit2: false });
+              }}
+            />
+                      
+          </React.Fragment>
+        );
+        break;
+    }
+
     return (
       <WithClass passClass={rocky.App}>
         <Navbar2
@@ -445,18 +527,71 @@ class App extends Component {
           title={this.props.appTitle}
           allTasksClicked={this.toggleShowTasksHandler}
           tasksLength={this.state.tasks.length}
-          todayTasksClicked={this.displayTodayScheduleHandler}
+          todayTasksClicked={this.contentViewHandler}
           deleteCockpit={() => {
             this.setState({ showCockpit: false });
           }}
         />
+
+        <div>
+          <div className="btn-group btn-group-toggle" data-toggle="buttons">
+            <label className="btn btn-danger m-1 active">
+              <button
+                type="radio"
+                name="options"
+                id="option1"
+                autoComplete="off"
+                onClick={event => this.contentViewHandler(event)}
+                value="0"
+              />{' '}
+              Cockpit
+            </label>
+
+            <label className="btn btn-primary m-1 active">
+              <button
+                type="radio"
+                name="options"
+                id="option1"
+                autoComplete="off"
+                onClick={event => this.contentViewHandler(event)}
+                value="1"
+              />{' '}
+              All Tasks
+            </label>
+
+            <label className="btn btn-success m-1 active ">
+              <button
+                type="radio"
+                name="options"
+                id="option2"
+                autoComplete="off"
+                onClick={event => this.contentViewHandler(event)}
+                value="2"
+              />{' '}
+              Todays Tasks
+            </label>
+
+            <label className="btn btn-warning m-1 ">
+              <button
+                type="radio"
+                name="options"
+                id="option3"
+                autoComplete="off"
+                onClick={event => this.contentViewHandler(event)}
+                value="3"
+              />{' '}
+              React Syllabus
+            </label>
+          </div>
+        </div>
+
         <div className="container">
           <div className="d-flex flex-row ">
             <div className="card text-white bg-info m-1 p-1 col-3">
               <div className="p-1 ">{leftCockpit}</div>
             </div>
             <div className="card bg-light m-1 p-1 col-9">
-              <div className="p-1 ">{displayTasks}</div>
+              <div className="p-1 ">{displayContent}</div>
             </div>
           </div>
         </div>
@@ -464,7 +599,8 @@ class App extends Component {
     );
   }
 }
-//<Syllabus />
+//{displayContent}
+//{displayTasks}
 export default App;
 //<div className="p-1 ">{rightCockpit}</div>
 //<div className="d-flex flex-column "></div>;

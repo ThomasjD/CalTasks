@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import classes from './Cockpit.module.css';
 //import Navbar from './navBar';
 import Lessons from '../Syllabus/MaxReact/Lessons';
+import App from '../../containers/App';
 
 class Cockpit2 extends Component {
   constructor(props) {
@@ -90,7 +91,7 @@ class Cockpit2 extends Component {
   render() {
     let showSyllabusFromNavToggle = null;
 
-    if (this.props.showSyllabusFromNav) {
+    if (this.props.showSyllabus) {
       showSyllabusFromNavToggle = (
         <React.Fragment>
           <p>tasks has # {this.state.maxReact.length}</p>
@@ -140,8 +141,10 @@ class Cockpit2 extends Component {
         </React.Fragment>
       );
     }
-    //
+    //{showSyllabusFromNavToggle}
     return (
+      // {this.props.showSyllabus ? () => this.toggleShowLessonsHandler() : null}
+
       <React.Fragment>
         {showSyllabusFromNavToggle}
         <button onClick={this.toggleShowLessonsHandler}>
@@ -161,7 +164,11 @@ class Cockpit2 extends Component {
     );
   }
 }
-
+// {this.props.showSyllabus
+//   ? () => {
+//       this.toggleShowLessonsHandler();
+//     }
+//   : null}
 export default Cockpit2;
 
 //Cockpit2 Functional Component
