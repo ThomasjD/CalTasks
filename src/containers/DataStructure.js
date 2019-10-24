@@ -7,55 +7,77 @@ class DataStructure extends Component {
   }
 
   state = {
-    tasks: [
+    objectives: [
       {
-        id: 'qrwrwq',
-        todo: 'Find work',
-        deadline: 'Lunes',
-        location: 'Poplado'
-      },
-      {
-        id: 'egewhw',
-        todo: 'buy shoes',
-        deadline: 'Martes',
-        location: 'Floresta'
-      },
-      {
-        id: 'asfasv',
-        todo: 'mail package',
-        deadline: 'Jueves',
-        location: 'Laureles'
+        objId: '',
+        objTitle: '',
+        timeCat: '',
+        // daily: 1
+        // days: 1.1-1.7
+        // months: 2.3,2.6,2.9
+        // year: 3.1,3.6, 3.9, 3.12
+        subjectCat: '',
+        expirationDate: '',
+        objStatus: '',
+        requiredCompletionTime: ''
       }
     ],
-    maxReact: [
-      {id: 'xvlwil', lesson: '90. (for props Changes)', completion: false },
-      {id: 'bbbskk', lesson: '91. (for state Changes)', completion: false },
-      {id: 'kjhck2', lesson: '92. Using useEffect() in Functional Components ', completion: false },
+
+    objRequiredWork: {
+      objId: '', //from objectives.objId
+      requiredWork: [
+        {
+          syllabi: [
+            { syllabusId: '' } //list of required syllabi
+          ],
+          level1Tasks: [],
+          level2Tasks: [],
+          level3Tasks: []
+        }
+      ]
+    },
+
+    Syllabus: [
+      {
+        syllabusId: '',
+        syllabusTitle: '', //ReactMax
+        objSource: '', //objId
+        field: '', //Programing
+        concentration: '', //Front End
+        subjectCat: '', //Library
+        subject: '' //React
+      }
     ],
-    Monday: [
-      { id: 'morning', task: '' },
-      { id: 'afternoon', task: 'eat lunch' },
-      { id: 'evening', task: 'play ball' }
-    ],
-    Tuesday: [
-      { id: 'morning', task: '' },
-      { id: 'afternoon', task: '' },
-      { id: 'evening', task: '' }
-    ],
-    showTasks: false,
-    showTasksToday: false,
-    showCockpit: true,
-    showView: '0',
-    students: [
-      { id: 1, name: 'Wasif', age: 21, email: 'wasif@email.com' },
-      { id: 2, name: 'Ali', age: 19, email: 'ali@email.com' },
-      { id: 3, name: 'Saad', age: 16, email: 'saad@email.com' },
-      { id: 4, name: 'Asad', age: 25, email: 'asad@email.com' }
+
+    syllabusWork: {
+      syllabusId: '', //same as syllabusId above
+      workTasks: [
+        {
+          lessonId: '',
+          taskTitle: '',
+          unit: '',
+          chapter: '',
+          sections: '',
+          topics: '',
+          requiredTime: ''
+        }
+      ]
+    },
+
+    ScheduledTasks: [
+      {
+        taskId: '', // SyllabusWork.syllabusId.workTasks.lessonId
+        TaskTitle: '', //SyllabusWork.syllabusId.workTasks.taskTitle
+        source: '', //Syllabus/syllabusId/syllabusTitle
+        subjectCat: '', ////Syllabus/syllabusId/subjectCat
+        //task is errand/apt/chore -> subjectCat = nonRepetitiveTasks
+        //task is repetitive tasks -> subject Cat = repetitiveTaskTasks
+        assignedTime,
+        assignedDate: '',
+        Deadline: '' //date
+      }
     ]
   };
-
-  // return (
-  //   <App dataStructure: {this.state}/>)
 }
 
 export default DataStructure;

@@ -359,8 +359,7 @@ class App extends Component {
     );
   }
 }
-//{displayContent}
-//{displayTasks}
+
 export default App;
 
 //using css modules on multiple classNames
