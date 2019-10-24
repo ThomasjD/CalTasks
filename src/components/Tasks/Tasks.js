@@ -37,6 +37,8 @@ class Tasks extends PureComponent {
 
   allTasksHandler() {
     return this.props.tasks.map((task, index) => {
+      //destructuring
+      // const { id, name, age, email } = student;
       return (
         <ErrorBoundary key={task.id}>
           <Task

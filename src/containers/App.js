@@ -65,7 +65,7 @@ class App extends Component {
       }
     ],
     Monday: [
-      { id: 'morning', timeOfDay: '', task: '' },
+      { id: 'morning', timeOfDay: '', task: 'comprar comida' },
       { id: 'afternoon', timeOfDay: '', task: 'eat lunch' },
       { id: 'evening', timeOfDay: '', task: 'play ball' }
     ],
@@ -124,14 +124,6 @@ class App extends Component {
     }
   }
 
-  // if (this.state.tasks.length >= 1) {
-  //   this.setState({ lastHeader: this.state.tasks[0] });
-  // }
-
-  // console.log(`I'm in the deleteTaskHandler ${this.state.lastHeader}`);
-
-  //show list of tasks
-
   contentViewHandler = event => {
     let newViewChoice = event.target.value;
     console.log(newViewChoice);
@@ -172,65 +164,6 @@ class App extends Component {
           break;
       }
     }
-    console.log('Yo MATE IM TESTING THE LASTHEADER');
-    //Setting the lastHeader for each contentChoice
-    //there will be 3 diff. lastHeader depending on # of dif lists to be displayed
-    switch (this.state.contentChoice) {
-      case '0': //only cockpit
-        break;
-      case '1': //All tasks
-        // if (this.state.lastHeaderStatus) {
-        //   let lastHeader = { ...this.state.tasks };
-        //   let newLastHeader = lastHeader[0];
-        //   this.setState({ lastHeader: newLastHeader });
-        // }
-        break;
-      case '2': //TodaysTasks
-        this.setState({ lastTodayTasksHeader: this.state.Monday[0] });
-        break;
-      case '3': //Syllabus
-        this.setState({ lastSyllabusHeader: 'this.state.maxReact[0]' });
-        break;
-    }
-  };
-
-  toggleShowTasksHandler = () => {
-    if (this.state.tasks != 0) {
-      this.setState({ lastHeader: this.state.tasks[0] });
-    } else {
-      this.setState({ lastHeader: this.state.lastHeader });
-    }
-
-    //old way of showing all tasks
-    const doesShow = this.state.showTasks;
-    this.setState({ showTasks: !doesShow });
-
-    //this allows to either show <Tasks> or <TodayTasks> at one time (not both at the same time)
-
-    //showView = '0' => showing Regular rightcockpit
-    //showView = '1' => showing AllTasks
-    //showView = '2' => showing TodaysTasks
-    //showView = '0' => showing <cockpit2> Syllabus (Reactmax)
-    switch (this.state.showView) {
-      case '0':
-        this.setState({ showView: '1' });
-        break;
-
-      case '1':
-        this.setState({ showView: '0' });
-        break;
-
-      case '2':
-        this.setState({ showView: '1' });
-        break;
-    }
-
-    //tryout
-    const Monday = [...this.state.Monday];
-
-    Monday[0].task = 'higher love';
-
-    this.setState({ Monday: Monday });
   };
 
   //delete a task
@@ -271,163 +204,10 @@ class App extends Component {
     this.setState({ tasks: tasks });
   };
 
-  //addTaskTodayHandler = (event, taskChangedId) => {};
-
-  displayTodayScheduleHandler = () => {
-    if (this.state.Monday != 0) {
-      this.setState({ lastTodayTasksHeader: this.state.Monday[0] });
-    } else {
-      this.setState({ lastTodayTasksHeader: this.state.lastTodayTasksHeader });
-    }
-
-    //this allows to either show <Tasks> or <TodayTasks> at one time (not both at the same time)
-    //showView = '0' => showing Regular rightcockpit
-    //showView = '1' => showing AllTasks
-    //showView = '2' => showing TodaysTasks
-    //showView = '0' => showing <cockpit2> Syllabus (Reactmax)
-
-    switch (this.state.showView) {
-      case '0':
-        this.setState({ showView: '2' });
-        break;
-
-      case '1':
-        this.setState({ showView: '2' });
-        break;
-
-      case '2':
-        this.setState({ showView: '0' });
-        break;
-
-      case '3':
-        this.setState({ showView: '2' });
-        break;
-    }
-
-    //pull out the states tasks array
-    const Monday = [...this.state.Monday];
-
-    //update the task with id of interest w/ new task description
-    Monday[0].task = 'higher love';
-
-    /*old way of showing Today's Tasks
-    const doesShowToday = this.state.showTasksToday;
-    this.setState({ showTasksToday: !doesShowToday });
-    */
-  };
-
-  renderTableDataHandler = () => {
-    return this.state.students.map((student, index) => {
-      const { id, name, age, email } = student; //destructuring
-      return (
-        <tr key={id}>
-          <td>{id}</td>
-          <td>{name}</td>
-          <td>{age}</td>
-          <td>{email}</td>
-        </tr>
-      );
-    });
-  };
-
-  renderTableHeaderHandler = () => {
-    let header = Object.keys(this.state.students[0]);
-    return header.map((key, index) => {
-      return <th key={index}>{key.toUpperCase()}</th>;
-    });
-  };
-
-  deleteTodayTaskhandler = taskIndex => {
-    alert('Are you sure you want to delete this task?');
-    this.setState({ reRenderTodayTasks: true });
-
-    //get tasks array
-    const Monday = [...this.state.Monday];
-
-    //splice task of interst
-    Monday.splice(taskIndex, 1);
-
-    //update new list of tasks to state
-    this.setState({ Monday: Monday });
-
-    //this.setState({ showTasksCounter: false });
-  };
-
-  showSyllabusHandler = () => {
-    let doesShow = this.state.showSyllabusFromNav;
-    this.setState({ showSyllabusFromNav: !doesShow });
-    switch (this.state.showView) {
-      case '0':
-        this.setState({ showView: '3' });
-        break;
-
-      case '1':
-        this.setState({ showView: '3' });
-        break;
-
-      case '2':
-        this.setState({ showView: '3' });
-        break;
-
-      case '3':
-        this.setState({ showView: '0' });
-        break;
-    }
-  };
-
   render() {
-    let displayTasks = null;
-
-    //clicking on the show Tasks button to show available tasks
-    //tasks, clicked, changed will be sent to <Tasks>
-
-    switch (this.state.showView) {
-      case '1':
-        displayTasks = (
-          <React.Fragment>
-            <p>tasks has # {this.state.tasks.length}</p>
-            <Tasks
-              reRenderTasks={this.state.reRenderTasks}
-              tasks={this.state.tasks}
-              clicked={this.deleteTaskhandler}
-              changed={this.taskChangeHandler}
-              lastHeader={this.state.lastHeader}
-            />
-          </React.Fragment>
-        );
-        break;
-
-      case '2':
-        displayTasks = (
-          <React.Fragment>
-            <TodayTasks
-              reRenderTodayTasks={this.state.reRenderTodayTasks}
-              lastTodayTasksHeader={this.state.lastTodayTasksHeader}
-              clicked={this.deleteTodayTaskhandler}
-              changed={this.todayTaskChangeHandler}
-              monday={this.state.Monday}
-            />
-          </React.Fragment>
-        );
-        break;
-
-      case '3':
-        displayTasks = (
-          <React.Fragment>
-            <Cockpit2
-              showSyllabusFromNav={this.state.showSyllabusFromNav}
-              tasks={this.state.tasks}
-              deleteCockpit2={() => {
-                this.setState({ showCockpit2: false });
-              }}
-            />
-          </React.Fragment>
-        );
-    }
-
-    let leftCockpit = null;
+    let viewOptions = null;
     if (this.state.showCockpit == true) {
-      leftCockpit = (
+      viewOptions = (
         <React.Fragment>
           <Cockpit
             title={this.props.appTitle}
@@ -441,26 +221,6 @@ class App extends Component {
         </React.Fragment>
       );
     }
-
-    let rightCockpit = null;
-
-    if (this.state.showCockpit2 == true) {
-      rightCockpit = (
-        <React.Fragment>
-          <Cockpit2
-            showSyllabusFromNav={this.state.showSyllabusFromNav}
-            tasks={this.state.tasks}
-            deleteCockpit2={() => {
-              this.setState({ showCockpit2: false });
-            }}
-          />
-        </React.Fragment>
-      );
-    }
-
-    let tasklength = this.state.tasks.length;
-
-    //Trying out toggleShowTasksHandler
 
     let displayContent = null;
 
@@ -588,7 +348,7 @@ class App extends Component {
         <div className="container">
           <div className="d-flex flex-row ">
             <div className="card text-white bg-info m-1 p-1 col-3">
-              <div className="p-1 ">{leftCockpit}</div>
+              <div className="p-1 ">{viewOptions}</div>
             </div>
             <div className="card bg-light m-1 p-1 col-9">
               <div className="p-1 ">{displayContent}</div>
@@ -602,44 +362,7 @@ class App extends Component {
 //{displayContent}
 //{displayTasks}
 export default App;
-//<div className="p-1 ">{rightCockpit}</div>
-//<div className="d-flex flex-column "></div>;
-//<p className={rocky[classes]}>Things to Do!</p>
 
 //using css modules on multiple classNames
 //{classNames({[styles.foo]: true, [styles.bar]: true})}
-//<p className={classNames({[rocky[classes]]: true, [rocky.red]: true})}>Things to Do!</p>
-
-/*old way of displaying
-<WithClass passClass={rocky.App}>
-        <button
-          onClick={() => {
-            this.setState({ showCockpit: false });
-          }}
-        >
-          {' '}
-          Remove Cockpit
-        </button>
-
-        {this.state.showCockpit ? (
-          <Cockpit
-            title={this.props.appTitle}
-            clicked={this.toggleShowTasksHandler}
-            tasksLength={this.state.tasks.length}
-            todayClicked={this.displayTodayScheduleHandler}
-          />
-        ) : null}
-
-        {displayTasks}
-      </WithClass>
-      */
-
-//    <div>
-//    <h1 id="title">React Dynamic Table</h1>
-//    <table id="students">
-//      <tbody>
-//        <tr>{this.renderTableHeaderHandler()}</tr>
-//        {this.renderTableDataHandler()}
-//      </tbody>
-//    </table>
-//  </div>
+//<p className={classNames({[rocky[classes]]: true, [rocky.red]: true})}
