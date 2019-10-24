@@ -3,6 +3,7 @@ import rocky from './App.module.css';
 import Tasks from '../components/Tasks/Tasks';
 //import Task from '../components/Tasks/Task/Task'
 import Cockpit from '../components/Cockpit/Cockpit';
+import classes from '../components/Cockpit/Cockpit.module.css';
 import Cockpit2 from '../components/Cockpit/Cockpit2';
 import Navbar2 from '../components/Cockpit/Navbar/Navbar2';
 import '../components/Tasks/Task/Task';
@@ -183,6 +184,22 @@ class App extends Component {
     //this.setState({ showTasksCounter: false });
   };
 
+  deleteTodayTaskhandler = taskIndex => {
+    alert('Are you sure you want to delete this task?');
+    this.setState({ reRenderTodayTasks: true });
+
+    //get tasks array
+    const Monday = [...this.state.Monday];
+
+    //splice task of interst
+    Monday.splice(taskIndex, 1);
+
+    //update new list of tasks to state
+    this.setState({ Monday: Monday });
+
+    //this.setState({ showTasksCounter: false });
+  };
+
   //dynamic edit task
   taskChangeHandler = (event, taskChangedId) => {
     //find the task that matches the taskChangedId
@@ -202,6 +219,28 @@ class App extends Component {
 
     //update the state
     this.setState({ tasks: tasks });
+  };
+
+  //dynamic edit task for Today (Monday)
+  todayTaskChangeHandler = (event, taskChangedId) => {
+    //find the task that matches the taskChangedId
+    const foundTaskId = this.state.Monday.findIndex(currentId => {
+      return currentId.id === taskChangedId;
+    });
+
+    //create new task item that we will put into array
+    const updatedTask = { ...this.state.Monday[foundTaskId] };
+
+    updatedTask.todo = event.target.value;
+
+    //pull out the states tasks array
+    const Monday = [...this.state.Monday];
+
+    //update the task with id of interest w/ new task description
+    Monday[foundTaskId] = updatedTask;
+
+    //update the state
+    this.setState({ Monday: Monday });
   };
 
   render() {
@@ -226,12 +265,21 @@ class App extends Component {
 
     switch (this.state.contentChoice) {
       case '0':
+        displayContent = (
+          <React.Fragment>
+            <h3>Hello Thomas.... What would you like to see?</h3>
+            <img
+              className={classes.logoImage}
+              src={require('../Assets/cockpitIcon.png')}
+            />
+          </React.Fragment>
+        );
         break;
 
       case '1':
         displayContent = (
           <React.Fragment>
-                        <p>tasks has # {this.state.tasks.length}</p>
+            <p>tasks has # {this.state.tasks.length}</p>
                         
             <Tasks
               reRenderTasks={this.state.reRenderTasks}
@@ -348,7 +396,7 @@ class App extends Component {
         <div className="container">
           <div className="d-flex flex-row ">
             <div className="card text-white bg-info m-1 p-1 col-3">
-              <div className="p-1 ">{viewOptions}</div>
+              <div className="p-1">{viewOptions}</div>
             </div>
             <div className="card bg-light m-1 p-1 col-9">
               <div className="p-1 ">{displayContent}</div>

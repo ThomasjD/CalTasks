@@ -136,7 +136,12 @@ const Cockpit = props => {
   return (
     <React.Fragment>
       <div className="">
-        <h1>Hello this is testing for cockpit!</h1>
+        <img
+          className={classes.leftCockpitIcon}
+          src={require('../../Assets/leftCockpitIcon.png')}
+        />
+
+        <h5>Pick Content View!</h5>
         <p
           className={classNames({
             [classes[assignedClasses[0]]]: true,

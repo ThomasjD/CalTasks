@@ -37,7 +37,7 @@ class DataStructure extends Component {
       ]
     },
 
-    Syllabus: [
+    syllabi: [
       {
         syllabusId: '',
         syllabusTitle: '', //ReactMax
@@ -64,7 +64,7 @@ class DataStructure extends Component {
       ]
     },
 
-    ScheduledTasks: [
+    scheduledTasks: [
       {
         taskId: '', // SyllabusWork.syllabusId.workTasks.lessonId
         TaskTitle: '', //SyllabusWork.syllabusId.workTasks.taskTitle

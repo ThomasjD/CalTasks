@@ -14,6 +14,15 @@
   color: green;
 }
 
+.logoImage {
+  width: 200px;
+  height: 200px;
+}
+.leftCockpitIcon {
+  width: 260px;
+  height: 100px;
+}
+
 .Cockpit button {
   border: 1px solid blue;
   padding: 16px;

@@ -30,6 +30,7 @@ const TodayTasks = props => {
             task={task}
             todayTaskChanged={props.changed}
             deleteTodayTask={props.clicked}
+            changed={event => this.props.changed(event, task.id)}
           />
         </React.Fragment>
       );
@@ -52,7 +53,7 @@ const TodayTasks = props => {
       console.log(`this is the last task alert ${lastTaskHeader.lastHeader}`);
     }
     if (props.reRenderTodayTasks === true) {
-      alert('Are you sure you want to delete this task?');
+      // alert('Are you sure you want to delete this task?');
       //return (props.reRender = {})
     }
   });
