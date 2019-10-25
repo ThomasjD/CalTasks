@@ -97,18 +97,23 @@ const Navbar = props => {
 
               <div className="dropdown-menu">
                 <div className={classes.specialbtnAllTasks}>
-                  <a className="dropdown-item" onClick={props.allTasksClicked}>
+                  <button
+                    className="dropdown-item"
+                    onClick={props.clicked}
+                    value="1"
+                  >
                     All Tasks
-                  </a>
+                  </button>
                 </div>
 
                 <div className={classes.specialbtnTodayTasks}>
-                  <a
+                  <button
                     className="dropdown-item"
-                    onClick={props.todayTasksClicked}
+                    onClick={props.clicked}
+                    value="2"
                   >
                     Today
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
@@ -132,8 +137,10 @@ const Navbar = props => {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" onClick={props.syllabusClicked}>
-                  Syllabus
+                <a className="nav-link">
+                  <button onClick={props.clicked} value="3">
+                    Syllabus
+                  </button>
                 </a>
               </li>
             </ul>

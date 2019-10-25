@@ -327,15 +327,14 @@ class App extends Component {
         );
         break;
     }
-
+    //syllabusClicked={this.showSyllabusHandler}
+    //allTasksClicked={this.toggleShowTasksHandler}
     return (
       <WithClass passClass={rocky.App}>
         <Navbar2
-          syllabusClicked={this.showSyllabusHandler}
           title={this.props.appTitle}
-          allTasksClicked={this.toggleShowTasksHandler}
           tasksLength={this.state.tasks.length}
-          todayTasksClicked={this.contentViewHandler}
+          clicked={event => this.contentViewHandler(event)}
           deleteCockpit={() => {
             this.setState({ showCockpit: false });
           }}

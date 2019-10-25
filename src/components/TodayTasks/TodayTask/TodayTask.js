@@ -22,10 +22,10 @@ const todayTask = props => {
         </td>
         <td>{props.task}</td>
       </tr>
-      <p>{props.children}</p>
     </React.Fragment>
   );
 };
 //export default Radium(task)
 export default todayTask;
 //   <td>{props.id}</td>
+//<p>{props.children}</p>
