@@ -1,21 +1,15 @@
-//dynamic edit task
-todayTaskChangeHandler = (event, taskChangedId) => {
-  //find the task that matches the taskChangedId
-  const foundTaskId = this.state.Monday.findIndex(currentId => {
-    return currentId.id === taskChangedId;
-  });
+import React, { Component } from 'react';
+import RightCockpit from './RightCockpit/RightCockpit';
+import Layout from '../components/Layout/Layout';
 
-  //create new task item that we will put into array
-  const updatedTask = { ...this.state.Monday[foundTaskId] };
+class App2 extends Component {
+  render() {
+    return (
+      <Layout>
+        <RightCockpit />
+      </Layout>
+    );
+  }
+}
 
-  updatedTask.todo = event.target.value;
-
-  //pull out the states tasks array
-  const Monday = [...this.state.Monday];
-
-  //update the task with id of interest w/ new task description
-  Monday[foundTaskId] = updatedTask;
-
-  //update the state
-  this.setState({ Monday: Monday });
-};
+export default App2;

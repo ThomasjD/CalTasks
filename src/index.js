@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 //import 'bootstrap/dist/css/bootstrap-theme.min.css';
 import $ from 'jquery';
 import Popper from 'popper.js';
@@ -8,8 +8,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
-import ThemeSwitcher from './components/ThemeSwitcher'
+import ThemeSwitcher from './components/ThemeSwitcher';
 
-ReactDOM.render(<App appTitle= { 'Medellin'} />, document.getElementById('root'));
+ReactDOM.render(
+  <App passData={'I am here'} />,
+  document.getElementById('root')
+);
 registerServiceWorker();
 //appTitle = 'CalTasks'

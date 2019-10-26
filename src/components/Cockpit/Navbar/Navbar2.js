@@ -187,8 +187,9 @@ const Navbar = props => {
       {navbarDisplay}
       {newTaskState.showNewTaskForm ? (
         <NewTask
+          newTaskTitle={props.newTaskInfoComing}
           changed={event => newSetTaskInfoState(event)}
-          newTaskTitle={newTaskInfoState.newTaskTitle}
+          //newTaskTitle={newTaskInfoState.newTaskTitle}
           selectionChange={event => newSetTaskCategoryState(event)}
           category={newTaskInfoState.newTaskCategory}
           locationChange={event => newSetTaskLocationState(event)}

@@ -1,14 +1,20 @@
 import React from 'react';
-
+//import useForm from 'react-hook-form';
 import { tsPropertySignature } from '@babel/types';
 
 const newTask = props => {
-  console.log(props.newTaskTitle);
+  //console.log(props.newTaskTitle);
   //{props.newTaskTitle? ({props.newTaskTitle}): null}
+
+  //const { handleSubmit } = useForm();
+  // const onSubmit = values => {
+  //   console.log(values);
+  // };
+
   return (
     <React.Fragment>
       <div class="container">
-        <form>
+        <form onSubmit={props.newTaskInfo}>
           <div className="form-group">
             <label for="newTask">Task</label>
             <input
@@ -21,7 +27,6 @@ const newTask = props => {
             />
           </div>
         </form>
-
         <div className="form-group">
           <label for="category">Category</label>
           <select

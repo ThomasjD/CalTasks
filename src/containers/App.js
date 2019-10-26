@@ -11,7 +11,8 @@ import TodayTasks from '../components/TodayTasks/TodayTasks';
 //import MaxReact from '../components/Syllabus/MaxReact'
 import WithClass from '../hoc/WithClass';
 import NewTaskContext from '../context/newTask-context';
-//import DataStructure from './DataStructure';
+//import RightCockpit from './RightCockpit/RightCockpit';
+import DataStructure from './DataStructure';
 //import Student from './Student.css';
 //import StudentTable from './StudentTable'
 // import StudentTable from './StudentTable';
@@ -222,6 +223,10 @@ class App extends Component {
   };
 
   //dynamic edit task for Today (Monday)
+  newTaskHandler = event => {
+    let newTitle = event.target.value.newTaskTitle;
+    console.log(`this is inside of app.js newTaskHandler ${newTitle}`);
+  };
   todayTaskChangeHandler = (event, taskChangedId) => {
     //find the task that matches the taskChangedId
     const foundTaskId = this.state.Monday.findIndex(currentId => {
@@ -332,13 +337,16 @@ class App extends Component {
     return (
       <WithClass passClass={rocky.App}>
         <Navbar2
+          newTaskInfoComing={event => this.newTaskHandler(event)}
           title={this.props.appTitle}
           tasksLength={this.state.tasks.length}
           clicked={event => this.contentViewHandler(event)}
           deleteCockpit={() => {
             this.setState({ showCockpit: false });
           }}
-        />
+        >
+          {this.props.newTaskInfoComing}
+        </Navbar2>
 
         <div>
           <div className="btn-group btn-group-toggle" data-toggle="buttons">
@@ -402,11 +410,12 @@ class App extends Component {
             </div>
           </div>
         </div>
+        <p>{this.props.passData}</p>
       </WithClass>
     );
   }
 }
-
+//<p>{this.props.appTitle}</p>
 export default App;
 
 //using css modules on multiple classNames
