@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classes from '../../components/Cockpit/Cockpit.module.css';
 import Cockpit from '../../components/Cockpit/Cockpit';
 import Cockpit2 from '../../components/Cockpit/Cockpit2';
-
+import Navbar2 from '../../components/Cockpit/Navbar/Navbar2';
 import Tasks from '../../components/Tasks/Tasks';
 import TodayTasks from '../../components/TodayTasks/TodayTasks';
 //import Syllabus from './Syllabus';
@@ -34,17 +34,18 @@ class RightCockpit extends Component {
       { id: 'afternoon', timeOfDay: '', task: 'eat lunch' },
       { id: 'evening', timeOfDay: '', task: 'play ball' }
     ],
-    //maxReact: this.props.rockyG,
-    // maxReact: [
-    //   { id: 'xvlwil', lesson: '90. (for props Changes)', completion: false },
-    //   { id: 'bbbskk', lesson: '91. (for state Changes)', completion: false },
-    //   {
-    //     id: 'kjhck2',
-    //     lesson: '92. Using useEffect() in Functional Components ',
-    //     completion: false
-    //   }
-    // ],
+
+    maxReact: [
+      { id: 'xvlwil', lesson: '90. (for props Changes)', completion: false },
+      { id: 'bbbskk', lesson: '91. (for state Changes)', completion: false },
+      {
+        id: 'kjhck2',
+        lesson: '92. Using useEffect() in Functional Components ',
+        completion: false
+      }
+    ],
     contentChoice: '0',
+    showCockpit: true,
     lastHeader: [],
     lastTodayTasksHeader: []
   };
@@ -327,8 +328,18 @@ class RightCockpit extends Component {
     );
     return (
       <React.Fragment>
+        <Navbar2
+          newTaskInfoComing={event => this.newTaskHandler(event)}
+          title={this.props.appTitle}
+          tasksLength={this.state.tasks.length}
+          clicked={event => this.contentViewHandler(event)}
+          deleteCockpit={() => {
+            this.setState({ showCockpit: false });
+          }}
+        >
+          {this.props.newTaskInfoComing}
+        </Navbar2>
         {displayOptions}
-
         {displayCockpit}
       </React.Fragment>
     );
@@ -336,3 +347,5 @@ class RightCockpit extends Component {
 }
 export default RightCockpit;
 //<Syllabus syllabus={this.setState} />
+
+//

@@ -10,9 +10,6 @@ import App from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
 import ThemeSwitcher from './components/ThemeSwitcher';
 
-ReactDOM.render(
-  <App passData={'I am here'} />,
-  document.getElementById('root')
-);
+ReactDOM.render(<App appTitle={'CalTask'} />, document.getElementById('root'));
 registerServiceWorker();
 //appTitle = 'CalTasks'
