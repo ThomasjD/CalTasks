@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import classes from '../../components/Cockpit/Cockpit.module.css';
+import Cockpit from '../../components/Cockpit/Cockpit';
 import Cockpit2 from '../../components/Cockpit/Cockpit2';
 
 import Tasks from '../../components/Tasks/Tasks';
 import TodayTasks from '../../components/TodayTasks/TodayTasks';
+//import Syllabus from './Syllabus';
+
 class RightCockpit extends Component {
   state = {
     tasks: [
@@ -26,6 +29,21 @@ class RightCockpit extends Component {
         location: 'Laureles'
       }
     ],
+    Monday: [
+      { id: 'morning', timeOfDay: '', task: 'comprar comida' },
+      { id: 'afternoon', timeOfDay: '', task: 'eat lunch' },
+      { id: 'evening', timeOfDay: '', task: 'play ball' }
+    ],
+    //maxReact: this.props.rockyG,
+    // maxReact: [
+    //   { id: 'xvlwil', lesson: '90. (for props Changes)', completion: false },
+    //   { id: 'bbbskk', lesson: '91. (for state Changes)', completion: false },
+    //   {
+    //     id: 'kjhck2',
+    //     lesson: '92. Using useEffect() in Functional Components ',
+    //     completion: false
+    //   }
+    // ],
     contentChoice: '0',
     lastHeader: [],
     lastTodayTasksHeader: []
@@ -75,7 +93,105 @@ class RightCockpit extends Component {
     }
   };
 
+  //delete a task
+  deleteTaskhandler = taskIndex => {
+    alert('Are you sure you want to delete this task?');
+    this.setState({ reRenderTasks: true });
+
+    //get tasks array
+    const tasks = [...this.state.tasks];
+
+    //splice task of interst
+    tasks.splice(taskIndex, 1);
+
+    //update new list of tasks to state
+    this.setState({ tasks: tasks });
+
+    //this.setState({ showTasksCounter: false });
+  };
+
+  deleteTodayTaskhandler = taskIndex => {
+    alert('Are you sure you want to delete this task?');
+    this.setState({ reRenderTodayTasks: true });
+
+    //get tasks array
+    const Monday = [...this.state.Monday];
+
+    //splice task of interst
+    Monday.splice(taskIndex, 1);
+
+    //update new list of tasks to state
+    this.setState({ Monday: Monday });
+
+    //this.setState({ showTasksCounter: false });
+  };
+
+  //dynamic edit task
+  taskChangeHandler = (event, taskChangedId) => {
+    //find the task that matches the taskChangedId
+    const foundTaskId = this.state.tasks.findIndex(currentId => {
+      return currentId.id === taskChangedId;
+    });
+
+    //create new task item that we will put into array
+    const updatedTask = { ...this.state.tasks[foundTaskId] };
+    updatedTask.todo = event.target.value;
+
+    //pull out the states tasks array
+    const tasks = [...this.state.tasks];
+
+    //update the task with id of interest w/ new task description
+    tasks[foundTaskId] = updatedTask;
+
+    //update the state
+    this.setState({ tasks: tasks });
+  };
+
+  //dynamic edit task for Today (Monday)
+  newTaskHandler = event => {
+    let newTitle = event.target.value.newTaskTitle;
+    console.log(`this is inside of app.js newTaskHandler ${newTitle}`);
+  };
+
+  todayTaskChangeHandler = (event, taskChangedId) => {
+    //find the task that matches the taskChangedId
+    const foundTaskId = this.state.Monday.findIndex(currentId => {
+      return currentId.id === taskChangedId;
+    });
+
+    //create new task item that we will put into array
+    const updatedTask = { ...this.state.Monday[foundTaskId] };
+
+    updatedTask.task = event.target.value;
+
+    //pull out the states tasks array
+    const Monday = [...this.state.Monday];
+
+    //update the task with id of interest w/ new task description
+    Monday[foundTaskId] = updatedTask;
+
+    //update the state
+    this.setState({ Monday: Monday });
+  };
+
   render() {
+    let viewOptions = null;
+    if (this.state.showCockpit == true) {
+      viewOptions = (
+        <React.Fragment>
+          <Cockpit
+            title={this.props.appTitle}
+            allTasksClicked={this.toggleShowTasksHandler}
+            tasksLength={this.state.tasks.length}
+            todayTasksClicked={this.displayTodayScheduleHandler}
+            deleteCockpit={() => {
+              this.setState({ showCockpit: false });
+            }}
+          />
+        </React.Fragment>
+      );
+    }
+
     let displayOptions = (
       <div>
         <div className="btn-group btn-group-toggle" data-toggle="buttons">
@@ -168,10 +284,10 @@ class RightCockpit extends Component {
                         
             <TodayTasks
               reRenderTodayTasks={this.state.reRenderTodayTasks}
-              lastTodayTasksHeader={this.state.lastTodayTasksHeader}
+              monday={this.state.Monday}
               clicked={this.deleteTodayTaskhandler}
               changed={this.todayTaskChangeHandler}
-              monday={this.state.Monday}
+              lastTodayTasksHeader={this.state.lastTodayTasksHeader}
             />
                       
           </React.Fragment>
@@ -196,12 +312,27 @@ class RightCockpit extends Component {
         );
         break;
     }
+
+    let displayCockpit = (
+      <div className="container">
+        <div className="d-flex flex-row ">
+          <div className="card text-white bg-info m-1 p-1 col-3">
+            <div className="p-1">{viewOptions}</div>
+          </div>
+          <div className="card bg-light m-1 p-1 col-9">
+            <div className="p-1 ">{displayContent}</div>
+          </div>
+        </div>
+      </div>
+    );
     return (
       <React.Fragment>
         {displayOptions}
-        {displayContent}
+
+        {displayCockpit}
       </React.Fragment>
     );
   }
 }
 export default RightCockpit;
+//<Syllabus syllabus={this.setState} />

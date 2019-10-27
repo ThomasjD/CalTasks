@@ -222,6 +222,7 @@ class App extends Component {
     let newTitle = event.target.value.newTaskTitle;
     console.log(`this is inside of app.js newTaskHandler ${newTitle}`);
   };
+
   todayTaskChangeHandler = (event, taskChangedId) => {
     //find the task that matches the taskChangedId
     const foundTaskId = this.state.Monday.findIndex(currentId => {
@@ -231,7 +232,7 @@ class App extends Component {
     //create new task item that we will put into array
     const updatedTask = { ...this.state.Monday[foundTaskId] };
 
-    updatedTask.todo = event.target.value;
+    updatedTask.task = event.target.value;
 
     //pull out the states tasks array
     const Monday = [...this.state.Monday];
@@ -299,10 +300,10 @@ class App extends Component {
                         
             <TodayTasks
               reRenderTodayTasks={this.state.reRenderTodayTasks}
-              lastTodayTasksHeader={this.state.lastTodayTasksHeader}
+              monday={this.state.Monday}
               clicked={this.deleteTodayTaskhandler}
               changed={this.todayTaskChangeHandler}
-              monday={this.state.Monday}
+              lastTodayTasksHeader={this.state.lastTodayTasksHeader}
             />
                       
           </React.Fragment>
@@ -406,15 +407,13 @@ class App extends Component {
           </div>
         </div>
         <p>{this.props.passData}</p>
-
-        <RightCockpit />
       </WithClass>
     );
   }
 }
 //<p>{this.props.appTitle}</p>
 export default App;
-
+//<RightCockpit />
 //using css modules on multiple classNames
 //{classNames({[styles.foo]: true, [styles.bar]: true})}
 //<p className={classNames({[rocky[classes]]: true, [rocky.red]: true})}

@@ -7,8 +7,6 @@ const TodayTasks = props => {
   //todo,deadline,location,key,click, changed sent to <Task>
 
   const renderTableHeaderHandler = () => {
-    //let header = Object.keys(props.monday[0]);
-    //lastTodayTasksHeader
     let header = Object.keys(props.lastTodayTasksHeader);
     return header.map((key, index) => {
       if (key === 'id') {
@@ -18,19 +16,17 @@ const TodayTasks = props => {
       }
     });
   };
-
+  //todayTaskChanged={props.changed}
   const todayTasksHandler = () => {
     return props.monday.map((monday, index) => {
-      const { id, task } = monday;
+      //const { id, task } = monday;
       return (
-        <React.Fragment key={id}>
+        <React.Fragment key={monday.id}>
           <TodayTask
-            todayTaskChanged={props.changed}
-            id={id}
-            task={task}
-            todayTaskChanged={props.changed}
+            id={monday.id}
+            task={monday.task}
             deleteTodayTask={props.clicked}
-            changed={event => this.props.changed(event, task.id)}
+            changed={event => props.changed(event, monday.id)}
           />
         </React.Fragment>
       );

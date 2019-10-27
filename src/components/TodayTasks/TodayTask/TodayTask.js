@@ -8,10 +8,11 @@ import taskStyle from '../../Tasks/Task/Task.module.css';
 const todayTask = props => {
   return (
     <React.Fragment>
-      <tr key={props.id}>
+      <tr key={props.particularKey}>
         <td>
           <button onClick={props.deleteTodayTask}></button>
         </td>
+        <td>{props.id}</td>
         <td>
           <input
             className={taskStyle.inputStyle}
@@ -20,7 +21,6 @@ const todayTask = props => {
             value={props.task}
           />
         </td>
-        <td>{props.task}</td>
       </tr>
     </React.Fragment>
   );
@@ -29,3 +29,5 @@ const todayTask = props => {
 export default todayTask;
 //   <td>{props.id}</td>
 //<p>{props.children}</p>
+
+//{props.task}
