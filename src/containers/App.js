@@ -11,8 +11,9 @@ import TodayTasks from '../components/TodayTasks/TodayTasks';
 //import MaxReact from '../components/Syllabus/MaxReact'
 import WithClass from '../hoc/WithClass';
 import NewTaskContext from '../context/newTask-context';
-//import RightCockpit from './RightCockpit/RightCockpit';
+import RightCockpit from './RightCockpit/RightCockpit';
 import DataStructure from './DataStructure';
+
 //import Student from './Student.css';
 //import StudentTable from './StudentTable'
 // import StudentTable from './StudentTable';
@@ -86,12 +87,6 @@ class App extends Component {
     showNewTask: false,
     showSyllabusFromNav: false,
     showSyllabus: true,
-    students: [
-      { id: 1, name: 'Wasif', age: 21, email: 'wasif@email.com' },
-      { id: 2, name: 'Ali', age: 19, email: 'ali@email.com' },
-      { id: 3, name: 'Saad', age: 16, email: 'saad@email.com' },
-      { id: 4, name: 'Asad', age: 25, email: 'asad@email.com' }
-    ],
     contentChoice: '0'
   };
 
@@ -411,6 +406,8 @@ class App extends Component {
           </div>
         </div>
         <p>{this.props.passData}</p>
+
+        <RightCockpit />
       </WithClass>
     );
   }
