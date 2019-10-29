@@ -5,6 +5,8 @@ import Cockpit2 from '../../components/Cockpit/Cockpit2';
 import Navbar2 from '../../components/Cockpit/Navbar/Navbar2';
 import Tasks from '../../components/Tasks/Tasks';
 import TodayTasks from '../../components/TodayTasks/TodayTasks';
+import Lessons from '../../components/Syllabus/MaxReact/Lessons';
+import ViewContent from './ViewContent';
 //import Syllabus from './Syllabus';
 
 class RightCockpit extends Component {
@@ -47,7 +49,9 @@ class RightCockpit extends Component {
     contentChoice: '0',
     showCockpit: true,
     lastHeader: [],
-    lastTodayTasksHeader: []
+    lastTodayTasksHeader: [],
+    lastLessonHeader: [],
+    reRenderTasks: false
   };
 
   contentViewHandler = event => {
@@ -87,9 +91,17 @@ class RightCockpit extends Component {
           break;
 
         case '3': //Syllabus
-          this.setState({ contentChoice: '3', showSyllabus: true });
+          if (this.state.maxReact !== 0) {
+            this.setState({ lastLessonHeader: this.state.maxReact[0] });
+          } else {
+            this.setState({ lastLessonHeader: this.state.lastLessonHeader });
+          }
 
-          break;
+        // if (this.props.showSyllabusFromNav) {
+        //   this.setState({ showLessons: '1' });
+        // }
+        // this.setState({ contentChoice: '3', showSyllabus: true });
+        // break;
       }
     }
   };
@@ -175,6 +187,41 @@ class RightCockpit extends Component {
     this.setState({ Monday: Monday });
   };
 
+  deleteLessonhandler = taskIndex => {
+    alert('Are you sure you want to delete this task?');
+    this.setState({ reRenderTasks: true });
+
+    //get tasks array
+    const lessons = [...this.state.maxReact];
+
+    //splice task of interst
+    lessons.splice(taskIndex, 1);
+
+    //update new list of tasks to state
+    this.setState({ maxReact: lessons });
+  };
+
+  lessonChangeHandler = (event, taskChangeId) => {
+    const foundTaskId = this.state.maxReact.findIndex(currentId => {
+      return currentId.id === taskChangeId;
+    });
+
+    //createnew task item to put into array
+    const updatedLessons = { ...this.state.maxReact[foundTaskId] };
+
+    //using updated values to define the lesson of the particular pulled out lesson
+    updatedLessons.lesson = event.target.value;
+
+    //pull out of states maxReact array
+    const lessons = [...this.state.maxReact];
+
+    //update the new lesson w/ ID of interest from the copy of MaxReact (lessons)
+    lessons[foundTaskId] = updatedLessons;
+
+    //final update of lessons
+    this.setState({ maxReact: lessons });
+  };
+
   render() {
     let viewOptions = null;
     if (this.state.showCockpit == true) {
@@ -192,60 +239,6 @@ class RightCockpit extends Component {
         </React.Fragment>
       );
     }
-
-    let displayOptions = (
-      <div>
-        <div className="btn-group btn-group-toggle" data-toggle="buttons">
-          <label className="btn btn-danger m-1 active">
-            <button
-              type="radio"
-              name="options"
-              id="option1"
-              autoComplete="off"
-              onClick={event => this.contentViewHandler(event)}
-              value="0"
-            />{' '}
-            Cockpit
-          </label>
-
-          <label className="btn btn-primary m-1 active">
-            <button
-              type="radio"
-              name="options"
-              id="option1"
-              autoComplete="off"
-              onClick={event => this.contentViewHandler(event)}
-              value="1"
-            />{' '}
-            All Tasks
-          </label>
-
-          <label className="btn btn-success m-1 active ">
-            <button
-              type="radio"
-              name="options"
-              id="option2"
-              autoComplete="off"
-              onClick={event => this.contentViewHandler(event)}
-              value="2"
-            />{' '}
-            Todays Tasks
-          </label>
-
-          <label className="btn btn-warning m-1 ">
-            <button
-              type="radio"
-              name="options"
-              id="option3"
-              autoComplete="off"
-              onClick={event => this.contentViewHandler(event)}
-              value="3"
-            />{' '}
-            React Syllabus
-          </label>
-        </div>
-      </div>
-    );
 
     let displayContent = null;
 
@@ -308,6 +301,23 @@ class RightCockpit extends Component {
                 this.setState({ showCockpit2: false });
               }}
             />
+            {/* <React.Fragment>
+              <p>tasks has # {this.state.maxReact.length}</p>
+              <Lessons
+                showSyllabusFromNav={this.state.showSyllabusFromNav}
+                showSyllabus={this.state.showSyllabus}
+                reRender={this.state.showLessons}
+                lessons={this.state.maxReact}
+                clicked={this.deleteLessonhandler}
+                changed={this.lessonChangeHandler}
+                lastHeader={this.state.lastHeader}
+                lastLessonHeader={this.state.maxReact[0]}
+                lessonsLength={this.state.maxReact.length}
+                deleteCockpit2={() => {
+                  this.setState({ showCockpit2: false });
+                }}
+              />
+            </React.Fragment> */}
                       
           </React.Fragment>
         );
@@ -339,13 +349,15 @@ class RightCockpit extends Component {
         >
           {this.props.newTaskInfoComing}
         </Navbar2>
-        {displayOptions}
+
+        <ViewContent viewContent={event => this.contentViewHandler(event)} />
         {displayCockpit}
       </React.Fragment>
     );
   }
 }
 export default RightCockpit;
+//{displayOptions}
 //<Syllabus syllabus={this.setState} />
 
 //
