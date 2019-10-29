@@ -68,7 +68,7 @@ class Lessons extends Component {
   // }
 
   render() {
-    console.log('[Tasks] rendering...');
+    console.log('[Lessons] rendering...');
 
     return (
       <div>

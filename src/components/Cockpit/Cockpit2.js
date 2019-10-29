@@ -100,7 +100,7 @@ class Cockpit2 extends Component {
             lessons={this.state.maxReact}
             clicked={this.deleteLessonhandler}
             changed={this.lessonChangeHandler}
-            lastLessonHeader={this.state.maxReact[0]}
+            lastLessonHeader={this.state.lastLessonHeader}
             lessonsLength={this.state.maxReact.length}
           />
         </React.Fragment>

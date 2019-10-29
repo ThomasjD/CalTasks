@@ -91,12 +91,18 @@ class RightCockpit extends Component {
           break;
 
         case '3': //Syllabus
-          if (this.state.maxReact !== 0) {
+          this.setState({ contentChoice: '3' });
+          console.log(
+            `this is lastLessonHeader ${this.state.lastLessonHeader}`
+          );
+          if (this.state.maxReact.length != 0) {
             this.setState({ lastLessonHeader: this.state.maxReact[0] });
           } else {
             this.setState({ lastLessonHeader: this.state.lastLessonHeader });
           }
-
+          console.log(
+            `this is lastLessonHeader ${this.state.lastLessonHeader}`
+          );
         // if (this.props.showSyllabusFromNav) {
         //   this.setState({ showLessons: '1' });
         // }
@@ -291,37 +297,36 @@ class RightCockpit extends Component {
       case '3':
         displayContent = (
           <React.Fragment>
-                        
-            <Cockpit2
+            <p>tasks has # {this.state.maxReact.length}</p>
+            <Lessons
               showSyllabusFromNav={this.state.showSyllabusFromNav}
               showSyllabus={this.state.showSyllabus}
-              tasks={this.state.tasks}
-              lastHeader={this.state.lastHeader}
+              reRender={this.state.showLessons}
+              lessons={this.state.maxReact}
+              clicked={this.deleteLessonhandler}
+              changed={this.lessonChangeHandler}
+              lastLessonHeader={this.state.lastLessonHeader}
+              lessonsLength={this.state.maxReact.length}
               deleteCockpit2={() => {
                 this.setState({ showCockpit2: false });
               }}
             />
-            {/* <React.Fragment>
-              <p>tasks has # {this.state.maxReact.length}</p>
-              <Lessons
-                showSyllabusFromNav={this.state.showSyllabusFromNav}
-                showSyllabus={this.state.showSyllabus}
-                reRender={this.state.showLessons}
-                lessons={this.state.maxReact}
-                clicked={this.deleteLessonhandler}
-                changed={this.lessonChangeHandler}
-                lastHeader={this.state.lastHeader}
-                lastLessonHeader={this.state.maxReact[0]}
-                lessonsLength={this.state.maxReact.length}
-                deleteCockpit2={() => {
-                  this.setState({ showCockpit2: false });
-                }}
-              />
-            </React.Fragment> */}
-                      
           </React.Fragment>
         );
         break;
+    }
+
+    // <React.Fragment>
+    {
+      /* <Cockpit2
+      showSyllabusFromNav={this.state.showSyllabusFromNav}
+      showSyllabus={this.state.showSyllabus}
+      tasks={this.state.tasks}
+      lastHeader={this.state.lastLessonHeader}
+      deleteCockpit2={() => {
+        this.setState({ showCockpit2: false });
+      }}
+    /> */
     }
 
     let displayCockpit = (
