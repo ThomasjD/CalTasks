@@ -1,5 +1,4 @@
-const miniViewHandler = (newViewChoice) => {
-
+const miniViewHandler = newViewChoice => {
   if (newViewChoice === this.state.contentChoice) {
     return this.setState({ contentChoice: '0' });
   } else {
@@ -32,17 +31,13 @@ const miniViewHandler = (newViewChoice) => {
 
       case '3': //Syllabus
         this.setState({ contentChoice: '3' });
-        console.log(
-          `this is lastLessonHeader ${this.state.lastLessonHeader}`
-        );
+        console.log(`this is lastLessonHeader ${this.state.lastLessonHeader}`);
         if (this.state.maxReact.length != 0) {
           this.setState({ lastLessonHeader: this.state.maxReact[0] });
         } else {
           this.setState({ lastLessonHeader: this.state.lastLessonHeader });
         }
-        console.log(
-          `this is lastLessonHeader ${this.state.lastLessonHeader}`
-        );
+        console.log(`this is lastLessonHeader ${this.state.lastLessonHeader}`);
         break;
       case '4': //New Task
         this.setState({ contentChoice: '4' });
@@ -51,7 +46,4 @@ const miniViewHandler = (newViewChoice) => {
   }
 };
 
-
-}
-
-export default miniViewHandler 
+export default miniViewHandler;

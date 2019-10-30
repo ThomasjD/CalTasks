@@ -112,19 +112,53 @@ class RightCockpit extends Component {
 
     let tasks = [];
 
-    switch (this.state.contentChoic) {
+    // switch (this.state.contentChoice) {
+    //   case '1':
+    //     tasks = [...this.state.tasks];
+    //     break;
+    //   case '2':
+    //     tasks = [...this.state.Monday];
+    // }
+    // tasks.splice(taskIndex, 1);
+
+    // switch (this.state.contentChoice) {
+    //   case '1':
+    //     this.setState({ tasks: tasks });
+    //     break;
+    //   case '2':
+    //     this.setState({ Monday: tasks });
+    // }
+
+    switch (this.state.contentChoice) {
       case '1':
         tasks = [...this.state.tasks];
+        break;
       case '2':
         tasks = [...this.state.Monday];
+        break;
+      case '3':
+        tasks = [...this.state.maxReact];
     }
+
     tasks.splice(taskIndex, 1);
 
-    switch (this.state.contentChoic) {
+    // switch (this.state.contentChoice) {
+    //   case '1':
+    //     tasks = [...this.state.obj];
+    //     break;
+    //   case '2':
+    //     tasks = [...this.state.obj];
+    // }
+
+    switch (this.state.contentChoice) {
       case '1':
         this.setState({ tasks: tasks });
+        break;
       case '2':
         this.setState({ Monday: tasks });
+        break;
+      case '3':
+        this.setState({ maxReact: tasks });
     }
 
     // if (this.state.contentChoice === '1') {

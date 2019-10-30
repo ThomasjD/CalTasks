@@ -66,7 +66,7 @@ const displayContent = props => {
           <Lessons
             reRender={props.everything.showLessons}
             lessons={props.everything.maxReact}
-            clicked={props.deleteLessonhandler}
+            clicked={props.deleteTaskhandler}
             changed={props.lessonChangeHandler}
             lastLessonHeader={props.everything.lastLessonHeader}
             lessonsLength={props.everything.maxReact.length}
