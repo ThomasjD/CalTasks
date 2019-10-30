@@ -162,13 +162,22 @@ const Navbar = props => {
                 Creation
               </a>
               <div className="dropdown-menu">
-                <a onClick={() => newTaskHandler()} className="dropdown-item">
+                <button
+                  onClick={props.clickedNewTask}
+                  value="4"
+                  className="dropdown-item"
+                >
+                  {' '}
                   Task
-                </a>
+                </button>
                 <a href="#" className="dropdown-item">
                   Event
                 </a>
-                <a href="#" className="dropdown-item">
+                <a
+                  onClick={props.clickedSyllabus}
+                  value="3"
+                  className="dropdown-item"
+                >
                   Syllabus
                 </a>
                 <a href="#" className="dropdown-item">

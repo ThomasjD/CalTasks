@@ -7,9 +7,14 @@ import Tasks from '../../components/Tasks/Tasks';
 import TodayTasks from '../../components/TodayTasks/TodayTasks';
 import Lessons from '../../components/Syllabus/MaxReact/Lessons';
 import ViewContent from './ViewContent';
+import NewTask from '../../components/Creation/newTask';
 //import Syllabus from './Syllabus';
 
 class RightCockpit extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     tasks: [
       {
@@ -36,7 +41,10 @@ class RightCockpit extends Component {
       { id: 'afternoon', timeOfDay: '', task: 'eat lunch' },
       { id: 'evening', timeOfDay: '', task: 'play ball' }
     ],
-
+    newTaskTitle: '',
+    newTaskLocation: '',
+    isGoing: true,
+    numberOfGuests: 2,
     maxReact: [
       { id: 'xvlwil', lesson: '90. (for props Changes)', completion: false },
       { id: 'bbbskk', lesson: '91. (for state Changes)', completion: false },
@@ -103,11 +111,10 @@ class RightCockpit extends Component {
           console.log(
             `this is lastLessonHeader ${this.state.lastLessonHeader}`
           );
-        // if (this.props.showSyllabusFromNav) {
-        //   this.setState({ showLessons: '1' });
-        // }
-        // this.setState({ contentChoice: '3', showSyllabus: true });
-        // break;
+          break;
+        case '4': //New Task
+          this.setState({ contentChoice: '4' });
+          break;
       }
     }
   };
@@ -168,8 +175,52 @@ class RightCockpit extends Component {
 
   //dynamic edit task for Today (Monday)
   newTaskHandler = event => {
-    let newTitle = event.target.value.newTaskTitle;
-    console.log(`this is inside of app.js newTaskHandler ${newTitle}`);
+    console.log(event);
+    switch (event.target.name) {
+      case 'newTaskTitle':
+        console.log('got it here in newTasktitle');
+        break;
+      case 'location':
+        console.log('nbanbanbanba nba');
+        break;
+      case 'deadline':
+        console.log('I am in the deadline baby');
+        break;
+    }
+
+    //console.log(event.target.value);
+    let newTaskTitle = event.target.newTaskTitle;
+    let newTaskTitleValue = event.target.value;
+    let newLocation = event.target.location;
+    let newLocationValue = event.target.value;
+    console.log(`this is eventTargetvalue ${newTaskTitleValue}`);
+    this.setState({
+      newTaskTitle: newTaskTitleValue,
+      newTaskLocation: newLocationValue
+    });
+
+    // let oldTasks = [...this.state.tasks];
+    // oldTasks.push({
+    //   id: 'qrwrwq',
+    //   todo: 'Find work',
+    //   deadline: 'Lunes',
+    //   location: 'Poplado'
+    // });
+
+    // let newTitle = event.target.value.newTaskTitle;
+    // console.log(`this is inside of app.js newTaskHandler ${newTitle}`);
+  };
+  newTaskLocationHandler = event => {
+    // let location = event.target.value;
+    // console.log(event.name);
+
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
   };
 
   todayTaskChangeHandler = (event, taskChangedId) => {
@@ -299,8 +350,6 @@ class RightCockpit extends Component {
           <React.Fragment>
             <p>tasks has # {this.state.maxReact.length}</p>
             <Lessons
-              showSyllabusFromNav={this.state.showSyllabusFromNav}
-              showSyllabus={this.state.showSyllabus}
               reRender={this.state.showLessons}
               lessons={this.state.maxReact}
               clicked={this.deleteLessonhandler}
@@ -309,6 +358,22 @@ class RightCockpit extends Component {
               lessonsLength={this.state.maxReact.length}
               deleteCockpit2={() => {
                 this.setState({ showCockpit2: false });
+              }}
+            />
+          </React.Fragment>
+        );
+        break;
+      case '4':
+        displayContent = (
+          <React.Fragment>
+            <NewTask
+              // newTaskTitle = {}
+              // category = {}
+              // location = {}
+              // newTaskTitle={this.setState.newTaskTitle}
+              newTaskLocation={event => this.newTaskLocationHandler(event)}
+              newTaskInfo={event => {
+                this.newTaskHandler(event);
               }}
             />
           </React.Fragment>
@@ -347,7 +412,8 @@ class RightCockpit extends Component {
           newTaskInfoComing={event => this.newTaskHandler(event)}
           title={this.props.appTitle}
           tasksLength={this.state.tasks.length}
-          clicked={event => this.contentViewHandler(event)}
+          clickedSyllabus={event => this.contentViewHandler(event)}
+          clickedNewTask={event => this.contentViewHandler(event)}
           deleteCockpit={() => {
             this.setState({ showCockpit: false });
           }}

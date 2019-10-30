@@ -25,88 +25,7 @@ class Cockpit2 extends Component {
     lastLessonHeader: []
   };
 
-  toggleShowLessonsHandler = () => {
-    if (this.state.maxReact !== 0) {
-      this.setState({ lastLessonHeader: this.state.maxReact[0] });
-    } else {
-      this.setState({ lastLessonHeader: this.state.lastLessonHeader });
-    }
-
-    if (this.props.showSyllabusFromNav) {
-      this.setState({ showLessons: '1' });
-    }
-    //for handling headers
-    switch (this.state.showLessonsView) {
-      case true:
-        //show the lessons
-        //let showLessons = this.state.showLessons
-        this.setState({ showLessons: '1' });
-        break;
-
-      case false:
-        //don't show the lessons
-        this.setState({ showLessons: '0' });
-        break;
-    }
-    //reverting the status to show or not show
-
-    const doesShow = this.state.showLessonsView;
-    this.setState({ showLessonsView: !doesShow });
-  };
-
-  deleteLessonhandler = taskIndex => {
-    alert('Are you sure you want to delete this task?');
-    this.setState({ reRenderTasks: true });
-
-    //get tasks array
-    const lessons = [...this.state.maxReact];
-
-    //splice task of interst
-    lessons.splice(taskIndex, 1);
-
-    //update new list of tasks to state
-    this.setState({ maxReact: lessons });
-  };
-
-  lessonChangeHandler = (event, taskChangeId) => {
-    const foundTaskId = this.state.maxReact.findIndex(currentId => {
-      return currentId.id === taskChangeId;
-    });
-
-    //createnew task item to put into array
-    const updatedLessons = { ...this.state.maxReact[foundTaskId] };
-
-    //using updated values to define the lesson of the particular pulled out lesson
-    updatedLessons.lesson = event.target.value;
-
-    //pull out of states maxReact array
-    const lessons = [...this.state.maxReact];
-
-    //update the new lesson w/ ID of interest from the copy of MaxReact (lessons)
-    lessons[foundTaskId] = updatedLessons;
-
-    //final update of lessons
-    this.setState({ maxReact: lessons });
-  };
   render() {
-    let showSyllabusFromNavToggle = null;
-
-    if (this.props.showSyllabus) {
-      showSyllabusFromNavToggle = (
-        <React.Fragment>
-          <p>tasks has # {this.state.maxReact.length}</p>
-          <Lessons
-            reRender={this.state.showLessons}
-            lessons={this.state.maxReact}
-            clicked={this.deleteLessonhandler}
-            changed={this.lessonChangeHandler}
-            lastLessonHeader={this.state.lastLessonHeader}
-            lessonsLength={this.state.maxReact.length}
-          />
-        </React.Fragment>
-      );
-    }
-
     console.log(this.props.showSyllabusFromNav);
     let displayLessons = null;
 
@@ -146,7 +65,6 @@ class Cockpit2 extends Component {
       // {this.props.showSyllabus ? () => this.toggleShowLessonsHandler() : null}
 
       <React.Fragment>
-        {showSyllabusFromNavToggle}
         <button onClick={this.toggleShowLessonsHandler}>
           {' '}
           Show Lessons for React Max

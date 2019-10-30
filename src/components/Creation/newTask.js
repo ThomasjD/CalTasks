@@ -10,49 +10,46 @@ const newTask = props => {
   // const onSubmit = values => {
   //   console.log(values);
   // };
-
+  //id="company"
+  //value={props.newTaskTitle}
+  //o
   return (
     <React.Fragment>
-      <div class="container">
+      <div className="container">
         <form onSubmit={props.newTaskInfo}>
           <div className="form-group">
-            <label for="newTask">Task</label>
+            <label>Task</label>
             <input
               className="form-control form-control-sm"
+              name="newTaskTitle"
               type="text"
-              id="company"
               placeholder="Enter new task."
-              onChange={props.changed}
-              value={props.newTaskTitle}
+              onChange={props.newTaskInfo}
             />
           </div>
+
+          <div className="form-group">
+            <label>Location</label>
+            <select name="location" className="form-control" id="location">
+              <option value="Poplado">Poplado</option>
+              <option value="Laureles">Laureles</option>
+              <option value="Sabaneta">Sabaneta</option>
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label>Deadline</label>
+            <textarea
+              className="form-control"
+              id="deadline"
+              rows="3"
+              name="deadline"
+              onChange={props.newTaskInfo}
+            ></textarea>
+          </div>
+
+          <input type="submit" value="Submit" />
         </form>
-        <div className="form-group">
-          <label for="category">Category</label>
-          <select
-            value={props.category}
-            className="form-control"
-            id="category"
-            onChange={props.selectionChange}
-          >
-            <option value="errand">Errand</option>
-            <option value="apt">Apointment</option>
-            <option value="chore">chore</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label for="location">Location</label>
-          <textarea
-            className="form-control"
-            id="location"
-            rows="3"
-            value={props.location}
-            onChange={props.locationChange}
-          ></textarea>
-        </div>
-
-        <input type="submit" value="Submit" />
       </div>
       <p>{props.newTaskTitle}</p>
       <p>{props.category}</p>
