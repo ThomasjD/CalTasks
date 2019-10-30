@@ -8,7 +8,9 @@ import TodayTasks from '../../components/TodayTasks/TodayTasks';
 import Lessons from '../../components/Syllabus/MaxReact/Lessons';
 import ViewContent from './ViewContent';
 import NewTask from '../../components/Creation/newTask';
+import DisplayContent from './displayContent';
 //import Syllabus from './Syllabus';
+//import miniViewHandler from './miniViewHandler';
 
 class RightCockpit extends Component {
   constructor(props) {
@@ -64,22 +66,17 @@ class RightCockpit extends Component {
 
   contentViewHandler = event => {
     let newViewChoice = event.target.value;
-    console.log(newViewChoice);
+
     //Comparing new contentChoice with previous contentChoice
     //if newContentChoice === oldContentChoice
     //turn off the view
+
+    this.setState({ contentChoice: newViewChoice });
     if (newViewChoice === this.state.contentChoice) {
       return this.setState({ contentChoice: '0' });
     } else {
-      //Setting which Content view to show
-      //there will be only 1 contentChoice stored in state
       switch (newViewChoice) {
-        case '0': //only cockpit
-          this.setState({ contentChoice: '0' });
-          break;
-
         case '1': //All tasks
-          this.setState({ contentChoice: '1' });
           if (this.state.tasks != 0) {
             this.setState({ lastHeader: this.state.tasks[0] });
           } else {
@@ -88,7 +85,6 @@ class RightCockpit extends Component {
           break;
 
         case '2': //TodaysTasks
-          this.setState({ contentChoice: '2' });
           if (this.state.Monday != 0) {
             this.setState({ lastTodayTasksHeader: this.state.Monday[0] });
           } else {
@@ -99,21 +95,12 @@ class RightCockpit extends Component {
           break;
 
         case '3': //Syllabus
-          this.setState({ contentChoice: '3' });
-          console.log(
-            `this is lastLessonHeader ${this.state.lastLessonHeader}`
-          );
           if (this.state.maxReact.length != 0) {
             this.setState({ lastLessonHeader: this.state.maxReact[0] });
           } else {
             this.setState({ lastLessonHeader: this.state.lastLessonHeader });
           }
-          console.log(
-            `this is lastLessonHeader ${this.state.lastLessonHeader}`
-          );
-          break;
-        case '4': //New Task
-          this.setState({ contentChoice: '4' });
+
           break;
       }
     }
@@ -122,16 +109,43 @@ class RightCockpit extends Component {
   //delete a task
   deleteTaskhandler = taskIndex => {
     alert('Are you sure you want to delete this task?');
-    this.setState({ reRenderTasks: true });
 
-    //get tasks array
-    const tasks = [...this.state.tasks];
+    let tasks = [];
 
-    //splice task of interst
+    switch (this.state.contentChoic) {
+      case '1':
+        tasks = [...this.state.tasks];
+      case '2':
+        tasks = [...this.state.Monday];
+    }
     tasks.splice(taskIndex, 1);
 
-    //update new list of tasks to state
-    this.setState({ tasks: tasks });
+    switch (this.state.contentChoic) {
+      case '1':
+        this.setState({ tasks: tasks });
+      case '2':
+        this.setState({ Monday: tasks });
+    }
+
+    // if (this.state.contentChoice === '1') {
+    //   //get tasks array
+    //   tasks = [...this.state.tasks];
+    //   tasks.splice(taskIndex, 1);
+    //   this.setState({ tasks: tasks });
+    // } else {
+    //   //get tasks array
+    //   tasks = [...this.state.Monday];
+    //   tasks.splice(taskIndex, 1);
+    //   this.setState({ Monday: tasks });
+    // }
+
+    this.setState({ reRenderTasks: true });
+
+    // //splice task of interst
+    // tasks.splice(taskIndex, 1);
+
+    // //update new list of tasks to state
+    // this.setState({ tasks: tasks });
 
     //this.setState({ showTasksCounter: false });
   };
@@ -175,7 +189,7 @@ class RightCockpit extends Component {
 
   //dynamic edit task for Today (Monday)
   newTaskHandler = event => {
-    console.log(event);
+    console.log(event.target.name);
     switch (event.target.name) {
       case 'newTaskTitle':
         console.log('got it here in newTasktitle');
@@ -189,15 +203,15 @@ class RightCockpit extends Component {
     }
 
     //console.log(event.target.value);
-    let newTaskTitle = event.target.newTaskTitle;
-    let newTaskTitleValue = event.target.value;
-    let newLocation = event.target.location;
-    let newLocationValue = event.target.value;
-    console.log(`this is eventTargetvalue ${newTaskTitleValue}`);
-    this.setState({
-      newTaskTitle: newTaskTitleValue,
-      newTaskLocation: newLocationValue
-    });
+    // let newTaskTitle = event.target.newTaskTitle;
+    // let newTaskTitleValue = event.target.value;
+    // let newLocation = event.target.location;
+    // let newLocationValue = event.target.value;
+    // console.log(`this is eventTargetvalue ${newTaskTitleValue}`);
+    // this.setState({
+    //   newTaskTitle: newTaskTitleValue,
+    //   newTaskLocation: newLocationValue
+    // });
 
     // let oldTasks = [...this.state.tasks];
     // oldTasks.push({
@@ -297,103 +311,6 @@ class RightCockpit extends Component {
       );
     }
 
-    let displayContent = null;
-
-    switch (this.state.contentChoice) {
-      case '0':
-        displayContent = (
-          <React.Fragment>
-            <h3>Hello Thomas.... What would you like to see?</h3>
-            <img
-              className={classes.logoImage}
-              src={require('../../Assets/cockpitIcon.png')}
-            />
-          </React.Fragment>
-        );
-        break;
-
-      case '1':
-        displayContent = (
-          <React.Fragment>
-            <p>tasks has # {this.state.tasks.length}</p>
-                        
-            <Tasks
-              reRenderTasks={this.state.reRenderTasks}
-              tasks={this.state.tasks}
-              clicked={this.deleteTaskhandler}
-              changed={this.taskChangeHandler}
-              lastHeader={this.state.lastHeader}
-            />
-                      
-          </React.Fragment>
-        );
-        break;
-
-      case '2':
-        displayContent = (
-          <React.Fragment>
-                        
-            <TodayTasks
-              reRenderTodayTasks={this.state.reRenderTodayTasks}
-              monday={this.state.Monday}
-              clicked={this.deleteTodayTaskhandler}
-              changed={this.todayTaskChangeHandler}
-              lastTodayTasksHeader={this.state.lastTodayTasksHeader}
-            />
-                      
-          </React.Fragment>
-        );
-        break;
-
-      case '3':
-        displayContent = (
-          <React.Fragment>
-            <p>tasks has # {this.state.maxReact.length}</p>
-            <Lessons
-              reRender={this.state.showLessons}
-              lessons={this.state.maxReact}
-              clicked={this.deleteLessonhandler}
-              changed={this.lessonChangeHandler}
-              lastLessonHeader={this.state.lastLessonHeader}
-              lessonsLength={this.state.maxReact.length}
-              deleteCockpit2={() => {
-                this.setState({ showCockpit2: false });
-              }}
-            />
-          </React.Fragment>
-        );
-        break;
-      case '4':
-        displayContent = (
-          <React.Fragment>
-            <NewTask
-              // newTaskTitle = {}
-              // category = {}
-              // location = {}
-              // newTaskTitle={this.setState.newTaskTitle}
-              newTaskLocation={event => this.newTaskLocationHandler(event)}
-              newTaskInfo={event => {
-                this.newTaskHandler(event);
-              }}
-            />
-          </React.Fragment>
-        );
-        break;
-    }
-
-    // <React.Fragment>
-    {
-      /* <Cockpit2
-      showSyllabusFromNav={this.state.showSyllabusFromNav}
-      showSyllabus={this.state.showSyllabus}
-      tasks={this.state.tasks}
-      lastHeader={this.state.lastLessonHeader}
-      deleteCockpit2={() => {
-        this.setState({ showCockpit2: false });
-      }}
-    /> */
-    }
-
     let displayCockpit = (
       <div className="container">
         <div className="d-flex flex-row ">
@@ -401,27 +318,40 @@ class RightCockpit extends Component {
             <div className="p-1">{viewOptions}</div>
           </div>
           <div className="card bg-light m-1 p-1 col-9">
-            <div className="p-1 ">{displayContent}</div>
+            <div className="p-1 ">
+              <DisplayContent
+                deleteTaskhandler={this.deleteTaskhandler}
+                everything={this.state}
+              />
+            </div>
           </div>
         </div>
       </div>
     );
+
+    let navbar = (
+      <Navbar2
+        newTaskInfoComing={event => this.newTaskHandler(event)}
+        title={this.props.appTitle}
+        tasksLength={this.state.tasks.length}
+        clicked={event => this.contentViewHandler(event)}
+        clickedSyllabus={event => this.contentViewHandler(event)}
+        clickedNewTask={event => this.contentViewHandler(event)}
+        deleteCockpit={() => {
+          this.setState({ showCockpit: false });
+        }}
+      >
+        {this.props.newTaskInfoComing}
+      </Navbar2>
+    );
+
+    let viewContent = (
+      <ViewContent viewContent={event => this.contentViewHandler(event)} />
+    );
     return (
       <React.Fragment>
-        <Navbar2
-          newTaskInfoComing={event => this.newTaskHandler(event)}
-          title={this.props.appTitle}
-          tasksLength={this.state.tasks.length}
-          clickedSyllabus={event => this.contentViewHandler(event)}
-          clickedNewTask={event => this.contentViewHandler(event)}
-          deleteCockpit={() => {
-            this.setState({ showCockpit: false });
-          }}
-        >
-          {this.props.newTaskInfoComing}
-        </Navbar2>
-
-        <ViewContent viewContent={event => this.contentViewHandler(event)} />
+        {navbar}
+        {viewContent}
         {displayCockpit}
       </React.Fragment>
     );

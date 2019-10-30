@@ -12,7 +12,9 @@ const newTask = props => {
   // };
   //id="company"
   //value={props.newTaskTitle}
-  //o
+  //onChange={props.newTaskInfo}
+  //
+  //
   return (
     <React.Fragment>
       <div className="container">
@@ -30,7 +32,12 @@ const newTask = props => {
 
           <div className="form-group">
             <label>Location</label>
-            <select name="location" className="form-control" id="location">
+            <select
+              name="location"
+              onClick={props.newTaskInfo}
+              className="form-control"
+              id="location"
+            >
               <option value="Poplado">Poplado</option>
               <option value="Laureles">Laureles</option>
               <option value="Sabaneta">Sabaneta</option>
