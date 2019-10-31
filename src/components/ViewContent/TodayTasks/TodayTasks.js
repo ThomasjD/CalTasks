@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TodayTask from './TodayTask/TodayTask';
-import student from '../../containers/Student.css';
+import student from '../../../containers/Student.css';
 
 const TodayTasks = props => {
   //get props from app.js, run through each element in state to feed into <Task>

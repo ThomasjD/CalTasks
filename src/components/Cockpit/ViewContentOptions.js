@@ -4,7 +4,7 @@ import React from 'react';
 // import classes from './Cockpit.module.css';
 // import Navbar from './navBar';
 
-const viewContent = props => {
+const viewContentOptions = props => {
   let displayOptions = (
     <div>
       <div className="btn-group btn-group-toggle" data-toggle="buttons">
@@ -62,4 +62,4 @@ const viewContent = props => {
   return displayOptions;
 };
 
-export default viewContent;
+export default viewContentOptions;

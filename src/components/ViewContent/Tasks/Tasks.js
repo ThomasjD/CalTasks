@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Task from './Task/Task';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import student from '../../containers/Student.css';
+import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary';
+import student from '../../../containers/Student.css';
 
 class Tasks extends PureComponent {
   constructor(props) {

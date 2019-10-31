@@ -3,15 +3,13 @@ import classes from '../../components/Cockpit/Cockpit.module.css';
 import Cockpit from '../../components/Cockpit/Cockpit';
 import Cockpit2 from '../../components/Cockpit/Cockpit2';
 import Navbar2 from '../../components/Cockpit/Navbar/Navbar2';
-import Tasks from '../../components/Tasks/Tasks';
-import TodayTasks from '../../components/TodayTasks/TodayTasks';
+import Tasks from '../../components/ViewContent/Tasks/Tasks';
+import TodayTasks from '../../components/ViewContent/TodayTasks/TodayTasks';
 import Lessons from '../../components/Syllabus/MaxReact/Lessons';
-import ViewContent from './ViewContent';
+import ViewContentOptions from '../../components/Cockpit/ViewContentOptions';
 import NewTask from '../../components/Creation/newTask';
-import DisplayContent from './displayContent';
-//import Syllabus from './Syllabus';
-//import miniViewHandler from './miniViewHandler';
-
+import DisplayContent from '../../components/Cockpit/displayContent';
+import Syllabus from '../../components/Creation/Syllabus';
 class RightCockpit extends Component {
   constructor(props) {
     super(props);
@@ -61,15 +59,38 @@ class RightCockpit extends Component {
     lastHeader: [],
     lastTodayTasksHeader: [],
     lastLessonHeader: [],
-    reRenderTasks: false
+    reRenderTasks: false,
+    syllabi: []
   };
 
   contentViewHandler = event => {
     let newViewChoice = event.target.value;
-
+    let maxReact = new Syllabus(
+      'maxReact1',
+      'maxReact',
+      '11',
+      'Use this in functions',
+      '11.Read all about this'
+    );
+    const wtf = this.state.syllabi;
+    wtf.push(maxReact);
+    this.setState({ syllabi: wtf });
+    console.log(this.state.syllabi[0].syllabusTitle);
     //Comparing new contentChoice with previous contentChoice
     //if newContentChoice === oldContentChoice
     //turn off the view
+    let maxReact2 = new Syllabus(
+      'maxReact2',
+      'maxReact22222',
+      '11asfd',
+      'Use this in fusfsasgnctions',
+      '11.Read allasf about this'
+    );
+
+    const wtf2 = [...this.state.syllabi];
+    wtf.push(maxReact2);
+    this.setState({ syllabi: wtf2 });
+    console.log(this.state.syllabi[1].syllabusTitle);
 
     this.setState({ contentChoice: newViewChoice });
     if (newViewChoice === this.state.contentChoice) {
@@ -379,13 +400,17 @@ class RightCockpit extends Component {
       </Navbar2>
     );
 
-    let viewContent = (
-      <ViewContent viewContent={event => this.contentViewHandler(event)} />
+    let viewContentOptions = (
+      <ViewContentOptions
+        viewContent={event => this.contentViewHandler(event)}
+      />
     );
+    //testing out Class without having component for syllabus
+
     return (
       <React.Fragment>
         {navbar}
-        {viewContent}
+        {viewContentOptions}
         {displayCockpit}
       </React.Fragment>
     );

@@ -1,13 +1,13 @@
 import React from 'react';
 import classes from '../../components/Cockpit/Cockpit.module.css';
-import Cockpit from '../../components/Cockpit/Cockpit';
-import Cockpit2 from '../../components/Cockpit/Cockpit2';
-import Navbar2 from '../../components/Cockpit/Navbar/Navbar2';
-import Tasks from '../../components/Tasks/Tasks';
-import TodayTasks from '../../components/TodayTasks/TodayTasks';
-import Lessons from '../../components/Syllabus/MaxReact/Lessons';
-import ViewContent from './ViewContent';
-import NewTask from '../../components/Creation/newTask';
+import Cockpit from './Cockpit';
+import Cockpit2 from './Cockpit2';
+import Navbar2 from './Navbar/Navbar2';
+import Tasks from '../ViewContent/Tasks/Tasks';
+import TodayTasks from '../ViewContent/TodayTasks/TodayTasks';
+import Lessons from '../Syllabus/MaxReact/Lessons';
+import ViewContent from './ViewContentOptions';
+import NewTask from '../Creation/newTask';
 
 const displayContent = props => {
   let displayContent = null;
