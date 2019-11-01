@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import classes from './Cockpit.module.css';
 //import Navbar from './navBar';
-import Lessons from '../Syllabus/MaxReact/Lessons';
+import Lessons from '../ViewContent/Syllabus/MaxReact/Lessons';
 import App from '../../containers/App';
 
 class Cockpit2 extends Component {

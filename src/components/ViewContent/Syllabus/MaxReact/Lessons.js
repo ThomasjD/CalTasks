@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 //import Task from './Task/Task';
-import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary';
-import student from '../../../containers/Student.css';
+import ErrorBoundary from '../../../ErrorBoundary/ErrorBoundary';
+import student from '../../../../containers/Student.css';
 import Lesson from './Lesson/Lesson';
 
 class Lessons extends Component {

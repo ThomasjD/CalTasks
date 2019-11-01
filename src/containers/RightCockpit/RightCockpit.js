@@ -5,7 +5,7 @@ import Cockpit2 from '../../components/Cockpit/Cockpit2';
 import Navbar2 from '../../components/Cockpit/Navbar/Navbar2';
 import Tasks from '../../components/ViewContent/Tasks/Tasks';
 import TodayTasks from '../../components/ViewContent/TodayTasks/TodayTasks';
-import Lessons from '../../components/Syllabus/MaxReact/Lessons';
+import Lessons from '../../components/ViewContent/Syllabus/MaxReact/Lessons';
 import ViewContentOptions from '../../components/Cockpit/ViewContentOptions';
 import NewTask from '../../components/Creation/newTask';
 import DisplayContent from '../../components/Cockpit/displayContent';
@@ -62,35 +62,82 @@ class RightCockpit extends Component {
     reRenderTasks: false,
     syllabi: []
   };
+  newTaskInfo2 = event => {
+    let newSyllabus = event.target.value;
+    //let newSyllabus2 = event.target.hoot;
 
+    const wtf = this.state.syllabi;
+    wtf.push(newSyllabus);
+    this.setState({ syllabi: wtf });
+    console.log(
+      `this is this.state.syllabi after maxReact push ${JSON.stringify(
+        this.state.syllabi,
+        null,
+        2
+      )}`
+    );
+  };
   contentViewHandler = event => {
     let newViewChoice = event.target.value;
-    let maxReact = new Syllabus(
-      'maxReact1',
-      'maxReact',
-      '11',
-      'Use this in functions',
-      '11.Read all about this'
-    );
-    const wtf = this.state.syllabi;
-    wtf.push(maxReact);
-    this.setState({ syllabi: wtf });
-    console.log(this.state.syllabi[0].syllabusTitle);
-    //Comparing new contentChoice with previous contentChoice
-    //if newContentChoice === oldContentChoice
-    //turn off the view
-    let maxReact2 = new Syllabus(
-      'maxReact2',
-      'maxReact22222',
-      '11asfd',
-      'Use this in fusfsasgnctions',
-      '11.Read allasf about this'
-    );
 
-    const wtf2 = [...this.state.syllabi];
-    wtf.push(maxReact2);
-    this.setState({ syllabi: wtf2 });
-    console.log(this.state.syllabi[1].syllabusTitle);
+    //if array is empty no need to use spread operator
+    // const wtf = this.state.syllabi;
+    // wtf.push(maxReact);
+    // console.log(
+    //   `this is wtf after maxReact push ${JSON.stringify(wtf, null, 2)}`
+    // );
+
+    // this.setState({ syllabi: wtf });
+    // console.log(
+    //   `this is syllabi object after maxReact1 ${JSON.stringify(
+    //     this.state.syllabi,
+    //     null,
+    //     2
+    //   )}`
+    // );
+    // //console.log(this.state.syllabi[0].syllabusTitle);
+    // //Comparing new contentChoice with previous contentChoice
+    // //if newContentChoice === oldContentChoice
+    // //turn off the view
+    // let maxReact2 = new Syllabus(
+    //   'maxReact2',
+    //   'maxReact22222',
+    //   '11asfd',
+    //   'Use this in fusfsasgnctions',
+    //   '11.Read allasf about this'
+    // );
+
+    // const wtf2 = [this.state.syllabi];
+    // //if pushing... don't nead to spread the syllabi array out
+    // //console.log(` ${}`)
+    // wtf2.push(maxReact2);
+    // console.log(`this is wtf2 after the push${JSON.stringify(wtf2, null, 2)}`);
+    // //console.log(`This is wtf2 after push ${wtf2}`);
+    // this.setState({ syllabi: wtf2 });
+    // console.log(
+    //   `this is this.state.syllabi after setState ${JSON.stringify(
+    //     this.state.syllabi,
+    //     null,
+    //     2
+    //   )}`
+    // );
+    // for (let x = 0; x <= 2; x++) {
+    //   console.log(
+    //     `this is inside loop ${x}  ${JSON.stringify(
+    //       this.state.syllabi[x].syllabusTitle
+    //     )}`
+    //   );
+    // }
+    //console.log(
+    // `this is syllabi object ${JSON.stringify(this.state.syllabi[0], null, 3)}`)
+
+    // //console.log(
+    //   `this is syllabi object 1 ${JSON.stringify(
+    //     this.state.syllabi[1],
+    //     null,
+    //     3
+    //   )}`
+    // );
 
     this.setState({ contentChoice: newViewChoice });
     if (newViewChoice === this.state.contentChoice) {
@@ -387,11 +434,13 @@ class RightCockpit extends Component {
     let navbar = (
       <Navbar2
         newTaskInfoComing={event => this.newTaskHandler(event)}
+        newTaskInfo2={event => this.newTaskInfo2(event)}
         title={this.props.appTitle}
         tasksLength={this.state.tasks.length}
         clicked={event => this.contentViewHandler(event)}
         clickedSyllabus={event => this.contentViewHandler(event)}
         clickedNewTask={event => this.contentViewHandler(event)}
+        newTaskInfo2={event => this.newTaskInfo2(event)}
         deleteCockpit={() => {
           this.setState({ showCockpit: false });
         }}

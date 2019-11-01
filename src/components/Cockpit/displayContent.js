@@ -5,7 +5,7 @@ import Cockpit2 from './Cockpit2';
 import Navbar2 from './Navbar/Navbar2';
 import Tasks from '../ViewContent/Tasks/Tasks';
 import TodayTasks from '../ViewContent/TodayTasks/TodayTasks';
-import Lessons from '../Syllabus/MaxReact/Lessons';
+import Lessons from '../ViewContent/Syllabus/MaxReact/Lessons';
 import ViewContent from './ViewContentOptions';
 import NewTask from '../Creation/newTask';
 
