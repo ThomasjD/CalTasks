@@ -10,12 +10,34 @@ import ViewContentOptions from '../../components/Cockpit/ViewContentOptions';
 import NewTask from '../../components/Creation/newTask';
 import DisplayContent from '../../components/Cockpit/displayContent';
 import Syllabus from '../../components/Creation/Syllabus';
+import NewEvent from '../../components/Creation/NewEvent';
 class RightCockpit extends Component {
   constructor(props) {
     super(props);
   }
+  // const useSignUpForm = (callback) => {
+  //   const [inputs, setInputs] = useState({});
+  //   const handleSubmit = (event) => {
+  //     if (event) {
+  //       event.preventDefault();
+  //     }
+  //   }
+
+  //   const handleInputChange = (event) => {
+  //     event.persist();
+  //     setInputs(inputs => ({...inputs, [event.target.name]: event.target.value}));
+
+  //   }
+  //   return {
+  //     handleSubmit,
+  //     handleInputChange,
+  //     inputs
+  //   };
+  // }
 
   state = {
+    events: [],
+    showEvents: false,
     tasks: [
       {
         id: 'qrwrwq',
@@ -79,15 +101,26 @@ class RightCockpit extends Component {
   };
   contentViewHandler = event => {
     let newViewChoice = event.target.value;
+    console.log(JSON.stringify(newViewChoice, null, 2));
+    //console.log(event.target.['location'].value);
+
+    let maxReact2 = new Syllabus(
+      'maxReact2',
+      'maxReact22222',
+      '11asfd',
+      'Use this in fusfsasgnctions',
+      '11.Read allasf about this'
+    );
 
     //if array is empty no need to use spread operator
-    // const wtf = this.state.syllabi;
-    // wtf.push(maxReact);
-    // console.log(
-    //   `this is wtf after maxReact push ${JSON.stringify(wtf, null, 2)}`
-    // );
+    const wtf = this.state.syllabi;
 
-    // this.setState({ syllabi: wtf });
+    wtf.push(maxReact2);
+    console.log(
+      `this is wtf after maxReact push ${JSON.stringify(wtf, null, 2)}`
+    );
+
+    this.setState({ syllabi: wtf });
     // console.log(
     //   `this is syllabi object after maxReact1 ${JSON.stringify(
     //     this.state.syllabi,
@@ -96,9 +129,7 @@ class RightCockpit extends Component {
     //   )}`
     // );
     // //console.log(this.state.syllabi[0].syllabusTitle);
-    // //Comparing new contentChoice with previous contentChoice
-    // //if newContentChoice === oldContentChoice
-    // //turn off the view
+
     // let maxReact2 = new Syllabus(
     //   'maxReact2',
     //   'maxReact22222',
@@ -139,6 +170,9 @@ class RightCockpit extends Component {
     //   )}`
     // );
 
+    //Comparing new contentChoice with previous contentChoice
+    //if newContentChoice === oldContentChoice
+    //turn off the view
     this.setState({ contentChoice: newViewChoice });
     if (newViewChoice === this.state.contentChoice) {
       return this.setState({ contentChoice: '0' });
@@ -291,18 +325,23 @@ class RightCockpit extends Component {
 
   //dynamic edit task for Today (Monday)
   newTaskHandler = event => {
-    console.log(event.target.name);
-    switch (event.target.name) {
-      case 'newTaskTitle':
-        console.log('got it here in newTasktitle');
-        break;
-      case 'location':
-        console.log('nbanbanbanba nba');
-        break;
-      case 'deadline':
-        console.log('I am in the deadline baby');
-        break;
-    }
+    console.log('hey I am in newTaskhandler');
+    console.log(event);
+
+    //let newTask = { ...event };
+    //console.log(event);
+
+    // switch (event.target.name) {
+    //   case 'newTaskTitle':
+    //     console.log('got it here in newTasktitle');
+    //     break;
+    //   case 'location':
+    //     console.log('nbanbanbanba nba');
+    //     break;
+    //   case 'deadline':
+    //     console.log('I am in the deadline baby');
+    //     break;
+    // }
 
     //console.log(event.target.value);
     // let newTaskTitle = event.target.newTaskTitle;
@@ -394,7 +433,20 @@ class RightCockpit extends Component {
     //final update of lessons
     this.setState({ maxReact: lessons });
   };
+  newestEvent = e => {
+    console.log(e);
+    // console.log(JSON.stringify(e.target.name, null, 2));
+    // console.log(JSON.stringify(e.target.value, null, 2));
+    //let currentEvent = this.state.events;
+    let incomingEvent = { title: e.title }; //obj
 
+    let newestEvent = [...this.state.events, incomingEvent];
+    console.log(newestEvent[0].title);
+    //console.log(JSON.stringify(incomingEvent, null, 3));
+    // let newestEvent = currentEvent.push(incomingEvent);
+    this.setState({ events: newestEvent });
+    this.setState({ showEvents: true });
+  };
   render() {
     let viewOptions = null;
     if (this.state.showCockpit == true) {
@@ -424,6 +476,7 @@ class RightCockpit extends Component {
               <DisplayContent
                 deleteTaskhandler={this.deleteTaskhandler}
                 everything={this.state}
+                newTaskInfo={event => this.contentViewHandler(event)}
               />
             </div>
           </div>
@@ -434,13 +487,13 @@ class RightCockpit extends Component {
     let navbar = (
       <Navbar2
         newTaskInfoComing={event => this.newTaskHandler(event)}
-        newTaskInfo2={event => this.newTaskInfo2(event)}
+        newTaskInfo={event => this.eventContentViewHandler(event)}
         title={this.props.appTitle}
         tasksLength={this.state.tasks.length}
         clicked={event => this.contentViewHandler(event)}
         clickedSyllabus={event => this.contentViewHandler(event)}
         clickedNewTask={event => this.contentViewHandler(event)}
-        newTaskInfo2={event => this.newTaskInfo2(event)}
+        newTaskInfo2={event => this.newTaskHandler(event)}
         deleteCockpit={() => {
           this.setState({ showCockpit: false });
         }}
@@ -459,14 +512,13 @@ class RightCockpit extends Component {
     return (
       <React.Fragment>
         {navbar}
+        <NewEvent newestEvent={e => this.newestEvent(e)} />
         {viewContentOptions}
         {displayCockpit}
+        {this.state.showEvents ? <p>{this.state.events[0].title}</p> : null}
       </React.Fragment>
     );
   }
 }
 export default RightCockpit;
-//{displayOptions}
-//<Syllabus syllabus={this.setState} />
-
-//
+//<div> {JSON.stringify(this.state.events, null, 3)}</div>

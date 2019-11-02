@@ -194,9 +194,10 @@ const Navbar = props => {
   return (
     <React.Fragment>
       {navbarDisplay}
+
       {newTaskState.showNewTaskForm ? (
         <NewTask
-          newTaskInfo2={props.newTaskInfo2}
+          newTaskInfo={props.newTaskInfo}
           newTaskTitle={props.newTaskInfoComing}
           changed={event => newSetTaskInfoState(event)}
           //newTaskTitle={newTaskInfoState.newTaskTitle}
