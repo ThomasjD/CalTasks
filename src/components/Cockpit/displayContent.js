@@ -8,7 +8,7 @@ import TodayTasks from '../ViewContent/TodayTasks/TodayTasks';
 import Lessons from '../ViewContent/Syllabus/MaxReact/Lessons';
 import ViewContent from './ViewContentOptions';
 import NewTask from '../Creation/newTask';
-
+import NewEvent from '../Creation/NewEvent';
 const displayContent = props => {
   let displayContent = null;
 
@@ -77,14 +77,14 @@ const displayContent = props => {
     case '4':
       displayContent = (
         <React.Fragment>
-          <NewTask
-            // newTaskTitle = {}
-            // category = {}
-            // location = {}
-            // newTaskTitle={props.setState.newTaskTitle}
-            // newTaskLocation={event => props.newTaskLocationHandler(event)}
-            newestTask={props.newestTask}
-          />
+          <NewTask newestTask={props.newestTask} />
+        </React.Fragment>
+      );
+      break;
+    case '5':
+      displayContent = (
+        <React.Fragment>
+          <NewEvent newestEvent={props.newestEvent} />
         </React.Fragment>
       );
       break;

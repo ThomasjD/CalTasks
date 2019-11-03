@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import classes from './Cockpit.module.css';
 import Navbar from './navBar';
+import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
 
 const Cockpit = props => {
   //can do anything that componentDidUpdate can do
@@ -81,6 +82,7 @@ const Cockpit = props => {
         >
           Things to Do!
         </p>
+        <DatePickerPicker />
       </div>
     </React.Fragment>
   );

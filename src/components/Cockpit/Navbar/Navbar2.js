@@ -170,9 +170,13 @@ const Navbar = props => {
                   {' '}
                   Task
                 </button>
-                <a href="#" className="dropdown-item">
+                <button
+                  onClick={props.clickedNewEvent}
+                  value="5"
+                  className="dropdown-item"
+                >
                   Event
-                </a>
+                </button>
                 <a
                   onClick={props.clickedSyllabus}
                   value="3"

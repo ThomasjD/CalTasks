@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
 // onSubmit = e => {
 // e.preventDefault();
 
@@ -61,6 +61,7 @@ class NewEvent extends Component {
             </div>
 
             <button onClick={e => this.onSubmit(e)}>Submit</button>
+            <DatePickerPicker />
           </form>
         </div>
       </React.Fragment>

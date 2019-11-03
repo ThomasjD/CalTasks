@@ -10,8 +10,8 @@ import ViewContentOptions from '../../components/Cockpit/ViewContentOptions';
 import NewTask from '../../components/Creation/newTask';
 import DisplayContent from '../../components/Cockpit/displayContent';
 import Syllabus from '../../components/Creation/Syllabus';
-import NewEvent from '../../components/Creation/NewEvent';
-import DatePicker from './DatePicker.js';
+
+import DatePickerPicker from './DatePicker.js';
 
 class RightCockpit extends Component {
   constructor(props) {
@@ -41,6 +41,7 @@ class RightCockpit extends Component {
     events: [],
     showEvents: false,
     showDatePicker: false,
+    newTask: [],
     tasks: [
       {
         id: 'qrwrwq',
@@ -104,6 +105,7 @@ class RightCockpit extends Component {
   };
   contentViewHandler = event => {
     let newViewChoice = event.target.value;
+    console.log(newViewChoice);
     console.log(JSON.stringify(newViewChoice, null, 2));
     //console.log(event.target.['location'].value);
 
@@ -116,62 +118,11 @@ class RightCockpit extends Component {
     );
 
     //if array is empty no need to use spread operator
-    const wtf = this.state.syllabi;
+    const tryOutSyllabi = this.state.syllabi;
 
-    wtf.push(maxReact2);
-    console.log(
-      `this is wtf after maxReact push ${JSON.stringify(wtf, null, 2)}`
-    );
+    tryOutSyllabi.push(maxReact2);
 
-    this.setState({ syllabi: wtf });
-    // console.log(
-    //   `this is syllabi object after maxReact1 ${JSON.stringify(
-    //     this.state.syllabi,
-    //     null,
-    //     2
-    //   )}`
-    // );
-    // //console.log(this.state.syllabi[0].syllabusTitle);
-
-    // let maxReact2 = new Syllabus(
-    //   'maxReact2',
-    //   'maxReact22222',
-    //   '11asfd',
-    //   'Use this in fusfsasgnctions',
-    //   '11.Read allasf about this'
-    // );
-
-    // const wtf2 = [this.state.syllabi];
-    // //if pushing... don't nead to spread the syllabi array out
-    // //console.log(` ${}`)
-    // wtf2.push(maxReact2);
-    // console.log(`this is wtf2 after the push${JSON.stringify(wtf2, null, 2)}`);
-    // //console.log(`This is wtf2 after push ${wtf2}`);
-    // this.setState({ syllabi: wtf2 });
-    // console.log(
-    //   `this is this.state.syllabi after setState ${JSON.stringify(
-    //     this.state.syllabi,
-    //     null,
-    //     2
-    //   )}`
-    // );
-    // for (let x = 0; x <= 2; x++) {
-    //   console.log(
-    //     `this is inside loop ${x}  ${JSON.stringify(
-    //       this.state.syllabi[x].syllabusTitle
-    //     )}`
-    //   );
-    // }
-    //console.log(
-    // `this is syllabi object ${JSON.stringify(this.state.syllabi[0], null, 3)}`)
-
-    // //console.log(
-    //   `this is syllabi object 1 ${JSON.stringify(
-    //     this.state.syllabi[1],
-    //     null,
-    //     3
-    //   )}`
-    // );
+    this.setState({ syllabi: tryOutSyllabi });
 
     //Comparing new contentChoice with previous contentChoice
     //if newContentChoice === oldContentChoice
@@ -328,19 +279,11 @@ class RightCockpit extends Component {
 
   //dynamic edit task for Today (Monday)
   newestTaskHandler = e => {
-    console.log(e);
     console.log('hey I am in newestTaskhandler');
     console.log(e);
 
-    let incomingEvent = {
-      id: e.todo,
-      todo: e.todo,
-      deadline: e.deadline,
-      location: e.location
-    };
-
-    let newestEvent = [...this.state.tasks, incomingEvent];
-    console.log(newestEvent[0].todo);
+    let newestEvent = [...this.state.tasks, e.task];
+    //console.log(newestEvent[0].todo);
 
     this.setState({ tasks: newestEvent });
     //this.setState({ showEvents: true });
@@ -451,7 +394,7 @@ class RightCockpit extends Component {
     //final update of lessons
     this.setState({ maxReact: lessons });
   };
-  newestEvent = e => {
+  newestEventHandler = e => {
     console.log(e);
     // console.log(JSON.stringify(e.target.name, null, 2));
     // console.log(JSON.stringify(e.target.value, null, 2));
@@ -496,6 +439,7 @@ class RightCockpit extends Component {
                 deleteTaskhandler={this.deleteTaskhandler}
                 everything={this.state}
                 newestTask={event => this.newestTaskHandler(event)}
+                newestEvent={event => this.newestEventHandler(event)}
               />
             </div>
           </div>
@@ -507,6 +451,7 @@ class RightCockpit extends Component {
       <Navbar2
         newTaskInfoComing={event => this.newTaskHandler(event)}
         newTaskInfo={event => this.eventContentViewHandler(event)}
+        clickedNewEvent={event => this.contentViewHandler(event)}
         title={this.props.appTitle}
         tasksLength={this.state.tasks.length}
         clicked={event => this.contentViewHandler(event)}
@@ -531,23 +476,17 @@ class RightCockpit extends Component {
     return (
       <React.Fragment>
         {navbar}
-        <NewEvent newestEvent={e => this.newestEvent(e)} />
+
         {viewContentOptions}
         {displayCockpit}
-
-        <button onClick={() => this.setState({ showDatePicker: true })}>
-          show date
-        </button>
-        {this.state.showDatePicker ? <DatePicker /> : null}
       </React.Fragment>
     );
   }
 }
 export default RightCockpit;
-//<div> {JSON.stringify(this.state.events, null, 3)}</div>
-// {this.state.showEvents ? (
-//   <div>
-//     <p>{this.state.events[0].title}</p>
-//     <p>{this.state.events[0].name}</p>
-//   </div>
-// ) : null}
+{
+  /* <button onClick={() => this.setState({ showDatePicker: true })}>
+show date
+</button>
+{this.state.showDatePicker ? : null} */
+}

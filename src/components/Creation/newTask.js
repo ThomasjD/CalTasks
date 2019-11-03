@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 //import useForm from 'react-hook-form';
 import { tsPropertySignature } from '@babel/types';
+import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
 
 const NewTask = props => {
   const [newTask, setNewTask] = useState({
@@ -16,15 +17,16 @@ const NewTask = props => {
     let name = e.target.name;
 
     let newValue = e.target.value;
-    console.log('\n');
+    //array of keys [a,b,c,d] --> for every key return {key: value}
     let objListArray = Object.keys(newTask.task).map(iKey => {
-      //console.log(iKey)
+      //return an array of objects [{key: value},{key: value},{key: value}]
       if (iKey == name) {
         return { [iKey]: newValue };
       } else {
         return { [iKey]: newTask.task[iKey] };
       }
     });
+
     setNewTask({
       task: Object.assign(...objListArray)
     });
@@ -56,7 +58,16 @@ const NewTask = props => {
 
   const onSubmit = e => {
     e.preventDefault();
+    setNewTask({
+      task: {
+        id: newTask.task['todo'],
+        todo: newTask.task['todo'],
+        deadline: newTask.task['deadline'],
+        location: newTask.task['location']
+      }
+    });
     props.newestTask(newTask);
+    //reset the state for this component
     setNewTask({
       task: {
         id: '',
@@ -65,6 +76,8 @@ const NewTask = props => {
         location: ''
       }
     });
+
+    console.log(`after resetting state ${newTask}`);
   };
 
   return (
@@ -106,7 +119,7 @@ const NewTask = props => {
               name="deadline"
             ></textarea>
           </div>
-
+          <DatePickerPicker />
           <input type="submit" value="Submit" />
         </form>
       </div>

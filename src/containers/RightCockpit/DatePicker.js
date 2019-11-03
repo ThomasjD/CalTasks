@@ -1,25 +1,19 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 const DatePickerComp = () => {
-  // const rock = () => {
   const [startDate, setStartDate] = useState(new Date());
   return (
-    <React.Fragment>
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="form-group">
-              <div class="input-group date" id="datetimepicker1">
-                <input type="text" class="form-control" />
-                <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </React.Fragment>
+    <DatePicker
+      selected={startDate}
+      onChange={date => setStartDate(date)}
+      locale="pt-BR"
+      showTimeSelect
+      timeFormat="p"
+      timeIntervals={15}
+      dateFormat="Pp"
+    />
   );
 };
 
@@ -31,3 +25,56 @@ const DatePickerComp = () => {
 // };
 
 export default DatePickerComp;
+
+// import moment from 'moment';
+// import React, { Component } from 'react';
+// import DatePicker from 'react-datepicker';
+// import 'react-datepicker/dist/react-datepicker.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+
+// class DatePickerPicker extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       startDate: moment()
+//     };
+//     this.handleChange = this.handleChange.bind(this);
+//     this.handleSubmit = this.handleSubmit.bind(this);
+//   }
+
+//   handleChange(date) {
+//     this.setState({
+//       startDate: date
+//     });
+//   }
+
+//   handleSubmit(e) {
+//     e.preventDefault();
+//     let main = this.state.startDate;
+//     console.log(main.format('L'));
+//   }
+
+//   render() {
+//     return (
+//       <div className="container">
+//         <h3>React Datepicker Example</h3>
+//         <form onSubmit={this.handleSubmit}>
+//           <div className="form-group">
+//             <label>Select Date: </label>
+//             <DatePicker
+//               selected={this.state.startDate}
+//               onChange={this.handleChange}
+//               name="startDate"
+//               dateFormat="MM/DD/YYYY"
+//             />
+//           </div>
+//           <div className="form-group">
+//             <button className="btn btn-success">Add Date</button>
+//           </div>
+//         </form>
+//       </div>
+//     );
+//   }
+// }
+
+// export default DatePickerPicker;
