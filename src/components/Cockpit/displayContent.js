@@ -83,7 +83,7 @@ const displayContent = props => {
             // location = {}
             // newTaskTitle={props.setState.newTaskTitle}
             // newTaskLocation={event => props.newTaskLocationHandler(event)}
-            newTaskInfo={props.newTaskInfo}
+            newestTask={props.newestTask}
           />
         </React.Fragment>
       );

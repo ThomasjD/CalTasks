@@ -11,6 +11,8 @@ import NewTask from '../../components/Creation/newTask';
 import DisplayContent from '../../components/Cockpit/displayContent';
 import Syllabus from '../../components/Creation/Syllabus';
 import NewEvent from '../../components/Creation/NewEvent';
+import DatePicker from './DatePicker.js';
+
 class RightCockpit extends Component {
   constructor(props) {
     super(props);
@@ -38,6 +40,7 @@ class RightCockpit extends Component {
   state = {
     events: [],
     showEvents: false,
+    showDatePicker: false,
     tasks: [
       {
         id: 'qrwrwq',
@@ -324,9 +327,23 @@ class RightCockpit extends Component {
   };
 
   //dynamic edit task for Today (Monday)
-  newTaskHandler = event => {
-    console.log('hey I am in newTaskhandler');
-    console.log(event);
+  newestTaskHandler = e => {
+    console.log(e);
+    console.log('hey I am in newestTaskhandler');
+    console.log(e);
+
+    let incomingEvent = {
+      id: e.todo,
+      todo: e.todo,
+      deadline: e.deadline,
+      location: e.location
+    };
+
+    let newestEvent = [...this.state.tasks, incomingEvent];
+    console.log(newestEvent[0].todo);
+
+    this.setState({ tasks: newestEvent });
+    //this.setState({ showEvents: true });
 
     //let newTask = { ...event };
     //console.log(event);
@@ -365,6 +382,7 @@ class RightCockpit extends Component {
     // let newTitle = event.target.value.newTaskTitle;
     // console.log(`this is inside of app.js newTaskHandler ${newTitle}`);
   };
+
   newTaskLocationHandler = event => {
     // let location = event.target.value;
     // console.log(event.name);
@@ -438,7 +456,7 @@ class RightCockpit extends Component {
     // console.log(JSON.stringify(e.target.name, null, 2));
     // console.log(JSON.stringify(e.target.value, null, 2));
     //let currentEvent = this.state.events;
-    let incomingEvent = { title: e.title }; //obj
+    let incomingEvent = { title: e.title, name: e.name }; //obj
 
     let newestEvent = [...this.state.events, incomingEvent];
     console.log(newestEvent[0].title);
@@ -447,6 +465,7 @@ class RightCockpit extends Component {
     this.setState({ events: newestEvent });
     this.setState({ showEvents: true });
   };
+
   render() {
     let viewOptions = null;
     if (this.state.showCockpit == true) {
@@ -476,7 +495,7 @@ class RightCockpit extends Component {
               <DisplayContent
                 deleteTaskhandler={this.deleteTaskhandler}
                 everything={this.state}
-                newTaskInfo={event => this.contentViewHandler(event)}
+                newestTask={event => this.newestTaskHandler(event)}
               />
             </div>
           </div>
@@ -515,10 +534,20 @@ class RightCockpit extends Component {
         <NewEvent newestEvent={e => this.newestEvent(e)} />
         {viewContentOptions}
         {displayCockpit}
-        {this.state.showEvents ? <p>{this.state.events[0].title}</p> : null}
+
+        <button onClick={() => this.setState({ showDatePicker: true })}>
+          show date
+        </button>
+        {this.state.showDatePicker ? <DatePicker /> : null}
       </React.Fragment>
     );
   }
 }
 export default RightCockpit;
 //<div> {JSON.stringify(this.state.events, null, 3)}</div>
+// {this.state.showEvents ? (
+//   <div>
+//     <p>{this.state.events[0].title}</p>
+//     <p>{this.state.events[0].name}</p>
+//   </div>
+// ) : null}

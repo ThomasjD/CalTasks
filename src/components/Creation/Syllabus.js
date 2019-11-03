@@ -26,3 +26,24 @@ class Syllabus {
   }
 }
 export default Syllabus;
+
+//   sections:
+//       [
+//           {
+//             sectionId: '',
+//             sectionNumber: '',
+//             sectionTitle: '',
+//           }
+//       ],
+
+// lessons:
+//     [
+//         {
+//           sectionId: '',
+//           // sectionNumber: '',
+//           lessonId: '', //after: -> 2 digits before '/'
+//           // sectionTitle: '',
+//           lessonTitle: '',
+//           // lessonMin: '',
+//         }
+//     ]

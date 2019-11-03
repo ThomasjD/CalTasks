@@ -16,7 +16,11 @@ import React, { Component } from 'react';
 
 class NewEvent extends Component {
   state = {
-    title: ''
+    eventTitle: '',
+    day: '',
+    month: '',
+    year: '',
+    time: ''
   };
   change = e => {
     this.setState({
@@ -41,6 +45,17 @@ class NewEvent extends Component {
                 name="title"
                 className="form-control"
                 value={this.state.title}
+                onChange={e => this.change(e)}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Event Name</label>
+              <input
+                type="text"
+                name="name"
+                className="form-control"
+                value={this.state.name}
                 onChange={e => this.change(e)}
               />
             </div>
