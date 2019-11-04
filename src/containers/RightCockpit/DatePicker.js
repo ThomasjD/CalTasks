@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+// import moment from 'react-moment';
+import { compareAsc, format } from 'date-fns';
 
 const DatePickerComp = () => {
   const [startDate, setStartDate] = useState(new Date());
+  //let Sunday = moment(startDate).format('MMMM Do YYYY, h:mm:ss a');
+
+  let Sunday = format(startDate, 'MM/dd/yyyy, hh:mm:ss a');
+  console.log(JSON.stringify(Sunday));
   return (
     <DatePicker
       selected={startDate}
