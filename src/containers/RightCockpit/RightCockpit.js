@@ -10,32 +10,13 @@ import ViewContentOptions from '../../components/Cockpit/ViewContentOptions';
 import NewTask from '../../components/Creation/newTask';
 import DisplayContent from '../../components/Cockpit/displayContent';
 import Syllabus from '../../components/Creation/Syllabus';
-
+import classes2 from './RightCockpit.module.css';
 import DatePickerPicker from './DatePicker.js';
 
 class RightCockpit extends Component {
   constructor(props) {
     super(props);
   }
-  // const useSignUpForm = (callback) => {
-  //   const [inputs, setInputs] = useState({});
-  //   const handleSubmit = (event) => {
-  //     if (event) {
-  //       event.preventDefault();
-  //     }
-  //   }
-
-  //   const handleInputChange = (event) => {
-  //     event.persist();
-  //     setInputs(inputs => ({...inputs, [event.target.name]: event.target.value}));
-
-  //   }
-  //   return {
-  //     handleSubmit,
-  //     handleInputChange,
-  //     inputs
-  //   };
-  // }
 
   state = {
     events: [],
@@ -168,23 +149,6 @@ class RightCockpit extends Component {
 
     let tasks = [];
 
-    // switch (this.state.contentChoice) {
-    //   case '1':
-    //     tasks = [...this.state.tasks];
-    //     break;
-    //   case '2':
-    //     tasks = [...this.state.Monday];
-    // }
-    // tasks.splice(taskIndex, 1);
-
-    // switch (this.state.contentChoice) {
-    //   case '1':
-    //     this.setState({ tasks: tasks });
-    //     break;
-    //   case '2':
-    //     this.setState({ Monday: tasks });
-    // }
-
     switch (this.state.contentChoice) {
       case '1':
         tasks = [...this.state.tasks];
@@ -198,14 +162,6 @@ class RightCockpit extends Component {
 
     tasks.splice(taskIndex, 1);
 
-    // switch (this.state.contentChoice) {
-    //   case '1':
-    //     tasks = [...this.state.obj];
-    //     break;
-    //   case '2':
-    //     tasks = [...this.state.obj];
-    // }
-
     switch (this.state.contentChoice) {
       case '1':
         this.setState({ tasks: tasks });
@@ -216,18 +172,6 @@ class RightCockpit extends Component {
       case '3':
         this.setState({ maxReact: tasks });
     }
-
-    // if (this.state.contentChoice === '1') {
-    //   //get tasks array
-    //   tasks = [...this.state.tasks];
-    //   tasks.splice(taskIndex, 1);
-    //   this.setState({ tasks: tasks });
-    // } else {
-    //   //get tasks array
-    //   tasks = [...this.state.Monday];
-    //   tasks.splice(taskIndex, 1);
-    //   this.setState({ Monday: tasks });
-    // }
 
     this.setState({ reRenderTasks: true });
 
@@ -287,43 +231,6 @@ class RightCockpit extends Component {
 
     this.setState({ tasks: newestEvent });
     //this.setState({ showEvents: true });
-
-    //let newTask = { ...event };
-    //console.log(event);
-
-    // switch (event.target.name) {
-    //   case 'newTaskTitle':
-    //     console.log('got it here in newTasktitle');
-    //     break;
-    //   case 'location':
-    //     console.log('nbanbanbanba nba');
-    //     break;
-    //   case 'deadline':
-    //     console.log('I am in the deadline baby');
-    //     break;
-    // }
-
-    //console.log(event.target.value);
-    // let newTaskTitle = event.target.newTaskTitle;
-    // let newTaskTitleValue = event.target.value;
-    // let newLocation = event.target.location;
-    // let newLocationValue = event.target.value;
-    // console.log(`this is eventTargetvalue ${newTaskTitleValue}`);
-    // this.setState({
-    //   newTaskTitle: newTaskTitleValue,
-    //   newTaskLocation: newLocationValue
-    // });
-
-    // let oldTasks = [...this.state.tasks];
-    // oldTasks.push({
-    //   id: 'qrwrwq',
-    //   todo: 'Find work',
-    //   deadline: 'Lunes',
-    //   location: 'Poplado'
-    // });
-
-    // let newTitle = event.target.value.newTaskTitle;
-    // console.log(`this is inside of app.js newTaskHandler ${newTitle}`);
   };
 
   newTaskLocationHandler = event => {
@@ -426,22 +333,23 @@ class RightCockpit extends Component {
         </React.Fragment>
       );
     }
-
+    //<div className={['d-flex', [classes2.DisplayCockpit]].join(' ')}>
     let displayCockpit = (
       <div className="container">
-        <div className="d-flex flex-row ">
-          <div className="card text-white bg-info m-1 p-1 col-3">
-            <div className="p-1">{viewOptions}</div>
+        <div className="row d-flex d-lg-block">
+          <div className="col-lg-4 order-1 float-left">
+            <div className="card text-white bg-info m-3 p-3">{viewOptions}</div>
           </div>
-          <div className="card bg-light m-1 p-1 col-9">
-            <div className="p-1 ">
-              <DisplayContent
-                deleteTaskhandler={this.deleteTaskhandler}
-                everything={this.state}
-                newestTask={event => this.newestTaskHandler(event)}
-                newestEvent={event => this.newestEventHandler(event)}
-              />
-            </div>
+        </div>
+
+        <div className="col-lg-8 order-0 float-left">
+          <div className="card bg-light m-3 p-3 ">
+            <DisplayContent
+              deleteTaskhandler={this.deleteTaskhandler}
+              everything={this.state}
+              newestTask={event => this.newestTaskHandler(event)}
+              newestEvent={event => this.newestEventHandler(event)}
+            />
           </div>
         </div>
       </div>
@@ -471,12 +379,10 @@ class RightCockpit extends Component {
         viewContent={event => this.contentViewHandler(event)}
       />
     );
-    //testing out Class without having component for syllabus
 
     return (
       <React.Fragment>
         {navbar}
-
         {viewContentOptions}
         {displayCockpit}
       </React.Fragment>
