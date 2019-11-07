@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import classes from './Cockpit.module.css';
 import Navbar from './navBar';
 import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
+import FreeTime from './FreeTime';
 
 const Cockpit = props => {
   //can do anything that componentDidUpdate can do
@@ -74,6 +75,7 @@ const Cockpit = props => {
         />
 
         <h5>Pick Content View!</h5>
+        <FreeTime />
         <p
           className={classNames({
             [classes[assignedClasses[0]]]: true,

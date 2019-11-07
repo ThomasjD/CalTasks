@@ -5,10 +5,11 @@ import React from 'react';
 // import Navbar from './navBar';
 
 const viewContentOptions = props => {
+  //
   let displayOptions = (
     <div>
-      <div className="btn-group btn-group-toggle" data-toggle="buttons">
-        <label className="btn btn-danger m-1 active">
+      <div className="btn-group-toggle d-flex-between" data-toggle="buttons">
+        <label className="btn btn-danger m-2 active">
           <button
             type="radio"
             name="options"
@@ -20,7 +21,7 @@ const viewContentOptions = props => {
           Cockpit
         </label>
 
-        <label className="btn btn-primary m-1 active">
+        <label className="btn btn-primary m-2 active">
           <button
             type="radio"
             name="options"
@@ -32,7 +33,7 @@ const viewContentOptions = props => {
           All Tasks
         </label>
 
-        <label className="btn btn-success m-1 active ">
+        <label className="btn btn-success m-2 active ">
           <button
             type="radio"
             name="options"
@@ -44,7 +45,7 @@ const viewContentOptions = props => {
           Todays Tasks
         </label>
 
-        <label className="btn btn-warning m-1 ">
+        <label className="btn btn-warning m-2 ">
           <button
             type="radio"
             name="options"

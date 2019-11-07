@@ -383,7 +383,9 @@ class RightCockpit extends Component {
     return (
       <React.Fragment>
         {navbar}
+
         {viewContentOptions}
+
         {displayCockpit}
       </React.Fragment>
     );
