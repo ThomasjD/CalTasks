@@ -14,6 +14,10 @@ import NewTaskContext from '../context/newTask-context';
 import RightCockpit from './RightCockpit/RightCockpit';
 import DataStructure from './DataStructure';
 
+// var CanvasJSReact = require('./canvasjs.react');
+// var CanvasJS = CanvasJSReact.CanvasJS;
+// var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
 //import Student from './Student.css';
 //import StudentTable from './StudentTable'
 // import StudentTable from './StudentTable';
