@@ -1,12 +1,14 @@
 import React from 'react';
 
-const newtaskContext = React.createContext({
-  showNewTask: false,
-  newTaskTitle: '',
-  newTaskCategory: '',
-  newTaskLocation: '',
-  submit: ''
+const showAllTasksAfterAddingTask = React.createContext({
+  contentChoice2: 5
 });
 
-export default newtaskContext;
+export default showAllTasksAfterAddingTask;
 //margin: 10px auto;
+
+// showNewTask: false,
+//   newTaskTitle: '',`
+//   newTaskCategory: '',
+//   newTaskLocation: '',
+//   submit:   ''

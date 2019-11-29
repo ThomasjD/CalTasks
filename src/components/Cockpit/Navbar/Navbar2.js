@@ -5,6 +5,7 @@ import App from '../../../containers/App';
 import classes from '../Cockpit.module.css';
 import classNames from 'classnames';
 import NewTask from '../../Creation/newTask';
+import NewSyllabus from '../../Creation/newSyllabus';
 
 const Navbar = props => {
   const [newTaskState, setTaskState] = useState({
@@ -170,6 +171,7 @@ const Navbar = props => {
                   {' '}
                   Task
                 </button>
+
                 <button
                   onClick={props.clickedNewEvent}
                   value="5"
@@ -177,13 +179,15 @@ const Navbar = props => {
                 >
                   Event
                 </button>
-                <a
+
+                <button
                   onClick={props.clickedSyllabus}
-                  value="3"
+                  value="6"
                   className="dropdown-item"
                 >
                   Syllabus
-                </a>
+                </button>
+
                 <a href="#" className="dropdown-item">
                   Objetivo
                 </a>
@@ -209,6 +213,7 @@ const Navbar = props => {
           category={newTaskInfoState.newTaskCategory}
           locationChange={event => newSetTaskLocationState(event)}
           location={newTaskInfoState.newTaskLocation}
+          showTasksAfterNewTask={props.clicked}
         />
       ) : null}
     </React.Fragment>

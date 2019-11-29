@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 //import useForm from 'react-hook-form';
 import { tsPropertySignature } from '@babel/types';
 import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
+import RightCockpit from '../../containers/RightCockpit/RightCockpit';
 
 const NewTask = props => {
   const [newTask, setNewTask] = useState({
@@ -102,9 +103,10 @@ const NewTask = props => {
               className="form-control"
               onChange={e => change(e)}
               id="location"
+              defaultValue="Sabaneta"
             >
-              <option value="Poplado">Poplado</option>
               <option value="Laureles">Laureles</option>
+              <option value="Poplado">Poplado</option>
               <option value="Sabaneta">Sabaneta</option>
             </select>
           </div>
@@ -119,8 +121,12 @@ const NewTask = props => {
               name="deadline"
             ></textarea>
           </div>
+
           <DatePickerPicker />
-          <input type="submit" value="Submit" />
+          <button type="submit" value="Submit">
+            {' '}
+            Submit
+          </button>
         </form>
       </div>
       <p>{props.newTaskTitle}</p>

@@ -9,6 +9,8 @@ import Lessons from '../ViewContent/Syllabus/MaxReact/Lessons';
 import ViewContent from './ViewContentOptions';
 import NewTask from '../Creation/newTask';
 import NewEvent from '../Creation/NewEvent';
+import NewSyllabus from '../Creation/newSyllabus';
+
 const displayContent = props => {
   let displayContent = null;
 
@@ -85,6 +87,14 @@ const displayContent = props => {
       displayContent = (
         <React.Fragment>
           <NewEvent newestEvent={props.newestEvent} />
+        </React.Fragment>
+      );
+      break;
+
+    case '6':
+      displayContent = (
+        <React.Fragment>
+          <NewSyllabus newestSyllabus={props.newestSyllabus} />
         </React.Fragment>
       );
       break;

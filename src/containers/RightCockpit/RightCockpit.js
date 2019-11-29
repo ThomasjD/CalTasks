@@ -12,6 +12,7 @@ import DisplayContent from '../../components/Cockpit/displayContent';
 import Syllabus from '../../components/Creation/Syllabus';
 import classes2 from './RightCockpit.module.css';
 import DatePickerPicker from './DatePicker.js';
+import ShowAllTasksAfterAddingTask from '../../context/newTask-context';
 
 class RightCockpit extends Component {
   constructor(props) {
@@ -85,6 +86,7 @@ class RightCockpit extends Component {
     );
   };
   contentViewHandler = event => {
+    console.log('inside of contentViewHandler');
     let newViewChoice = event.target.value;
     console.log(newViewChoice);
     console.log(JSON.stringify(newViewChoice, null, 2));
@@ -224,7 +226,10 @@ class RightCockpit extends Component {
   //dynamic edit task for Today (Monday)
   newestTaskHandler = e => {
     console.log('hey I am in newestTaskhandler');
-    console.log(e);
+    console.log(e.task);
+    //need to fix this in newTask so that it automaticly picks up the default value of the radio button
+    let location = !e.task.location ? (e.task.location = 'Popblado') : null;
+    console.log(`target location is ${location}`);
 
     let newestEvent = [...this.state.tasks, e.task];
     //console.log(newestEvent[0].todo);
@@ -316,6 +321,24 @@ class RightCockpit extends Component {
     this.setState({ showEvents: true });
   };
 
+  newestSyllabusHandler = event => {
+    console.log(`i am inside of newestSyllabusHandler event: ${event}`);
+
+    let newContentChoice = event;
+    let contentViewObject = {
+      target: {
+        value: newContentChoice
+      }
+    };
+    //console.log(event.target.value);
+    this.contentViewHandler(contentViewObject);
+    //this.setState({ contentChoice: newContentChoice });
+    //let newViewChoice = event.target.value;
+    // console.log(newViewChoice);
+    // console.log(JSON.stringify(newViewChoice, null, 2));
+    //console.log(event.target.value);
+  };
+
   render() {
     let viewOptions = null;
     if (this.state.showCockpit == true) {
@@ -334,25 +357,44 @@ class RightCockpit extends Component {
       );
     }
     //<div className={['d-flex', [classes2.DisplayCockpit]].join(' ')}>
-    let displayCockpit = (
-      <div className="container">
-        <div className="row d-flex d-lg-block">
-          <div className="col-lg-4 order-1 float-left">
-            <div className="card text-white bg-info m-3 p-3">{viewOptions}</div>
-          </div>
-        </div>
 
-        <div className="col-lg-8 order-0 float-left">
-          <div className="card bg-light m-3 p-3 ">
-            <DisplayContent
-              deleteTaskhandler={this.deleteTaskhandler}
-              everything={this.state}
-              newestTask={event => this.newestTaskHandler(event)}
-              newestEvent={event => this.newestEventHandler(event)}
-            />
-          </div>
-        </div>
-      </div>
+    // value = {{contentChoice: viewContent(event => this.newTaskHandler(event))}}>
+    let displayCockpit = (
+      <ShowAllTasksAfterAddingTask.Consumer>
+        {context => {
+          return (
+            <div>
+              <div>{context.contentChoice2}</div>
+              <div className="container">
+                <div className="row d-flex d-lg-block">
+                  <div className="col-lg-4 order-1 float-left">
+                    <div className="card text-white bg-info m-3 p-3">
+                      {viewOptions}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-lg-8 order-0 float-left">
+                  <div className="card bg-light m-3 p-3 ">
+                    <DisplayContent
+                      deleteTaskhandler={this.deleteTaskhandler}
+                      todayTaskChangeHandler={this.todayTaskChangeHandler}
+                      taskChangeHandler={this.taskChangeHandler}
+                      everything={this.state}
+                      lessonChangeHandler={this.lessonChangeHandler}
+                      newestTask={event => this.newestTaskHandler(event)}
+                      newestEvent={event => this.newestEventHandler(event)}
+                      newestSyllabus={event =>
+                        this.newestSyllabusHandler(event)
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        }}
+      </ShowAllTasksAfterAddingTask.Consumer>
     );
 
     let navbar = (
@@ -379,6 +421,10 @@ class RightCockpit extends Component {
         viewContent={event => this.contentViewHandler(event)}
       />
     );
+
+    // let showAlltasksAfterNewTask = (
+
+    // )
 
     return (
       <React.Fragment>
