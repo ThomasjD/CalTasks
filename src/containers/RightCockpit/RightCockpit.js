@@ -13,6 +13,7 @@ import Syllabus from '../../components/Creation/Syllabus';
 import classes2 from './RightCockpit.module.css';
 import DatePickerPicker from './DatePicker.js';
 import ShowAllTasksAfterAddingTask from '../../context/newTask-context';
+import TryingOutContext from '../../context/tryOutContext.js';
 
 class RightCockpit extends Component {
   constructor(props) {
@@ -68,8 +69,11 @@ class RightCockpit extends Component {
     lastTodayTasksHeader: [],
     lastLessonHeader: [],
     reRenderTasks: false,
-    syllabi: []
+    syllabi: [],
+    contentChoiceHandlerTestNum: 7,
+    realNum: 8
   };
+
   newTaskInfo2 = event => {
     let newSyllabus = event.target.value;
     //let newSyllabus2 = event.target.hoot;
@@ -85,10 +89,9 @@ class RightCockpit extends Component {
       )}`
     );
   };
-  contentViewHandler = event => {
-    console.log('inside of contentViewHandler');
-    let newViewChoice = event.target.value;
-    console.log(newViewChoice);
+
+  /*
+      console.log(newViewChoice);
     console.log(JSON.stringify(newViewChoice, null, 2));
     //console.log(event.target.['location'].value);
 
@@ -106,6 +109,11 @@ class RightCockpit extends Component {
     tryOutSyllabi.push(maxReact2);
 
     this.setState({ syllabi: tryOutSyllabi });
+*/
+
+  contentViewHandler = event => {
+    console.log('inside of contentViewHandler');
+    let newViewChoice = event.target.value;
 
     //Comparing new contentChoice with previous contentChoice
     //if newContentChoice === oldContentChoice
@@ -247,7 +255,8 @@ class RightCockpit extends Component {
     const name = target.name;
 
     this.setState({
-      [name]: value
+      [name]: value,
+      realNum: '1'
     });
   };
 
@@ -330,15 +339,33 @@ class RightCockpit extends Component {
         value: newContentChoice
       }
     };
-    //console.log(event.target.value);
+
     this.contentViewHandler(contentViewObject);
-    //this.setState({ contentChoice: newContentChoice });
-    //let newViewChoice = event.target.value;
-    // console.log(newViewChoice);
-    // console.log(JSON.stringify(newViewChoice, null, 2));
-    //console.log(event.target.value);
   };
 
+  doLittle = (e, haha) => {
+    let newContentChoice = haha;
+    let contentViewObject = {
+      target: {
+        value: haha
+      }
+    };
+    //console.log(event.target.value);
+    return this.contentViewHandler(contentViewObject);
+  };
+
+  contentChoiceHandler2 = () => {
+    console.log('I am inside of contentChoiceHandler yyyyyyahh');
+    let currentNum = this.state.realNum + 1;
+    this.setState({ realNum: currentNum });
+  };
+
+  addNewLessonHandler = newLesson => {
+    let currentMaxReactSyllabus = [...this.state.maxReact];
+    console.log(currentMaxReactSyllabus);
+  };
+
+  static contextType = ShowAllTasksAfterAddingTask;
   render() {
     let viewOptions = null;
     if (this.state.showCockpit == true) {
@@ -356,45 +383,39 @@ class RightCockpit extends Component {
         </React.Fragment>
       );
     }
-    //<div className={['d-flex', [classes2.DisplayCockpit]].join(' ')}>
 
-    // value = {{contentChoice: viewContent(event => this.newTaskHandler(event))}}>
     let displayCockpit = (
-      <ShowAllTasksAfterAddingTask.Consumer>
-        {context => {
-          return (
-            <div>
-              <div>{context.contentChoice2}</div>
-              <div className="container">
-                <div className="row d-flex d-lg-block">
-                  <div className="col-lg-4 order-1 float-left">
-                    <div className="card text-white bg-info m-3 p-3">
-                      {viewOptions}
-                    </div>
-                  </div>
-                </div>
+      <div className="container">
+        <div className="row d-flex d-lg-block">
+          <div className="col-lg-4 order-1 float-left">
+            <div className="card text-white bg-info m-3 p-3">{viewOptions}</div>
+          </div>
+        </div>
 
-                <div className="col-lg-8 order-0 float-left">
-                  <div className="card bg-light m-3 p-3 ">
-                    <DisplayContent
-                      deleteTaskhandler={this.deleteTaskhandler}
-                      todayTaskChangeHandler={this.todayTaskChangeHandler}
-                      taskChangeHandler={this.taskChangeHandler}
-                      everything={this.state}
-                      lessonChangeHandler={this.lessonChangeHandler}
-                      newestTask={event => this.newestTaskHandler(event)}
-                      newestEvent={event => this.newestEventHandler(event)}
-                      newestSyllabus={event =>
-                        this.newestSyllabusHandler(event)
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        }}
-      </ShowAllTasksAfterAddingTask.Consumer>
+        <div className="col-lg-8 order-0 float-left">
+          <div className="card bg-light m-3 p-3 ">
+            <TryingOutContext.Provider
+              value={{
+                contentChoiceHandler: this.contentChoiceHandler2,
+                newestSyllabus: event => {
+                  this.newestSyllabusHandler(event);
+                },
+                addNewLessonHandler: this.addNewLessonHandler
+              }}
+            >
+              <DisplayContent
+                deleteTaskhandler={this.deleteTaskhandler}
+                todayTaskChangeHandler={this.todayTaskChangeHandler}
+                taskChangeHandler={this.taskChangeHandler}
+                everything={this.state}
+                lessonChangeHandler={this.lessonChangeHandler}
+                newestTask={event => this.newestTaskHandler(event)}
+                newestEvent={event => this.newestEventHandler(event)}
+              />
+            </TryingOutContext.Provider>
+          </div>
+        </div>
+      </div>
     );
 
     let navbar = (
@@ -438,9 +459,3 @@ class RightCockpit extends Component {
   }
 }
 export default RightCockpit;
-{
-  /* <button onClick={() => this.setState({ showDatePicker: true })}>
-show date
-</button>
-{this.state.showDatePicker ? : null} */
-}

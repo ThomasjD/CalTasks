@@ -2,79 +2,46 @@ import React, { Component } from 'react';
 import ShowAllTasksAfterAddingTask from '../../context/newTask-context';
 import RightCockpit from '../../containers/RightCockpit/RightCockpit';
 import DisplayContent from '../Cockpit/displayContent';
+import TryingOutContext from '../../context/tryOutContext';
 
 class NewSyllabus extends Component {
   constructor(props) {
     super(props);
-    //this.onSubmit = this.onSubmit.bind(this);
   }
 
   state = {
-    contentChoice2: '2'
-  };
-
-  handleClick = event => {
-    // do something meaningful
+    contentChoice: '',
+    showRightCockpit: false,
+    addLesson: {
+      id: this.state.addLesson.lesson,
+      lesson: '93. Controlling the useEffect() Behavior',
+      completion: false
+    }
   };
 
   change = e => {
     let name = e.target.name;
-
     let newValue = e.target.value;
-
-    this.setState({ contentChoice2: newValue });
-    console.log(JSON.stringify(newValue, null, 2));
-    //   console.log(`inside of change in newSyllabus ${newValue}`);
-    //   //array of keys [a,b,c,d] --> for every key return {key: value}
-    //   //this.setState({ contentChoice2: newValue });
-    //   this.setState({
-    //     contentChoice2: newValue
-    //   });\
-
-    console.log(`this is newValue: ${newValue}`);
-    console.log(
-      `this is this.state.contentChoice2: ${this.state.contentChoice2}`
-    );
+    console.log(`I'm in change() in newSyllabus newValue:  ${newValue}`);
+    this.setState({ contentChoice: newValue });
   };
 
   onSubmit = e => {
     e.preventDefault();
-    //let newChoice = e.target.value;
-    //console.log(e.target.name);
-    //console.log(
-    //  `I'm in onSubmit  e.target.value: ${JSON.stringify(newChoice, null, 2)}`
-    // );
-    //this.setState({ contentChoice2: newChoice });
-    console.log(`I'm in onSubmit ${this.state.contentChoice2}`);
+    console.log(this.state.addLesson.lesson);
+    this.setState({ showRightCockpit: !this.state.showRightCockpit });
+    console.log(`I'm in onSubmit ${this.state.contentChoice}`);
+
+    //sending new Lesson to Cockpit
+    this.context.addNewLessonHandler(this.state);
+    //passing new content choice to displayContent -> RightCockpit
     //this.props.newestSyllabus(this.state.contentChoice2);
-    this.props.newestSyllabus(this.state.contentChoice2);
-    // setNewTask({
-    //   task: {
-    //     id: newTask.task['todo'],
-    //     todo: newTask.task['todo'],
-    //     deadline: newTask.task['deadline'],
-    //     location: newTask.task['location']
-    //   }
-    // });
-
-    //props.newestTask(newTask);
-
-    //reset the state for this component
-
-    // setNewTask({
-    //   task: {
-    //     id: '',
-    //     todo: '',
-    //     deadline: '',
-    //     location: ''
-    //   }
-    // });
-
-    console.log(`after resetting state ${this.state.contentChoice2}`);
+    this.context.newestSyllabus('3');
+    //console.log(`after resetting state ${this.state.contentChoice2}`);
   };
-  //name="newView"
-  //value={this.state.contentChoice2}
-  //onChange={e => this.state.change(e)}
+
+  static contextType = TryingOutContext;
+
   render() {
     return (
       <div>
@@ -87,6 +54,7 @@ class NewSyllabus extends Component {
                 type="text"
                 name="contentChoice"
                 placeholder="Enter new Syllabus."
+                onChange={e => this.change(e)}
               />
             </div>
 
@@ -102,24 +70,3 @@ class NewSyllabus extends Component {
 }
 
 export default NewSyllabus;
-
-/*
-render() {
-    return (
-      <button name="color" onClick={this.handleClick}>
-          color
-        </button>
-      <ShowAllTasksAfterAddingTask.Provider
-        value={{ contentChoice2: this.state.contentChoice2 }}
-      >
-        <RightCockpit 
-          contentChoice2 = {this.state.contentChoice2}>
-
-        </RightCockpit>
-
-
-      </ShowAllTasksAfterAddingTask.Provider>
-    );
-  }
-}
-*/

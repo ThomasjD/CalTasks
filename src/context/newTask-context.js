@@ -1,7 +1,15 @@
 import React from 'react';
 
 const showAllTasksAfterAddingTask = React.createContext({
-  contentChoice2: 5
+  contentChoice: 5,
+  pushingViewChoice: () => {},
+  contentChoice3: '3',
+  contentChoiceHandler: () => {},
+  character: 'what',
+  showCharacter: false,
+  showCharacterHandler: () => {},
+  newestSyllabus: () => {},
+  addNewLessonHandler: () => {}
 });
 
 export default showAllTasksAfterAddingTask;
