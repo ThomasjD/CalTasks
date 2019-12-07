@@ -3,6 +3,8 @@ import ShowAllTasksAfterAddingTask from '../../context/newTask-context';
 import RightCockpit from '../../containers/RightCockpit/RightCockpit';
 import DisplayContent from '../Cockpit/displayContent';
 import TryingOutContext from '../../context/tryOutContext';
+import { set } from 'date-fns';
+import MaxReactSyllabus from './SyllabusData';
 
 class NewSyllabus extends Component {
   constructor(props) {
@@ -10,13 +12,25 @@ class NewSyllabus extends Component {
   }
 
   state = {
-    contentChoice: '',
+    contentChoice: 'charisma',
     showRightCockpit: false,
-    addLesson: {
-      id: this.state.addLesson.lesson,
-      lesson: '93. Controlling the useEffect() Behavior',
-      completion: false
-    }
+    addLesson: [
+      {
+        lesson: '93. Controlling the useEffect() Behavior',
+        id: 'this.state.contentChoice.lesson.bind(this)',
+        completion: false
+      },
+      {
+        lesson: '94. Cleaning up with Lifecycle Hooks & useEffect()',
+        id: '94. Cleaning up with Lifecycle Hooks & useEffect()',
+        completion: false
+      },
+      {
+        lesson: '95. Cleanup Work with useEffect() - Ex',
+        id: '95. Cleanup Work with useEffect() - Ex',
+        completion: false
+      }
+    ]
   };
 
   change = e => {
@@ -28,21 +42,32 @@ class NewSyllabus extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    console.log(this.state.addLesson.lesson);
+    console.log(this.state.addLesson[0].lesson);
     this.setState({ showRightCockpit: !this.state.showRightCockpit });
     console.log(`I'm in onSubmit ${this.state.contentChoice}`);
 
     //sending new Lesson to Cockpit
-    this.context.addNewLessonHandler(this.state);
+
+    //this.context.addNewLessonHandler(this.state.addLesson[1]);
+
+    //deleting the lesson just sent to RightCockpit
+    let deletionOfLesson = this.state.addLesson.splice(1, 1);
+    this.setState({ addLesson: deletionOfLesson });
+    console.log(this.state['addLesson'].length);
+
     //passing new content choice to displayContent -> RightCockpit
-    //this.props.newestSyllabus(this.state.contentChoice2);
     this.context.newestSyllabus('3');
     //console.log(`after resetting state ${this.state.contentChoice2}`);
   };
 
   static contextType = TryingOutContext;
 
+  /* {JSON.stringify(this.props.maxReactWork[0].lesson, 2, null)}
+   */
   render() {
+    console.log(JSON.stringify(this.props.maxReactWork, null, 2));
+    //console.log(this.state['addLesson'][0].lesson);
+
     return (
       <div>
         <div className="container">

@@ -9,7 +9,7 @@ class Lessons extends Component {
     super(props);
   }
   state = {
-    //lastHeader: this.props.lastHeader
+    clickToAddDelete: null
   };
 
   // shouldComponentUpdate(nextProps, nextState) {
@@ -21,18 +21,28 @@ class Lessons extends Component {
   //   }
   // }
 
+  //rendering current lessons headers
   renderAllLessonsTableHeaderHandler() {
+    let clickToAddDelete = null;
+
+    this.props.showLeftOverLessonsFromSyllabus
+      ? (clickToAddDelete = 'Click to schedule this lesson')
+      : (clickToAddDelete = 'Click to Delete Lesson');
+
     let header = Object.keys(this.props.lastLessonHeader);
+
     return header.map((key, index) => {
       //console.log(`this is the key: (${key}) and the index: (${index})`);
+
       if (key === 'id') {
-        return <th key={index}>Click to Delete</th>;
+        return <th key={index}>{clickToAddDelete}</th>;
       } else {
         return <th key={index}>{key.toUpperCase()}</th>;
       }
     });
   }
 
+  //rendering current lessons
   allLessonssHandler() {
     return this.props.lessons.map((lesson, index) => {
       return (

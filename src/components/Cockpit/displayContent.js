@@ -95,6 +95,18 @@ const displayContent = props => {
       displayContent = (
         <React.Fragment>
           <NewSyllabus newestSyllabus={props.newestSyllabus} />
+          <Lessons
+            showLeftOverLessonsFromSyllabus={
+              props.everything.showLeftOverLessonsFromSyllabus
+            }
+            reRender={props.everything.showLessons}
+            lessons={props.everything.maxReactWorkLeft}
+            clicked={props.deleteTaskhandler}
+            changed={props.lessonChangeHandler}
+            lastLessonHeader={props.everything.lastLessonHeader}
+            lessonsLength={props.everything.maxReact.length}
+            addToScheduledSyllabus
+          />
         </React.Fragment>
       );
       break;

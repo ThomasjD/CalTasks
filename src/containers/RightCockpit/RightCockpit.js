@@ -63,6 +63,23 @@ class RightCockpit extends Component {
         completion: false
       }
     ],
+    maxReactWorkLeft: [
+      {
+        lesson: '93. Controlling the useEffect() Behavior',
+        id: 'this.state.contentChoice.lesson.bind(this)',
+        completion: false
+      },
+      {
+        lesson: '94. Cleaning up with Lifecycle Hooks & useEffect()',
+        id: '94. Cleaning up with Lifecycle Hooks & useEffect()',
+        completion: false
+      },
+      {
+        lesson: '95. Cleanup Work with useEffect() - Ex',
+        id: '95. Cleanup Work with useEffect() - Ex',
+        completion: false
+      }
+    ],
     contentChoice: '0',
     showCockpit: true,
     lastHeader: [],
@@ -71,7 +88,8 @@ class RightCockpit extends Component {
     reRenderTasks: false,
     syllabi: [],
     contentChoiceHandlerTestNum: 7,
-    realNum: 8
+    realNum: 8,
+    showLeftOverLessonsFromSyllabus: false
   };
 
   newTaskInfo2 = event => {
@@ -147,7 +165,15 @@ class RightCockpit extends Component {
           } else {
             this.setState({ lastLessonHeader: this.state.lastLessonHeader });
           }
+          break;
 
+        case '6': //Syllabus
+          this.setState({ showLeftOverLessonsFromSyllabus: true });
+          if (this.state.maxReact.length != 0) {
+            this.setState({ lastLessonHeader: this.state.maxReact[0] });
+          } else {
+            this.setState({ lastLessonHeader: this.state.lastLessonHeader });
+          }
           break;
       }
     }
@@ -168,6 +194,9 @@ class RightCockpit extends Component {
         break;
       case '3':
         tasks = [...this.state.maxReact];
+        break;
+      case '6':
+        tasks = [...this.state.maxReactWorkLeft];
     }
 
     tasks.splice(taskIndex, 1);
@@ -181,6 +210,9 @@ class RightCockpit extends Component {
         break;
       case '3':
         this.setState({ maxReact: tasks });
+        break;
+      case '6':
+        this.setState({ maxReactWorkLeft: tasks });
     }
 
     this.setState({ reRenderTasks: true });
@@ -282,14 +314,21 @@ class RightCockpit extends Component {
   };
 
   deleteLessonhandler = taskIndex => {
-    alert('Are you sure you want to delete this task?');
-    this.setState({ reRenderTasks: true });
-
     //get tasks array
     const lessons = [...this.state.maxReact];
 
-    //splice task of interst
-    lessons.splice(taskIndex, 1);
+    alert('Are you sure you want to delete this task?');
+    this.setState({ reRenderTasks: true });
+
+    //adding the lesson from maxReactLeftOverWork -> maxReact
+
+    const currentMaxReactLeftOverWork = [...this.state.maxReactWorkLeft];
+    const addThisLesson = currentMaxReactLeftOverWork[taskIndex];
+
+    this.state.showLeftOverLessonsFromSyllabus
+      ? lessons.push(addThisLesson)
+      : //splice task of interst
+        lessons.splice(taskIndex, 1);
 
     //update new list of tasks to state
     this.setState({ maxReact: lessons });
@@ -361,8 +400,11 @@ class RightCockpit extends Component {
   };
 
   addNewLessonHandler = newLesson => {
+    console.log('I am inside addNewLesonHandler');
     let currentMaxReactSyllabus = [...this.state.maxReact];
+    currentMaxReactSyllabus.push(newLesson);
     console.log(currentMaxReactSyllabus);
+    this.setState({ maxReact: currentMaxReactSyllabus });
   };
 
   static contextType = ShowAllTasksAfterAddingTask;
@@ -400,7 +442,9 @@ class RightCockpit extends Component {
                 newestSyllabus: event => {
                   this.newestSyllabusHandler(event);
                 },
-                addNewLessonHandler: this.addNewLessonHandler
+                addNewLessonHandler: event => {
+                  this.addNewLessonHandler(event);
+                }
               }}
             >
               <DisplayContent

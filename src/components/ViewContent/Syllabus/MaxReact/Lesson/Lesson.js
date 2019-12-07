@@ -41,5 +41,3 @@ const Lesson = props => {
 };
 
 export default Lesson;
-
-//<td>{props.deadline}</td>
