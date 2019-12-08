@@ -55,6 +55,8 @@ class NewSyllabus extends Component {
     this.setState({ addLesson: deletionOfLesson });
     console.log(this.state['addLesson'].length);
 
+    //allow deleteSyllabusHandler in RightCockpit to either add or splice to the stored maxReact array
+
     //passing new content choice to displayContent -> RightCockpit
     this.context.newestSyllabus('3');
     //console.log(`after resetting state ${this.state.contentChoice2}`);
@@ -62,10 +64,8 @@ class NewSyllabus extends Component {
 
   static contextType = TryingOutContext;
 
-  /* {JSON.stringify(this.props.maxReactWork[0].lesson, 2, null)}
-   */
   render() {
-    console.log(JSON.stringify(this.props.maxReactWork, null, 2));
+    //console.log(JSON.stringify(this.props.maxReactWork, null, 2));
     //console.log(this.state['addLesson'][0].lesson);
 
     return (

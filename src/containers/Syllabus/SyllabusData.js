@@ -1,6 +1,6 @@
-//import React, { Component } from 'react';
+import React, { Component } from 'react';
 //import classes from '../../components/Cockpit/Cockpit.module.css';
-import RightCockpit from './RightCockpit';
+import RightCockpit from '../RightCockpit/RightCockpit';
 
 class Syllabus {
   state = {
@@ -20,8 +20,13 @@ class Syllabus {
         lesson: '9100. Using useEffect() in Functional Components ',
         completion: false
       }
-    ]
+    ],
+    hoot: 33
   };
+
+  render() {
+    return <RightCockpit hoot={this.state.hoot} />;
+  }
 }
 
 export default Syllabus;

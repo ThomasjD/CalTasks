@@ -14,6 +14,7 @@ import classes2 from './RightCockpit.module.css';
 import DatePickerPicker from './DatePicker.js';
 import ShowAllTasksAfterAddingTask from '../../context/newTask-context';
 import TryingOutContext from '../../context/tryOutContext.js';
+import SyllabusData from '../Syllabus/SyllabusData';
 
 class RightCockpit extends Component {
   constructor(props) {
@@ -89,7 +90,8 @@ class RightCockpit extends Component {
     syllabi: [],
     contentChoiceHandlerTestNum: 7,
     realNum: 8,
-    showLeftOverLessonsFromSyllabus: false
+    showLeftOverLessonsFromSyllabus: false,
+    SyllabusDataStructure: {}
   };
 
   newTaskInfo2 = event => {
@@ -131,6 +133,7 @@ class RightCockpit extends Component {
 
   contentViewHandler = event => {
     console.log('inside of contentViewHandler');
+    console.log(`this is this.props.hoot: ${this.props.hoot} `);
     let newViewChoice = event.target.value;
 
     //Comparing new contentChoice with previous contentChoice
@@ -313,25 +316,41 @@ class RightCockpit extends Component {
     this.setState({ Monday: Monday });
   };
 
-  deleteLessonhandler = taskIndex => {
+  deleteLessonHandler = taskIndex => {
     //get tasks array
     const lessons = [...this.state.maxReact];
+    console.log('I am inside deleteLessonHandler');
 
     alert('Are you sure you want to delete this task?');
     this.setState({ reRenderTasks: true });
 
     //adding the lesson from maxReactLeftOverWork -> maxReact
 
+    //getting the current work left from
     const currentMaxReactLeftOverWork = [...this.state.maxReactWorkLeft];
+    //find the correct index to add to maxReact
     const addThisLesson = currentMaxReactLeftOverWork[taskIndex];
+    lessons.push(addThisLesson);
+    this.setState({ maxReact: lessons });
 
-    this.state.showLeftOverLessonsFromSyllabus
+    //deleting from currentMaxReactLeftOverWork
+    currentMaxReactLeftOverWork.splice(taskIndex, 1);
+
+    //updating currentMaxReactLeftOverWork after deleting a lesson
+    this.setState({ maxReactWorkLeft: currentMaxReactLeftOverWork });
+    /*
+    !this.state.showLeftOverLessonsFromSyllabus
       ? lessons.push(addThisLesson)
       : //splice task of interst
         lessons.splice(taskIndex, 1);
+    console.log(
+      `this is the adThisLesson I'm sending fro deleteLessonHandler ${addThisLesson}`
+    );
+    */
+    this.addNewLessonHandler(addThisLesson);
 
     //update new list of tasks to state
-    this.setState({ maxReact: lessons });
+    //this.setState({ maxReact: lessons });
   };
 
   lessonChangeHandler = (event, taskChangeId) => {
@@ -382,15 +401,17 @@ class RightCockpit extends Component {
     this.contentViewHandler(contentViewObject);
   };
 
-  doLittle = (e, haha) => {
-    let newContentChoice = haha;
-    let contentViewObject = {
-      target: {
-        value: haha
-      }
-    };
+  receiveSyllabusData = (e, syllabusData) => {
+    console.log(syllabusData);
+    // let newContentChoice = haha;
+    // let contentViewObject = {
+    //   target: {
+    //     value: haha
+    //   }
+    // };
     //console.log(event.target.value);
-    return this.contentViewHandler(contentViewObject);
+    //return this.contentViewHandler(contentViewObject);
+    this.setState({ minReact: syllabusData });
   };
 
   contentChoiceHandler2 = () => {
@@ -402,8 +423,15 @@ class RightCockpit extends Component {
   addNewLessonHandler = newLesson => {
     console.log('I am inside addNewLesonHandler');
     let currentMaxReactSyllabus = [...this.state.maxReact];
+
     currentMaxReactSyllabus.push(newLesson);
     console.log(currentMaxReactSyllabus);
+    let currentShowLeftOverLessonsFromSyllabus = this.state
+      .showLeftOverLessonsFromSyllabus;
+
+    this.setState({
+      showLeftOverLessonsFromSyllabus: !currentShowLeftOverLessonsFromSyllabus
+    });
     this.setState({ maxReact: currentMaxReactSyllabus });
   };
 
@@ -444,6 +472,11 @@ class RightCockpit extends Component {
                 },
                 addNewLessonHandler: event => {
                   this.addNewLessonHandler(event);
+                },
+                showLeftOverLessonsFroaddmSyllabus: this.state
+                  .showLeftOverLessonsFromSyllabus,
+                syllabusData: event => {
+                  this.receiveSyllabusData(event);
                 }
               }}
             >
@@ -455,6 +488,7 @@ class RightCockpit extends Component {
                 lessonChangeHandler={this.lessonChangeHandler}
                 newestTask={event => this.newestTaskHandler(event)}
                 newestEvent={event => this.newestEventHandler(event)}
+                deleteLessonHandler={this.deleteLessonHandler}
               />
             </TryingOutContext.Provider>
           </div>
@@ -486,11 +520,10 @@ class RightCockpit extends Component {
         viewContent={event => this.contentViewHandler(event)}
       />
     );
-
+    //console.log(JSON.stringify(this.props.minReact, 2, null));
     // let showAlltasksAfterNewTask = (
 
-    // )
-
+    //console.log(this.props.hoot);
     return (
       <React.Fragment>
         {navbar}

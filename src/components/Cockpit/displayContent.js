@@ -101,11 +101,10 @@ const displayContent = props => {
             }
             reRender={props.everything.showLessons}
             lessons={props.everything.maxReactWorkLeft}
-            clicked={props.deleteTaskhandler}
+            clicked={props.deleteLessonHandler}
             changed={props.lessonChangeHandler}
             lastLessonHeader={props.everything.lastLessonHeader}
             lessonsLength={props.everything.maxReact.length}
-            addToScheduledSyllabus
           />
         </React.Fragment>
       );
