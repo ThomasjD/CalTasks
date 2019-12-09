@@ -30,16 +30,16 @@ import DataStructure from './DataStructure';
 // import Post from '../components/Post';
 // import Header from '../components/Header';
 // import SideCard from '../components/SideCard';
-
+import SyllabusData from './Syllabus/SyllabusData';
 class App extends Component {
   constructor(props) {
     super(props);
   }
-
+  //<RightCockpit />
   render() {
     return (
       <WithClass passClass={rocky.App}>
-        <RightCockpit />
+        <SyllabusData />
       </WithClass>
     );
   }

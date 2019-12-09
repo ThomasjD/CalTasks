@@ -66,12 +66,11 @@ const displayContent = props => {
         <React.Fragment>
           <p>tasks has # {props.everything.maxReact.length}</p>
           <Lessons
-            reRender={props.everything.showLessons}
-            lessons={props.everything.maxReact}
-            clicked={props.deleteTaskhandler}
+            lessons={props.everythingSyllabus.maxReact}
+            clicked={props.deleteLessonHandler}
             changed={props.lessonChangeHandler}
-            lastLessonHeader={props.everything.lastLessonHeader}
-            lessonsLength={props.everything.maxReact.length}
+            lastLessonHeader={props.everythingSyllabus.lastLessonHeader}
+            lessonsLength={props.everythingSyllabus.maxReact.length}
           />
         </React.Fragment>
       );
@@ -90,21 +89,20 @@ const displayContent = props => {
         </React.Fragment>
       );
       break;
-
+    //showLeftOverLessonsFromSyllabus: for Table Header (add/delete this lesson message)
     case '6':
       displayContent = (
         <React.Fragment>
           <NewSyllabus newestSyllabus={props.newestSyllabus} />
           <Lessons
             showLeftOverLessonsFromSyllabus={
-              props.everything.showLeftOverLessonsFromSyllabus
+              props.everythingSyllabus.showLeftOverLessonsFromSyllabus
             }
-            reRender={props.everything.showLessons}
-            lessons={props.everything.maxReactWorkLeft}
-            clicked={props.deleteLessonHandler}
+            lessons={props.everythingSyllabus.maxReactWorkLeft}
+            clicked={props.addLessonFromOriginalSyllabusHandler}
             changed={props.lessonChangeHandler}
-            lastLessonHeader={props.everything.lastLessonHeader}
-            lessonsLength={props.everything.maxReact.length}
+            lastLessonHeader={props.everythingSyllabus.lastLessonHeader}
+            lessonsLength={props.everythingSyllabus.maxReact.length}
           />
         </React.Fragment>
       );

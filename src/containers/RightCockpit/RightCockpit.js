@@ -91,7 +91,8 @@ class RightCockpit extends Component {
     contentChoiceHandlerTestNum: 7,
     realNum: 8,
     showLeftOverLessonsFromSyllabus: false,
-    SyllabusDataStructure: {}
+    SyllabusDataStructure: {},
+    blowfish: 'hootie'
   };
 
   newTaskInfo2 = event => {
@@ -132,8 +133,6 @@ class RightCockpit extends Component {
 */
 
   contentViewHandler = event => {
-    console.log('inside of contentViewHandler');
-    console.log(`this is this.props.hoot: ${this.props.hoot} `);
     let newViewChoice = event.target.value;
 
     //Comparing new contentChoice with previous contentChoice
@@ -163,15 +162,21 @@ class RightCockpit extends Component {
           break;
 
         case '3': //Syllabus
-          if (this.state.maxReact.length != 0) {
+          //reaching out to SyllabusData
+          this.props.lastLessonHeaderHandler();
+          if (this.props.syllabusEverything.maxReact.length != 0) {
             this.setState({ lastLessonHeader: this.state.maxReact[0] });
           } else {
             this.setState({ lastLessonHeader: this.state.lastLessonHeader });
+            //reaching out to SyllabusData
           }
           break;
 
-        case '6': //Syllabus
+        case '6': //Adding Lessons from Syllabus
+          //syllabusData
+          this.props.showLeftOverLessonsFromSyllabus();
           this.setState({ showLeftOverLessonsFromSyllabus: true });
+
           if (this.state.maxReact.length != 0) {
             this.setState({ lastLessonHeader: this.state.maxReact[0] });
           } else {
@@ -191,42 +196,29 @@ class RightCockpit extends Component {
     switch (this.state.contentChoice) {
       case '1':
         tasks = [...this.state.tasks];
+        this.setState({ tasks: tasks });
         break;
       case '2':
         tasks = [...this.state.Monday];
+        this.setState({ Monday: tasks });
         break;
       case '3':
+        //syllabusData
+        this.props.deleteLessonFromAssignedSyllabusHandler();
         tasks = [...this.state.maxReact];
+        this.setState({ maxReact: tasks });
         break;
       case '6':
+        //syllabusData
+        this.props.addLessonFromOriginalSyllabusHandler();
+
         tasks = [...this.state.maxReactWorkLeft];
+        this.setState({ maxReactWorkLeft: tasks });
     }
 
     tasks.splice(taskIndex, 1);
 
-    switch (this.state.contentChoice) {
-      case '1':
-        this.setState({ tasks: tasks });
-        break;
-      case '2':
-        this.setState({ Monday: tasks });
-        break;
-      case '3':
-        this.setState({ maxReact: tasks });
-        break;
-      case '6':
-        this.setState({ maxReactWorkLeft: tasks });
-    }
-
     this.setState({ reRenderTasks: true });
-
-    // //splice task of interst
-    // tasks.splice(taskIndex, 1);
-
-    // //update new list of tasks to state
-    // this.setState({ tasks: tasks });
-
-    //this.setState({ showTasksCounter: false });
   };
 
   deleteTodayTaskhandler = taskIndex => {
@@ -401,39 +393,26 @@ class RightCockpit extends Component {
     this.contentViewHandler(contentViewObject);
   };
 
-  receiveSyllabusData = (e, syllabusData) => {
-    console.log(syllabusData);
-    // let newContentChoice = haha;
-    // let contentViewObject = {
-    //   target: {
-    //     value: haha
-    //   }
-    // };
-    //console.log(event.target.value);
-    //return this.contentViewHandler(contentViewObject);
-    this.setState({ minReact: syllabusData });
-  };
+  // contentChoiceHandler2 = () => {
+  //   console.log('I am inside of contentChoiceHandler yyyyyyahh');
+  //   let currentNum = this.state.realNum + 1;
+  //   this.setState({ realNum: currentNum });
+  // };
 
-  contentChoiceHandler2 = () => {
-    console.log('I am inside of contentChoiceHandler yyyyyyahh');
-    let currentNum = this.state.realNum + 1;
-    this.setState({ realNum: currentNum });
-  };
+  // addNewLessonHandler = newLesson => {
+  //   console.log('I am inside addNewLesonHandler');
+  //   let currentMaxReactSyllabus = [...this.state.maxReact];
 
-  addNewLessonHandler = newLesson => {
-    console.log('I am inside addNewLesonHandler');
-    let currentMaxReactSyllabus = [...this.state.maxReact];
+  //   currentMaxReactSyllabus.push(newLesson);
+  //   console.log(currentMaxReactSyllabus);
+  //   let currentShowLeftOverLessonsFromSyllabus = this.state
+  //     .showLeftOverLessonsFromSyllabus;
 
-    currentMaxReactSyllabus.push(newLesson);
-    console.log(currentMaxReactSyllabus);
-    let currentShowLeftOverLessonsFromSyllabus = this.state
-      .showLeftOverLessonsFromSyllabus;
-
-    this.setState({
-      showLeftOverLessonsFromSyllabus: !currentShowLeftOverLessonsFromSyllabus
-    });
-    this.setState({ maxReact: currentMaxReactSyllabus });
-  };
+  //   this.setState({
+  //     showLeftOverLessonsFromSyllabus: !currentShowLeftOverLessonsFromSyllabus
+  //   });
+  //   this.setState({ maxReact: currentMaxReactSyllabus });
+  // };
 
   static contextType = ShowAllTasksAfterAddingTask;
   render() {
@@ -453,7 +432,8 @@ class RightCockpit extends Component {
         </React.Fragment>
       );
     }
-
+    //Part of TryingOutContext.Provider
+    //contentChoiceHandler: this.contentChoiceHandler2,
     let displayCockpit = (
       <div className="container">
         <div className="row d-flex d-lg-block">
@@ -466,18 +446,14 @@ class RightCockpit extends Component {
           <div className="card bg-light m-3 p-3 ">
             <TryingOutContext.Provider
               value={{
-                contentChoiceHandler: this.contentChoiceHandler2,
                 newestSyllabus: event => {
                   this.newestSyllabusHandler(event);
                 },
                 addNewLessonHandler: event => {
-                  this.addNewLessonHandler(event);
+                  this.props.addLessonFromOriginalSyllabusHandler(event);
                 },
-                showLeftOverLessonsFroaddmSyllabus: this.state
-                  .showLeftOverLessonsFromSyllabus,
-                syllabusData: event => {
-                  this.receiveSyllabusData(event);
-                }
+                showLeftOverLessonsFroaddmSyllabus: this.props
+                  .syllabusEverything.showLeftOverLessonsFromSyllabus
               }}
             >
               <DisplayContent
@@ -485,10 +461,21 @@ class RightCockpit extends Component {
                 todayTaskChangeHandler={this.todayTaskChangeHandler}
                 taskChangeHandler={this.taskChangeHandler}
                 everything={this.state}
-                lessonChangeHandler={this.lessonChangeHandler}
+                everythingSyllabus={this.props.syllabusEverything}
+                lessonChangeHandler={event =>
+                  this.props.lessonChangeHandler(event)
+                }
                 newestTask={event => this.newestTaskHandler(event)}
                 newestEvent={event => this.newestEventHandler(event)}
-                deleteLessonHandler={this.deleteLessonHandler}
+                deleteLessonHandler={event =>
+                  this.props.deleteLessonFromAssignedSyllabusHandler(event)
+                }
+                addLessonFromOriginalSyllabusHandler={(event, taskIndex) =>
+                  this.props.addLessonFromOriginalSyllabusHandler(
+                    event,
+                    taskIndex
+                  )
+                }
               />
             </TryingOutContext.Provider>
           </div>
@@ -520,12 +507,16 @@ class RightCockpit extends Component {
         viewContent={event => this.contentViewHandler(event)}
       />
     );
-    //console.log(JSON.stringify(this.props.minReact, 2, null));
-    // let showAlltasksAfterNewTask = (
 
-    //console.log(this.props.hoot);
+    let firechild = JSON.stringify(this.props.syllabusEverything.minReact[0]);
+    console.log(this.props.syllabusEverything);
+    let firechild2 = this.props.syllabusEverything.minReact[0];
+    let addOneLesson = this.props.syllabusEverything['minReact'][1];
+
     return (
       <React.Fragment>
+        <div>{firechild}</div>
+        <div>{JSON.stringify(firechild2)}</div>
         {navbar}
 
         {viewContentOptions}
@@ -535,4 +526,5 @@ class RightCockpit extends Component {
     );
   }
 }
+
 export default RightCockpit;
