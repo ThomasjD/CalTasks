@@ -14,7 +14,7 @@ import classes2 from './RightCockpit.module.css';
 import DatePickerPicker from './DatePicker.js';
 import ShowAllTasksAfterAddingTask from '../../context/newTask-context';
 import TryingOutContext from '../../context/tryOutContext.js';
-import SyllabusData from '../Syllabus/SyllabusData';
+import SyllabusData from '../Store/SyllabusData';
 
 class RightCockpit extends Component {
   constructor(props) {
@@ -55,32 +55,6 @@ class RightCockpit extends Component {
     newTaskLocation: '',
     isGoing: true,
     numberOfGuests: 2,
-    maxReact: [
-      { id: 'xvlwil', lesson: '90. (for props Changes)', completion: false },
-      { id: 'bbbskk', lesson: '91. (for state Changes)', completion: false },
-      {
-        id: 'kjhck2',
-        lesson: '92. Using useEffect() in Functional Components ',
-        completion: false
-      }
-    ],
-    maxReactWorkLeft: [
-      {
-        lesson: '93. Controlling the useEffect() Behavior',
-        id: 'this.state.contentChoice.lesson.bind(this)',
-        completion: false
-      },
-      {
-        lesson: '94. Cleaning up with Lifecycle Hooks & useEffect()',
-        id: '94. Cleaning up with Lifecycle Hooks & useEffect()',
-        completion: false
-      },
-      {
-        lesson: '95. Cleanup Work with useEffect() - Ex',
-        id: '95. Cleanup Work with useEffect() - Ex',
-        completion: false
-      }
-    ],
     contentChoice: '0',
     showCockpit: true,
     lastHeader: [],
@@ -97,11 +71,10 @@ class RightCockpit extends Component {
 
   newTaskInfo2 = event => {
     let newSyllabus = event.target.value;
-    //let newSyllabus2 = event.target.hoot;
 
-    const wtf = this.state.syllabi;
-    wtf.push(newSyllabus);
-    this.setState({ syllabi: wtf });
+    const syllabi = this.state.syllabi;
+    syllabi.push(newSyllabus);
+    this.setState({ syllabi: syllabi });
     console.log(
       `this is this.state.syllabi after maxReact push ${JSON.stringify(
         this.state.syllabi,
@@ -164,24 +137,11 @@ class RightCockpit extends Component {
         case '3': //Syllabus
           //reaching out to SyllabusData
           this.props.lastLessonHeaderHandler();
-          if (this.props.syllabusEverything.maxReact.length != 0) {
-            this.setState({ lastLessonHeader: this.state.maxReact[0] });
-          } else {
-            this.setState({ lastLessonHeader: this.state.lastLessonHeader });
-            //reaching out to SyllabusData
-          }
           break;
 
         case '6': //Adding Lessons from Syllabus
           //syllabusData
           this.props.showLeftOverLessonsFromSyllabus();
-          this.setState({ showLeftOverLessonsFromSyllabus: true });
-
-          if (this.state.maxReact.length != 0) {
-            this.setState({ lastLessonHeader: this.state.maxReact[0] });
-          } else {
-            this.setState({ lastLessonHeader: this.state.lastLessonHeader });
-          }
           break;
       }
     }
@@ -205,15 +165,15 @@ class RightCockpit extends Component {
       case '3':
         //syllabusData
         this.props.deleteLessonFromAssignedSyllabusHandler();
-        tasks = [...this.state.maxReact];
-        this.setState({ maxReact: tasks });
+        // tasks = [...this.state.maxReact];
+        // this.setState({ maxReact: tasks });
         break;
       case '6':
         //syllabusData
         this.props.addLessonFromOriginalSyllabusHandler();
 
-        tasks = [...this.state.maxReactWorkLeft];
-        this.setState({ maxReactWorkLeft: tasks });
+      // tasks = [...this.state.maxReactWorkLeft];
+      // this.setState({ maxReactWorkLeft: tasks });
     }
 
     tasks.splice(taskIndex, 1);
@@ -345,26 +305,27 @@ class RightCockpit extends Component {
     //this.setState({ maxReact: lessons });
   };
 
-  lessonChangeHandler = (event, taskChangeId) => {
-    const foundTaskId = this.state.maxReact.findIndex(currentId => {
-      return currentId.id === taskChangeId;
-    });
+  // lessonChangeHandler = (event, taskChangeId) => {
+  //   const foundTaskId = this.state.maxReact.findIndex(currentId => {
+  //     return currentId.id === taskChangeId;
+  //   });
 
-    //createnew task item to put into array
-    const updatedLessons = { ...this.state.maxReact[foundTaskId] };
+  //   //createnew task item to put into array
+  //   const updatedLessons = { ...this.state.maxReact[foundTaskId] };
 
-    //using updated values to define the lesson of the particular pulled out lesson
-    updatedLessons.lesson = event.target.value;
+  //   //using updated values to define the lesson of the particular pulled out lesson
+  //   updatedLessons.lesson = event.target.value;
 
-    //pull out of states maxReact array
-    const lessons = [...this.state.maxReact];
+  //   //pull out of states maxReact array
+  //   const lessons = [...this.state.maxReact];
 
-    //update the new lesson w/ ID of interest from the copy of MaxReact (lessons)
-    lessons[foundTaskId] = updatedLessons;
+  //   //update the new lesson w/ ID of interest from the copy of MaxReact (lessons)
+  //   lessons[foundTaskId] = updatedLessons;
 
-    //final update of lessons
-    this.setState({ maxReact: lessons });
-  };
+  //   //final update of lessons
+  //   this.setState({ maxReact: lessons });
+  // };
+
   newestEventHandler = e => {
     console.log(e);
     // console.log(JSON.stringify(e.target.name, null, 2));
@@ -393,27 +354,6 @@ class RightCockpit extends Component {
     this.contentViewHandler(contentViewObject);
   };
 
-  // contentChoiceHandler2 = () => {
-  //   console.log('I am inside of contentChoiceHandler yyyyyyahh');
-  //   let currentNum = this.state.realNum + 1;
-  //   this.setState({ realNum: currentNum });
-  // };
-
-  // addNewLessonHandler = newLesson => {
-  //   console.log('I am inside addNewLesonHandler');
-  //   let currentMaxReactSyllabus = [...this.state.maxReact];
-
-  //   currentMaxReactSyllabus.push(newLesson);
-  //   console.log(currentMaxReactSyllabus);
-  //   let currentShowLeftOverLessonsFromSyllabus = this.state
-  //     .showLeftOverLessonsFromSyllabus;
-
-  //   this.setState({
-  //     showLeftOverLessonsFromSyllabus: !currentShowLeftOverLessonsFromSyllabus
-  //   });
-  //   this.setState({ maxReact: currentMaxReactSyllabus });
-  // };
-
   static contextType = ShowAllTasksAfterAddingTask;
   render() {
     let viewOptions = null;
@@ -432,6 +372,12 @@ class RightCockpit extends Component {
         </React.Fragment>
       );
     }
+
+    // showLeftOverLessonsFromOrigSyllabus={
+    //   this.props.syllabusEverything[
+    //     'showLeftOverLessonsFromSyllabus'
+    //   ]
+    // }
     //Part of TryingOutContext.Provider
     //contentChoiceHandler: this.contentChoiceHandler2,
     let displayCockpit = (
@@ -451,9 +397,7 @@ class RightCockpit extends Component {
                 },
                 addNewLessonHandler: event => {
                   this.props.addLessonFromOriginalSyllabusHandler(event);
-                },
-                showLeftOverLessonsFroaddmSyllabus: this.props
-                  .syllabusEverything.showLeftOverLessonsFromSyllabus
+                }
               }}
             >
               <DisplayContent
@@ -462,8 +406,9 @@ class RightCockpit extends Component {
                 taskChangeHandler={this.taskChangeHandler}
                 everything={this.state}
                 everythingSyllabus={this.props.syllabusEverything}
-                lessonChangeHandler={event =>
-                  this.props.lessonChangeHandler(event)
+                lessonChangeHandler={this.props.lessonChangeHandler}
+                leftOverLessonChangeHandler={
+                  this.props.leftOverLessonChangeHandler
                 }
                 newestTask={event => this.newestTaskHandler(event)}
                 newestEvent={event => this.newestEventHandler(event)}
@@ -507,16 +452,11 @@ class RightCockpit extends Component {
         viewContent={event => this.contentViewHandler(event)}
       />
     );
-
-    let firechild = JSON.stringify(this.props.syllabusEverything.minReact[0]);
-    console.log(this.props.syllabusEverything);
-    let firechild2 = this.props.syllabusEverything.minReact[0];
-    let addOneLesson = this.props.syllabusEverything['minReact'][1];
+    //need to stringify an object before rendering it
+    //let firechild = JSON.stringify(this.props.syllabusEverything.minReact[0]);
 
     return (
       <React.Fragment>
-        <div>{firechild}</div>
-        <div>{JSON.stringify(firechild2)}</div>
         {navbar}
 
         {viewContentOptions}

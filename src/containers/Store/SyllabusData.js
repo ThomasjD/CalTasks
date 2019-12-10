@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 //import classes from '../../components/Cockpit/Cockpit.module.css';
 import RightCockpit from '../RightCockpit/RightCockpit';
+import TasksData from './TasksData';
 
 class Syllabus extends Component {
   state = {
@@ -49,7 +50,9 @@ class Syllabus extends Component {
     ],
     lastLessonHeader: [],
     crunk: 'Hootie and teh blowfish',
-    showLeftOverLessonsFromSyllabus: false
+    showLeftOverLessonsFromSyllabus: false,
+    TasksData: '',
+    nothing: 'nothing'
   };
   syllabusDataHandler = () => {
     let sendBacKminReact = this.state.minReact;
@@ -138,30 +141,74 @@ class Syllabus extends Component {
     //final update of lessons
     this.setState({ maxReact: lessons });
   };
+
+  leftOverLessonChangeHandler = (event, taskChangeId) => {
+    const foundTaskId = this.state.maxReactWorkLeft.findIndex(currentId => {
+      return currentId.id === taskChangeId;
+    });
+
+    //createnew task item to put into array
+    const updatedLessons = { ...this.state.maxReactWorkLeft[foundTaskId] };
+
+    //using updated values to define the lesson of the particular pulled out lesson
+    updatedLessons.lesson = event.target.value;
+
+    //pull out of states maxReact array
+    const lessons = [...this.state.maxReactWorkLeft];
+
+    //update the new lesson w/ ID of interest from the copy of MaxReact (lessons)
+    lessons[foundTaskId] = updatedLessons;
+
+    //final update of lessons
+    this.setState({ maxReactWorkLeft: lessons });
+  };
   showLeftOverLessonsFromSyllabus = () => {
     this.setState({ showLeftOverLessonsFromSyllabus: true });
     this.lastLessonHeaderHandler();
   };
+  TasksDataHandler = (a, word) => {
+    console.log(word);
+    let TasksData = word;
+    this.setState({ TasksData: TasksData });
+  };
   render() {
+    let displayWord = null;
+    //this.state.TasksData ? (displayWord = <p>{this.state.TasksData}</p>) : null;
+    if (this.state.TasksData === 'blue') {
+      displayWord = <p>{this.state.TasksData}</p>;
+    }
     return (
-      <RightCockpit
-        syllabusEverything={this.state}
-        lastLessonHeaderHandler={event => this.lastLessonHeaderHandler(event)}
-        assignLessonFromSyllabus={event => this.assignLessonFromSyllabus(event)}
-        deleteLessonFromAssignedSyllabusHandler={event =>
-          this.deleteLessonFromAssignedSyllabusHandler(event)
-        }
-        deleteLessonFromOriginalSyllabusHandler={event =>
-          this.deleteLessonFromOriginalSyllabusHandler(event)
-        }
-        addLessonFromOriginalSyllabusHandler={event =>
-          this.addLessonFromOriginalSyllabusHandler(event)
-        }
-        lessonChangeHandler={event => this.lessonChangeHandler(event)}
-        showLeftOverLessonsFromSyllabus={event =>
-          this.showLeftOverLessonsFromSyllabus(event)
-        }
-      ></RightCockpit>
+      <div>
+        <div>inside syllabusdata</div>;{displayWord}
+        <TasksData
+          data={(event, word) => this.TasksDataHandler(event, word)}
+        ></TasksData>
+        <RightCockpit
+          syllabusEverything={this.state}
+          lastLessonHeaderHandler={event => this.lastLessonHeaderHandler(event)}
+          assignLessonFromSyllabus={event =>
+            this.assignLessonFromSyllabus(event)
+          }
+          deleteLessonFromAssignedSyllabusHandler={event =>
+            this.deleteLessonFromAssignedSyllabusHandler(event)
+          }
+          deleteLessonFromOriginalSyllabusHandler={event =>
+            this.deleteLessonFromOriginalSyllabusHandler(event)
+          }
+          addLessonFromOriginalSyllabusHandler={event =>
+            this.addLessonFromOriginalSyllabusHandler(event)
+          }
+          lessonChangeHandler={(event, taskIndex) =>
+            this.lessonChangeHandler(event, taskIndex)
+          }
+          showLeftOverLessonsFromSyllabus={event =>
+            this.showLeftOverLessonsFromSyllabus(event)
+          }
+          leftOverLessonChangeHandler={event =>
+            this.leftOverLessonChangeHandler(event)
+          }
+        ></RightCockpit>
+      </div>
     );
   }
 }

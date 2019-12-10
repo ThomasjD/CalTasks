@@ -64,7 +64,7 @@ const displayContent = props => {
     case '3':
       displayContent = (
         <React.Fragment>
-          <p>tasks has # {props.everything.maxReact.length}</p>
+          <p>tasks has # {props.everythingSyllabus.maxReact.length}</p>
           <Lessons
             lessons={props.everythingSyllabus.maxReact}
             clicked={props.deleteLessonHandler}
@@ -95,12 +95,12 @@ const displayContent = props => {
         <React.Fragment>
           <NewSyllabus newestSyllabus={props.newestSyllabus} />
           <Lessons
-            showLeftOverLessonsFromSyllabus={
-              props.everythingSyllabus.showLeftOverLessonsFromSyllabus
+            showLeftOverLessonsFromOrigSyllabus={
+              props.everythingSyllabus.showLeftOverLessonsFromOrigSyllabus
             }
             lessons={props.everythingSyllabus.maxReactWorkLeft}
             clicked={props.addLessonFromOriginalSyllabusHandler}
-            changed={props.lessonChangeHandler}
+            changed={props.leftOverLessonChangeHandler}
             lastLessonHeader={props.everythingSyllabus.lastLessonHeader}
             lessonsLength={props.everythingSyllabus.maxReact.length}
           />
