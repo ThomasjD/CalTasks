@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 //import classes from '../../components/Cockpit/Cockpit.module.css';
 import RightCockpit from '../RightCockpit/RightCockpit';
 import TasksData from './TasksData';
-
+import Store from './Store';
+import EventsData from './EventsData';
 class Syllabus extends Component {
   state = {
     maxReact: [
@@ -51,8 +52,9 @@ class Syllabus extends Component {
     lastLessonHeader: [],
     crunk: 'Hootie and teh blowfish',
     showLeftOverLessonsFromSyllabus: false,
-    TasksData: '',
-    nothing: 'nothing'
+    TasksData: 'd',
+    nothing: 'nothing',
+    showData2: false
   };
   syllabusDataHandler = () => {
     let sendBacKminReact = this.state.minReact;
@@ -166,25 +168,40 @@ class Syllabus extends Component {
     this.setState({ showLeftOverLessonsFromSyllabus: true });
     this.lastLessonHeaderHandler();
   };
-  TasksDataHandler = (a, word) => {
-    console.log(word);
-    let TasksData = word;
-    this.setState({ TasksData: TasksData });
+  TasksDataHandler = word => {
+    // console.log(word);
+    // let TasksData = word;
+    this.setState({ TasksData: word });
   };
+
+  TasksDataHandler2 = () => {
+    let statusShowData2 = this.state.showData2;
+    this.setState({ showData2: !statusShowData2, showData3: true });
+  };
+
   render() {
     let displayWord = null;
-    //this.state.TasksData ? (displayWord = <p>{this.state.TasksData}</p>) : null;
-    if (this.state.TasksData === 'blue') {
+
+    if (this.state.showData3 === true) {
       displayWord = <p>{this.state.TasksData}</p>;
     }
+
     return (
       <div>
-        <div>inside syllabusdata</div>;{displayWord}
         <TasksData
-          data={(event, word) => this.TasksDataHandler(event, word)}
+          data={this.TasksDataHandler}
+          showData2={this.state.showData2}
+          dataHandler2={this.TasksDataHandler2}
         ></TasksData>
+
         <RightCockpit
+          displayWord={displayWord}
+          dataHandler2={this.TasksDataHandler2}
+          showData2={this.state.showData2}
+          showData3={this.state.showData3}
+          data2={this.state.TasksData}
           syllabusEverything={this.state}
+          dataHandler={this.TasksDataHandler2}
           lastLessonHeaderHandler={event => this.lastLessonHeaderHandler(event)}
           assignLessonFromSyllabus={event =>
             this.assignLessonFromSyllabus(event)
@@ -207,6 +224,7 @@ class Syllabus extends Component {
           leftOverLessonChangeHandler={event =>
             this.leftOverLessonChangeHandler(event)
           }
+          data={this.state.TasksData}
         ></RightCockpit>
       </div>
     );

@@ -32,6 +32,7 @@ import DataStructure from './DataStructure';
 // import SideCard from '../components/SideCard';
 import TasksData from './Store/TasksData';
 import SyllabusData from './Store/SyllabusData';
+import Store from './Store/Store';
 class App extends Component {
   constructor(props) {
     super(props);

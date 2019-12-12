@@ -14,7 +14,7 @@ import classes2 from './RightCockpit.module.css';
 import DatePickerPicker from './DatePicker.js';
 import ShowAllTasksAfterAddingTask from '../../context/newTask-context';
 import TryingOutContext from '../../context/tryOutContext.js';
-import SyllabusData from '../Store/SyllabusData';
+import Store from '../Store/Store';
 
 class RightCockpit extends Component {
   constructor(props) {
@@ -353,6 +353,9 @@ class RightCockpit extends Component {
 
     this.contentViewHandler(contentViewObject);
   };
+  showData3 = () => {
+    this.setState({ showData3: true });
+  };
 
   static contextType = ShowAllTasksAfterAddingTask;
   render() {
@@ -454,9 +457,27 @@ class RightCockpit extends Component {
     );
     //need to stringify an object before rendering it
     //let firechild = JSON.stringify(this.props.syllabusEverything.minReact[0]);
-
+    //console.log(JSON.stringify(this.props.data.TasksData.word, null, 2));
+    console.log(this.props.syllabusWord);
+    //<p>{JSON.stringify(this.props.data.TasksData.word, null, 2)}</p>
+    let displayData2 = null;
+    if (this.props.showData2 === true) {
+      let displayData2 = <p>{this.props.data2}</p>;
+    }
+    console.log(this.props.data2);
+    console.log(`this is this.props.syllabusEverything.TasksData`);
     return (
       <React.Fragment>
+        {this.props.showData2 ? e => this.setState({ showData3: true }) : null}
+        <div>RightCockpit: displayData2 : {this.props.displayWord}!</div>
+
+        <button onClick={e => this.props.dataHandler2(e)}>RightCockpit</button>
+
+        <div>
+          {' '}
+          RightCockpit: (syllabusWord) this is{' '}
+          {this.props.syllabusEverything.TasksData}
+        </div>
         {navbar}
 
         {viewContentOptions}

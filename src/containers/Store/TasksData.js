@@ -59,20 +59,34 @@ class TasksData extends Component {
       { id: 'afternoon7', timeOfDay: '', task: 'eat lunch' },
       { id: 'evening7', timeOfDay: '', task: 'play ball' }
     ],
-    word: 'blue'
+    word: 'red'
   };
-  //<RightCockpit></RightCockpit>
 
+  dataHandler = () => {
+    this.props.data(this.state);
+  };
   render() {
+    //this.props.data(this.state.word);
+    if (this.props.showData2 === true) {
+      this.props.data(this.state.word);
+      this.props.dataHandler2();
+    }
     return (
       <React.Fragment>
         <p> inside of tasksdata</p>
-        <button onClick={event => this.props.data(event, this.state.word)}>
-          Click Me{' '}
-        </button>
       </React.Fragment>
     );
   }
 }
 
 export default TasksData;
+
+// <button onClick={event => this.props.data(event, this.state)}>
+//   Click Me{' '}
+// </button>
+
+{
+  /* <button onClick={e => this.dataHandler(e)}>
+pussh me for the word
+</button> */
+}
