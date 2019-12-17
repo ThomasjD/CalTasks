@@ -71,22 +71,26 @@ class Syllabus extends Component {
     }
   };
 
-  deleteLessonFromAssignedSyllabusHandler = (event, taskIndex) => {
-    alert('Are you sure you want to delete this Lesson?');
+  deleteLessonFromAssignedSyllabusHandler = taskIndex => {
+    alert('Are you sure you want to delete this Lesson? Mate');
 
     let currentScheduledLessons = [...this.state.maxReact];
     currentScheduledLessons.splice(taskIndex, 1);
-    this.setState({ maxReact: currentScheduledLessons });
+    this.setState({ maxReact: currentScheduledLessons }, () =>
+      this.props.receiveSyllabusDataHandler(this.state)
+    );
   };
 
-  deleteLessonFromOriginalSyllabusHandler = (event, taskIndex) => {
+  deleteLessonFromOriginalSyllabusHandler = taskIndex => {
     alert('Are you sure you want to add this lesson?');
 
     let currentOriginalLessons = [...this.state.maxReactWorkLeft];
 
     currentOriginalLessons.splice(taskIndex, 1);
 
-    this.setState({ maxReactWorkLeft: currentOriginalLessons });
+    this.setState({ maxReactWorkLeft: currentOriginalLessons }, () =>
+      this.props.receiveSyllabusDataHandler(this.state)
+    );
   };
 
   addLessonFromOriginalSyllabusHandler = taskIndex => {
@@ -102,15 +106,14 @@ class Syllabus extends Component {
     console.log(currentMaxReactSyllabus);
     let currentShowLeftOverLessonsFromSyllabus = this.state
       .showLeftOverLessonsFromSyllabus;
-
+    //showLeftOverLessonsFromSyllabus: !currentShowLeftOverLessonsFromSyllabus,
     //Showing current left over Lessons from Syllabus (after addition/deletion)
-    this.setState({
-      showLeftOverLessonsFromSyllabus: !currentShowLeftOverLessonsFromSyllabus
-    });
-    //adding to redefining what maxReact is w/ new lesson
-    this.setState({ maxReact: currentMaxReactSyllabus });
-
-    this.deleteLessonFromOriginalSyllabusHandler(taskIndex);
+    this.setState(
+      {
+        maxReact: currentMaxReactSyllabus
+      },
+      this.deleteLessonFromOriginalSyllabusHandler(taskIndex)
+    );
   };
 
   lessonChangeHandler = (event, taskChangeId) => {
@@ -249,19 +252,18 @@ class Syllabus extends Component {
         break;
 
       case '7':
-        this.setState(
-          {
-            newMessage: 'word up'
-          },
-          this.props.sendSyllabusDataHandler('1')
-        );
         let index = this.props.index;
         //this.addLessonFromOriginalSyllabusHandler(index);
         this.props.resetSyllabusHandlerChoice(
-          index => this.addLessonFromOriginalSyllabusHandler(index),
-          this.props.receiveSyllabusDataHandler(this.state)
+          this.addLessonFromOriginalSyllabusHandler(index)
         );
+
         break;
+      case '8':
+        let deleteIndex = this.props.index;
+        this.props.resetSyllabusHandlerChoice(
+          this.deleteLessonFromAssignedSyllabusHandler(deleteIndex)
+        );
     }
 
     return <div>I'm inside of SyllabusData </div>;

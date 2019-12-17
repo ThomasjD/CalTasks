@@ -205,12 +205,21 @@ class Store extends Component {
     //console.log(JSON.stringify(this.state.syllabusData[0].showData2));
   };
   sendSyllabusDataHandler2 = (event, index) => {
-    let message = { action: 'add', index: index };
-    this.setState({ syllabusHandlerChoice: '7', action: 'add', index: index });
+    //let message = { action: 'add', index: index };
+    this.setState({ syllabusHandlerChoice: '7', index: index });
     console.log('Inside of sendSyllabusDataHandler2');
   };
   resetSyllabusHandlerChoice = () => {
     this.setState({ syllabusHandlerChoice: '0' });
+  };
+
+  processSyllabusRequestHandler = (event, index, handlerType) => {
+    this.setState({
+      //syllabusMessage: syllabusMessage,
+      handlerType: handlerType,
+      syllabusHandlerChoice: '8',
+      index: index
+    });
   };
 
   render() {
@@ -265,12 +274,11 @@ class Store extends Component {
           assignLessonFromSyllabus={event =>
             this.assignLessonFromSyllabus(event)
           }
-          deleteLessonFromAssignedSyllabusHandler={event =>
-            this.deleteLessonFromAssignedSyllabusHandler(event)
-          }
-          deleteLessonFromOriginalSyllabusHandler={event =>
-            this.deleteLessonFromOriginalSyllabusHandler(event)
-          }
+          deleteLessonFromAssignedSyllabusHandler={(
+            event,
+            index,
+            handlerType
+          ) => this.processSyllabusRequestHandler(event, index, handlerType)}
           lessonChangeHandler={(event, taskIndex) =>
             this.lessonChangeHandler(event, taskIndex)
           }

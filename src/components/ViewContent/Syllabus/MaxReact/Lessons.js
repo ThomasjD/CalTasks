@@ -23,11 +23,14 @@ class Lessons extends Component {
 
   //rendering current lessons headers
   renderAllLessonsTableHeaderHandler() {
+    //this is part of First row of table
     let clickToAddDelete = null;
 
-    this.props.showLeftOverLessonsFromOrigSyllabus
-      ? (clickToAddDelete = 'Click to schedule this lesson')
-      : (clickToAddDelete = 'Click to Delete Lesson');
+    if (this.props.showLeftOverLessonsFromOrigSyllabus) {
+      clickToAddDelete = 'Click to schedule this lesson';
+    } else {
+      clickToAddDelete = 'Click to Delete Lesson';
+    }
 
     let header = Object.keys(this.props.lastLessonHeader);
     //lastLessonHeader;
@@ -44,6 +47,12 @@ class Lessons extends Component {
 
   //rendering current lessons
   allLessonssHandler() {
+    let handlerType = null;
+    if (this.props.showLeftOverLessonsFromOrigSyllabus) {
+      handlerType = 'add';
+    } else {
+      handlerType = 'delete';
+    }
     return this.props.lessons.map((lesson, index) => {
       return (
         <ErrorBoundary key={lesson.id}>
@@ -51,7 +60,7 @@ class Lessons extends Component {
             lesson={lesson.lesson}
             completion={lesson.completion}
             particularKey={lesson.id}
-            click={() => this.props.clicked(index)}
+            click={event => this.props.clicked(event, index, handlerType)}
             changed={event => this.props.changed(event, lesson.id)}
           ></Lesson>
         </ErrorBoundary>

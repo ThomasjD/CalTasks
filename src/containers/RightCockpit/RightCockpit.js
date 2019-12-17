@@ -356,10 +356,11 @@ class RightCockpit extends Component {
     this.setState({ showEvents: true });
   };
 
-  newestSyllabusHandler = event => {
-    console.log(`i am inside of newestSyllabusHandler event: ${event}`);
+  newestSyllabusHandler = contentChoice => {
+    //this handler send message to contentViewHandler to render the new assigned contentchoice
+    //console.log(`i am inside of newestSyllabusHandler event: ${event}`);
 
-    let newContentChoice = event;
+    let newContentChoice = contentChoice;
     let contentViewObject = {
       target: {
         value: newContentChoice
@@ -368,6 +369,7 @@ class RightCockpit extends Component {
 
     this.contentViewHandler(contentViewObject);
   };
+
   showData3 = () => {
     this.setState({ showData3: true });
   };
@@ -417,36 +419,30 @@ class RightCockpit extends Component {
 
         <div className="col-lg-8 order-0 float-left">
           <div className="card bg-light m-3 p-3 ">
-            <TryingOutContext.Provider
-              value={{
-                newestSyllabus: event => {
-                  this.newestSyllabusHandler(event);
-                },
-                addNewLessonHandler: event => {
-                  this.props.addLessonFromOriginalSyllabusHandler(event);
-                }
-              }}
-            >
-              <DisplayContent
-                deleteTaskhandler={this.deleteTaskhandler}
-                todayTaskChangeHandler={this.todayTaskChangeHandler}
-                taskChangeHandler={this.taskChangeHandler}
-                everything={this.state}
-                everythingSyllabus={this.props.everythingSyllabus}
-                lessonChangeHandler={this.props.lessonChangeHandler}
-                leftOverLessonChangeHandler={
-                  this.props.leftOverLessonChangeHandler
-                }
-                newestTask={event => this.newestTaskHandler(event)}
-                newestEvent={event => this.newestEventHandler(event)}
-                deleteLessonHandler={event =>
-                  this.props.deleteLessonFromAssignedSyllabusHandler(event)
-                }
-                addLessonFromOriginalSyllabusHandler={(event, index) =>
-                  this.props.addLessonFromOriginalSyllabusHandler(event, index)
-                }
-              />
-            </TryingOutContext.Provider>
+            <DisplayContent
+              newestSyllabus={event => this.newestSyllabusHandler(event)}
+              deleteTaskhandler={this.deleteTaskhandler}
+              todayTaskChangeHandler={this.todayTaskChangeHandler}
+              taskChangeHandler={this.taskChangeHandler}
+              everything={this.state}
+              everythingSyllabus={this.props.everythingSyllabus}
+              lessonChangeHandler={this.props.lessonChangeHandler}
+              leftOverLessonChangeHandler={
+                this.props.leftOverLessonChangeHandler
+              }
+              newestTask={event => this.newestTaskHandler(event)}
+              newestEvent={event => this.newestEventHandler(event)}
+              deleteLessonHandler={(event, index, handlerType) =>
+                this.props.deleteLessonFromAssignedSyllabusHandler(
+                  event,
+                  index,
+                  handlerType
+                )
+              }
+              addLessonFromOriginalSyllabusHandler={(event, index) =>
+                this.props.addLessonFromOriginalSyllabusHandler(event, index)
+              }
+            />
           </div>
         </div>
       </div>
@@ -477,15 +473,6 @@ class RightCockpit extends Component {
       />
     );
 
-    /*showData2message demonstrate getting data from syllabusData and displaying it on rightcockpit
-    let showData2message = null;
-    if (this.props.syllabusEverything.syllabusData) {
-      showData2message = (
-        <div>{this.props.syllabusEverything.syllabusData.showData2}</div>
-      );
-    }
-    {showData2message}
-    */
     return (
       <React.Fragment>
         {navbar}
@@ -499,3 +486,18 @@ class RightCockpit extends Component {
 }
 
 export default RightCockpit;
+
+/*
+<TryingOutContext.Provider
+              value={{
+                newestSyllabus: event => {
+                  this.newestSyllabusHandler(event);
+                },
+                addNewLessonHandler: event => {
+                  this.props.addLessonFromOriginalSyllabusHandler(event);
+                }
+              }}
+            >
+
+</TryingOutContext.Provider>
+*/

@@ -64,17 +64,25 @@ const displayContent = props => {
     case '3':
       displayContent = (
         <React.Fragment>
-          <p>tasks has # {props.everythingSyllabus.maxReact.length}</p>
           {props.everythingSyllabus.syllabusData ? (
-            <Lessons
-              lessons={props.everythingSyllabus.syllabusData.maxReact}
-              clicked={props.deleteLessonHandler}
-              changed={props.lessonChangeHandler}
-              lastLessonHeader={
-                props.everythingSyllabus.syllabusData.lastLessonHeader
-              }
-              lessonsLength={props.everythingSyllabus.maxReact.length}
-            />
+            <div>
+              <p>
+                tasks has #{' '}
+                {props.everythingSyllabus.syllabusData.maxReact.length}
+              </p>
+
+              <Lessons
+                lessons={props.everythingSyllabus.syllabusData.maxReact}
+                clicked={(event, index, handlerType) =>
+                  props.deleteLessonHandler(event, index, handlerType)
+                }
+                changed={props.lessonChangeHandler}
+                lastLessonHeader={
+                  props.everythingSyllabus.syllabusData.lastLessonHeader
+                }
+                lessonsLength={props.everythingSyllabus.maxReact.length}
+              />
+            </div>
           ) : null}
         </React.Fragment>
       );
@@ -108,26 +116,28 @@ const displayContent = props => {
       // }
 
       if (props.everythingSyllabus.syllabusData) {
-        console.log(props.everythingSyllabus.syllabusData.lastLessonHeader);
-
         displayContent = (
           <React.Fragment>
             <NewSyllabus newestSyllabus={props.newestSyllabus} />
-            {!props.everythingSyllabus.showLeftOverLessonsFromSyllabus ? (
+
+            {props.everythingSyllabus.syllabusData
+              .showLeftOverLessonsFromSyllabus ? (
               <Lessons
                 showLeftOverLessonsFromOrigSyllabus={
                   props.everythingSyllabus.syllabusData
                     .showLeftOverLessonsFromSyllabus
                 }
-                lessons={props.everythingSyllabus.maxReactWorkLeft}
-                clicked={event =>
-                  props.addLessonFromOriginalSyllabusHandler(event)
+                lessons={props.everythingSyllabus.syllabusData.maxReactWorkLeft}
+                clicked={(event, index) =>
+                  props.addLessonFromOriginalSyllabusHandler(event, index)
                 }
                 changed={props.leftOverLessonChangeHandler}
                 lastLessonHeader={
                   props.everythingSyllabus.syllabusData.lastLessonHeader
                 }
-                lessonsLength={props.everythingSyllabus.maxReactWorkLeft.length}
+                lessonsLength={
+                  props.everythingSyllabus.syllabusData.maxReactWorkLeft.length
+                }
               />
             ) : null}
           </React.Fragment>

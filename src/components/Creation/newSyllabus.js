@@ -58,11 +58,11 @@ class NewSyllabus extends Component {
     //allow deleteSyllabusHandler in RightCockpit to either add or splice to the stored maxReact array
 
     //passing new content choice to displayContent -> RightCockpit
-    this.context.newestSyllabus('3');
+    this.props.newestSyllabus('3');
     //console.log(`after resetting state ${this.state.contentChoice2}`);
   };
 
-  static contextType = TryingOutContext;
+  //static contextType = TryingOutContext;
 
   render() {
     //console.log(JSON.stringify(this.props.maxReactWork, null, 2));
