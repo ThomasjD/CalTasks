@@ -65,13 +65,17 @@ const displayContent = props => {
       displayContent = (
         <React.Fragment>
           <p>tasks has # {props.everythingSyllabus.maxReact.length}</p>
-          <Lessons
-            lessons={props.everythingSyllabus.maxReact}
-            clicked={props.deleteLessonHandler}
-            changed={props.lessonChangeHandler}
-            lastLessonHeader={props.everythingSyllabus.lastLessonHeader}
-            lessonsLength={props.everythingSyllabus.maxReact.length}
-          />
+          {props.everythingSyllabus.syllabusData ? (
+            <Lessons
+              lessons={props.everythingSyllabus.syllabusData.maxReact}
+              clicked={props.deleteLessonHandler}
+              changed={props.lessonChangeHandler}
+              lastLessonHeader={
+                props.everythingSyllabus.syllabusData.lastLessonHeader
+              }
+              lessonsLength={props.everythingSyllabus.maxReact.length}
+            />
+          ) : null}
         </React.Fragment>
       );
       break;
@@ -90,22 +94,45 @@ const displayContent = props => {
       );
       break;
     //showLeftOverLessonsFromSyllabus: for Table Header (add/delete this lesson message)
+
     case '6':
-      displayContent = (
-        <React.Fragment>
-          <NewSyllabus newestSyllabus={props.newestSyllabus} />
-          <Lessons
-            showLeftOverLessonsFromOrigSyllabus={
-              props.everythingSyllabus.showLeftOverLessonsFromOrigSyllabus
-            }
-            lessons={props.everythingSyllabus.maxReactWorkLeft}
-            clicked={props.addLessonFromOriginalSyllabusHandler}
-            changed={props.leftOverLessonChangeHandler}
-            lastLessonHeader={props.everythingSyllabus.lastLessonHeader}
-            lessonsLength={props.everythingSyllabus.maxReact.length}
-          />
-        </React.Fragment>
-      );
+      // while (!props.everythingSyllabus.syllabusData) {
+      //   console.log('still waiting');
+      //}
+      // function waitTillTrue() {
+      //   if (props.everythingSyllabus.syllabusData) {
+      //     console.log(props.everythingSyllabus.syllabusData.lastLessonHeader);
+      //   } else {
+      //     setTimeout(waitTillTrue, 900);
+      //   }
+      // }
+
+      if (props.everythingSyllabus.syllabusData) {
+        console.log(props.everythingSyllabus.syllabusData.lastLessonHeader);
+
+        displayContent = (
+          <React.Fragment>
+            <NewSyllabus newestSyllabus={props.newestSyllabus} />
+            {!props.everythingSyllabus.showLeftOverLessonsFromSyllabus ? (
+              <Lessons
+                showLeftOverLessonsFromOrigSyllabus={
+                  props.everythingSyllabus.syllabusData
+                    .showLeftOverLessonsFromSyllabus
+                }
+                lessons={props.everythingSyllabus.maxReactWorkLeft}
+                clicked={event =>
+                  props.addLessonFromOriginalSyllabusHandler(event)
+                }
+                changed={props.leftOverLessonChangeHandler}
+                lastLessonHeader={
+                  props.everythingSyllabus.syllabusData.lastLessonHeader
+                }
+                lessonsLength={props.everythingSyllabus.maxReactWorkLeft.length}
+              />
+            ) : null}
+          </React.Fragment>
+        );
+      }
       break;
   }
 

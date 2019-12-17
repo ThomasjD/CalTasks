@@ -106,12 +106,15 @@ class RightCockpit extends Component {
 */
 
   contentViewHandler = event => {
+    //let newViewChoice = '0';
+
     let newViewChoice = event.target.value;
+    this.setState({ contentChoice: newViewChoice });
 
     //Comparing new contentChoice with previous contentChoice
     //if newContentChoice === oldContentChoice
     //turn off the view
-    this.setState({ contentChoice: newViewChoice });
+
     if (newViewChoice === this.state.contentChoice) {
       return this.setState({ contentChoice: '0' });
     } else {
@@ -136,12 +139,24 @@ class RightCockpit extends Component {
 
         case '3': //Syllabus
           //reaching out to SyllabusData
-          this.props.lastLessonHeaderHandler();
+
+          //this.props.lastLessonHeaderHandler();
+
+          this.props.sendSyllabusDataHandler('1');
+
+          //changeSyllabus codes
+          // #1: lastLessonHeaderHandler()
+
           break;
 
         case '6': //Adding Lessons from Syllabus
           //syllabusData
-          this.props.showLeftOverLessonsFromSyllabus();
+          this.props.sendSyllabusDataHandler('6');
+          //this.props.showLeftOverLessonsFromSyllabus();
+          break;
+        case '7':
+          console.log('Inside case 7');
+
           break;
       }
     }
@@ -357,8 +372,17 @@ class RightCockpit extends Component {
     this.setState({ showData3: true });
   };
 
+  waitForLessonHeader = () => {
+    console.log('hi');
+  };
+  //static usually used in getDerivedStateFromProps
   static contextType = ShowAllTasksAfterAddingTask;
   render() {
+    if (this.props.everythingSyllabus.syllabusData) {
+    } else {
+      setTimeout(this.waitForLessonHeader(), 300);
+    }
+
     let viewOptions = null;
     if (this.state.showCockpit == true) {
       viewOptions = (
@@ -408,7 +432,7 @@ class RightCockpit extends Component {
                 todayTaskChangeHandler={this.todayTaskChangeHandler}
                 taskChangeHandler={this.taskChangeHandler}
                 everything={this.state}
-                everythingSyllabus={this.props.syllabusEverything}
+                everythingSyllabus={this.props.everythingSyllabus}
                 lessonChangeHandler={this.props.lessonChangeHandler}
                 leftOverLessonChangeHandler={
                   this.props.leftOverLessonChangeHandler
@@ -418,11 +442,8 @@ class RightCockpit extends Component {
                 deleteLessonHandler={event =>
                   this.props.deleteLessonFromAssignedSyllabusHandler(event)
                 }
-                addLessonFromOriginalSyllabusHandler={(event, taskIndex) =>
-                  this.props.addLessonFromOriginalSyllabusHandler(
-                    event,
-                    taskIndex
-                  )
+                addLessonFromOriginalSyllabusHandler={(event, index) =>
+                  this.props.addLessonFromOriginalSyllabusHandler(event, index)
                 }
               />
             </TryingOutContext.Provider>
@@ -455,29 +476,18 @@ class RightCockpit extends Component {
         viewContent={event => this.contentViewHandler(event)}
       />
     );
-    //need to stringify an object before rendering it
-    //let firechild = JSON.stringify(this.props.syllabusEverything.minReact[0]);
-    //console.log(JSON.stringify(this.props.data.TasksData.word, null, 2));
-    console.log(this.props.syllabusWord);
-    //<p>{JSON.stringify(this.props.data.TasksData.word, null, 2)}</p>
-    let displayData2 = null;
-    if (this.props.showData2 === true) {
-      let displayData2 = <p>{this.props.data2}</p>;
+
+    /*showData2message demonstrate getting data from syllabusData and displaying it on rightcockpit
+    let showData2message = null;
+    if (this.props.syllabusEverything.syllabusData) {
+      showData2message = (
+        <div>{this.props.syllabusEverything.syllabusData.showData2}</div>
+      );
     }
-    console.log(this.props.data2);
-    console.log(`this is this.props.syllabusEverything.TasksData`);
+    {showData2message}
+    */
     return (
       <React.Fragment>
-        {this.props.showData2 ? e => this.setState({ showData3: true }) : null}
-        <div>RightCockpit: displayData2 : {this.props.displayWord}!</div>
-
-        <button onClick={e => this.props.dataHandler2(e)}>RightCockpit</button>
-
-        <div>
-          {' '}
-          RightCockpit: (syllabusWord) this is{' '}
-          {this.props.syllabusEverything.TasksData}
-        </div>
         {navbar}
 
         {viewContentOptions}

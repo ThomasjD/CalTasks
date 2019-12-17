@@ -25,12 +25,12 @@ class Lessons extends Component {
   renderAllLessonsTableHeaderHandler() {
     let clickToAddDelete = null;
 
-    this.props.showLeftOverLessonsFromSyllabus
+    this.props.showLeftOverLessonsFromOrigSyllabus
       ? (clickToAddDelete = 'Click to schedule this lesson')
       : (clickToAddDelete = 'Click to Delete Lesson');
 
     let header = Object.keys(this.props.lastLessonHeader);
-
+    //lastLessonHeader;
     return header.map((key, index) => {
       //console.log(`this is the key: (${key}) and the index: (${index})`);
 

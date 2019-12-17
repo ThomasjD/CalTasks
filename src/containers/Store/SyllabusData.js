@@ -56,20 +56,10 @@ class Syllabus extends Component {
     nothing: 'nothing',
     showData2: false
   };
-  syllabusDataHandler = () => {
-    let sendBacKminReact = this.state.minReact;
-    console.log(sendBacKminReact);
-  };
-  lastLessonHeaderHandler = () => {
-    if (this.state.maxReact.length != 0) {
-      this.setState({ lastLessonHeader: this.state.maxReact[0] });
-    } else {
-      this.setState({ lastLessonHeader: this.state.lastLessonHeader });
-    }
-
-    console.log(JSON.stringify(this.state.lastLessonHeader));
-    console.log(this.state.lastLessonHeader);
-  };
+  // syllabusDataHandler = () => {
+  //   let sendBacKminReact = this.state.minReact;
+  //   console.log(sendBacKminReact);
+  // };
 
   assignLessonFromSyllabus = () => {
     this.setState({ showLeftOverLessonsFromSyllabus: true });
@@ -164,10 +154,7 @@ class Syllabus extends Component {
     //final update of lessons
     this.setState({ maxReactWorkLeft: lessons });
   };
-  showLeftOverLessonsFromSyllabus = () => {
-    this.setState({ showLeftOverLessonsFromSyllabus: true });
-    this.lastLessonHeaderHandler();
-  };
+
   TasksDataHandler = word => {
     // console.log(word);
     // let TasksData = word;
@@ -175,17 +162,112 @@ class Syllabus extends Component {
   };
 
   TasksDataHandler2 = () => {
-    let statusShowData2 = this.state.showData2;
-    this.setState({ showData2: !statusShowData2, showData3: true });
+    this.setState(
+      {
+        showData2:
+          'Hey so TaskDataHandler2 got called bec of handlerchoice passed in from RightCockpit -> Store -> SyllabusData'
+      },
+      () => {
+        this.props.receiveSyllabusDataHandler(this.state);
+      }
+    );
+  };
+
+  lastLessonHeaderHandler = () => {
+    switch (this.props.syllabusHandlerChoice) {
+      case '1':
+        if (this.state.maxReact.length != 0) {
+          this.setState(
+            { lastLessonHeader: this.state.maxReact[0] },
+
+            () => {
+              this.props.receiveSyllabusDataHandler(this.state);
+            }
+          );
+        } else {
+          this.setState(
+            { lastLessonHeader: this.state.lastLessonHeader },
+
+            () => {
+              this.props.receiveSyllabusDataHandler(this.state);
+            }
+          );
+        }
+
+        break;
+      case '6':
+        if (this.state.maxReactWorkLeft.length != 0) {
+          this.setState(
+            {
+              lastLessonHeader: this.state.maxReactWorkLeft[0]
+            },
+
+            () => {
+              this.props.receiveSyllabusDataHandler(this.state);
+            }
+          );
+        } else {
+          this.setState(
+            { lastLessonHeader: this.state.lastLessonHeader },
+
+            () => {
+              this.props.receiveSyllabusDataHandler(this.state);
+            }
+          );
+        }
+        break;
+    }
+  };
+
+  showLeftOverLessonsFromSyllabusHandler = () => {
+    // this.setState(
+    //   { showLeftOverLessonsFromSyllabus: true },
+    //   () => this.lastLessonHeaderHandler(),
+    //   () => {
+    //     this.props.receiveSyllabusDataHandler(this.state);
+    //   }
+    // );
+    // this.lastLessonHeaderHandler();
+    // if(this.state.)
+    // this.props.receiveSyllabusDataHandler(this.state);
   };
 
   render() {
-    let displayWord = null;
+    switch (this.props.syllabusHandlerChoice) {
+      case '1':
+        this.lastLessonHeaderHandler();
+        break;
+      case '6':
+        this.setState(
+          {
+            showLeftOverLessonsFromSyllabus: true
+          },
 
-    if (this.state.showData3 === true) {
-      displayWord = <p>{this.state.TasksData}</p>;
+          () => this.lastLessonHeaderHandler()
+        );
+
+        break;
+
+      case '7':
+        this.setState(
+          {
+            newMessage: 'word up'
+          },
+          this.props.sendSyllabusDataHandler('1')
+        );
+        let index = this.props.index;
+        //this.addLessonFromOriginalSyllabusHandler(index);
+        this.props.resetSyllabusHandlerChoice(
+          index => this.addLessonFromOriginalSyllabusHandler(index),
+          this.props.receiveSyllabusDataHandler(this.state)
+        );
+        break;
     }
 
+    return <div>I'm inside of SyllabusData </div>;
+  }
+}
+/*
     return (
       <div>
         <TasksData
@@ -230,5 +312,6 @@ class Syllabus extends Component {
     );
   }
 }
+*/
 
 export default Syllabus;

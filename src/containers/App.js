@@ -42,7 +42,7 @@ class App extends Component {
   render() {
     return (
       <WithClass passClass={rocky.App}>
-        <SyllabusData />
+        <Store />
       </WithClass>
     );
   }

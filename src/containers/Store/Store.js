@@ -52,24 +52,23 @@ class Store extends Component {
     lastLessonHeader: [],
     crunk: 'Hootie and teh blowfish',
     showLeftOverLessonsFromSyllabus: false,
-    TasksData: 'd',
-    nothing: 'nothing',
-    showData2: false
+    syllabusData: null,
+    syllabusHandlerChoice: '0'
   };
   syllabusDataHandler = () => {
     let sendBacKminReact = this.state.minReact;
     console.log(sendBacKminReact);
   };
-  lastLessonHeaderHandler = () => {
-    if (this.state.maxReact.length != 0) {
-      this.setState({ lastLessonHeader: this.state.maxReact[0] });
-    } else {
-      this.setState({ lastLessonHeader: this.state.lastLessonHeader });
-    }
+  // lastLessonHeaderHandler = () => {
+  //   if (this.state.maxReact.length != 0) {
+  //     this.setState({ lastLessonHeader: this.state.maxReact[0] });
+  //   } else {
+  //     this.setState({ lastLessonHeader: this.state.lastLessonHeader });
+  //   }
 
-    console.log(JSON.stringify(this.state.lastLessonHeader));
-    console.log(this.state.lastLessonHeader);
-  };
+  //   console.log(JSON.stringify(this.state.lastLessonHeader));
+  //   console.log(this.state.lastLessonHeader);
+  // };
 
   assignLessonFromSyllabus = () => {
     this.setState({ showLeftOverLessonsFromSyllabus: true });
@@ -168,43 +167,101 @@ class Store extends Component {
     this.setState({ showLeftOverLessonsFromSyllabus: true });
     this.lastLessonHeaderHandler();
   };
-  TasksDataHandler = word => {
-    // console.log(word);
-    // let TasksData = word;
-    this.setState({ TasksData: word });
+  // TasksDataHandler = word => {
+  //   // console.log(word);
+  //   // let TasksData = word;
+  //   this.setState({ TasksData: word });
+  // };
+
+  // TasksDataHandler2 = () => {
+  //   let statusShowData2 = this.state.showData2;
+  //   this.setState({ showData2: !statusShowData2, showData3: true });
+  // };
+
+  //Now deals with syllabusData strictly
+  sendSyllabusDataHandler = handlerChoice => {
+    this.setState({ syllabusHandlerChoice: handlerChoice });
+    console.log('Inside of sendSyllabusDataHandler');
   };
 
-  TasksDataHandler2 = () => {
-    let statusShowData2 = this.state.showData2;
-    this.setState({ showData2: !statusShowData2, showData3: true });
+  receiveSyllabusDataHandler = syllabusData => {
+    //this.setState({ syllabusData: syllabusData });
+    let currentSyllabusDataState = { ...this.state.syllabusData };
+
+    currentSyllabusDataState = syllabusData;
+    //this to allow setState to finish inorder for the new syllabusData to show up
+
+    //let currentLastLessonHeader = [...this.state.lastLessonHeader];
+    //currentLastLessonHeader.push;
+    this.setState(
+      {
+        syllabusData: currentSyllabusDataState,
+        syllabusHandlerChoice: '0'
+      },
+      () => {
+        console.log(this.state.syllabusData.lastLessonHeader);
+      }
+    );
+    //console.log(JSON.stringify(this.state.syllabusData[0].showData2));
+  };
+  sendSyllabusDataHandler2 = (event, index) => {
+    let message = { action: 'add', index: index };
+    this.setState({ syllabusHandlerChoice: '7', action: 'add', index: index });
+    console.log('Inside of sendSyllabusDataHandler2');
+  };
+  resetSyllabusHandlerChoice = () => {
+    this.setState({ syllabusHandlerChoice: '0' });
   };
 
   render() {
+    let displayMessage = null;
+    if (this.state.syllabusHandlerChoice === '1') {
+      displayMessage = <div>Hey syllabusHandlerchoice is recorded</div>;
+    }
+    let showData2message;
+
+    /* displayWord --> show you can press button from RightRocket & take data from TasksData and display it on RightPocket
     let displayWord = null;
 
     if (this.state.showData3 === true) {
       displayWord = <p>{this.state.TasksData}</p>;
     }
-
-    return (
-      <div>
-        <TasksData
-          data={this.TasksDataHandler}
-          showData2={this.state.showData2}
-          dataHandler2={this.TasksDataHandler2}
-        ></TasksData>
-        <SyllabusData></SyllabusData>
-
-        <RightCockpit
-          displayWord={displayWord}
+    <RightCockpit
+          displayWord={displayWord} 
           dataHandler2={this.TasksDataHandler2}
           showData2={this.state.showData2}
           showData3={this.state.showData3}
           data2={this.state.TasksData}
           dataHandler={this.TasksDataHandler2}
+    />
+    <TasksData
+          data={this.TasksDataHandler}
+          showData2={this.state.showData2}
+          dataHandler2={this.TasksDataHandler2}
+        ></TasksData>
+
+
+      */
+    //<SyllabusData></SyllabusData>
+
+    //{JSON.stringify(this.state.syllabusData.showData2, null, 2)}
+    return (
+      <div>
+        <SyllabusData
+          resetSyllabusHandlerChoice={this.resetSyllabusHandlerChoice}
+          syllabusHandlerChoice={this.state.syllabusHandlerChoice}
+          receiveSyllabusDataHandler={this.receiveSyllabusDataHandler}
+          sendSyllabusDataHandler={this.sendSyllabusDataHandler}
+          index={this.state.index}
+        ></SyllabusData>
+
+        <RightCockpit
           //Syllabus
-          syllabusEverything={this.state}
-          lastLessonHeaderHandler={event => this.lastLessonHeaderHandler(event)}
+
+          sendSyllabusDataHandler={this.sendSyllabusDataHandler}
+          addLessonFromOriginalSyllabusHandler={(event, index) =>
+            this.sendSyllabusDataHandler2(event, index)
+          }
           assignLessonFromSyllabus={event =>
             this.assignLessonFromSyllabus(event)
           }
@@ -213,9 +270,6 @@ class Store extends Component {
           }
           deleteLessonFromOriginalSyllabusHandler={event =>
             this.deleteLessonFromOriginalSyllabusHandler(event)
-          }
-          addLessonFromOriginalSyllabusHandler={event =>
-            this.addLessonFromOriginalSyllabusHandler(event)
           }
           lessonChangeHandler={(event, taskIndex) =>
             this.lessonChangeHandler(event, taskIndex)
@@ -227,6 +281,7 @@ class Store extends Component {
             this.leftOverLessonChangeHandler(event)
           }
           data={this.state.TasksData}
+          everythingSyllabus={this.state}
         ></RightCockpit>
       </div>
     );
