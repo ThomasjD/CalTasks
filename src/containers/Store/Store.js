@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import RightCockpit from '../RightCockpit/RightCockpit';
 import TasksData from './TasksData';
 import SyllabusData from './SyllabusData';
+import SyllabusContext from '../../context/syllabusContext.js';
 
 class Store extends Component {
   state = {
@@ -167,16 +168,6 @@ class Store extends Component {
     this.setState({ showLeftOverLessonsFromSyllabus: true });
     this.lastLessonHeaderHandler();
   };
-  // TasksDataHandler = word => {
-  //   // console.log(word);
-  //   // let TasksData = word;
-  //   this.setState({ TasksData: word });
-  // };
-
-  // TasksDataHandler2 = () => {
-  //   let statusShowData2 = this.state.showData2;
-  //   this.setState({ showData2: !statusShowData2, showData3: true });
-  // };
 
   //Now deals with syllabusData strictly
   sendSyllabusDataHandler = handlerChoice => {
@@ -213,12 +204,32 @@ class Store extends Component {
     this.setState({ syllabusHandlerChoice: '0' });
   };
 
-  processSyllabusRequestHandler = (event, index, handlerType) => {
+  processSyllabusRequestHandler = (
+    event,
+    syllabusHandlerChoice,
+    infoType,
+    info
+  ) => {
+    console.log(
+      `In processSyllabusRequestHandler event.value => ${event.target.value} `
+    );
+    // console.log(
+    //   `In processSyllabusRequestHandler syllabusHandlerChoice => ${syllabusHandlerChoice} `
+    // );
+    let index = null;
+    let id = null;
+    let value = null;
+    if (infoType === 'index') {
+      index = info;
+    } else {
+      id = info;
+    }
+    //event, index, handlerType
     this.setState({
-      //syllabusMessage: syllabusMessage,
-      handlerType: handlerType,
-      syllabusHandlerChoice: '8',
-      index: index
+      syllabusHandlerChoice: syllabusHandlerChoice,
+      index: index,
+      id: id,
+      value: event.target.value
     });
   };
 
@@ -227,70 +238,83 @@ class Store extends Component {
     if (this.state.syllabusHandlerChoice === '1') {
       displayMessage = <div>Hey syllabusHandlerchoice is recorded</div>;
     }
-    let showData2message;
 
-    /* displayWord --> show you can press button from RightRocket & take data from TasksData and display it on RightPocket
-    let displayWord = null;
-
-    if (this.state.showData3 === true) {
-      displayWord = <p>{this.state.TasksData}</p>;
-    }
-    <RightCockpit
-          displayWord={displayWord} 
-          dataHandler2={this.TasksDataHandler2}
-          showData2={this.state.showData2}
-          showData3={this.state.showData3}
-          data2={this.state.TasksData}
-          dataHandler={this.TasksDataHandler2}
-    />
-    <TasksData
-          data={this.TasksDataHandler}
-          showData2={this.state.showData2}
-          dataHandler2={this.TasksDataHandler2}
-        ></TasksData>
-
-
-      */
-    //<SyllabusData></SyllabusData>
-
-    //{JSON.stringify(this.state.syllabusData.showData2, null, 2)}
     return (
       <div>
-        <SyllabusData
-          resetSyllabusHandlerChoice={this.resetSyllabusHandlerChoice}
-          syllabusHandlerChoice={this.state.syllabusHandlerChoice}
-          receiveSyllabusDataHandler={this.receiveSyllabusDataHandler}
-          sendSyllabusDataHandler={this.sendSyllabusDataHandler}
-          index={this.state.index}
-        ></SyllabusData>
+        <SyllabusContext.Provider
+          value={{
+            processSyllabusRequestHandler: this.processSyllabusRequestHandler,
+            syllabusHandlerChoice: this.state.syllabusHandlerChoice,
+            index: this.state.index,
+            id: this.state.id
+          }}
+        >
+          <SyllabusData
+            value={this.state.value}
+            resetSyllabusHandlerChoice={this.resetSyllabusHandlerChoice}
+            syllabusHandlerChoice={this.state.syllabusHandlerChoice}
+            receiveSyllabusDataHandler={this.receiveSyllabusDataHandler}
+            sendSyllabusDataHandler={this.sendSyllabusDataHandler}
+            index={this.state.index}
+            id={this.state.id}
+          ></SyllabusData>
 
-        <RightCockpit
-          //Syllabus
+          <RightCockpit
+            //Syllabus
 
-          sendSyllabusDataHandler={this.sendSyllabusDataHandler}
-          addLessonFromOriginalSyllabusHandler={(event, index) =>
-            this.sendSyllabusDataHandler2(event, index)
-          }
-          assignLessonFromSyllabus={event =>
-            this.assignLessonFromSyllabus(event)
-          }
-          deleteLessonFromAssignedSyllabusHandler={(
-            event,
-            index,
-            handlerType
-          ) => this.processSyllabusRequestHandler(event, index, handlerType)}
-          lessonChangeHandler={(event, taskIndex) =>
-            this.lessonChangeHandler(event, taskIndex)
-          }
-          showLeftOverLessonsFromSyllabus={event =>
-            this.showLeftOverLessonsFromSyllabus(event)
-          }
-          leftOverLessonChangeHandler={event =>
-            this.leftOverLessonChangeHandler(event)
-          }
-          data={this.state.TasksData}
-          everythingSyllabus={this.state}
-        ></RightCockpit>
+            sendSyllabusDataHandler={this.sendSyllabusDataHandler}
+            addLessonFromOriginalSyllabusHandler={(
+              event,
+              syllabusHandlerChoice,
+              infoType,
+              info
+            ) =>
+              this.sendSyllabusDataHandler2(
+                event,
+                syllabusHandlerChoice,
+                infoType,
+                info
+              )
+            }
+            assignLessonFromSyllabus={event =>
+              this.assignLessonFromSyllabus(event)
+            }
+            deleteLessonFromAssignedSyllabusHandler={(
+              event,
+              syllabusHandlerChoice,
+              infoType,
+              info
+            ) =>
+              this.processSyllabusRequestHandler(
+                event,
+                syllabusHandlerChoice,
+                infoType,
+                info
+              )
+            }
+            lessonChangeHandler={(event, taskIndex) =>
+              this.lessonChangeHandler(event, taskIndex)
+            }
+            showLeftOverLessonsFromSyllabus={event =>
+              this.showLeftOverLessonsFromSyllabus(event)
+            }
+            leftOverLessonChangeHandler={(
+              event,
+              syllabusHandlerChoice,
+              infoType,
+              info
+            ) =>
+              this.processSyllabusRequestHandler(
+                event,
+                syllabusHandlerChoice,
+                infoType,
+                info
+              )
+            }
+            data={this.state.TasksData}
+            everythingSyllabus={this.state}
+          ></RightCockpit>
+        </SyllabusContext.Provider>
       </div>
     );
   }

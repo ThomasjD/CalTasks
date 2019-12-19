@@ -72,10 +72,8 @@ const displayContent = props => {
               </p>
 
               <Lessons
+                everything={props.everything}
                 lessons={props.everythingSyllabus.syllabusData.maxReact}
-                clicked={(event, index, handlerType) =>
-                  props.deleteLessonHandler(event, index, handlerType)
-                }
                 changed={props.lessonChangeHandler}
                 lastLessonHeader={
                   props.everythingSyllabus.syllabusData.lastLessonHeader
@@ -86,6 +84,12 @@ const displayContent = props => {
           ) : null}
         </React.Fragment>
       );
+      /*
+      clicked={(event, index, handlerType) =>
+                  props.deleteLessonHandler(event, index, handlerType)
+                }
+      */
+
       break;
     case '4':
       displayContent = (
@@ -123,15 +127,15 @@ const displayContent = props => {
             {props.everythingSyllabus.syllabusData
               .showLeftOverLessonsFromSyllabus ? (
               <Lessons
+                everything={props.everything}
                 showLeftOverLessonsFromOrigSyllabus={
                   props.everythingSyllabus.syllabusData
                     .showLeftOverLessonsFromSyllabus
                 }
                 lessons={props.everythingSyllabus.syllabusData.maxReactWorkLeft}
-                clicked={(event, index) =>
-                  props.addLessonFromOriginalSyllabusHandler(event, index)
+                changed={(event, handlerType, id) =>
+                  props.leftOverLessonChangeHandler(event, handlerType, id)
                 }
-                changed={props.leftOverLessonChangeHandler}
                 lastLessonHeader={
                   props.everythingSyllabus.syllabusData.lastLessonHeader
                 }
@@ -143,6 +147,12 @@ const displayContent = props => {
           </React.Fragment>
         );
       }
+      /*
+      clicked={(event, index) =>
+                  props.addLessonFromOriginalSyllabusHandler(event, index)
+                }
+
+      */
       break;
   }
 

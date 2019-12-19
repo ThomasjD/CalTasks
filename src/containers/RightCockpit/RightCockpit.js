@@ -13,7 +13,7 @@ import Syllabus from '../../components/Creation/Syllabus';
 import classes2 from './RightCockpit.module.css';
 import DatePickerPicker from './DatePicker.js';
 import ShowAllTasksAfterAddingTask from '../../context/newTask-context';
-import TryingOutContext from '../../context/tryOutContext.js';
+
 import Store from '../Store/Store';
 
 class RightCockpit extends Component {
@@ -427,26 +427,25 @@ class RightCockpit extends Component {
               everything={this.state}
               everythingSyllabus={this.props.everythingSyllabus}
               lessonChangeHandler={this.props.lessonChangeHandler}
-              leftOverLessonChangeHandler={
-                this.props.leftOverLessonChangeHandler
-              }
               newestTask={event => this.newestTaskHandler(event)}
               newestEvent={event => this.newestEventHandler(event)}
-              deleteLessonHandler={(event, index, handlerType) =>
-                this.props.deleteLessonFromAssignedSyllabusHandler(
-                  event,
-                  index,
-                  handlerType
-                )
-              }
-              addLessonFromOriginalSyllabusHandler={(event, index) =>
-                this.props.addLessonFromOriginalSyllabusHandler(event, index)
-              }
             />
           </div>
         </div>
       </div>
     );
+
+    /*
+    leftOverLessonChangeHandler={(event, handlerType, id) =>
+                this.props.leftOverLessonChangeHandler(event, handlerType, id)
+              }
+    deleteLessonHandler={(event, a, b) =>
+                this.props.deleteLessonFromAssignedSyllabusHandler(event, a, b)
+              }
+    addLessonFromOriginalSyllabusHandler={(event, index) =>
+                this.props.addLessonFromOriginalSyllabusHandler(event, index)
+              }
+    */
 
     let navbar = (
       <Navbar2

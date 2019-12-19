@@ -4,6 +4,8 @@ import RightCockpit from '../RightCockpit/RightCockpit';
 import TasksData from './TasksData';
 import Store from './Store';
 import EventsData from './EventsData';
+import SyllabusContext from '../../context/syllabusContext';
+
 class Syllabus extends Component {
   state = {
     maxReact: [
@@ -60,7 +62,7 @@ class Syllabus extends Component {
   //   let sendBacKminReact = this.state.minReact;
   //   console.log(sendBacKminReact);
   // };
-
+  static contextType = SyllabusContext;
   assignLessonFromSyllabus = () => {
     this.setState({ showLeftOverLessonsFromSyllabus: true });
 
@@ -69,16 +71,6 @@ class Syllabus extends Component {
     } else {
       this.setState({ lastLessonHeader: this.state.lastLessonHeader });
     }
-  };
-
-  deleteLessonFromAssignedSyllabusHandler = taskIndex => {
-    alert('Are you sure you want to delete this Lesson? Mate');
-
-    let currentScheduledLessons = [...this.state.maxReact];
-    currentScheduledLessons.splice(taskIndex, 1);
-    this.setState({ maxReact: currentScheduledLessons }, () =>
-      this.props.receiveSyllabusDataHandler(this.state)
-    );
   };
 
   deleteLessonFromOriginalSyllabusHandler = taskIndex => {
@@ -114,48 +106,6 @@ class Syllabus extends Component {
       },
       this.deleteLessonFromOriginalSyllabusHandler(taskIndex)
     );
-  };
-
-  lessonChangeHandler = (event, taskChangeId) => {
-    const foundTaskId = this.state.maxReact.findIndex(currentId => {
-      return currentId.id === taskChangeId;
-    });
-
-    //createnew task item to put into array
-    const updatedLessons = { ...this.state.maxReact[foundTaskId] };
-
-    //using updated values to define the lesson of the particular pulled out lesson
-    updatedLessons.lesson = event.target.value;
-
-    //pull out of states maxReact array
-    const lessons = [...this.state.maxReact];
-
-    //update the new lesson w/ ID of interest from the copy of MaxReact (lessons)
-    lessons[foundTaskId] = updatedLessons;
-
-    //final update of lessons
-    this.setState({ maxReact: lessons });
-  };
-
-  leftOverLessonChangeHandler = (event, taskChangeId) => {
-    const foundTaskId = this.state.maxReactWorkLeft.findIndex(currentId => {
-      return currentId.id === taskChangeId;
-    });
-
-    //createnew task item to put into array
-    const updatedLessons = { ...this.state.maxReactWorkLeft[foundTaskId] };
-
-    //using updated values to define the lesson of the particular pulled out lesson
-    updatedLessons.lesson = event.target.value;
-
-    //pull out of states maxReact array
-    const lessons = [...this.state.maxReactWorkLeft];
-
-    //update the new lesson w/ ID of interest from the copy of MaxReact (lessons)
-    lessons[foundTaskId] = updatedLessons;
-
-    //final update of lessons
-    this.setState({ maxReactWorkLeft: lessons });
   };
 
   TasksDataHandler = word => {
@@ -235,35 +185,130 @@ class Syllabus extends Component {
     // this.props.receiveSyllabusDataHandler(this.state);
   };
 
+  deleteLessonFromAssignedSyllabusHandler = taskIndex => {
+    alert('Are you sure you want to delete this Lesson? Mate');
+
+    let currentScheduledLessons = [...this.state.maxReact];
+    currentScheduledLessons.splice(taskIndex, 1);
+    this.setState({ maxReact: currentScheduledLessons }, () =>
+      this.props.receiveSyllabusDataHandler(this.state)
+    );
+  };
+
+  leftOverLessonChangeHandler = (lessonValue, taskChangeId) => {
+    const foundTaskId = this.state.maxReactWorkLeft.findIndex(currentId => {
+      return currentId.id === taskChangeId;
+    });
+
+    //createnew task item to put into array
+    const updatedLessons = { ...this.state.maxReactWorkLeft[foundTaskId] };
+
+    //using updated values to define the lesson of the particular pulled out lesson
+    updatedLessons.lesson = lessonValue;
+
+    //pull out of states maxReact array
+    const lessons = [...this.state.maxReactWorkLeft];
+
+    //update the new lesson w/ ID of interest from the copy of MaxReact (lessons)
+    lessons[foundTaskId] = updatedLessons;
+
+    //final update of lessons
+    this.setState({ maxReactWorkLeft: lessons }, () =>
+      this.props.receiveSyllabusDataHandler(this.state)
+    );
+  };
+
+  lessonChangeHandler = (lessonValue, taskChangeId) => {
+    console.log('what');
+    console.log(`Inside of lessonChangeHandler id: ${taskChangeId}`);
+
+    //Find the index of the lessons that matches the id sent in
+    const foundTaskIndex = this.state.maxReact.findIndex(currentId => {
+      return currentId.id === taskChangeId;
+    });
+
+    //createnew task item to put into array
+    const updatedLessons = { ...this.state.maxReact[foundTaskIndex] };
+
+    //using updated values to define the lesson of the particular pulled out lesson
+    //updatedLessons.lesson = event.target.value;
+    updatedLessons.lesson = lessonValue;
+
+    //pull out of states maxReact array
+    const lessons = [...this.state.maxReact];
+
+    //update the new lesson w/ ID of interest from the copy of MaxReact (lessons)
+    lessons[foundTaskIndex] = updatedLessons;
+
+    //final update of lessons
+    this.setState({ maxReact: lessons }, () =>
+      this.props.receiveSyllabusDataHandler(this.state)
+    );
+  };
   render() {
+    //syllabusHandlerChoice
     switch (this.props.syllabusHandlerChoice) {
       case '1':
         this.lastLessonHeaderHandler();
         break;
+
+      case '2':
+        break;
+
+      case '3':
+        this.props.resetSyllabusHandlerChoice(
+          this.deleteLessonFromAssignedSyllabusHandler(this.props.index)
+        );
+        break;
+
+      case '4':
+        let id = this.props.id;
+        let newValue = this.props.value;
+        this.props.resetSyllabusHandlerChoice(
+          this.lessonChangeHandler(newValue, id)
+        );
+        break;
+
+      case '5':
+        this.props.resetSyllabusHandlerChoice(
+          this.addLessonFromOriginalSyllabusHandler(this.props.index)
+        );
+        // this.setState(
+        //   {
+        //     showLeftOverLessonsFromSyllabus: true
+        //   },
+        //   this.props.resetSyllabusHandlerChoice(() =>
+        //     this.addLessonFromOriginalSyllabusHandler(index)
+        //   )
+        // );
+        //let deleteIndex = this.props.index;
+
+        //() => this.lastLessonHeaderHandler()
+        break;
+
       case '6':
+        // leftOverLessonChangeHandler;
+        this.lastLessonHeaderHandler();
         this.setState(
           {
             showLeftOverLessonsFromSyllabus: true
           },
-
-          () => this.lastLessonHeaderHandler()
+          this.props.resetSyllabusHandlerChoice(
+            this.leftOverLessonChangeHandler(this.props.value, this.props.id)
+          )
         );
 
         break;
 
       case '7':
-        let index = this.props.index;
+        //let index = this.props.index;
         //this.addLessonFromOriginalSyllabusHandler(index);
         this.props.resetSyllabusHandlerChoice(
-          this.addLessonFromOriginalSyllabusHandler(index)
+          this.addLessonFromOriginalSyllabusHandler(this.props.index)
         );
 
         break;
       case '8':
-        let deleteIndex = this.props.index;
-        this.props.resetSyllabusHandlerChoice(
-          this.deleteLessonFromAssignedSyllabusHandler(deleteIndex)
-        );
     }
 
     return <div>I'm inside of SyllabusData </div>;

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import ErrorBoundary from '../../../ErrorBoundary/ErrorBoundary';
 import student from '../../../../containers/Student.css';
 import Lesson from './Lesson/Lesson';
+import SyllabusContext from '../../../../context/syllabusContext';
 
 class Lessons extends Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class Lessons extends Component {
   state = {
     clickToAddDelete: null
   };
-
+  static contextType = SyllabusContext;
   // shouldComponentUpdate(nextProps, nextState) {
   //   console.log('[maxReact Lessons.js] shouldComponentUpdate');
   //   if (nextProps.lessonsLength !== this.props.lessonsLength) {
@@ -48,20 +49,63 @@ class Lessons extends Component {
   //rendering current lessons
   allLessonssHandler() {
     let handlerType = null;
-    if (this.props.showLeftOverLessonsFromOrigSyllabus) {
-      handlerType = 'add';
-    } else {
-      handlerType = 'delete';
+
+    switch (this.props.everything.contentChoice) {
+      case '3':
+        break;
+      case '6':
+        this.props.showLeftOverLessonsFromOrigSyllabus
+          ? (handlerType = 'add')
+          : (handlerType = 'delete');
+
+        break;
     }
+    /*
+        event, syllabusHandlerChoice, infoType, info
+        contentChoice, from props
+        taskHandler (can add it)
+              1. add
+              2. delete
+              3. change*
+        info: index/id
+        */
+    //
     return this.props.lessons.map((lesson, index) => {
+      let functionChoiceDelete = null;
+      let functionChoiceChange = null;
+
+      if (this.props.everything.contentChoice === '3') {
+        functionChoiceDelete = '3';
+        functionChoiceChange = '4';
+      } else {
+        functionChoiceDelete = '5';
+        functionChoiceChange = '6';
+      }
+
       return (
         <ErrorBoundary key={lesson.id}>
           <Lesson
             lesson={lesson.lesson}
             completion={lesson.completion}
             particularKey={lesson.id}
-            click={event => this.props.clicked(event, index, handlerType)}
-            changed={event => this.props.changed(event, lesson.id)}
+            click={event =>
+              this.context.processSyllabusRequestHandler(
+                event,
+                functionChoiceDelete,
+                'index',
+                index
+              )
+            }
+            //changed={event => this.props.changed(event, handlerType, lesson.id)}
+
+            changed={event =>
+              this.context.processSyllabusRequestHandler(
+                event,
+                functionChoiceChange,
+                'id',
+                lesson.id
+              )
+            }
           ></Lesson>
         </ErrorBoundary>
       );
@@ -92,6 +136,7 @@ class Lessons extends Component {
     return (
       <div>
         <h1 id="title"> Syllabus</h1>
+        <p> contentChoice: {this.props.everything.contentChoice}</p>
         <table id="students">
           <tbody>
             <tr>{this.renderAllLessonsTableHeaderHandler()}</tr>
