@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ShowAllTasksAfterAddingTask from '../../context/newTask-context';
+import ShowAllTasksAfterAddingTask from '../../context/tasksContext';
 import RightCockpit from '../../containers/RightCockpit/RightCockpit';
 import DisplayContent from '../Cockpit/displayContent';
 import TryingOutContext from '../../context/syllabusContext';

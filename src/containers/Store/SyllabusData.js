@@ -52,7 +52,8 @@ class Syllabus extends Component {
       }
     ],
     lastLessonHeader: [],
-    crunk: 'Hootie and teh blowfish',
+    realNum: 9,
+    crunk: 'Hootie',
     showLeftOverLessonsFromSyllabus: false,
     TasksData: 'd',
     nothing: 'nothing',

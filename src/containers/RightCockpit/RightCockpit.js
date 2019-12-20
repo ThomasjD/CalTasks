@@ -12,8 +12,8 @@ import DisplayContent from '../../components/Cockpit/displayContent';
 import Syllabus from '../../components/Creation/Syllabus';
 import classes2 from './RightCockpit.module.css';
 import DatePickerPicker from './DatePicker.js';
-import ShowAllTasksAfterAddingTask from '../../context/newTask-context';
-
+import ShowAllTasksAfterAddingTask from '../../context/tasksContext';
+import SyllabusContext from '../../context/syllabusContext';
 import Store from '../Store/Store';
 
 class RightCockpit extends Component {
@@ -63,7 +63,7 @@ class RightCockpit extends Component {
     reRenderTasks: false,
     syllabi: [],
     contentChoiceHandlerTestNum: 7,
-    realNum: 8,
+    realNum: '8',
     showLeftOverLessonsFromSyllabus: false,
     SyllabusDataStructure: {},
     blowfish: 'hootie'
@@ -106,8 +106,6 @@ class RightCockpit extends Component {
 */
 
   contentViewHandler = event => {
-    //let newViewChoice = '0';
-
     let newViewChoice = event.target.value;
     this.setState({ contentChoice: newViewChoice });
 
@@ -140,12 +138,7 @@ class RightCockpit extends Component {
         case '3': //Syllabus
           //reaching out to SyllabusData
 
-          //this.props.lastLessonHeaderHandler();
-
           this.props.sendSyllabusDataHandler('1');
-
-          //changeSyllabus codes
-          // #1: lastLessonHeaderHandler()
 
           break;
 
@@ -283,64 +276,6 @@ class RightCockpit extends Component {
     this.setState({ Monday: Monday });
   };
 
-  deleteLessonHandler = taskIndex => {
-    //get tasks array
-    const lessons = [...this.state.maxReact];
-    console.log('I am inside deleteLessonHandler');
-
-    alert('Are you sure you want to delete this task?');
-    this.setState({ reRenderTasks: true });
-
-    //adding the lesson from maxReactLeftOverWork -> maxReact
-
-    //getting the current work left from
-    const currentMaxReactLeftOverWork = [...this.state.maxReactWorkLeft];
-    //find the correct index to add to maxReact
-    const addThisLesson = currentMaxReactLeftOverWork[taskIndex];
-    lessons.push(addThisLesson);
-    this.setState({ maxReact: lessons });
-
-    //deleting from currentMaxReactLeftOverWork
-    currentMaxReactLeftOverWork.splice(taskIndex, 1);
-
-    //updating currentMaxReactLeftOverWork after deleting a lesson
-    this.setState({ maxReactWorkLeft: currentMaxReactLeftOverWork });
-    /*
-    !this.state.showLeftOverLessonsFromSyllabus
-      ? lessons.push(addThisLesson)
-      : //splice task of interst
-        lessons.splice(taskIndex, 1);
-    console.log(
-      `this is the adThisLesson I'm sending fro deleteLessonHandler ${addThisLesson}`
-    );
-    */
-    this.addNewLessonHandler(addThisLesson);
-
-    //update new list of tasks to state
-    //this.setState({ maxReact: lessons });
-  };
-
-  // lessonChangeHandler = (event, taskChangeId) => {
-  //   const foundTaskId = this.state.maxReact.findIndex(currentId => {
-  //     return currentId.id === taskChangeId;
-  //   });
-
-  //   //createnew task item to put into array
-  //   const updatedLessons = { ...this.state.maxReact[foundTaskId] };
-
-  //   //using updated values to define the lesson of the particular pulled out lesson
-  //   updatedLessons.lesson = event.target.value;
-
-  //   //pull out of states maxReact array
-  //   const lessons = [...this.state.maxReact];
-
-  //   //update the new lesson w/ ID of interest from the copy of MaxReact (lessons)
-  //   lessons[foundTaskId] = updatedLessons;
-
-  //   //final update of lessons
-  //   this.setState({ maxReact: lessons });
-  // };
-
   newestEventHandler = e => {
     console.log(e);
     // console.log(JSON.stringify(e.target.name, null, 2));
@@ -370,21 +305,10 @@ class RightCockpit extends Component {
     this.contentViewHandler(contentViewObject);
   };
 
-  showData3 = () => {
-    this.setState({ showData3: true });
-  };
-
-  waitForLessonHeader = () => {
-    console.log('hi');
-  };
   //static usually used in getDerivedStateFromProps
   static contextType = ShowAllTasksAfterAddingTask;
+  static contextType = SyllabusContext;
   render() {
-    if (this.props.everythingSyllabus.syllabusData) {
-    } else {
-      setTimeout(this.waitForLessonHeader(), 300);
-    }
-
     let viewOptions = null;
     if (this.state.showCockpit == true) {
       viewOptions = (
@@ -402,13 +326,6 @@ class RightCockpit extends Component {
       );
     }
 
-    // showLeftOverLessonsFromOrigSyllabus={
-    //   this.props.syllabusEverything[
-    //     'showLeftOverLessonsFromSyllabus'
-    //   ]
-    // }
-    //Part of TryingOutContext.Provider
-    //contentChoiceHandler: this.contentChoiceHandler2,
     let displayCockpit = (
       <div className="container">
         <div className="row d-flex d-lg-block">
@@ -434,18 +351,6 @@ class RightCockpit extends Component {
         </div>
       </div>
     );
-
-    /*
-    leftOverLessonChangeHandler={(event, handlerType, id) =>
-                this.props.leftOverLessonChangeHandler(event, handlerType, id)
-              }
-    deleteLessonHandler={(event, a, b) =>
-                this.props.deleteLessonFromAssignedSyllabusHandler(event, a, b)
-              }
-    addLessonFromOriginalSyllabusHandler={(event, index) =>
-                this.props.addLessonFromOriginalSyllabusHandler(event, index)
-              }
-    */
 
     let navbar = (
       <Navbar2
@@ -485,18 +390,3 @@ class RightCockpit extends Component {
 }
 
 export default RightCockpit;
-
-/*
-<TryingOutContext.Provider
-              value={{
-                newestSyllabus: event => {
-                  this.newestSyllabusHandler(event);
-                },
-                addNewLessonHandler: event => {
-                  this.props.addLessonFromOriginalSyllabusHandler(event);
-                }
-              }}
-            >
-
-</TryingOutContext.Provider>
-*/

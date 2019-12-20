@@ -5,7 +5,8 @@ const syllabusContext = React.createContext({
   syllabusHandlerChoice: '0',
   index: '1',
   id: '22',
-  syllabusData: () => {}
+  syllabusData: () => {},
+  everythingSyllabus: ''
 });
 
 export default syllabusContext;

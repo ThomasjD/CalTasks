@@ -10,7 +10,7 @@ import '../components/ViewContent/Tasks/Task/Task';
 import TodayTasks from '../components/ViewContent/TodayTasks/TodayTasks';
 //import MaxReact from '../components/Syllabus/MaxReact'
 import WithClass from '../hoc/WithClass';
-import NewTaskContext from '../context/newTask-context';
+import NewTaskContext from '../context/tasksContext';
 import RightCockpit from './RightCockpit/RightCockpit';
 import DataStructure from './DataStructure';
 

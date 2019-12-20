@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import taskStyle from '../../../Tasks/Task/Task.module.css';
 import Lessons from '../Lessons';
+import SyllabusContext from '../../../../../context/syllabusContext';
 
 // import './Task.css'
 // import Radium from 'radium';
 //import rocky from '../../../containers/App.module.css'
 //import wtf from './SpecialBtn.module.css'
 const Lesson = props => {
+  const syllabusContext = useContext(SyllabusContext);
   // useEffect(() => {
   //   // console.log(`this is the state of alert ${onCallDelete.signalAlert}`);
   //   // if (onCallDelete.signalAlert === 'true') {

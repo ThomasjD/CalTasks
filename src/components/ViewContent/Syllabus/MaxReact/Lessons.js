@@ -33,7 +33,9 @@ class Lessons extends Component {
       clickToAddDelete = 'Click to Delete Lesson';
     }
 
-    let header = Object.keys(this.props.lastLessonHeader);
+    let header = Object.keys(
+      this.context.everythingSyllabus.syllabusData.lastLessonHeader
+    );
     //lastLessonHeader;
     return header.map((key, index) => {
       //console.log(`this is the key: (${key}) and the index: (${index})`);

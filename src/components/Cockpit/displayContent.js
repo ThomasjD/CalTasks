@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, useContext } from 'react';
 import classes from '../../components/Cockpit/Cockpit.module.css';
 import Cockpit from './Cockpit';
 import Cockpit2 from './Cockpit2';
@@ -10,8 +10,11 @@ import ViewContent from './ViewContentOptions';
 import NewTask from '../Creation/newTask';
 import NewEvent from '../Creation/NewEvent';
 import NewSyllabus from '../Creation/newSyllabus';
+import SyllabusContext from '../../context/syllabusContext';
 
-const displayContent = props => {
+const DisplayContent = props => {
+  const syllabusContext = useContext(SyllabusContext);
+
   let displayContent = null;
 
   switch (props.everything.contentChoice) {
@@ -51,7 +54,7 @@ const displayContent = props => {
           <TodayTasks
             reRenderTodayTasks={props.everything.reRenderTodayTasks}
             monday={props.everything.Monday}
-            //clicked={props.deleteTodayTaskhandler}
+            clicked={props.deleteTodayTaskhandler}
             clicked={props.deleteTaskhandler}
             changed={props.todayTaskChangeHandler}
             lastTodayTasksHeader={props.everything.lastTodayTasksHeader}
@@ -64,31 +67,35 @@ const displayContent = props => {
     case '3':
       displayContent = (
         <React.Fragment>
-          {props.everythingSyllabus.syllabusData ? (
+          {syllabusContext.everythingSyllabus.syllabusData ? (
             <div>
               <p>
                 tasks has #{' '}
-                {props.everythingSyllabus.syllabusData.maxReact.length}
+                {
+                  syllabusContext.everythingSyllabus.syllabusData.maxReact
+                    .length
+                }
               </p>
 
               <Lessons
                 everything={props.everything}
-                lessons={props.everythingSyllabus.syllabusData.maxReact}
-                changed={props.lessonChangeHandler}
-                lastLessonHeader={
-                  props.everythingSyllabus.syllabusData.lastLessonHeader
+                lessons={
+                  syllabusContext.everythingSyllabus.syllabusData.maxReact
                 }
-                lessonsLength={props.everythingSyllabus.maxReact.length}
+                lessonsLength={
+                  syllabusContext.everythingSyllabus.syllabusData.maxReact
+                    .length
+                }
               />
             </div>
           ) : null}
         </React.Fragment>
       );
       /*
-      clicked={(event, index, handlerType) =>
-                  props.deleteLessonHandler(event, index, handlerType)
-                }
-      */
+        clicked={(event, index, handlerType) =>
+                    props.deleteLessonHandler(event, index, handlerType)
+                  }
+        */
 
       break;
     case '4':
@@ -108,55 +115,44 @@ const displayContent = props => {
     //showLeftOverLessonsFromSyllabus: for Table Header (add/delete this lesson message)
 
     case '6':
-      // while (!props.everythingSyllabus.syllabusData) {
-      //   console.log('still waiting');
-      //}
-      // function waitTillTrue() {
-      //   if (props.everythingSyllabus.syllabusData) {
-      //     console.log(props.everythingSyllabus.syllabusData.lastLessonHeader);
-      //   } else {
-      //     setTimeout(waitTillTrue, 900);
-      //   }
-      // }
-
-      if (props.everythingSyllabus.syllabusData) {
+      if (syllabusContext.everythingSyllabus.syllabusData) {
         displayContent = (
           <React.Fragment>
             <NewSyllabus newestSyllabus={props.newestSyllabus} />
 
-            {props.everythingSyllabus.syllabusData
+            {syllabusContext.everythingSyllabus.syllabusData
               .showLeftOverLessonsFromSyllabus ? (
               <Lessons
                 everything={props.everything}
-                showLeftOverLessonsFromOrigSyllabus={
-                  props.everythingSyllabus.syllabusData
-                    .showLeftOverLessonsFromSyllabus
+                // showLeftOverLessonsFromOrigSyllabus={
+                //   this.props.everythingSyllabus.syllabusData
+                //     .showLeftOverLessonsFromSyllabus
+                // }
+                lessons={
+                  syllabusContext.everythingSyllabus.syllabusData
+                    .maxReactWorkLeft
                 }
-                lessons={props.everythingSyllabus.syllabusData.maxReactWorkLeft}
-                changed={(event, handlerType, id) =>
-                  props.leftOverLessonChangeHandler(event, handlerType, id)
-                }
+                // changed={(event, handlerType, id) =>
+                //   this.props.leftOverLessonChangeHandler(event, handlerType, id)
+                // }
                 lastLessonHeader={
-                  props.everythingSyllabus.syllabusData.lastLessonHeader
+                  syllabusContext.everythingSyllabus.syllabusData
+                    .lastLessonHeader
                 }
                 lessonsLength={
-                  props.everythingSyllabus.syllabusData.maxReactWorkLeft.length
+                  syllabusContext.everythingSyllabus.syllabusData
+                    .maxReactWorkLeft.length
                 }
               />
             ) : null}
           </React.Fragment>
         );
       }
-      /*
-      clicked={(event, index) =>
-                  props.addLessonFromOriginalSyllabusHandler(event, index)
-                }
 
-      */
       break;
   }
 
   return <div>{displayContent}</div>;
 };
 
-export default displayContent;
+export default DisplayContent;
