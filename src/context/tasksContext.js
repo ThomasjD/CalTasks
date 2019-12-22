@@ -1,10 +1,11 @@
 import React from 'react';
 
 const tasksData = React.createContext({
-  processTasksRequestHandler: () => {},
-  tasksHandlerChoice: '0',
+  dataRequestHandler: () => {},
+  handlerChoice: '0',
   index: '1',
   id: '22',
+  value: '',
   tasksData: ''
 });
 

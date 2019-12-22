@@ -5,6 +5,7 @@ import TasksData from './TasksData';
 import SyllabusData from './SyllabusData';
 import SyllabusContext from '../../context/syllabusContext.js';
 import TasksDataContext from '../../context/tasksContext.js';
+
 class Store extends Component {
   state = {
     lastLessonHeader: [],
@@ -12,7 +13,8 @@ class Store extends Component {
     crunk: 'Hootie',
     showLeftOverLessonsFromSyllabus: false,
     syllabusData: null,
-    syllabusHandlerChoice: '0'
+    syllabusHandlerChoice: '0',
+    tasksData: null
   };
 
   //Now deals with syllabusData strictly
@@ -21,24 +23,33 @@ class Store extends Component {
     console.log('Inside of sendSyllabusDataHandler');
   };
 
-  receiveSyllabusDataHandler = syllabusData => {
-    //this.setState({ syllabusData: syllabusData });
-    let currentSyllabusDataState = { ...this.state.syllabusData };
+  receiveSyllabusDataHandler = dataBase => {
+    switch (dataBase.dataBaseName) {
+      case 'syllabus':
+        this.setState(
+          {
+            syllabusData: dataBase,
+            syllabusHandlerChoice: '0'
+          },
+          () => {
+            console.log(this.state.syllabusData.lastLessonHeader);
+          }
+        );
+        break;
 
-    currentSyllabusDataState = syllabusData;
-    //this to allow setState to finish inorder for the new syllabusData to show up
+      case 'tasks':
+        this.setState(
+          {
+            tasksData: dataBase,
+            tasksHandlerChoice: '0'
+          },
+          () => {
+            console.log(this.state.tasksData.lastLessonHeader);
+          }
+        );
 
-    //let currentLastLessonHeader = [...this.state.lastLessonHeader];
-    //currentLastLessonHeader.push;
-    this.setState(
-      {
-        syllabusData: currentSyllabusDataState,
-        syllabusHandlerChoice: '0'
-      },
-      () => {
-        console.log(this.state.syllabusData.lastLessonHeader);
-      }
-    );
+        break;
+    }
   };
 
   resetSyllabusHandlerChoice = () => {
@@ -72,6 +83,35 @@ class Store extends Component {
     });
   };
 
+  dataRequestHandler = (
+    handlerChoice, //a # to signal type of function that will get called
+    infoType, //string: 'id', 'index', or 'value'
+    info, // string: id, index, or value
+    value
+  ) => {
+    console.log(`In DataRequestHandler event.value => ${event.target.value} `);
+
+    let index = null;
+    let id = null;
+
+    if (infoType === 'index') {
+      index = info;
+    } else {
+      id = info;
+    }
+
+    let dataRequestDetails = {
+      handlerChoice: handlerChoice,
+      index: index,
+      id: id,
+      value: value
+    };
+    //event, index, handlerType
+    this.setState({
+      dataRequestDetails: dataRequestDetails
+    });
+  };
+
   render() {
     let displayMessage = null;
     if (this.state.syllabusHandlerChoice === '1') {
@@ -101,17 +141,14 @@ class Store extends Component {
 
           <TasksDataContext.Provider
             value={{
-              processTasksRequestHandler: () => {},
-              tasksHandlerChoice: '0',
-              index: '1',
-              id: '22',
-              tasksData: ''
+              dataRequestHandler: () => {},
+              dataRequestDetails: this.state.dataRequestDetails
             }}
           >
             <TasksData />
             <RightCockpit
+              //Tasks
               //Syllabus
-
               sendSyllabusDataHandler={this.sendSyllabusDataHandler}
               data={this.state.TasksData}
             ></RightCockpit>

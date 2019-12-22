@@ -8,6 +8,7 @@ import SyllabusContext from '../../context/syllabusContext';
 
 class Syllabus extends Component {
   state = {
+    dataBaseName: 'syllabus',
     maxReact: [
       { id: 'xvlwil', lesson: '90. (for props Changes)', completion: false },
       { id: 'bbbskk', lesson: '91. (for state Changes)', completion: false },
@@ -109,23 +110,23 @@ class Syllabus extends Component {
     );
   };
 
-  TasksDataHandler = word => {
-    // console.log(word);
-    // let TasksData = word;
-    this.setState({ TasksData: word });
-  };
+  // TasksDataHandler = word => {
+  //   // console.log(word);
+  //   // let TasksData = word;
+  //   this.setState({ TasksData: word });
+  // };
 
-  TasksDataHandler2 = () => {
-    this.setState(
-      {
-        showData2:
-          'Hey so TaskDataHandler2 got called bec of handlerchoice passed in from RightCockpit -> Store -> SyllabusData'
-      },
-      () => {
-        this.props.receiveSyllabusDataHandler(this.state);
-      }
-    );
-  };
+  // TasksDataHandler2 = () => {
+  //   this.setState(
+  //     {
+  //       showData2:
+  //         'Hey so TaskDataHandler2 got called bec of handlerchoice passed in from RightCockpit -> Store -> SyllabusData'
+  //     },
+  //     () => {
+  //       this.props.receiveSyllabusDataHandler(this.state);
+  //     }
+  //   );
+  // };
 
   lastLessonHeaderHandler = () => {
     switch (this.props.syllabusHandlerChoice) {

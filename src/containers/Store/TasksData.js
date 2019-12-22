@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 //import classes from '../../components/Cockpit/Cockpit.module.css';
 import RightCockpit from '../RightCockpit/RightCockpit';
-
+import TasksContext from '../../context/tasksContext';
 class TasksData extends Component {
   state = {
-    tasks: [
+    dataBaseName: 'tasks',
+    unAssignedTasksForWeek: [
       {
         id: 'qrwrwq',
         todo: 'Find work',
@@ -61,16 +62,129 @@ class TasksData extends Component {
     ],
     word: 'red'
   };
+  static contextType = TasksContext;
 
-  dataHandler = () => {
-    this.props.data(this.state);
+  lastTaskHeaderHandler = () => {
+    switch (this.props.TasksHandlerChoice) {
+      case '1':
+        if (this.state.maxReact.length != 0) {
+          this.setState(
+            { lastLessonHeader: this.state.maxReact[0] },
+
+            () => {
+              this.props.receiveSyllabusDataHandler(this.state);
+            }
+          );
+        } else {
+          this.setState(
+            { lastLessonHeader: this.state.lastLessonHeader },
+
+            () => {
+              this.props.receiveSyllabusDataHandler(this.state);
+            }
+          );
+        }
+
+        break;
+      case '6':
+        if (this.state.maxReactWorkLeft.length != 0) {
+          this.setState(
+            {
+              lastLessonHeader: this.state.maxReactWorkLeft[0]
+            },
+
+            () => {
+              this.props.receiveSyllabusDataHandler(this.state);
+            }
+          );
+        } else {
+          this.setState(
+            { lastLessonHeader: this.state.lastLessonHeader },
+
+            () => {
+              this.props.receiveSyllabusDataHandler(this.state);
+            }
+          );
+        }
+        break;
+    }
   };
+  //dynamic edit task for Today (Monday)
+  addTaskHandler = e => {
+    console.log('hey I am in addTaskHandler');
+    console.log(e.task);
+    //need to fix this in newTask so that it automaticly picks up the default value of the radio button
+    let location = !e.task.location ? (e.task.location = 'Popblado') : null;
+    console.log(`target location is ${location}`);
+
+    let newestEvent = [...this.state.tasks, e.task];
+    //console.log(newestEvent[0].todo);
+
+    this.setState({ tasks: newestEvent });
+    //this.setState({ showEvents: true });
+  };
+
   render() {
     //this.props.data(this.state.word);
     if (this.props.showData2 === true) {
       this.props.data(this.state.word);
       this.props.dataHandler2();
     }
+
+    switch (this.props.tasksHandlerChoice) {
+      case '1':
+        this.lastTaskHeaderHandler();
+        break;
+
+      case '2':
+        break;
+
+      case '3':
+        this.props.resetTasksHandlerChoice(
+          this.deleteTaskFromAssignedTasksHandler(this.props.index)
+        );
+        break;
+
+      case '4':
+        let id = this.props.id;
+        let newValue = this.props.value;
+        this.props.resetTasksHandlerChoice(
+          this.taskChangeHandler(newValue, id)
+        );
+        break;
+
+      case '5':
+        this.props.resetTasksHandlerChoice(
+          this.assignTaskToDayHandler(this.props.index)
+        );
+
+        break;
+
+      case '6':
+        // leftOverLessonChangeHandler;
+        this.lastTaskHeaderHandler()();
+        this.setState(
+          {
+            showLeftOverTasksFromTotalTasks: true
+          },
+          this.props.resetTasksHandlerChoice(
+            this.leftOverTasksChangeHandler(this.props.value, this.props.id)
+          )
+        );
+
+        break;
+
+      case '7':
+        //let index = this.props.index;
+        //this.addLessonFromOriginalSyllabusHandler(index);
+        this.props.resetTasksHandlerChoice(
+          this.addTaskFromTotalTasksSHandler(this.props.index)
+        );
+
+        break;
+      case '8':
+    }
+
     return (
       <React.Fragment>
         <p> inside of tasksdata</p>

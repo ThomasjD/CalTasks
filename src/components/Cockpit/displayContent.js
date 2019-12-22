@@ -101,7 +101,7 @@ const DisplayContent = props => {
     case '4':
       displayContent = (
         <React.Fragment>
-          <NewTask newestTask={props.newestTask} />
+          <NewTask newestTaskHandler={props.newestTaskHandler} />
         </React.Fragment>
       );
       break;

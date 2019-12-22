@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 //import useForm from 'react-hook-form';
 import { tsPropertySignature } from '@babel/types';
 import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
 import RightCockpit from '../../containers/RightCockpit/RightCockpit';
+import TasksContext from '../../context/tasksContext';
 
 const NewTask = props => {
+  const tasksContext = useContext(TasksContext);
   const [newTask, setNewTask] = useState({
     task: {
       id: '',
@@ -67,7 +69,7 @@ const NewTask = props => {
         location: newTask.task['location']
       }
     });
-    props.newestTask(newTask);
+    //props.newestTask(newTask);
     //reset the state for this component
     setNewTask({
       task: {
@@ -79,6 +81,7 @@ const NewTask = props => {
     });
 
     console.log(`after resetting state ${newTask}`);
+    props.newestTaskHandler('3');
   };
 
   return (

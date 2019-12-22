@@ -14,7 +14,6 @@ import classes2 from './RightCockpit.module.css';
 import DatePickerPicker from './DatePicker.js';
 import ShowAllTasksAfterAddingTask from '../../context/tasksContext';
 import SyllabusContext from '../../context/syllabusContext';
-import Store from '../Store/Store';
 
 class RightCockpit extends Component {
   constructor(props) {
@@ -118,11 +117,12 @@ class RightCockpit extends Component {
     } else {
       switch (newViewChoice) {
         case '1': //All tasks
-          if (this.state.tasks != 0) {
-            this.setState({ lastHeader: this.state.tasks[0] });
-          } else {
-            this.setState({ lastHeader: this.state.lastHeader });
-          }
+          this.props.receiveSyllabusDataHandler('1', null, null, null);
+          // if (this.state.tasks != 0) {
+          //   this.setState({ lastHeader: this.state.tasks[0] });
+          // } else {
+          //   this.setState({ lastHeader: this.state.lastHeader });
+          // }
           break;
 
         case '2': //TodaysTasks
@@ -227,18 +227,15 @@ class RightCockpit extends Component {
   };
 
   //dynamic edit task for Today (Monday)
-  newestTaskHandler = e => {
-    console.log('hey I am in newestTaskhandler');
-    console.log(e.task);
-    //need to fix this in newTask so that it automaticly picks up the default value of the radio button
-    let location = !e.task.location ? (e.task.location = 'Popblado') : null;
-    console.log(`target location is ${location}`);
+  newestTaskHandler = contentChoice => {
+    let newContentChoice = contentChoice;
+    let contentViewObject = {
+      target: {
+        value: newContentChoice
+      }
+    };
 
-    let newestEvent = [...this.state.tasks, e.task];
-    //console.log(newestEvent[0].todo);
-
-    this.setState({ tasks: newestEvent });
-    //this.setState({ showEvents: true });
+    this.contentViewHandler(contentViewObject);
   };
 
   newTaskLocationHandler = event => {
@@ -344,7 +341,7 @@ class RightCockpit extends Component {
               everything={this.state}
               everythingSyllabus={this.props.everythingSyllabus}
               lessonChangeHandler={this.props.lessonChangeHandler}
-              newestTask={event => this.newestTaskHandler(event)}
+              newestTaskHandler={event => this.newestTaskHandler(event)}
               newestEvent={event => this.newestEventHandler(event)}
             />
           </div>
@@ -373,7 +370,7 @@ class RightCockpit extends Component {
 
     let viewContentOptions = (
       <ViewContentOptions
-        viewContent={event => this.contentViewHandler(event)}
+        contentViewHandler={event => this.contentViewHandler(event)}
       />
     );
 
