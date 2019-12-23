@@ -30,7 +30,7 @@ const viewContentOptions = props => {
               name="options"
               id="option1"
               autoComplete="off"
-              onClick={props.viewContent}
+              onClick={props.contentViewHandler}
               value="1"
             />{' '}
             Tasks For Week
@@ -62,7 +62,7 @@ const viewContentOptions = props => {
 
           <label className="btn  dropdown m-2 active">
             <button
-              class="btn btn-success dropdown-toggle"
+              className="btn btn-success dropdown-toggle"
               type="button"
               id="dropdownMenu2"
               data-toggle="dropdown"
@@ -72,9 +72,9 @@ const viewContentOptions = props => {
               Tasks by Day
             </button>
 
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
               <button
-                class="dropdown-item"
+                className="dropdown-item"
                 type="radio"
                 name="options"
                 id="option1"
@@ -86,7 +86,7 @@ const viewContentOptions = props => {
                 Mon
               </button>
               <button
-                class="dropdown-item"
+                className="dropdown-item"
                 type="button"
                 name="options"
                 id="option1"
@@ -98,7 +98,7 @@ const viewContentOptions = props => {
                 Tue
               </button>
               <button
-                class="dropdown-item"
+                className="dropdown-item"
                 type="button"
                 name="options"
                 id="option1"
@@ -110,7 +110,7 @@ const viewContentOptions = props => {
                 Wed
               </button>
               <button
-                class="dropdown-item"
+                className="dropdown-item"
                 type="button"
                 name="options"
                 id="option1"
@@ -122,7 +122,7 @@ const viewContentOptions = props => {
                 Thur
               </button>
               <button
-                class="dropdown-item"
+                className="dropdown-item"
                 type="button"
                 name="options"
                 id="option1"
@@ -134,7 +134,7 @@ const viewContentOptions = props => {
                 Fri
               </button>
               <button
-                class="dropdown-item"
+                className="dropdown-item"
                 type="button"
                 name="options"
                 id="option1"
@@ -146,7 +146,7 @@ const viewContentOptions = props => {
                 Sat
               </button>
               <button
-                class="dropdown-item"
+                className="dropdown-item"
                 type="button"
                 name="options"
                 id="option1"

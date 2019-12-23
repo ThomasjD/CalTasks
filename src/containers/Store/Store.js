@@ -9,12 +9,18 @@ import TasksDataContext from '../../context/tasksContext.js';
 class Store extends Component {
   state = {
     lastLessonHeader: [],
-    realNum: '9',
+
     crunk: 'Hootie',
     showLeftOverLessonsFromSyllabus: false,
     syllabusData: null,
     syllabusHandlerChoice: '0',
-    tasksData: null
+    tasksData: null,
+    dataRequestDetails: {
+      handlerChoice: false,
+      index: null,
+      id: null,
+      value: null
+    }
   };
 
   //Now deals with syllabusData strictly
@@ -89,8 +95,8 @@ class Store extends Component {
     info, // string: id, index, or value
     value
   ) => {
-    console.log(`In DataRequestHandler event.value => ${event.target.value} `);
-
+    //console.log(`In DataRequestHandler event.value => ${event.target.value} `);
+    console.log('Inside dataRequestHandler');
     let index = null;
     let id = null;
 
@@ -109,6 +115,45 @@ class Store extends Component {
     //event, index, handlerType
     this.setState({
       dataRequestDetails: dataRequestDetails
+    });
+  };
+  dataReceiverHandler = dataBase => {
+    switch (dataBase.dataBaseName) {
+      case 'syllabus':
+        this.setState(
+          {
+            syllabusData: dataBase,
+            syllabusHandlerChoice: '0'
+          },
+          () => {
+            console.log(this.state.syllabusData.lastLessonHeader);
+          }
+        );
+        break;
+
+      case 'tasks':
+        this.setState({
+          tasksData: dataBase,
+          dataRequestDetails: {
+            handlerChoice: '0',
+            index: null,
+            id: null,
+            value: null
+          }
+        });
+
+        break;
+    }
+  };
+
+  resetHandlerChoice = () => {
+    this.setState({
+      dataRequestDetails: {
+        handlerChoice: false,
+        index: false,
+        id: false,
+        value: false
+      }
     });
   };
 
@@ -141,16 +186,21 @@ class Store extends Component {
 
           <TasksDataContext.Provider
             value={{
-              dataRequestHandler: () => {},
-              dataRequestDetails: this.state.dataRequestDetails
+              dataRequestHandler: (a, b, c, d) =>
+                this.dataRequestHandler(a, b, c, d),
+              dataRequestDetails: this.state.dataRequestDetails,
+              tasksData: this.state
             }}
           >
-            <TasksData />
+            <TasksData
+              resetHandlerChoice={this.resetHandlerChoice}
+              receiveSyllabusDataHandler={this.receiveSyllabusDataHandler}
+              dataReceiverHandler={this.dataReceiverHandler}
+            />
             <RightCockpit
               //Tasks
               //Syllabus
               sendSyllabusDataHandler={this.sendSyllabusDataHandler}
-              data={this.state.TasksData}
             ></RightCockpit>
           </TasksDataContext.Provider>
         </SyllabusContext.Provider>

@@ -60,27 +60,27 @@ class TasksData extends Component {
       { id: 'afternoon7', timeOfDay: '', task: 'eat lunch' },
       { id: 'evening7', timeOfDay: '', task: 'play ball' }
     ],
-    word: 'red'
+    word: 'red',
+    reRenderTasks: false
   };
-  static contextType = TasksContext;
 
   lastTaskHeaderHandler = () => {
-    switch (this.props.TasksHandlerChoice) {
+    switch (this.context.dataRequestDetails.handlerChoice) {
       case '1':
-        if (this.state.maxReact.length != 0) {
+        if (this.state.unAssignedTasksForWeek.length != 0) {
           this.setState(
-            { lastLessonHeader: this.state.maxReact[0] },
+            { lastTaskHeader: this.state.unAssignedTasksForWeek[0] },
 
             () => {
-              this.props.receiveSyllabusDataHandler(this.state);
+              this.props.dataReceiverHandler(this.state);
             }
           );
         } else {
           this.setState(
-            { lastLessonHeader: this.state.lastLessonHeader },
+            { lastTaskHeader: this.state.lastTaskHeader },
 
             () => {
-              this.props.receiveSyllabusDataHandler(this.state);
+              this.props.dataReceiverHandler(this.state);
             }
           );
         }
@@ -123,20 +123,27 @@ class TasksData extends Component {
     this.setState({ tasks: newestEvent });
     //this.setState({ showEvents: true });
   };
-
+  static contextType = TasksContext;
   render() {
     //this.props.data(this.state.word);
-    if (this.props.showData2 === true) {
-      this.props.data(this.state.word);
-      this.props.dataHandler2();
+    let displayTasksContext = null;
+    // if (this.context.dataRequestDetails == true) {
+    //   console.log('Inside TasksData dataRequestDetails: ');
+    // }
+    // this.context.dataRequestDetails
+    //   ? (displayTasksContext = <div> hello tasksData</div>)
+    //   : null;
+    if (this.context.dataRequestDetails.handlerChoice == true) {
+      displayTasksContext = <div> hello tasksData</div>;
     }
-
-    switch (this.props.tasksHandlerChoice) {
+    switch (this.context.dataRequestDetails.handlerChoice) {
       case '1':
+        console.log('Inside TasksData dataRequestDetails: ');
         this.lastTaskHeaderHandler();
         break;
 
       case '2':
+        console.log('case 2 tasksdata');
         break;
 
       case '3':
@@ -144,50 +151,55 @@ class TasksData extends Component {
           this.deleteTaskFromAssignedTasksHandler(this.props.index)
         );
         break;
-
-      case '4':
-        let id = this.props.id;
-        let newValue = this.props.value;
-        this.props.resetTasksHandlerChoice(
-          this.taskChangeHandler(newValue, id)
-        );
-        break;
-
-      case '5':
-        this.props.resetTasksHandlerChoice(
-          this.assignTaskToDayHandler(this.props.index)
-        );
-
-        break;
-
-      case '6':
-        // leftOverLessonChangeHandler;
-        this.lastTaskHeaderHandler()();
-        this.setState(
-          {
-            showLeftOverTasksFromTotalTasks: true
-          },
-          this.props.resetTasksHandlerChoice(
-            this.leftOverTasksChangeHandler(this.props.value, this.props.id)
-          )
-        );
-
-        break;
-
-      case '7':
-        //let index = this.props.index;
-        //this.addLessonFromOriginalSyllabusHandler(index);
-        this.props.resetTasksHandlerChoice(
-          this.addTaskFromTotalTasksSHandler(this.props.index)
-        );
-
-        break;
-      case '8':
     }
+
+    //   case '4':
+    //     let id = this.props.id;
+    //     let newValue = this.props.value;
+    //     this.props.resetTasksHandlerChoice(
+    //       this.taskChangeHandler(newValue, id)
+    //     );
+    //     break;
+
+    //   case '5':
+    //     this.props.resetTasksHandlerChoice(
+    //       this.assignTaskToDayHandler(this.props.index)
+    //     );
+
+    //     break;
+
+    //   case '6':
+    //     // leftOverLessonChangeHandler;
+    //     this.lastTaskHeaderHandler()();
+    //     this.setState(
+    //       {
+    //         showLeftOverTasksFromTotalTasks: true
+    //       },
+    //       this.props.resetTasksHandlerChoice(
+    //         this.leftOverTasksChangeHandler(this.props.value, this.props.id)
+    //       )
+    //     );
+
+    //     break;
+
+    //   case '7':
+    //     //let index = this.props.index;
+    //     //this.addLessonFromOriginalSyllabusHandler(index);
+    //     this.props.resetTasksHandlerChoice(
+    //       this.addTaskFromTotalTasksSHandler(this.props.index)
+    //     );
+
+    //     break;
+    //   case '8':
+    // }
 
     return (
       <React.Fragment>
-        <p> inside of tasksdata</p>
+        <p> inside of tasksdata component</p>
+
+        {this.context.dataRequestDetails.handlerChoice ? (
+          <div>{this.context.dataRequestDetails.handlerChoice} </div>
+        ) : null}
       </React.Fragment>
     );
   }

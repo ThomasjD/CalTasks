@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import Task from './Task/Task';
 import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary';
 import student from '../../../containers/Student.css';
-
+import TasksContext from '../../../context/tasksContext';
 class Tasks extends PureComponent {
   constructor(props) {
     super(props);
@@ -24,34 +24,39 @@ class Tasks extends PureComponent {
   // }
 
   renderTableHeaderAllTasksHandler() {
-    let header = Object.keys(this.props.lastHeader);
-    return header.map((key, index) => {
-      //console.log(`this is the key: (${key}) and the index: (${index})`);
-      if (key === 'id') {
-        return <th key={index}>Click to Delete</th>;
-      } else {
-        return <th key={index}>{key.toUpperCase()}</th>;
-      }
-    });
+    console.log('Inside Tasks.js');
+    if (this.context.tasksData.tasksData) {
+      let header = Object.keys(this.context.tasksData.tasksData.lastTaskHeader);
+      return header.map((key, index) => {
+        //console.log(`this is the key: (${key}) and the index: (${index})`);
+        if (key === 'id') {
+          return <th key={index}>Click to Delete</th>;
+        } else {
+          return <th key={index}>{key.toUpperCase()}</th>;
+        }
+      });
+    }
   }
 
   allTasksHandler() {
-    return this.props.tasks.map((task, index) => {
-      //destructuring
-      // const { id, name, age, email } = student;
-      return (
-        <ErrorBoundary key={task.id}>
-          <Task
-            todo={task.todo}
-            deadline={task.deadline}
-            location={task.location}
-            particularKey={task.id}
-            click={() => this.props.clicked(index)}
-            changed={event => this.props.changed(event, task.id)}
-          ></Task>
-        </ErrorBoundary>
-      );
-    });
+    return this.context.tasksData.tasksData.unAssignedTasksForWeek.map(
+      (task, index) => {
+        //destructuring
+        // const { id, name, age, email } = student;
+        return (
+          <ErrorBoundary key={task.id}>
+            <Task
+              todo={task.todo}
+              deadline={task.deadline}
+              location={task.location}
+              particularKey={task.id}
+              click={() => this.props.clicked(index)}
+              changed={event => this.props.changed(event, task.id)}
+            ></Task>
+          </ErrorBoundary>
+        );
+      }
+    );
   }
 
   // static getDerivedStateFromProps(props, state) {
@@ -67,7 +72,10 @@ class Tasks extends PureComponent {
   shouldComponentUpdate(nextProps, nextState) {
     console.log('[Tasks] shouldComponentUpdate');
     //comparing if props have changed
-    if (nextProps.tasks !== this.props.tasks) {
+    if (
+      nextProps.unAssignedTasksForWeek !==
+      this.context.tasksData.tasksData.unAssignedTasksForWeek
+    ) {
       return true;
     } else {
       return false;
@@ -91,7 +99,7 @@ class Tasks extends PureComponent {
   componentWillUnmount() {
     console.log('[Tasks.js] componentWillUnmount');
   }
-
+  static contextType = TasksContext;
   render() {
     console.log('[Tasks] rendering...');
 

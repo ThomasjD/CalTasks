@@ -2,11 +2,11 @@ import React from 'react';
 
 const tasksData = React.createContext({
   dataRequestHandler: () => {},
+  tasksData: false,
   handlerChoice: '0',
   index: '1',
   id: '22',
-  value: '',
-  tasksData: ''
+  value: ''
 });
 
 export default tasksData;

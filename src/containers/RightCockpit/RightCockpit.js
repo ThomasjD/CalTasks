@@ -14,6 +14,7 @@ import classes2 from './RightCockpit.module.css';
 import DatePickerPicker from './DatePicker.js';
 import ShowAllTasksAfterAddingTask from '../../context/tasksContext';
 import SyllabusContext from '../../context/syllabusContext';
+import TasksDataContext from '../../context/tasksContext';
 
 class RightCockpit extends Component {
   constructor(props) {
@@ -105,6 +106,7 @@ class RightCockpit extends Component {
 */
 
   contentViewHandler = event => {
+    console.log('inside contentViewer');
     let newViewChoice = event.target.value;
     this.setState({ contentChoice: newViewChoice });
 
@@ -117,12 +119,12 @@ class RightCockpit extends Component {
     } else {
       switch (newViewChoice) {
         case '1': //All tasks
-          this.props.receiveSyllabusDataHandler('1', null, null, null);
-          // if (this.state.tasks != 0) {
-          //   this.setState({ lastHeader: this.state.tasks[0] });
-          // } else {
-          //   this.setState({ lastHeader: this.state.lastHeader });
-          // }
+          this.context.dataRequestHandler('1', '2', '3', '4');
+          if (this.state.tasks != 0) {
+            this.setState({ lastHeader: this.state.tasks[0] });
+          } else {
+            this.setState({ lastHeader: this.state.lastHeader });
+          }
           break;
 
         case '2': //TodaysTasks
@@ -303,8 +305,9 @@ class RightCockpit extends Component {
   };
 
   //static usually used in getDerivedStateFromProps
-  static contextType = ShowAllTasksAfterAddingTask;
-  static contextType = SyllabusContext;
+  //static contextType = ShowAllTasksAfterAddingTask;
+  static contextType = TasksDataContext;
+  // static contextType = SyllabusContext;
   render() {
     let viewOptions = null;
     if (this.state.showCockpit == true) {
@@ -334,6 +337,7 @@ class RightCockpit extends Component {
         <div className="col-lg-8 order-0 float-left">
           <div className="card bg-light m-3 p-3 ">
             <DisplayContent
+              contentViewHandler={event => this.contentViewHandler(event)}
               newestSyllabus={event => this.newestSyllabusHandler(event)}
               deleteTaskhandler={this.deleteTaskhandler}
               todayTaskChangeHandler={this.todayTaskChangeHandler}

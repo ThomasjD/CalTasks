@@ -11,10 +11,11 @@ import NewTask from '../Creation/newTask';
 import NewEvent from '../Creation/NewEvent';
 import NewSyllabus from '../Creation/newSyllabus';
 import SyllabusContext from '../../context/syllabusContext';
+import TasksContext from '../../context/tasksContext';
 
 const DisplayContent = props => {
   const syllabusContext = useContext(SyllabusContext);
-
+  const tasksContext = useContext(TasksContext);
   let displayContent = null;
 
   switch (props.everything.contentChoice) {
@@ -33,16 +34,22 @@ const DisplayContent = props => {
     case '1':
       displayContent = (
         <React.Fragment>
-          <p>tasks has # {props.everything.tasks.length}</p>
-                      
-          <Tasks
-            reRenderTasks={props.everything.reRenderTasks}
-            tasks={props.everything.tasks}
-            clicked={props.deleteTaskhandler}
-            changed={props.taskChangeHandler}
-            lastHeader={props.everything.lastHeader}
-          />
-                    
+          {tasksContext.tasksData.tasksData ? (
+            <div>
+              <p>
+                tasks has # 
+                {tasksContext.tasksData.tasksData.unAssignedTasksForWeek.length}
+              </p>
+              <Tasks
+                reRenderTasks={tasksContext.tasksData.tasksData.reRenderTasks}
+                //tasks={tasksContext.tasksData.tasksData.unAssignedTasksForWeek}
+                clicked={props.deleteTaskhandler}
+                changed={props.taskChangeHandler}
+                lastHeader={tasksContext.lastHeader}
+              />
+            </div>
+          ) : null}
+                                 
         </React.Fragment>
       );
       break;
