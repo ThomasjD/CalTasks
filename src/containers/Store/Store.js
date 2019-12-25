@@ -12,6 +12,7 @@ class Store extends Component {
 
     crunk: 'Hootie',
     showLeftOverLessonsFromSyllabus: false,
+    showLeftOverTasksForWeek: false,
     syllabusData: null,
     syllabusHandlerChoice: '0',
     tasksData: null,
@@ -69,10 +70,6 @@ class Store extends Component {
     infoType,
     info
   ) => {
-    console.log(
-      `In processSyllabusRequestHandler event.value => ${event.target.value} `
-    );
-
     let index = null;
     let id = null;
     let value = null;
@@ -96,10 +93,6 @@ class Store extends Component {
     infoType,
     info
   ) => {
-    // console.log(
-    //   `In processSyllabusRequestHandler event.value => ${event.target.value} `
-    // );
-
     let index = null;
     let id = null;
     //let value = null;
@@ -118,9 +111,6 @@ class Store extends Component {
   };
 
   dataRequestHandler = (event, handlerChoice, infoType, info) => {
-    console.log(event);
-    //console.log(`In DataRequestHandler event.value => ${event.target.value} `);
-    console.log('Inside dataRequestHandler');
     let index = null;
     let id = null;
     let value = '';
@@ -128,11 +118,11 @@ class Store extends Component {
 
     if (infoType === 'index') {
       index = info;
-      value = null;
+      //value = null;
     } else {
       id = info;
-      value = event.target.value;
     }
+    value = event.target.value;
 
     let dataRequestDetails = {
       handlerChoice: handlerChoice,
@@ -147,7 +137,6 @@ class Store extends Component {
   };
 
   dataReceiverHandler = dataBase => {
-    //alert('Inside of dataReceiverHandler');
     switch (dataBase.dataBaseName) {
       case 'syllabus':
         this.setState(
@@ -169,7 +158,7 @@ class Store extends Component {
             handlerChoice: '0',
             index: null,
             id: null,
-            value: null
+            value: ''
           }
         });
         //alert(this.state.crunk);
@@ -181,16 +170,16 @@ class Store extends Component {
     this.setState({
       dataRequestDetails: {
         handlerChoice: '0',
-        index: false,
-        id: false,
-        value: false
+        index: null,
+        id: null,
+        value: ''
       }
     });
   };
 
   render() {
     let displayMessage = null;
-    if (this.state.syllabusHandlerChoice === '1') {
+    if (this.state.syllabusHandlerChoice === '0') {
       displayMessage = <div>Hey syllabusHandlerchoice is recorded</div>;
     }
 
@@ -198,12 +187,15 @@ class Store extends Component {
       <div>
         <SyllabusContext.Provider
           value={{
+            resetHandlerChoice: this.resetHandlerChoice,
             processSyllabusRequestHandler: this.processSyllabusRequestHandler,
             syllabusHandlerChoice: this.state.syllabusHandlerChoice,
             index: this.state.index,
             id: this.state.id,
             everythingSyllabus: this.state,
-            processSyllabusRequestHandler2: this.processSyllabusRequestHandler2
+            processSyllabusRequestHandler2: this.processSyllabusRequestHandler2,
+            dataRequestHandler: this.dataRequestHandler,
+            dataRequestDetails: this.state.dataRequestDetails
           }}
         >
           <SyllabusData
@@ -218,18 +210,17 @@ class Store extends Component {
 
           <TasksDataContext.Provider
             value={{
+              dataReceiverHandler: this.dataReceiverHandler,
               dataRequestHandler: this.dataRequestHandler,
               dataRequestDetails: this.state.dataRequestDetails,
               tasksData: this.state,
-              resetHandlerChoice: this.resetHandlerChoice,
-              receiveSyllabusDataHandler: this.receiveSyllabusDataHandler
+              resetHandlerChoice: this.resetHandlerChoice
             }}
           >
             <TasksData
-              resetHandlerChoice={this.resetHandlerChoice}
-              receiveSyllabusDataHandler={this.receiveSyllabusDataHandler}
-              dataReceiverHandler={this.dataReceiverHandler}
+              showLeftOverTasksForWeek={this.state.showLeftOverTasksForWeek}
               dataRequestDetails={this.state.dataRequestDetails}
+              sendSyllabusDataHandler={this.sendSyllabusDataHandler}
             />
             <RightCockpit
               //Tasks

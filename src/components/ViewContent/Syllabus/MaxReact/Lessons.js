@@ -62,16 +62,7 @@ class Lessons extends Component {
 
         break;
     }
-    /*
-        event, syllabusHandlerChoice, infoType, info
-        contentChoice, from props
-        taskHandler (can add it)
-              1. add
-              2. delete
-              3. change*
-        info: index/id
-        */
-    //
+
     return this.props.lessons.map((lesson, index) => {
       let functionChoiceDelete = null;
       let functionChoiceChange = null;
@@ -91,7 +82,7 @@ class Lessons extends Component {
             completion={lesson.completion}
             particularKey={lesson.id}
             click={event =>
-              this.context.processSyllabusRequestHandler2(
+              this.context.dataRequestHandler(
                 event,
                 functionChoiceDelete,
                 'index',
@@ -101,7 +92,7 @@ class Lessons extends Component {
             //changed={event => this.props.changed(event, handlerType, lesson.id)}
 
             changed={event =>
-              this.context.processSyllabusRequestHandler(
+              this.context.dataRequestHandler(
                 event,
                 functionChoiceChange,
                 'id',

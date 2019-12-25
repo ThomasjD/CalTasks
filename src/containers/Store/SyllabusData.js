@@ -129,7 +129,7 @@ class Syllabus extends Component {
   // };
 
   lastLessonHeaderHandler = () => {
-    switch (this.props.syllabusHandlerChoice) {
+    switch (this.context.dataRequestDetails.handlerChoice) {
       case '1':
         if (this.state.maxReact.length != 0) {
           this.setState(
@@ -222,7 +222,9 @@ class Syllabus extends Component {
 
   lessonChangeHandler = (lessonValue, taskChangeId) => {
     console.log('what');
-    console.log(`Inside of lessonChangeHandler id: ${taskChangeId}`);
+    alert(
+      `Inside of lessonChangeHandler value: ${lessonValue} id: ${taskChangeId}`
+    );
 
     //Find the index of the lessons that matches the id sent in
     const foundTaskIndex = this.state.maxReact.findIndex(currentId => {
@@ -249,7 +251,7 @@ class Syllabus extends Component {
   };
   render() {
     //syllabusHandlerChoice
-    switch (this.props.syllabusHandlerChoice) {
+    switch (this.context.dataRequestDetails.handlerChoice) {
       case '1':
         this.lastLessonHeaderHandler();
         break;
@@ -264,10 +266,15 @@ class Syllabus extends Component {
         break;
 
       case '4':
-        let id = this.props.id;
-        let newValue = this.props.value;
+        //this.props.resetSyllabusHandlerChoice(
+        alert(
+          `value in dataRequestHandler ${this.context.dataRequestDetails['value']}`
+        );
         this.props.resetSyllabusHandlerChoice(
-          this.lessonChangeHandler(newValue, id)
+          this.lessonChangeHandler(
+            this.context.dataRequestDetails['value'],
+            this.context.dataRequestDetails.id
+          )
         );
         break;
 

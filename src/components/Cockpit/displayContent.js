@@ -42,11 +42,11 @@ const DisplayContent = props => {
               </p>
               <Tasks
                 everything={props.everything}
-                reRenderTasks={tasksContext.tasksData.tasksData.reRenderTasks}
+                //reRenderTasks={tasksContext.tasksData.tasksData.reRenderTasks}
                 //tasks={tasksContext.tasksData.tasksData.unAssignedTasksForWeek}
-                clicked={props.deleteTaskhandler}
-                changed={props.taskChangeHandler}
-                lastHeader={tasksContext.lastHeader}
+                //clicked={props.deleteTaskhandler}
+                //changed={props.taskChangeHandler}
+                //lastHeader={tasksContext.lastHeader}
               />
             </div>
           ) : null}

@@ -68,20 +68,18 @@ class TasksData extends Component {
     switch (this.context.dataRequestDetails.handlerChoice) {
       case '1':
         if (this.state.unAssignedTasksForWeek.length != 0) {
+          //alert(`Inside of lastTaskHeaderHandler if statement:`);
           this.setState(
             { lastTaskHeader: this.state.unAssignedTasksForWeek[0] },
 
-            () => {
-              this.props.dataReceiverHandler(this.state);
-            }
+            () => this.context.dataReceiverHandler(this.state)
           );
         } else {
+          //alert(`Inside of lastTaskHeaderHandler else statement:`);
           this.setState(
             { lastTaskHeader: this.state.lastTaskHeader },
 
-            () => {
-              this.props.dataReceiverHandler(this.state);
-            }
+            () => this.context.dataReceiverHandler(this.state)
           );
         }
 
@@ -111,7 +109,6 @@ class TasksData extends Component {
   };
   //dynamic edit task for Today (Monday)
   addTaskHandler = e => {
-    console.log('hey I am in addTaskHandler');
     console.log(e.task);
     //need to fix this in newTask so that it automaticly picks up the default value of the radio button
     let location = !e.task.location ? (e.task.location = 'Popblado') : null;
@@ -125,29 +122,22 @@ class TasksData extends Component {
   };
 
   deleteTaskFromUnAssignedTasksForWeekHandler = taskIndex => {
-    alert('Are you sure you want to delete this Task? Mate');
+    //alert('Are you sure you want to delete this Task? Mate');
 
     let currentUnassignedTasksForWeek = [...this.state.unAssignedTasksForWeek];
     //alert('Are you sure you want to delete this Task? Mate2');
     currentUnassignedTasksForWeek.splice(taskIndex, 1);
-    //alert(currentUnassignedTasksForWeek);
-    console.log(currentUnassignedTasksForWeek);
+
     this.setState(
       {
         unAssignedTasksForWeek: currentUnassignedTasksForWeek,
         receivedData: 'YES'
       },
-      () => console.log(this.state.unAssignedTasksForWeek),
-      () => this.context.receiveSyllabusDataHandler(this.state)
+      () => this.context.dataReceiverHandler(this.state)
     );
   };
 
   changeTaskFromUnAssignedTasksForWeekHandler = (lessonValue, taskChangeId) => {
-    console.log('what');
-    console.log(
-      `Inside of changeTaskFromUnAssignedTasksForWeekHandler id: ${taskChangeId}`
-    );
-
     //Find the index of the lessons that matches the id sent in
     const foundTaskIndex = this.state.unAssignedTasksForWeek.findIndex(
       currentId => {
@@ -162,7 +152,7 @@ class TasksData extends Component {
 
     //using updated values to define the lesson of the particular pulled out lesson
     //updatedLessons.lesson = event.target.value;
-    updatedLessons.lesson = lessonValue;
+    updatedLessons.todo = lessonValue;
 
     //pull out of states maxReact array
     const lessons = [...this.state.unAssignedTasksForWeek];
@@ -172,7 +162,7 @@ class TasksData extends Component {
 
     //final update of lessons
     this.setState({ unAssignedTasksForWeek: lessons }, () =>
-      this.props.receiveSyllabusDataHandler(this.state)
+      this.context.dataReceiverHandler(this.state)
     );
   };
 
@@ -191,7 +181,6 @@ class TasksData extends Component {
     }
     switch (this.context.dataRequestDetails.handlerChoice) {
       case '1':
-        console.log('Inside TasksData dataRequestDetails: ');
         this.lastTaskHeaderHandler();
         break;
 
@@ -200,13 +189,14 @@ class TasksData extends Component {
         break;
 
       case '3': //delete from contentChoice = #1
-        this.props.resetHandlerChoice(
+        this.context.resetHandlerChoice(
           this.deleteTaskFromUnAssignedTasksForWeekHandler(
             this.props.dataRequestDetails.index
           )
         );
+        break;
       case '4': //change from contentChoice = #1
-        this.props.resetHandlerChoice(
+        this.context.resetHandlerChoice(
           this.changeTaskFromUnAssignedTasksForWeekHandler(
             this.props.dataRequestDetails.value,
             this.props.dataRequestDetails.id

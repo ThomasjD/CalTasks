@@ -9,11 +9,8 @@ class Tasks extends PureComponent {
   }
   state = {
     //lastHeader: this.props.lastHeader
+    showMessageForEventValue: false
   };
-
-  //check to see if there is last header
-  //if its empty then store it
-  //if not empty continue to use it
 
   // setupLastTableHeader() {
   //   if (this.props.tasks != 0) {
@@ -25,6 +22,14 @@ class Tasks extends PureComponent {
 
   renderTableHeaderAllTasksHandler() {
     console.log('Inside Tasks.js');
+    let clickToAddDelete = null;
+
+    if (this.props.showLeftOverTasksForWeek) {
+      clickToAddDelete = 'Click to schedule this task';
+    } else {
+      clickToAddDelete = 'Click to Delete Task';
+    }
+
     if (this.context.tasksData.tasksData) {
       let header = Object.keys(this.context.tasksData.tasksData.lastTaskHeader);
       return header.map((key, index) => {
@@ -37,16 +42,6 @@ class Tasks extends PureComponent {
       });
     }
   }
-
-  dataRequestHandler = (event, message) => {
-    let messageDiv = (
-      <div>
-        <div>event.value is : {event.target.value}</div>
-        <div>message is : {message}</div>
-      </div>
-    );
-    this.setState({ messageDiv: messageDiv });
-  };
 
   allTasksHandler() {
     return this.context.tasksData.tasksData.unAssignedTasksForWeek.map(
@@ -136,14 +131,30 @@ class Tasks extends PureComponent {
   componentWillUnmount() {
     console.log('[Tasks.js] componentWillUnmount');
   }
+
+  dataRequestHandler = (event, a, b, c) => {
+    console.log('[Tasks] rendering...');
+
+    // let currentMessageDiv = this.state.showMessageForEventValue;
+    // this.setState({ showMessageForEventValue: !currentMessageDiv });
+    let currentValue = JSON.stringify(event.target.value, null, 2);
+    this.setState({
+      showMessageForEventValue: true,
+      targetValue: currentValue
+    });
+  };
+
   static contextType = TasksContext;
   render() {
-    console.log('[Tasks] rendering...');
+    let messageDiv = null;
+    if (this.state.showMessageForEventValue === true) {
+      messageDiv = <div>event.value is : {this.state.targetValue}</div>;
+    }
 
     return (
       <div>
         <h1 id="title"> All Tasks</h1>
-        {this.state.messageDiv}
+        {messageDiv}
         <table id="students">
           <tbody>
             <tr>{this.renderTableHeaderAllTasksHandler()}</tr>

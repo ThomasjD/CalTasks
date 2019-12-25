@@ -119,7 +119,7 @@ class RightCockpit extends Component {
     } else {
       switch (newViewChoice) {
         case '1': //All tasks
-          this.context.dataRequestHandler(null, '1', null, null);
+          this.context.dataRequestHandler(event, '1', null, null);
           // if (this.state.tasks != 0) {
           //   this.setState({ lastHeader: this.state.tasks[0] });
           // } else {
@@ -140,7 +140,7 @@ class RightCockpit extends Component {
         case '3': //Syllabus
           //reaching out to SyllabusData
 
-          this.props.sendSyllabusDataHandler('1');
+          this.context.dataRequestHandler(event, '1', null, null);
 
           break;
 
