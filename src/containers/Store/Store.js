@@ -48,10 +48,11 @@ class Store extends Component {
           {
             tasksData: dataBase,
             tasksHandlerChoice: '0'
-          },
-          () => {
-            console.log(this.state.tasksData.lastLessonHeader);
           }
+          // },
+          // //() => {
+          //   console.log(this.state.tasksData.lastTaskHeader);
+          // }
         );
 
         break;
@@ -89,21 +90,48 @@ class Store extends Component {
     });
   };
 
-  dataRequestHandler = (
-    handlerChoice, //a # to signal type of function that will get called
-    infoType, //string: 'id', 'index', or 'value'
-    info, // string: id, index, or value
-    value
+  processSyllabusRequestHandler2 = (
+    event,
+    syllabusHandlerChoice,
+    infoType,
+    info
   ) => {
-    //console.log(`In DataRequestHandler event.value => ${event.target.value} `);
-    console.log('Inside dataRequestHandler');
+    // console.log(
+    //   `In processSyllabusRequestHandler event.value => ${event.target.value} `
+    // );
+
     let index = null;
     let id = null;
-
+    //let value = null;
     if (infoType === 'index') {
       index = info;
     } else {
       id = info;
+    }
+    //event, index, handlerType
+    this.setState({
+      syllabusHandlerChoice: syllabusHandlerChoice,
+      index: index,
+      id: id,
+      value: event.value
+    });
+  };
+
+  dataRequestHandler = (event, handlerChoice, infoType, info) => {
+    console.log(event);
+    //console.log(`In DataRequestHandler event.value => ${event.target.value} `);
+    console.log('Inside dataRequestHandler');
+    let index = null;
+    let id = null;
+    let value = '';
+    //let inspection = event.value;
+
+    if (infoType === 'index') {
+      index = info;
+      value = null;
+    } else {
+      id = info;
+      value = event.target.value;
     }
 
     let dataRequestDetails = {
@@ -117,7 +145,9 @@ class Store extends Component {
       dataRequestDetails: dataRequestDetails
     });
   };
+
   dataReceiverHandler = dataBase => {
+    //alert('Inside of dataReceiverHandler');
     switch (dataBase.dataBaseName) {
       case 'syllabus':
         this.setState(
@@ -132,6 +162,7 @@ class Store extends Component {
         break;
 
       case 'tasks':
+        //alert('Inside of dataReceiverHandler-tasks');
         this.setState({
           tasksData: dataBase,
           dataRequestDetails: {
@@ -141,7 +172,7 @@ class Store extends Component {
             value: null
           }
         });
-
+        //alert(this.state.crunk);
         break;
     }
   };
@@ -149,7 +180,7 @@ class Store extends Component {
   resetHandlerChoice = () => {
     this.setState({
       dataRequestDetails: {
-        handlerChoice: false,
+        handlerChoice: '0',
         index: false,
         id: false,
         value: false
@@ -171,7 +202,8 @@ class Store extends Component {
             syllabusHandlerChoice: this.state.syllabusHandlerChoice,
             index: this.state.index,
             id: this.state.id,
-            everythingSyllabus: this.state
+            everythingSyllabus: this.state,
+            processSyllabusRequestHandler2: this.processSyllabusRequestHandler2
           }}
         >
           <SyllabusData
@@ -186,16 +218,18 @@ class Store extends Component {
 
           <TasksDataContext.Provider
             value={{
-              dataRequestHandler: (a, b, c, d) =>
-                this.dataRequestHandler(a, b, c, d),
+              dataRequestHandler: this.dataRequestHandler,
               dataRequestDetails: this.state.dataRequestDetails,
-              tasksData: this.state
+              tasksData: this.state,
+              resetHandlerChoice: this.resetHandlerChoice,
+              receiveSyllabusDataHandler: this.receiveSyllabusDataHandler
             }}
           >
             <TasksData
               resetHandlerChoice={this.resetHandlerChoice}
               receiveSyllabusDataHandler={this.receiveSyllabusDataHandler}
               dataReceiverHandler={this.dataReceiverHandler}
+              dataRequestDetails={this.state.dataRequestDetails}
             />
             <RightCockpit
               //Tasks

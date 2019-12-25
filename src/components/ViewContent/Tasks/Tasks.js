@@ -38,11 +38,31 @@ class Tasks extends PureComponent {
     }
   }
 
+  dataRequestHandler = (event, message) => {
+    let messageDiv = (
+      <div>
+        <div>event.value is : {event.target.value}</div>
+        <div>message is : {message}</div>
+      </div>
+    );
+    this.setState({ messageDiv: messageDiv });
+  };
+
   allTasksHandler() {
     return this.context.tasksData.tasksData.unAssignedTasksForWeek.map(
       (task, index) => {
+        let functionChoiceDelete = null;
+        let functionChoiceChange = null;
         //destructuring
         // const { id, name, age, email } = student;
+        if (this.props.everything.contentChoice === '1') {
+          functionChoiceDelete = '3';
+          functionChoiceChange = '4';
+        } else {
+          functionChoiceDelete = '5';
+          functionChoiceChange = '6';
+        }
+
         return (
           <ErrorBoundary key={task.id}>
             <Task
@@ -50,14 +70,31 @@ class Tasks extends PureComponent {
               deadline={task.deadline}
               location={task.location}
               particularKey={task.id}
-              click={() => this.props.clicked(index)}
-              changed={event => this.props.changed(event, task.id)}
+              click={event =>
+                this.context.dataRequestHandler(
+                  event,
+                  functionChoiceDelete,
+                  'index',
+                  index
+                )
+              }
+              changed={event =>
+                this.context.dataRequestHandler(
+                  event,
+                  functionChoiceChange,
+                  'id',
+                  task.id
+                )
+              }
             ></Task>
           </ErrorBoundary>
         );
       }
     );
   }
+  //sendChangeRequestHandler = (event, functionChoiceDelete ) => {
+
+  //}
 
   // static getDerivedStateFromProps(props, state) {
   //     console.log('[Tasks] getDerivedStateFromProps')
@@ -106,6 +143,7 @@ class Tasks extends PureComponent {
     return (
       <div>
         <h1 id="title"> All Tasks</h1>
+        {this.state.messageDiv}
         <table id="students">
           <tbody>
             <tr>{this.renderTableHeaderAllTasksHandler()}</tr>

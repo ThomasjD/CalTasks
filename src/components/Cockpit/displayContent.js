@@ -41,6 +41,7 @@ const DisplayContent = props => {
                 {tasksContext.tasksData.tasksData.unAssignedTasksForWeek.length}
               </p>
               <Tasks
+                everything={props.everything}
                 reRenderTasks={tasksContext.tasksData.tasksData.reRenderTasks}
                 //tasks={tasksContext.tasksData.tasksData.unAssignedTasksForWeek}
                 clicked={props.deleteTaskhandler}

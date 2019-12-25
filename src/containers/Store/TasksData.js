@@ -87,25 +87,25 @@ class TasksData extends Component {
 
         break;
       case '6':
-        if (this.state.maxReactWorkLeft.length != 0) {
-          this.setState(
-            {
-              lastLessonHeader: this.state.maxReactWorkLeft[0]
-            },
+        // if (this.state.maxReactWorkLeft.length != 0) {
+        //   this.setState(
+        //     {
+        //       lastLessonHeader: this.state.maxReactWorkLeft[0]
+        //     },
 
-            () => {
-              this.props.receiveSyllabusDataHandler(this.state);
-            }
-          );
-        } else {
-          this.setState(
-            { lastLessonHeader: this.state.lastLessonHeader },
+        //     () => {
+        //       this.props.receiveSyllabusDataHandler(this.state);
+        //     }
+        //   );
+        // } else {
+        //   this.setState(
+        //     { lastLessonHeader: this.state.lastLessonHeader },
 
-            () => {
-              this.props.receiveSyllabusDataHandler(this.state);
-            }
-          );
-        }
+        //     () => {
+        //       this.props.receiveSyllabusDataHandler(this.state);
+        //     }
+        //   );
+        // }
         break;
     }
   };
@@ -123,6 +123,59 @@ class TasksData extends Component {
     this.setState({ tasks: newestEvent });
     //this.setState({ showEvents: true });
   };
+
+  deleteTaskFromUnAssignedTasksForWeekHandler = taskIndex => {
+    alert('Are you sure you want to delete this Task? Mate');
+
+    let currentUnassignedTasksForWeek = [...this.state.unAssignedTasksForWeek];
+    //alert('Are you sure you want to delete this Task? Mate2');
+    currentUnassignedTasksForWeek.splice(taskIndex, 1);
+    //alert(currentUnassignedTasksForWeek);
+    console.log(currentUnassignedTasksForWeek);
+    this.setState(
+      {
+        unAssignedTasksForWeek: currentUnassignedTasksForWeek,
+        receivedData: 'YES'
+      },
+      () => console.log(this.state.unAssignedTasksForWeek),
+      () => this.context.receiveSyllabusDataHandler(this.state)
+    );
+  };
+
+  changeTaskFromUnAssignedTasksForWeekHandler = (lessonValue, taskChangeId) => {
+    console.log('what');
+    console.log(
+      `Inside of changeTaskFromUnAssignedTasksForWeekHandler id: ${taskChangeId}`
+    );
+
+    //Find the index of the lessons that matches the id sent in
+    const foundTaskIndex = this.state.unAssignedTasksForWeek.findIndex(
+      currentId => {
+        return currentId.id === taskChangeId;
+      }
+    );
+
+    //createnew task item to put into array
+    const updatedLessons = {
+      ...this.state.unAssignedTasksForWeek[foundTaskIndex]
+    };
+
+    //using updated values to define the lesson of the particular pulled out lesson
+    //updatedLessons.lesson = event.target.value;
+    updatedLessons.lesson = lessonValue;
+
+    //pull out of states maxReact array
+    const lessons = [...this.state.unAssignedTasksForWeek];
+
+    //update the new lesson w/ ID of interest from the copy of MaxReact (lessons)
+    lessons[foundTaskIndex] = updatedLessons;
+
+    //final update of lessons
+    this.setState({ unAssignedTasksForWeek: lessons }, () =>
+      this.props.receiveSyllabusDataHandler(this.state)
+    );
+  };
+
   static contextType = TasksContext;
   render() {
     //this.props.data(this.state.word);
@@ -146,9 +199,18 @@ class TasksData extends Component {
         console.log('case 2 tasksdata');
         break;
 
-      case '3':
-        this.props.resetTasksHandlerChoice(
-          this.deleteTaskFromAssignedTasksHandler(this.props.index)
+      case '3': //delete from contentChoice = #1
+        this.props.resetHandlerChoice(
+          this.deleteTaskFromUnAssignedTasksForWeekHandler(
+            this.props.dataRequestDetails.index
+          )
+        );
+      case '4': //change from contentChoice = #1
+        this.props.resetHandlerChoice(
+          this.changeTaskFromUnAssignedTasksForWeekHandler(
+            this.props.dataRequestDetails.value,
+            this.props.dataRequestDetails.id
+          )
         );
         break;
     }

@@ -119,12 +119,12 @@ class RightCockpit extends Component {
     } else {
       switch (newViewChoice) {
         case '1': //All tasks
-          this.context.dataRequestHandler('1', '2', '3', '4');
-          if (this.state.tasks != 0) {
-            this.setState({ lastHeader: this.state.tasks[0] });
-          } else {
-            this.setState({ lastHeader: this.state.lastHeader });
-          }
+          this.context.dataRequestHandler(null, '1', null, null);
+          // if (this.state.tasks != 0) {
+          //   this.setState({ lastHeader: this.state.tasks[0] });
+          // } else {
+          //   this.setState({ lastHeader: this.state.lastHeader });
+          // }
           break;
 
         case '2': //TodaysTasks

@@ -91,7 +91,7 @@ class Lessons extends Component {
             completion={lesson.completion}
             particularKey={lesson.id}
             click={event =>
-              this.context.processSyllabusRequestHandler(
+              this.context.processSyllabusRequestHandler2(
                 event,
                 functionChoiceDelete,
                 'index',
