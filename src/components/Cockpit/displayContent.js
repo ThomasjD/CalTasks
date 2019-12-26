@@ -60,6 +60,7 @@ const DisplayContent = props => {
         <React.Fragment>
                       
           <TodayTasks
+            everything={props.everything}
             reRenderTodayTasks={props.everything.reRenderTodayTasks}
             monday={props.everything.Monday}
             clicked={props.deleteTodayTaskhandler}

@@ -84,6 +84,7 @@ class Lessons extends Component {
             click={event =>
               this.context.dataRequestHandler(
                 event,
+                'syllabus',
                 functionChoiceDelete,
                 'index',
                 index
@@ -94,6 +95,7 @@ class Lessons extends Component {
             changed={event =>
               this.context.dataRequestHandler(
                 event,
+                'syllabus',
                 functionChoiceChange,
                 'id',
                 lesson.id

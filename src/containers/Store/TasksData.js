@@ -60,6 +60,7 @@ class TasksData extends Component {
       { id: 'afternoon7', timeOfDay: '', task: 'eat lunch' },
       { id: 'evening7', timeOfDay: '', task: 'play ball' }
     ],
+    TodayTasksHeader: '',
     word: 'red',
     reRenderTasks: false
   };
@@ -84,6 +85,24 @@ class TasksData extends Component {
         }
 
         break;
+
+      case '2':
+        if (this.state.Monday.length != 0) {
+          alert(`Inside of lastTaskHeaderHandler if statement:`);
+          this.setState(
+            { TodayTasksHeader: this.state.Monday[0] },
+
+            () => this.context.dataReceiverHandler(this.state)
+          );
+        } else {
+          alert(`Inside of lastTaskHeaderHandler else statement:`);
+          this.setState(
+            { TodayTasksHeader: this.state.TodayTasksHeader },
+
+            () => this.context.dataReceiverHandler(this.state)
+          );
+        }
+
       case '6':
         // if (this.state.maxReactWorkLeft.length != 0) {
         //   this.setState(
@@ -166,7 +185,50 @@ class TasksData extends Component {
     );
   };
 
+  deleteTodayTaskhandler = taskIndex => {
+    alert('Are you sure you want to delete this task?');
+    this.setState({ reRenderTodayTasks: true });
+
+    //get tasks array
+    const Monday = [...this.state.Monday];
+
+    //splice task of interst
+    Monday.splice(taskIndex, 1);
+
+    //update new list of tasks to state
+    this.setState({ Monday: Monday }, () =>
+      this.context.dataReceiverHandler(this.state)
+    );
+
+    //this.setState({ showTasksCounter: false });
+  };
+
+  todayTaskChangeHandler = (newTaskValue, taskChangedId) => {
+    //find the task that matches the taskChangedId
+    const foundTaskId = this.state.Monday.findIndex(currentId => {
+      return currentId.id === taskChangedId;
+    });
+
+    //create new task item that we will put into array
+    const updatedTask = { ...this.state.Monday[foundTaskId] };
+
+    updatedTask.task = newTaskValue;
+
+    //pull out the states tasks array
+    const Monday = [...this.state.Monday];
+
+    //update the task with id of interest w/ new task description
+    Monday[foundTaskId] = updatedTask;
+
+    //update the state
+    this.setState(
+      { Monday: Monday },
+      this.context.dataReceiverHandler(this.state)
+    );
+  };
+
   static contextType = TasksContext;
+
   render() {
     //this.props.data(this.state.word);
     let displayTasksContext = null;
@@ -179,30 +241,50 @@ class TasksData extends Component {
     if (this.context.dataRequestDetails.handlerChoice == true) {
       displayTasksContext = <div> hello tasksData</div>;
     }
-    switch (this.context.dataRequestDetails.handlerChoice) {
-      case '1':
-        this.lastTaskHeaderHandler();
-        break;
+    if (this.context.dataRequestDetails.typeOfData === 'tasks') {
+      switch (this.context.dataRequestDetails.handlerChoice) {
+        case '1':
+          this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
+          break;
 
-      case '2':
-        console.log('case 2 tasksdata');
-        break;
+        case '2':
+          alert('case 2 tasksdata');
+          //TodayTasksHeader
+          this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
+          break;
 
-      case '3': //delete from contentChoice = #1
-        this.context.resetHandlerChoice(
-          this.deleteTaskFromUnAssignedTasksForWeekHandler(
-            this.props.dataRequestDetails.index
-          )
-        );
-        break;
-      case '4': //change from contentChoice = #1
-        this.context.resetHandlerChoice(
-          this.changeTaskFromUnAssignedTasksForWeekHandler(
-            this.props.dataRequestDetails.value,
-            this.props.dataRequestDetails.id
-          )
-        );
-        break;
+        case '3': //delete from contentChoice = #1
+          this.context.resetHandlerChoice(
+            this.deleteTaskFromUnAssignedTasksForWeekHandler(
+              this.props.dataRequestDetails.index
+            )
+          );
+          break;
+        case '4': //change from contentChoice = #1
+          this.context.resetHandlerChoice(
+            this.changeTaskFromUnAssignedTasksForWeekHandler(
+              this.props.dataRequestDetails.value,
+              this.props.dataRequestDetails.id
+            )
+          );
+          break;
+
+        case '5':
+          this.context.resetHandlerChoice(
+            this.deleteTodayTaskhandler(this.props.dataRequestDetails.index)
+          );
+
+          break;
+        case '6':
+          this.context.resetHandlerChoice(
+            this.todayTaskChangeHandler(
+              this.props.dataRequestDetails.value,
+              this.props.dataRequestDetails.id
+            )
+          );
+
+          break;
+      }
     }
 
     //   case '4':
@@ -211,13 +293,6 @@ class TasksData extends Component {
     //     this.props.resetTasksHandlerChoice(
     //       this.taskChangeHandler(newValue, id)
     //     );
-    //     break;
-
-    //   case '5':
-    //     this.props.resetTasksHandlerChoice(
-    //       this.assignTaskToDayHandler(this.props.index)
-    //     );
-
     //     break;
 
     //   case '6':
@@ -247,9 +322,7 @@ class TasksData extends Component {
 
     return (
       <React.Fragment>
-        <p> inside of tasksdata component</p>
-
-        {this.context.dataRequestDetails.handlerChoice ? (
+        {this.context.dataRequestDetails['handlerChoice'] ? (
           <div>{this.context.dataRequestDetails.handlerChoice} </div>
         ) : null}
       </React.Fragment>

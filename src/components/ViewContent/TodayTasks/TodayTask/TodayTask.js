@@ -10,7 +10,7 @@ const todayTask = props => {
     <React.Fragment>
       <tr key={props.particularKey}>
         <td>
-          <button onClick={props.deleteTodayTask}></button>
+          <button onClick={props.click}></button>
         </td>
         <td>{props.id}</td>
         <td>

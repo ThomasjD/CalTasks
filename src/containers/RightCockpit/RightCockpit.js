@@ -119,7 +119,7 @@ class RightCockpit extends Component {
     } else {
       switch (newViewChoice) {
         case '1': //All tasks
-          this.context.dataRequestHandler(event, '1', null, null);
+          this.context.dataRequestHandler(event, 'tasks', '1', null, null);
           // if (this.state.tasks != 0) {
           //   this.setState({ lastHeader: this.state.tasks[0] });
           // } else {
@@ -128,25 +128,29 @@ class RightCockpit extends Component {
           break;
 
         case '2': //TodaysTasks
-          if (this.state.Monday != 0) {
-            this.setState({ lastTodayTasksHeader: this.state.Monday[0] });
-          } else {
-            this.setState({
-              lastTodayTasksHeader: this.state.lastTodayTasksHeader
-            });
-          }
+          // if (this.state.Monday != 0) {
+          //   this.setState({ lastTodayTasksHeader: this.state.Monday[0] });
+          // } else {
+          //   this.setState({
+          //     lastTodayTasksHeader: this.state.lastTodayTasksHeader
+          //   });
+          // }
+
+          this.context.dataRequestHandler(event, 'tasks', '2', null, null);
+
           break;
 
-        case '3': //Syllabus
+        case '3': //Syllabus (for viewing Syllabus)
           //reaching out to SyllabusData
 
-          this.context.dataRequestHandler(event, '1', null, null);
+          this.context.dataRequestHandler(event, 'syllabus', '1', null, null);
 
           break;
 
         case '6': //Adding Lessons from Syllabus
           //syllabusData
-          this.props.sendSyllabusDataHandler('6');
+          //this.props.sendSyllabusDataHandler('6');
+          this.context.dataRequestHandler(event, 'syllabus', '6', null, null);
           //this.props.showLeftOverLessonsFromSyllabus();
           break;
         case '7':
@@ -189,22 +193,6 @@ class RightCockpit extends Component {
     tasks.splice(taskIndex, 1);
 
     this.setState({ reRenderTasks: true });
-  };
-
-  deleteTodayTaskhandler = taskIndex => {
-    alert('Are you sure you want to delete this task?');
-    this.setState({ reRenderTodayTasks: true });
-
-    //get tasks array
-    const Monday = [...this.state.Monday];
-
-    //splice task of interst
-    Monday.splice(taskIndex, 1);
-
-    //update new list of tasks to state
-    this.setState({ Monday: Monday });
-
-    //this.setState({ showTasksCounter: false });
   };
 
   //dynamic edit task
@@ -252,27 +240,6 @@ class RightCockpit extends Component {
       [name]: value,
       realNum: '1'
     });
-  };
-
-  todayTaskChangeHandler = (event, taskChangedId) => {
-    //find the task that matches the taskChangedId
-    const foundTaskId = this.state.Monday.findIndex(currentId => {
-      return currentId.id === taskChangedId;
-    });
-
-    //create new task item that we will put into array
-    const updatedTask = { ...this.state.Monday[foundTaskId] };
-
-    updatedTask.task = event.target.value;
-
-    //pull out the states tasks array
-    const Monday = [...this.state.Monday];
-
-    //update the task with id of interest w/ new task description
-    Monday[foundTaskId] = updatedTask;
-
-    //update the state
-    this.setState({ Monday: Monday });
   };
 
   newestEventHandler = e => {

@@ -68,6 +68,7 @@ class Tasks extends PureComponent {
               click={event =>
                 this.context.dataRequestHandler(
                   event,
+                  'tasks',
                   functionChoiceDelete,
                   'index',
                   index
@@ -76,6 +77,7 @@ class Tasks extends PureComponent {
               changed={event =>
                 this.context.dataRequestHandler(
                   event,
+                  'tasks',
                   functionChoiceChange,
                   'id',
                   task.id

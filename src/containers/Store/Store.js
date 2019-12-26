@@ -110,7 +110,7 @@ class Store extends Component {
     });
   };
 
-  dataRequestHandler = (event, handlerChoice, infoType, info) => {
+  dataRequestHandler = (event, typeOfData, handlerChoice, infoType, info) => {
     let index = null;
     let id = null;
     let value = '';
@@ -128,7 +128,8 @@ class Store extends Component {
       handlerChoice: handlerChoice,
       index: index,
       id: id,
-      value: value
+      value: value,
+      typeOfData: typeOfData
     };
     //event, index, handlerType
     this.setState({
@@ -139,27 +140,30 @@ class Store extends Component {
   dataReceiverHandler = dataBase => {
     switch (dataBase.dataBaseName) {
       case 'syllabus':
-        this.setState(
-          {
-            syllabusData: dataBase,
-            syllabusHandlerChoice: '0'
-          },
-          () => {
-            console.log(this.state.syllabusData.lastLessonHeader);
-          }
-        );
+        this.setState({
+          syllabusData: dataBase
+
+          // dataRequestDetails: {
+          //   typeOfData: 'reset',
+          //   handlerChoice: '0',
+          //   index: null,
+          //   id: null,
+          //   value: ''
+          // }
+        });
         break;
 
       case 'tasks':
         //alert('Inside of dataReceiverHandler-tasks');
         this.setState({
-          tasksData: dataBase,
-          dataRequestDetails: {
-            handlerChoice: '0',
-            index: null,
-            id: null,
-            value: ''
-          }
+          tasksData: dataBase
+          // dataRequestDetails: {
+          //   typeOfData: 'kickboxer',
+          //   handlerChoice: '0',
+          //   index: null,
+          //   id: null,
+          //   value: ''
+          // }
         });
         //alert(this.state.crunk);
         break;
@@ -170,6 +174,7 @@ class Store extends Component {
     this.setState({
       dataRequestDetails: {
         handlerChoice: '0',
+        typeOfData: '',
         index: null,
         id: null,
         value: ''
@@ -195,7 +200,8 @@ class Store extends Component {
             everythingSyllabus: this.state,
             processSyllabusRequestHandler2: this.processSyllabusRequestHandler2,
             dataRequestHandler: this.dataRequestHandler,
-            dataRequestDetails: this.state.dataRequestDetails
+            dataRequestDetails: this.state.dataRequestDetails,
+            dataReceiverHandler: this.dataReceiverHandler
           }}
         >
           <SyllabusData

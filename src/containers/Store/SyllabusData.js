@@ -35,22 +35,65 @@ class Syllabus extends Component {
         completion: false
       }
     ],
-    minReact: [
+    Monday: [
       {
-        id: 'xvldddwil',
-        lesson: '936670. (for props Changes)',
+        id: 'morning1',
+        lesson:
+          '96. Using shouldComponentUpdate for Optimization (Class-Components)',
         completion: false
       },
       {
-        id: 'bbbnnskk',
-        lesson: '93531. (for state Changes)',
+        id: 'afternoon1',
+        lesson: '97. Optimizing Functional Components with React.memo()',
         completion: false
       },
       {
-        id: 'kjhsdhck2',
-        lesson: '9100. Using useEffect() in Functional Components ',
+        id: 'evening1',
+        lesson: '98. When should you optimize',
         completion: false
       }
+    ],
+    Tuesday: [
+      {
+        id: 'morning2',
+        lesson: '99. PureComponents instead of shouldComponentUpdate',
+        completion: false
+      },
+      {
+        id: 'afternoon2',
+        lesson: '100. How React Updates the DOM',
+        completion: false
+      },
+      {
+        id: 'evening2',
+        lesson: '101. Rendering Adjacent JSX Elements',
+        completion: false
+      }
+    ],
+    Wednesday: [
+      { id: 'morning3', lesson: '', completion: false },
+      { id: 'afternoon3', lesson: '', completion: false },
+      { id: 'evening3', lesson: '', completion: false }
+    ],
+    Thursday: [
+      { id: 'morning4', lesson: '', completion: false },
+      { id: 'afternoon4', lesson: '', completion: false },
+      { id: 'evening4', lesson: '', completion: false }
+    ],
+    Friday: [
+      { id: 'morning5', lesson: '', completion: false },
+      { id: 'afternoon5', lesson: '', completion: false },
+      { id: 'evening5', lesson: '', completion: false }
+    ],
+    Saturday: [
+      { id: 'morning6', lesson: '', completion: false },
+      { id: 'afternoon6', lesson: '', completion: false },
+      { id: 'evening6', lesson: '', completion: false }
+    ],
+    Sunday: [
+      { id: 'morning7', lesson: '', completion: false },
+      { id: 'afternoon7', lesson: '', completion: false },
+      { id: 'evening7', lesson: '', completion: false }
     ],
     lastLessonHeader: [],
     realNum: 9,
@@ -60,10 +103,7 @@ class Syllabus extends Component {
     nothing: 'nothing',
     showData2: false
   };
-  // syllabusDataHandler = () => {
-  //   let sendBacKminReact = this.state.minReact;
-  //   console.log(sendBacKminReact);
-  // };
+
   static contextType = SyllabusContext;
   assignLessonFromSyllabus = () => {
     this.setState({ showLeftOverLessonsFromSyllabus: true });
@@ -110,24 +150,6 @@ class Syllabus extends Component {
     );
   };
 
-  // TasksDataHandler = word => {
-  //   // console.log(word);
-  //   // let TasksData = word;
-  //   this.setState({ TasksData: word });
-  // };
-
-  // TasksDataHandler2 = () => {
-  //   this.setState(
-  //     {
-  //       showData2:
-  //         'Hey so TaskDataHandler2 got called bec of handlerchoice passed in from RightCockpit -> Store -> SyllabusData'
-  //     },
-  //     () => {
-  //       this.props.receiveSyllabusDataHandler(this.state);
-  //     }
-  //   );
-  // };
-
   lastLessonHeaderHandler = () => {
     switch (this.context.dataRequestDetails.handlerChoice) {
       case '1':
@@ -136,7 +158,9 @@ class Syllabus extends Component {
             { lastLessonHeader: this.state.maxReact[0] },
 
             () => {
-              this.props.receiveSyllabusDataHandler(this.state);
+              this.context.resetHandlerChoice(
+                this.context.dataReceiverHandler(this.state)
+              );
             }
           );
         } else {
@@ -144,12 +168,40 @@ class Syllabus extends Component {
             { lastLessonHeader: this.state.lastLessonHeader },
 
             () => {
-              this.props.receiveSyllabusDataHandler(this.state);
+              this.context.resetHandlerChoice(
+                this.context.dataReceiverHandler(this.state)
+              );
             }
           );
         }
 
         break;
+
+      case '2':
+        alert('In case 2 of lastHeader()');
+        if (this.state.Monday.length != 0) {
+          this.setState(
+            { lastLessonHeader: this.state.Monday[0] },
+
+            () => {
+              this.context.resetHandlerChoice(
+                this.context.dataReceiverHandler(this.state)
+              );
+            }
+          );
+        } else {
+          this.setState(
+            { lastLessonHeader: this.state.lastLessonHeader },
+
+            () => {
+              this.context.resetHandlerChoice(
+                this.context.dataReceiverHandler(this.state)
+              );
+            }
+          );
+        }
+        break;
+
       case '6':
         if (this.state.maxReactWorkLeft.length != 0) {
           this.setState(
@@ -158,7 +210,9 @@ class Syllabus extends Component {
             },
 
             () => {
-              this.props.receiveSyllabusDataHandler(this.state);
+              this.context.resetHandlerChoice(
+                this.context.dataReceiverHandler(this.state)
+              );
             }
           );
         } else {
@@ -166,7 +220,9 @@ class Syllabus extends Component {
             { lastLessonHeader: this.state.lastLessonHeader },
 
             () => {
-              this.props.receiveSyllabusDataHandler(this.state);
+              this.context.resetHandlerChoice(
+                this.context.dataReceiverHandler(this.state)
+              );
             }
           );
         }
@@ -188,12 +244,10 @@ class Syllabus extends Component {
   };
 
   deleteLessonFromAssignedSyllabusHandler = taskIndex => {
-    alert('Are you sure you want to delete this Lesson? Mate');
-
     let currentScheduledLessons = [...this.state.maxReact];
     currentScheduledLessons.splice(taskIndex, 1);
     this.setState({ maxReact: currentScheduledLessons }, () =>
-      this.props.receiveSyllabusDataHandler(this.state)
+      this.context.dataReceiverHandler(this.state)
     );
   };
 
@@ -215,17 +269,16 @@ class Syllabus extends Component {
     lessons[foundTaskId] = updatedLessons;
 
     //final update of lessons
-    this.setState({ maxReactWorkLeft: lessons }, () =>
-      this.props.receiveSyllabusDataHandler(this.state)
+    this.setState(
+      { maxReactWorkLeft: lessons, showLeftOverLessonsFromSyllabus: true },
+      () =>
+        this.lastLessonHeaderHandler(
+          this.context.dataReceiverHandler(this.state)
+        )
     );
   };
 
   lessonChangeHandler = (lessonValue, taskChangeId) => {
-    console.log('what');
-    alert(
-      `Inside of lessonChangeHandler value: ${lessonValue} id: ${taskChangeId}`
-    );
-
     //Find the index of the lessons that matches the id sent in
     const foundTaskIndex = this.state.maxReact.findIndex(currentId => {
       return currentId.id === taskChangeId;
@@ -246,128 +299,78 @@ class Syllabus extends Component {
 
     //final update of lessons
     this.setState({ maxReact: lessons }, () =>
-      this.props.receiveSyllabusDataHandler(this.state)
+      this.context.dataReceiverHandler(this.state)
     );
   };
   render() {
     //syllabusHandlerChoice
-    switch (this.context.dataRequestDetails.handlerChoice) {
-      case '1':
-        this.lastLessonHeaderHandler();
-        break;
+    if (this.context.dataRequestDetails.typeOfData === 'syllabus') {
+      switch (this.context.dataRequestDetails.handlerChoice) {
+        case '1':
+          this.lastLessonHeaderHandler();
 
-      case '2':
-        break;
+          break;
 
-      case '3':
-        this.props.resetSyllabusHandlerChoice(
-          this.deleteLessonFromAssignedSyllabusHandler(this.props.index)
-        );
-        break;
+        case '2':
+          this.lastLessonHeaderHandler();
+          break;
 
-      case '4':
-        //this.props.resetSyllabusHandlerChoice(
-        alert(
-          `value in dataRequestHandler ${this.context.dataRequestDetails['value']}`
-        );
-        this.props.resetSyllabusHandlerChoice(
-          this.lessonChangeHandler(
-            this.context.dataRequestDetails['value'],
+        case '3':
+          // alert(
+          //   `case 3 syllabusData for delete index:  ${this.context.dataRequestDetails['index']}`
+          // );
+          this.context.resetHandlerChoice(
+            this.deleteLessonFromAssignedSyllabusHandler(
+              this.context.dataRequestDetails.index
+            )
+          );
+          break;
+
+        case '4':
+          //this.props.resetSyllabusHandlerChoice(
+
+          this.context.resetHandlerChoice(
+            this.lessonChangeHandler(
+              this.context.dataRequestDetails['value'],
+              this.context.dataRequestDetails.id
+            )
+          );
+          break;
+
+        case '5':
+          this.context.resetHandlerChoice(
+            this.addLessonFromOriginalSyllabusHandler(
+              this.context.dataRequestDetails.index
+            )
+          );
+
+          break;
+
+        case '6':
+          // leftOverLessonChangeHandler;
+          //this.context.resetSyllabusHandlerChoice();
+
+          this.leftOverLessonChangeHandler(
+            this.context.dataRequestDetails.value,
             this.context.dataRequestDetails.id
-          )
-        );
-        break;
+          );
 
-      case '5':
-        this.props.resetSyllabusHandlerChoice(
-          this.addLessonFromOriginalSyllabusHandler(this.props.index)
-        );
-        // this.setState(
-        //   {
-        //     showLeftOverLessonsFromSyllabus: true
-        //   },
-        //   this.props.resetSyllabusHandlerChoice(() =>
-        //     this.addLessonFromOriginalSyllabusHandler(index)
-        //   )
-        // );
-        //let deleteIndex = this.props.index;
+          break;
 
-        //() => this.lastLessonHeaderHandler()
-        break;
-
-      case '6':
-        // leftOverLessonChangeHandler;
-        this.lastLessonHeaderHandler();
-        this.setState(
-          {
-            showLeftOverLessonsFromSyllabus: true
-          },
+        case '7':
+          //let index = this.props.index;
+          //this.addLessonFromOriginalSyllabusHandler(index);
           this.props.resetSyllabusHandlerChoice(
-            this.leftOverLessonChangeHandler(this.props.value, this.props.id)
-          )
-        );
+            this.addLessonFromOriginalSyllabusHandler(this.props.index)
+          );
 
-        break;
-
-      case '7':
-        //let index = this.props.index;
-        //this.addLessonFromOriginalSyllabusHandler(index);
-        this.props.resetSyllabusHandlerChoice(
-          this.addLessonFromOriginalSyllabusHandler(this.props.index)
-        );
-
-        break;
-      case '8':
+          break;
+        case '8':
+      }
     }
 
-    return <div>I'm inside of SyllabusData </div>;
+    return null;
   }
 }
-/*
-    return (
-      <div>
-        <TasksData
-          data={this.TasksDataHandler}
-          showData2={this.state.showData2}
-          dataHandler2={this.TasksDataHandler2}
-        ></TasksData>
-
-        <RightCockpit
-          displayWord={displayWord}
-          dataHandler2={this.TasksDataHandler2}
-          showData2={this.state.showData2}
-          showData3={this.state.showData3}
-          data2={this.state.TasksData}
-          syllabusEverything={this.state}
-          dataHandler={this.TasksDataHandler2}
-          lastLessonHeaderHandler={event => this.lastLessonHeaderHandler(event)}
-          assignLessonFromSyllabus={event =>
-            this.assignLessonFromSyllabus(event)
-          }
-          deleteLessonFromAssignedSyllabusHandler={event =>
-            this.deleteLessonFromAssignedSyllabusHandler(event)
-          }
-          deleteLessonFromOriginalSyllabusHandler={event =>
-            this.deleteLessonFromOriginalSyllabusHandler(event)
-          }
-          addLessonFromOriginalSyllabusHandler={event =>
-            this.addLessonFromOriginalSyllabusHandler(event)
-          }
-          lessonChangeHandler={(event, taskIndex) =>
-            this.lessonChangeHandler(event, taskIndex)
-          }
-          showLeftOverLessonsFromSyllabus={event =>
-            this.showLeftOverLessonsFromSyllabus(event)
-          }
-          leftOverLessonChangeHandler={event =>
-            this.leftOverLessonChangeHandler(event)
-          }
-          data={this.state.TasksData}
-        ></RightCockpit>
-      </div>
-    );
-  }
-}
-*/
 
 export default Syllabus;
