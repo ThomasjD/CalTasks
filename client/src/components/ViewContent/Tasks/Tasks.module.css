@@ -1,0 +1,11 @@
+.lightLoad {
+  color: green;
+}
+
+.mediumLoad {
+  color: orange;
+}
+
+.heavyLoad {
+  color: red;
+}

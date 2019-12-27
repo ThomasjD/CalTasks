@@ -1,0 +1,25 @@
+*containers
+  -app (C)
+
+*components
+  *Cockpit
+    -Cockpit (F)
+    -Cockpit2 (F)
+    *Navbar
+      -Navbar ()
+      *NavBar2
+        -Navbar2 (F)
+  *Tasks
+    -Tasks (C)
+    *Task
+      -Task (F)
+
+  *Creation
+    -newTask (F)
+  *TodayTasks
+    -TodayTasks (F)
+    *TodayTask
+      -TodayTask (F)
+
+
+
