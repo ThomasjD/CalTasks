@@ -10,22 +10,28 @@ class TasksData extends Component {
         id: 'qrwrwq',
         scheduleTask: null,
         task: 'Find work',
+
         deadline: 'Lunes',
-        category: 'Poplado'
+        category: 'workout',
+
+        source: ''
+        //Syllabus/syllabusId/syllabusTitle
       },
       {
         id: 'egewhw',
         scheduleTask: null,
         task: 'buy shoes',
         deadline: 'Martes',
-        category: 'Floresta'
+        category: 'programing',
+        source: ''
       },
       {
         id: 'asfasv',
         scheduleTask: null,
         task: 'mail package',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'study',
+        source: ''
       }
     ],
     Monday: [
@@ -34,21 +40,28 @@ class TasksData extends Component {
         timeOfDay: 'morning',
         task: 'comprar comida',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'programing',
+        source: '',
+        assignedTimeStart: '',
+        assignedTimeStop: '',
+        assignedDate: ''
       },
       {
         id: 'afternoon1',
         timeOfDay: 'afternoon',
         task: 'eat lunch',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'workout'
       },
       {
         id: 'evening1',
         timeOfDay: 'evening',
         task: 'play ball',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'errands',
+        assignedTimeStart: '',
+        assignedTimeStop: '',
+        assignedDate: ''
       }
     ],
     Tuesday: [
@@ -57,14 +70,20 @@ class TasksData extends Component {
         timeOfDay: 'morning',
         task: 'comprar comida',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'Laureles',
+        assignedTimeStart: '',
+        assignedTimeStop: '',
+        assignedDate: ''
       },
       {
         id: 'afternoon2',
         timeOfDay: 'afternoon',
         task: 'eat lunch',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'Laureles',
+        assignedTimeStart: '',
+        assignedTimeStop: '',
+        assignedDate: ''
       },
       {
         id: 'evening2',
@@ -80,14 +99,20 @@ class TasksData extends Component {
         timeOfDay: 'morning',
         task: 'comprar comida',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'Laureles',
+        assignedTimeStart: '',
+        assignedTimeStop: '',
+        assignedDate: ''
       },
       {
         id: 'afternoon3',
         timeOfDay: 'afternoon',
         task: 'eat lunch',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'Laureles',
+        assignedTimeStart: '',
+        assignedTimeStop: '',
+        assignedDate: ''
       },
       {
         id: 'evening3',
@@ -103,21 +128,30 @@ class TasksData extends Component {
         timeOfDay: 'morning',
         task: 'comprar comida',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'Laureles',
+        assignedTimeStart: '',
+        assignedTimeStop: '',
+        assignedDate: ''
       },
       {
         id: 'afternoon4',
         timeOfDay: 'afternoon',
         task: 'eat lunch',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'Laureles',
+        assignedTimeStart: '',
+        assignedTimeStop: '',
+        assignedDate: ''
       },
       {
         id: 'evening4',
         timeOfDay: 'evening',
         task: 'play ball',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'Laureles',
+        assignedTimeStart: '',
+        assignedTimeStop: '',
+        assignedDate: ''
       }
     ],
     Friday: [
@@ -126,14 +160,20 @@ class TasksData extends Component {
         timeOfDay: 'morning',
         task: 'comprar comida',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'Laureles',
+        assignedTimeStart: '',
+        assignedTimeStop: '',
+        assignedDate: ''
       },
       {
         id: 'afternoon5',
         timeOfDay: 'afternoon',
         task: 'eat lunch',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'Laureles',
+        assignedTimeStart: '',
+        assignedTimeStop: '',
+        assignedDate: ''
       },
       {
         id: 'evening5',
@@ -149,14 +189,20 @@ class TasksData extends Component {
         timeOfDay: 'morning',
         task: 'comprar comida',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'Laureles',
+        assignedTimeStart: '',
+        assignedTimeStop: '',
+        assignedDate: ''
       },
       {
         id: 'afternoon6',
         timeOfDay: 'afternoon',
         task: 'eat lunch',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'Laureles',
+        assignedTimeStart: '',
+        assignedTimeStop: '',
+        assignedDate: ''
       },
       {
         id: 'evening6',
@@ -172,21 +218,30 @@ class TasksData extends Component {
         timeOfDay: 'morning',
         task: 'comprar comida',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'Laureles',
+        assignedTimeStart: '',
+        assignedTimeStop: '',
+        assignedDate: ''
       },
       {
         id: 'afternoon7',
         timeOfDay: 'afternoon',
         task: 'eat lunch',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'Laureles',
+        assignedTimeStart: '',
+        assignedTimeStop: '',
+        assignedDate: ''
       },
       {
         id: 'evening7',
         timeOfDay: 'evening',
         task: 'play ball',
         deadline: 'Jueves',
-        category: 'Laureles'
+        category: 'Laureles',
+        assignedTimeStart: '',
+        assignedTimeStop: '',
+        assignedDate: ''
       }
     ],
     TodayTasksHeader: '',

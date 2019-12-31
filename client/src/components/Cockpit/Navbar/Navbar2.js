@@ -86,7 +86,6 @@ const Navbar = props => {
               <button
                 className="btn dropdown-toggle"
                 type="button"
-                //data-target="#navbarNav"
                 data-toggle="dropdown"
               >
                 <span className="navbar-toggler-icon"></span>
@@ -135,11 +134,35 @@ const Navbar = props => {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link">
-                  <button onClick={props.clicked} value="3">
+                <div className="dropdown">
+                  <button
+                    className="btn dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                  >
+                    <span className="navbar-toggler-icon"></span>
                     Syllabus
                   </button>
-                </a>
+                  <div className="dropdown-menu">
+                    <button
+                      className="dropdown-item"
+                      onClick={props.clicked}
+                      value="7"
+                    >
+                      Syllabus List
+                    </button>
+
+                    <div className={classes.specialbtnTodayTasks}>
+                      <button
+                        className="dropdown-item"
+                        onClick={props.clicked}
+                        value="3"
+                      >
+                        MaxReact
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </li>
             </ul>
 

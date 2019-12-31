@@ -35,6 +35,88 @@ class Syllabus extends Component {
         completion: false
       }
     ],
+    syllabi: [
+      { name: 'maxReact', id: 'maxreact' },
+      { name: 'travesty Bootstrap', id: 'travesty Bootstrap' }
+    ],
+
+    syllabi: {
+      maxReact: {
+        //key act as name
+        syllabusId: 'maxReact',
+        name: 'Max React Full Stack',
+        category: 'programing',
+        concentration: 'fullstack',
+        subject: 'React',
+        source: 'Udemy',
+        completionStatus: false,
+        lessons: [
+          {
+            syllabusId: 'maxReact',
+            section: '7. Diving Deeper into Components & React Internals',
+            lessonId: 'xvlwil',
+            lessonNum: '90',
+            lessonName: 'For props Changes',
+            completion: false
+          },
+          {
+            syllabusId: 'maxReact',
+            section: '7. Diving Deeper into Components & React Internals',
+            lessonId: 'bbbskk',
+            lessonNum: '91',
+            lessonName: 'For state Changes',
+            completion: false
+          },
+          {
+            syllabusId: 'maxReact',
+            section: '7. Diving Deeper into Components & React Internals',
+            lessonId: 'kjhck2',
+            lessonNum: '92',
+            lessonName: 'Using useEffect() in Functional Components',
+            completion: false
+          }
+        ]
+      },
+      travestyBootStrap: {
+        syllabusId: 'travestyBootStrap',
+        name: 'Travesty BootStrap',
+        category: 'programing',
+        concentration: 'front-end',
+        subject: 'Bootstrap',
+        source: 'Udemy',
+        syllabusCompletionTime: '40 hours',
+        completionStatus: false,
+        lessons: [
+          {
+            syllabusId: 'travestyBootStrap',
+            section: 'Section 4: Grid System & Flexbox',
+            lessonId: 'xvlwil',
+            lessonNum: '26',
+            lessonName: 'Grid System',
+            lessonCompletionTime: '',
+            completion: false
+          },
+          {
+            syllabusId: 'travestyBootStrap',
+            section: 'Section 4: Grid System & Flexbox',
+            lessonId: 'bbbskk',
+            lessonNum: '27',
+            lessonName: 'Grid Alignment',
+            lessonCompletionTime: '',
+            completion: false
+          },
+          {
+            syllabusId: 'travestyBootStrap',
+            section: 'Section 4: Grid System & Flexbox',
+            lessonId: 'kjhck2',
+            lessonNum: '28',
+            lessonName: 'Flexbox Classes',
+            lessonCompletionTime: '',
+            completion: false
+          }
+        ]
+      }
+    },
 
     lastLessonHeader: [],
 
@@ -299,3 +381,21 @@ class Syllabus extends Component {
 }
 
 export default Syllabus;
+// lessons: [
+//   {
+//     id: 'xvlwil',
+//     lesson: '90. (for props Changes)',
+//     completion: false,
+
+//   },
+//   {
+//     id: 'bbbskk',
+//     lesson: '91. (for state Changes)',
+//     completion: false
+//   },
+//   {
+//     id: 'kjhck2',
+//     lesson: '92. Using useEffect() in Functional Components ',
+//     completion: false
+//   }
+// ]

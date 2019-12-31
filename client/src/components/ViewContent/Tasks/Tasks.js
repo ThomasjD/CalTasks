@@ -30,7 +30,7 @@ class Tasks extends PureComponent {
           case 'scheduleTask':
             return <th key={index}>Schedule Task</th>;
             break;
-          case 'category ':
+          case 'category':
             return <th key={index}>{key.toUpperCase()}</th>;
             break;
           case 'task':
@@ -70,10 +70,12 @@ class Tasks extends PureComponent {
           <Aux>
             <ErrorBoundary key={task.id}>
               <Task
+                key={task.id}
                 task={task.task}
                 deadline={task.deadline}
                 category={task.category}
                 particularKey={task.id}
+                scheduleTask={task.schedulTask}
                 click={event =>
                   this.context.dataRequestHandler(
                     event,

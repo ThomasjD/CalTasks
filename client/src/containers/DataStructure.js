@@ -78,12 +78,12 @@ export default DataStructure;
 //   scheduledTasks: [
 //     {
 //       taskId: '', // SyllabusWork.syllabusId.workTasks.lessonId
-//       TaskTitle: '', //SyllabusWork.syllabusId.workTasks.taskTitle
+//       task: '', //SyllabusWork.syllabusId.workTasks.taskTitle
 //       source: '', //Syllabus/syllabusId/syllabusTitle
 //       subjectCat: '', ////Syllabus/syllabusId/subjectCat
 //       //task is errand/apt/chore -> subjectCat = nonRepetitiveTasks
 //       //task is repetitive tasks -> subject Cat = repetitiveTaskTasks
-//       assignedTime,
+//       assignedTime: '',
 //       assignedDate: '',
 //       Deadline: '' //date
 //     }

@@ -2,23 +2,15 @@ import React, { Component } from 'react';
 import classes from '../../components/Cockpit/Cockpit.module.css';
 import rightcockpitClasses from './RightCockpit.module.css';
 import Cockpit from '../../components/Cockpit/Cockpit';
-import Cockpit2 from '../../components/Cockpit/Cockpit2';
 import Navbar2 from '../../components/Cockpit/Navbar/Navbar2';
-import Tasks from '../../components/ViewContent/Tasks/Tasks';
-import TodayTasks from '../../components/ViewContent/TodayTasks/TodayTasks';
 import Lessons from '../../components/ViewContent/Syllabus/MaxReact/Lessons';
 import ViewContentOptions from '../../components/Cockpit/ViewContentOptions';
 import NewTask from '../../components/Creation/newTask';
 import DisplayContent from '../../components/Cockpit/displayContent';
-import Syllabus from '../../components/Creation/Syllabus';
-import classes2 from './RightCockpit.module.css';
 import DatePickerPicker from './DatePicker.js';
-import ShowAllTasksAfterAddingTask from '../../context/tasksContext';
 import SyllabusContext from '../../context/syllabusContext';
 import TasksDataContext from '../../context/tasksContext';
 //import Layout from '../../hoc/Layout';
-import { saveAs } from 'file-saver';
-//import fs from 'fs';
 
 class RightCockpit extends Component {
   constructor(props) {
@@ -32,7 +24,6 @@ class RightCockpit extends Component {
     newTask: [],
     newTaskTitle: '',
     newTaskLocation: '',
-
     numberOfGuests: 2,
     contentChoice: '0',
     showCockpit: true,
@@ -97,11 +88,7 @@ class RightCockpit extends Component {
       switch (newViewChoice) {
         case '1': //All tasks
           this.context.dataRequestHandler(event, 'tasks', '1', null, null);
-          // if (this.state.tasks != 0) {
-          //   this.setState({ lastHeader: this.state.tasks[0] });
-          // } else {
-          //   this.setState({ lastHeader: this.state.lastHeader });
-          // }
+
           break;
 
         case '2': //TodaysTasks
@@ -121,6 +108,7 @@ class RightCockpit extends Component {
           //this.props.showLeftOverLessonsFromSyllabus();
           break;
         case '7':
+          this.context.dataRequestHandler(event, 'syllabus', '8', null, null);
           console.log('Inside case 7');
 
           break;
@@ -174,26 +162,6 @@ class RightCockpit extends Component {
     };
 
     this.contentViewHandler(contentViewObject);
-  };
-
-  saveStaticDataToFile = () => {
-    'use strict';
-    const fs = require('fs');
-    let student = {
-      name: 'Mike',
-      age: 23,
-      gender: 'Male',
-      department: 'English',
-      car: 'Honda'
-    };
-
-    let data = JSON.stringify(student);
-    fs.writeFileSync('estudianteRico.json', data);
-
-    // var blob = new Blob(['Welcome to my wepage2'], {
-    //   type: 'text/plain;charset=utf-8'
-    // });
-    // saveAs(blob, './Blob.txt');
   };
 
   //static usually used in getDerivedStateFromProps
@@ -266,9 +234,6 @@ class RightCockpit extends Component {
         {navbar}
         <div className="rightcockpitClasses.deskTop">
           {viewContentOptions}
-          <button type="button" onClick={this.saveStaticDataToFile()}>
-            Click to Save
-          </button>
 
           {displayCockpit}
         </div>

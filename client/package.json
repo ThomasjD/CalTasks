@@ -28,8 +28,7 @@
     "reactstrap": "^8.0.1"
   },
   "scripts": {
-    "startN": "nodemon ./bin/www",
-    "startR": "react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
