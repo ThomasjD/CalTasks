@@ -102,6 +102,9 @@ class RightCockpit extends Component {
           this.context.dataRequestHandler(event, 'syllabus', '1', null, null);
 
           break;
+        case '4':
+          //this.context.dataRequestHandler(event, 'syllabus', '8', null, null);
+          break;
 
         case '6': //Adding Lessons from Syllabus
           this.context.dataRequestHandler(event, 'syllabus', '6', null, null);
@@ -167,7 +170,7 @@ class RightCockpit extends Component {
   //static usually used in getDerivedStateFromProps
   //static contextType = ShowAllTasksAfterAddingTask;
   static contextType = TasksDataContext;
-  // static contextType = SyllabusContext;
+  static contextType = SyllabusContext;
   render() {
     let viewOptions = null;
     if (this.state.showCockpit == true) {
@@ -228,9 +231,37 @@ class RightCockpit extends Component {
         contentViewHandler={event => this.contentViewHandler(event)}
       />
     );
+    let displaySyllabusList = null;
+    if (this.context.everythingSyllabus.syllabusData) {
+      //displaySyllabusList = this.context.everythingSyllabus.syllabusData
+      //.allSyllabusList;
+      //let currentShowSyllabusList = this.state.showSyllabusList;
+
+      displaySyllabusList = Object.keys(
+        this.context.everythingSyllabus.syllabusData.syllabi
+      )
+        .map(igKey => {
+          // alert(
+          //   JSON.stringify(
+          //     this.context.everythingSyllabus.syllabusData.syllabi[igKey].name
+          //   )
+          // );
+          return this.context.everythingSyllabus.syllabusData.syllabi[igKey]
+            .name;
+
+          //.map((_, i) => {
+          //return <SyllabiProgresskey={igKey + i} type={igKey} />;
+        })
+        .reduce((arr, el) => {
+          return arr.concat(el);
+        });
+    }
+    // alert(displaySyllabusList);
+    // {JSON.stringify(displaySyllabusList)}
 
     return (
       <React.Fragment>
+        {displaySyllabusList}
         {navbar}
         <div className="rightcockpitClasses.deskTop">
           {viewContentOptions}

@@ -13,6 +13,7 @@ import NewSyllabus from '../Creation/newSyllabus';
 import SyllabusContext from '../../context/syllabusContext';
 import TasksContext from '../../context/tasksContext';
 import statusClass from '../../components/ViewContent/Tasks/Tasks.module.css';
+import Syllabi from '../ViewContent/Syllabus/Syllabi';
 
 const DisplayContent = props => {
   const syllabusContext = useContext(SyllabusContext);
@@ -142,6 +143,16 @@ const DisplayContent = props => {
                 }
               />
             ) : null}
+          </React.Fragment>
+        );
+      }
+
+      break;
+    case '7':
+      if (syllabusContext.everythingSyllabus.syllabusData == true) {
+        displayContent = (
+          <React.Fragment>
+            <Syllabi />
           </React.Fragment>
         );
       }

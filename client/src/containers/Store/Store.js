@@ -10,11 +10,13 @@ import Layout from '../../hoc/Layout';
 
 class Store extends Component {
   state = {
+    showSyllabusList: false,
     crunk: 'Hootie',
     showLeftOverLessonsFromSyllabus: false,
     showLeftOverTasksForWeek: false,
     syllabusData: null,
     tasksData: null,
+
     dataRequestDetails: {
       handlerChoice: false,
       index: null,

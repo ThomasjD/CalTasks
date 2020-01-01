@@ -2,10 +2,36 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+    <script>
+      saveStaticDataToFile = () => {
+        //import fs from 'fs';
+
+        'use strict';
+        const fs = require('fs');
+        let student = {
+          name: 'Mike',
+          age: 23,
+          gender: 'Male',
+          department: 'English',
+          car: 'Honda'
+        };
+
+        let data = JSON.stringify(student);
+        fs.writeFileSync('./estudianteRico.json', data);
+
+        // var blob = new Blob(['Welcome to my wepage2'], {
+        //   type: 'text/plain;charset=utf-8'
+        // });
+        // saveAs(blob, './Blob.txt');
+      };
+    </script>
+    <button type="button" onClick="{saveStaticDataToFile()}">
+      Click to Save
+    </button>
   </body>
 </html>

@@ -35,10 +35,6 @@ class Syllabus extends Component {
         completion: false
       }
     ],
-    syllabi: [
-      { name: 'maxReact', id: 'maxreact' },
-      { name: 'travesty Bootstrap', id: 'travesty Bootstrap' }
-    ],
 
     syllabi: {
       maxReact: {
@@ -50,6 +46,7 @@ class Syllabus extends Component {
         subject: 'React',
         source: 'Udemy',
         completionStatus: false,
+        currentShowSyllabusList: false, //actived from Navbar syllabus dropdown
         lessons: [
           {
             syllabusId: 'maxReact',
@@ -309,6 +306,15 @@ class Syllabus extends Component {
       this.context.dataReceiverHandler(this.state)
     );
   };
+
+  showSyllabusListHandler = () => {
+    //1st get all keys in an array
+    //2nd use keys of object to get values => name of these syllabus
+    this.context.resetHandlerChoice(
+      this.context.dataReceiverHandler(this.state)
+    );
+  };
+
   render() {
     //syllabusHandlerChoice
     if (this.context.dataRequestDetails.typeOfData === 'syllabus') {
@@ -367,12 +373,17 @@ class Syllabus extends Component {
         case '7':
           //let index = this.props.index;
           //this.addLessonFromOriginalSyllabusHandler(index);
-          this.props.resetSyllabusHandlerChoice(
-            this.addLessonFromOriginalSyllabusHandler(this.props.index)
+          this.context.resetHandlerChoice(
+            this.addLessonFromOriginalSyllabusHandler(
+              this.context.dataRequestDetails.index
+            )
           );
 
           break;
         case '8':
+          this.showSyllabusListHandler();
+
+          break;
       }
     }
 
