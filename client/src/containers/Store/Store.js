@@ -133,6 +133,7 @@ class Store extends Component {
 
             <TasksDataContext.Provider
               value={{
+                crunk: this.state.crunk,
                 dataReceiverHandler: this.dataReceiverHandler,
                 dataRequestHandler: this.dataRequestHandler,
                 dataRequestDetails: this.state.dataRequestDetails,

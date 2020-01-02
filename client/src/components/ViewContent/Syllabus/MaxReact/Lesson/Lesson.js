@@ -19,7 +19,6 @@ const Lesson = props => {
   //     console.log('i am in the return of useEffect');
   //   };
   // }, [props.todo]);
-  console.log('[Lesson] rendering');
 
   return (
     <React.Fragment>

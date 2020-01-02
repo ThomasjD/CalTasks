@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 //import rocky from '../../containers/App.module.css'
 import classNames from 'classnames';
 import classes from './Cockpit.module.css';
 import Navbar from './navBar';
 import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
 import Template from '../../Template/Template';
+import TasksContext from '../../context/tasksContext';
 
 const Cockpit = props => {
   //can do anything that componentDidUpdate can do
   //can send http request here
+  const tasksContext = useContext(TasksContext);
+
   useEffect(() => {
     console.log('I am inside of [Cockpit.js] useffect');
 
@@ -65,6 +68,21 @@ const Cockpit = props => {
   //add multiple classes for <p> w/ strings
   //const classesFinal = classes.join(' ')
   const classesFinal = 'rocky.' + assignedClasses;
+  const [howBusyToggle, setHowBusyToggle] = useState({
+    showTasksNumEachDay: true
+  });
+
+  const setHowBusyToggleHandler = event => {
+    let currentToggleStatus = howBusyToggle.showTasksNumEachDay;
+
+    if (!currentToggleStatus) {
+      tasksContext.dataRequestHandler(event, 'tasks', '7', null, null);
+    }
+
+    setHowBusyToggle({
+      showTasksNumEachDay: !currentToggleStatus
+    });
+  };
 
   return (
     <React.Fragment>
@@ -75,15 +93,25 @@ const Cockpit = props => {
         />
 
         <h5>Pick Content View!</h5>
-        <Template />
-        <p
-          className={classNames({
-            [classes[assignedClasses[0]]]: true,
-            [classes[assignedClasses[1]]]: true
-          })}
-        >
-          Things to Do!
-        </p>
+        {tasksContext.crunk}
+        <button onClick={event => setHowBusyToggleHandler(event)}>
+          Click To see Column Chart
+        </button>
+        <br></br>
+        <br></br>
+
+        {howBusyToggle.showTasksNumEachDay ? (
+          <React.Fragment>
+            <Template />
+
+            <p
+              className={classNames({
+                [classes[assignedClasses[0]]]: true,
+                [classes[assignedClasses[1]]]: true
+              })}
+            ></p>
+          </React.Fragment>
+        ) : null}
         <DatePickerPicker />
       </div>
     </React.Fragment>
@@ -92,49 +120,3 @@ const Cockpit = props => {
 //export default Cockpit;
 
 export default React.memo(Cockpit);
-
-// </div>
-/* <React.Fragment>
-        <div>
-
-      
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-secondary active">
-          <input type="radio" name="options" id="option1" autocomplete="off" checked/> Active
-        </label>
-        <label class="btn btn-secondary">
-          <input type="radio" name="options" id="option2" autocomplete="off"/> Radio
-        </label>
-        <label class="btn btn-secondary">
-          <input type="radio" name="options" id="option3" autocomplete="off"/> Radio
-        </label>
-      </div>
-      </div>
-      </React.Fragment>     */
-
-/* Radio Buttons
-<React.Fragment>
-            <div>
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-secondary active">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked/> Today
-                    </label>
-                    <label class="btn btn-secondary">
-                        <input type="radio" name="options" id="option2" autocomplete="off"/> Week
-                        </label>
-                <label class="btn btn-secondary">
-                    <input type="radio" name="options" id="option3" autocomplete="off"/> Month
-                    </label>
-                </div>
-            </div>
-        </React.Fragment> 
-*/
-
-/*original navbar
-<Navbar
-        todayTasksClicked={props.todayTasksClicked}
-        allTasksClicked={props.allTasksClicked}
-        tittle={props.title}
-        deleteCockpit={props.deleteCockpit}
-      />
-      */

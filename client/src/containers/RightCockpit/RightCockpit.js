@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classes from '../../components/Cockpit/Cockpit.module.css';
 import rightcockpitClasses from './RightCockpit.module.css';
 import Cockpit from '../../components/Cockpit/Cockpit';
-import Navbar2 from '../../components/Cockpit/Navbar/Navbar2';
+import Navbar from '../../components/Cockpit/Navbar/Navbar';
 import Lessons from '../../components/ViewContent/Syllabus/MaxReact/Lessons';
 import ViewContentOptions from '../../components/Cockpit/ViewContentOptions';
 import NewTask from '../../components/Creation/newTask';
@@ -209,7 +209,7 @@ class RightCockpit extends Component {
     );
 
     let navbar = (
-      <Navbar2
+      <Navbar
         newTaskInfoComing={event => this.newTaskHandler(event)}
         newTaskInfo={event => this.eventContentViewHandler(event)}
         clickedNewEvent={event => this.contentViewHandler(event)}
@@ -223,7 +223,7 @@ class RightCockpit extends Component {
         }}
       >
         {this.props.newTaskInfoComing}
-      </Navbar2>
+      </Navbar>
     );
 
     let viewContentOptions = (
@@ -233,10 +233,6 @@ class RightCockpit extends Component {
     );
     let displaySyllabusList = null;
     if (this.context.everythingSyllabus.syllabusData) {
-      //displaySyllabusList = this.context.everythingSyllabus.syllabusData
-      //.allSyllabusList;
-      //let currentShowSyllabusList = this.state.showSyllabusList;
-
       displaySyllabusList = Object.keys(
         this.context.everythingSyllabus.syllabusData.syllabi
       )
@@ -256,16 +252,13 @@ class RightCockpit extends Component {
           return arr.concat(el);
         });
     }
-    // alert(displaySyllabusList);
-    // {JSON.stringify(displaySyllabusList)}
 
     return (
       <React.Fragment>
-        {displaySyllabusList}
         {navbar}
         <div className="rightcockpitClasses.deskTop">
           {viewContentOptions}
-
+          {displaySyllabusList}
           {displayCockpit}
         </div>
       </React.Fragment>
@@ -274,17 +267,3 @@ class RightCockpit extends Component {
 }
 
 export default RightCockpit;
-
-// const freeTimePerDay = (props) => {
-//   return (
-//       <div clasName = {classes.freeTimeDayPercentage}></div>
-//         <freeTime day = 'Mon'/>
-//         <freeTime day = 'Tue'/>
-//         <freeTime day = 'Wed'/>
-//         <freeTime day = 'Thur'/>
-//         <freeTime day = 'Fri'/>
-//         <freeTime day = 'Sat'/>
-//         <freeTime day = 'Sun'/>
-
-//   )
-// }

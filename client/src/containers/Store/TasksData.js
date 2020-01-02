@@ -385,7 +385,21 @@ class TasksData extends Component {
       this.context.dataReceiverHandler(this.state)
     );
   };
+  showHowBusyEverydayHandler = () => {
+    console.log('hello in showHowBusyEverydayHandler');
 
+    let numTasksThisWeek = {
+      Monday: this.state.Monday.length,
+      Tuesday: this.state.Tuesday.length,
+      Wednesday: this.state.Wednesday.length,
+      Thursday: this.state.Thursday.length,
+      Friday: this.state.Friday.length,
+      Saturday: this.state.Saturday.length,
+      Sunday: this.state.Sunday.length
+    };
+
+    this.setState({ numTasksThisWeek: numTasksThisWeek });
+  };
   static contextType = TasksContext;
 
   render() {
@@ -430,6 +444,10 @@ class TasksData extends Component {
               this.props.dataRequestDetails.id
             )
           );
+
+          break;
+        case '7':
+          this.context.resetHandlerChoice(this.showHowBusyEverydayHandler());
 
           break;
       }

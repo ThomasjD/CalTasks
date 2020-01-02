@@ -24,6 +24,7 @@ class Syllabi extends Component {
 
   //rendering current lessons headers
   renderAllSyllabiTableHeaderHandler() {
+    //alert('inside syllabi renderAllSyllabiTableHeaderHandler()');
     //this is part of First row of table
     let clickToAddDelete = null;
 
@@ -32,97 +33,88 @@ class Syllabi extends Component {
     // } else {
     //   clickToAddDelete = 'Click to Delete Lesson';
     // }
-
-    let header = Object.keys(
-      this.context.everythingSyllabus.syllabusData.syllabi
-    );
+    // if (
+    //   this.context.everythingSyllabus.syllabusData.currentShowSyllabusList ===
+    //   true
+    // ) {
+    let header = this.context.everythingSyllabus.syllabusData.syllabusHeaders;
     //lastLessonHeader;
     return header.map((key, index) => {
       //console.log(`this is the key: (${key}) and the index: (${index})`);
 
-      // switch (key) {
-      //   case 'syllabusId':
-      //     return <th key={index}>Click To Delete</th>;
-      //     break;
-      //   case 'name':
-      //     break;
-      //   case 'category':
-      //     break;
-      //   case 'concentration':
-      //     break;
-      // }
-      if (key === 'syllabusId') {
-        return <th key={index}>Click To Delete</th>;
-      } else {
-        return <th key={index}>{key.toUpperCase()}</th>;
+      switch (key) {
+        case 'syllabusId':
+          return <th key={index}>Click To Delete</th>;
+          break;
+        case 'name':
+          return <th key={index}>{key.toUpperCase()}</th>;
+          break;
+        case 'concentration':
+          return <th key={index}>{key.toUpperCase()}</th>;
+          break;
+        case 'subject':
+          return <th key={index}>{key.toUpperCase()}</th>;
+          break;
+        case 'source':
+          return <th key={index}>{key.toUpperCase()}</th>;
+          break;
+        case 'syllabusCompletionTime':
+          return <th key={index}>Required Hours</th>;
+          break;
+        case 'completionStatus':
+          return <th key={index}>Completion Status</th>;
+          break;
       }
     });
+    //}
   }
 
   //rendering current lessons
-  allLessonssHandler() {
-    let handlerType = null;
+  allSyllabiHandler() {
+    let arraySyllabi = null;
+    let displaySyllabiInfo = null;
+    //if (this.context.everythingSyllabus.syllabusData) {
+    //[ key1, key2, key3] //name of syllabus obj
+    let info = Object.keys(
+      this.context.everythingSyllabus.syllabusData.syllabi
+    );
 
-    // switch (this.props.everything.contentChoice) {
-    //   case '3':
-    //     break;
-    //   case '6':
-    //     this.props.showLeftOverLessonsFromOrigSyllabus
-    //       ? (handlerType = 'add')
-    //       : (handlerType = 'delete');
+    return info
+      .map(syllabusKey => {
+        //array of syllabus object
+        return this.context.everythingSyllabus.syllabusData.syllabi[
+          syllabusKey
+        ];
+      })
+      .map((key, index) => {
+        //alert(`syllabus: ${key.name} index: ${key.syllabusCompletionTime}`);
 
-    //     break;
-    // }
-
-    return this.props.lessons.map((syllabus, index) => {
-      //   let functionChoiceDelete = null;
-      //   let functionChoiceChange = null;
-
-      //   if (this.props.everything.contentChoice === '3') {
-      //     functionChoiceDelete = '3';
-      //     functionChoiceChange = '4';
-      //   } else {
-      //     functionChoiceDelete = '5';
-      //     functionChoiceChange = '6';
-      //   }
-
-      return (
-        <ErrorBoundary>
-          <Syllabus></Syllabus>
-        </ErrorBoundary>
-      );
-    });
+        return (
+          <Syllabus
+            particularKey={key.name}
+            name={key.name}
+            index={index}
+            category={key.category}
+            concentration={key.concentration}
+            subject={key.subject}
+            source={key.source}
+            syllabusCompletionTime={key.syllabusCompletionTime}
+            completionStatus={key.completionStatus}
+          />
+        );
+      });
   }
 
-  // getSnapshotBeforeUpdate(prevProps, prevState) {
-  //   console.log('[Tasks] getSnapshotBeforeUpdate');
-  //   return { message: 'Snapshot' };
-  // }
-
-  // // componentWillUpdate() {
-  // //     return
-  // // }
-
-  // componentDidUpdate(prevProps, prevState, message) {
-  //   console.log('[Tasks] componentDidUpdate');
-  //   console.log(message);
-  // }
-
-  // componentWillUnmount() {
-  //   console.log('[Tasks.js] componentWillUnmount');
-  // }
-
   render() {
-    console.log('[allSyllabus] rendering...');
     //<p> contentChoice: {this.props.everything.contentChoice}</p>
     return (
       <div>
-        <h3 id="title"> Syllabus</h3>
+        <h3 id="title"> Syllabi</h3>
 
         <table id="students">
           <tbody>
-            <tr>{this.renderAllLessonsTableHeaderHandler()}</tr>
-            {this.allLessonssHandler()}
+            <tr>{this.renderAllSyllabiTableHeaderHandler()}</tr>
+            {this.allSyllabiHandler()}
           </tbody>
         </table>
       </div>

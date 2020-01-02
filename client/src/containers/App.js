@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import rocky from './App.module.css';
 import Tasks from '../components/ViewContent/Tasks/Tasks';
-//import Task from '../components/Tasks/Task/Task'
+
 import Cockpit from '../components/Cockpit/Cockpit';
 import classes from '../components/Cockpit/Cockpit.module.css';
-import Cockpit2 from '../components/Cockpit/Cockpit2';
-import Navbar2 from '../components/Cockpit/Navbar/Navbar2';
-import '../components/ViewContent/Tasks/Task/Task';
-import TodayTasks from '../components/ViewContent/TodayTasks/TodayTasks';
-//import MaxReact from '../components/Syllabus/MaxReact'
+
 import WithClass from '../hoc/WithClass';
-import NewTaskContext from '../context/tasksContext';
+
 import RightCockpit from './RightCockpit/RightCockpit';
-import DataStructure from './DataStructure';
 
 // var CanvasJSReact = require('./canvasjs.react');
 // var CanvasJS = CanvasJSReact.CanvasJS;

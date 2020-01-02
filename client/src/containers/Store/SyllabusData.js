@@ -45,7 +45,8 @@ class Syllabus extends Component {
         concentration: 'fullstack',
         subject: 'React',
         source: 'Udemy',
-        completionStatus: false,
+        syllabusCompletionTime: '30 hour',
+        completionStatus: '30',
         currentShowSyllabusList: false, //actived from Navbar syllabus dropdown
         lessons: [
           {
@@ -82,7 +83,8 @@ class Syllabus extends Component {
         subject: 'Bootstrap',
         source: 'Udemy',
         syllabusCompletionTime: '40 hours',
-        completionStatus: false,
+        completionStatus: '5',
+        currentShowSyllabusList: false,
         lessons: [
           {
             syllabusId: 'travestyBootStrap',
@@ -244,6 +246,46 @@ class Syllabus extends Component {
           );
         }
         break;
+      case '8':
+        //array of keys
+        let newShowSyllabistList = !this.state.currentShowSyllabusList;
+
+        let syllabusListKeys = Object.keys(this.state.syllabi);
+
+        let syllabusListLength = syllabusListKeys.length;
+        //alert(syllabusListLength);
+
+        //taking one of the syllabus object out
+        let modelHeader = syllabusListKeys[0]; //an object of one of the syllabus
+
+        if (syllabusListLength != 0) {
+          let syllabusHeaders = Object.keys(this.state.syllabi[modelHeader]);
+
+          this.setState(
+            {
+              syllabusHeaders: syllabusHeaders,
+              currentShowSyllabusList: newShowSyllabistList
+            },
+
+            () => {
+              this.context.resetHandlerChoice(
+                this.context.dataReceiverHandler(this.state)
+              );
+            }
+          );
+        } else {
+          this.setState(
+            { syllabusHeaders: this.state.syllabusHeaders },
+
+            () => {
+              this.context.resetHandlerChoice(
+                this.context.dataReceiverHandler(this.state)
+              );
+            }
+          );
+        }
+
+        break;
     }
   };
 
@@ -308,10 +350,16 @@ class Syllabus extends Component {
   };
 
   showSyllabusListHandler = () => {
+    //alert('inside showSyllabusListHandler ');
     //1st get all keys in an array
     //2nd use keys of object to get values => name of these syllabus
-    this.context.resetHandlerChoice(
-      this.context.dataReceiverHandler(this.state)
+
+    let newShowSyllabistList = !this.state.currentShowSyllabusList;
+    this.setState(
+      {
+        currentShowSyllabusList: newShowSyllabistList
+      },
+      () => this.context.dataReceiverHandler(this.state)
     );
   };
 
@@ -381,7 +429,9 @@ class Syllabus extends Component {
 
           break;
         case '8':
-          this.showSyllabusListHandler();
+          this.lastLessonHeaderHandler();
+
+          // this.context.resetHandlerChoice(this.showSyllabusListHandler());
 
           break;
       }
@@ -392,21 +442,3 @@ class Syllabus extends Component {
 }
 
 export default Syllabus;
-// lessons: [
-//   {
-//     id: 'xvlwil',
-//     lesson: '90. (for props Changes)',
-//     completion: false,
-
-//   },
-//   {
-//     id: 'bbbskk',
-//     lesson: '91. (for state Changes)',
-//     completion: false
-//   },
-//   {
-//     id: 'kjhck2',
-//     lesson: '92. Using useEffect() in Functional Components ',
-//     completion: false
-//   }
-// ]

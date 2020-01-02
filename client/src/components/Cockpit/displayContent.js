@@ -1,8 +1,6 @@
 import React, { Component, useContext } from 'react';
 import classes from '../../components/Cockpit/Cockpit.module.css';
 import Cockpit from './Cockpit';
-import Cockpit2 from './Cockpit2';
-import Navbar2 from './Navbar/Navbar2';
 import Tasks from '../ViewContent/Tasks/Tasks';
 import TodayTasks from '../ViewContent/TodayTasks/TodayTasks';
 import Lessons from '../ViewContent/Syllabus/MaxReact/Lessons';
@@ -149,7 +147,10 @@ const DisplayContent = props => {
 
       break;
     case '7':
-      if (syllabusContext.everythingSyllabus.syllabusData == true) {
+      //alert('case 7');
+      if (syllabusContext.everythingSyllabus.syllabusData) {
+        //alert('inside displayContent case');
+        //
         displayContent = (
           <React.Fragment>
             <Syllabi />

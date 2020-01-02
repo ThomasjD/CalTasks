@@ -45,7 +45,7 @@ const viewContentOptions = props => {
               onClick={props.contentViewHandler}
               value="2"
             />{' '}
-            Tasks by Day
+            Today's Tasks
           </label>
 
           <label className="btn btn-warning m-2 active">
