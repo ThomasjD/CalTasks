@@ -6,7 +6,7 @@ import Navbar from './navBar';
 import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
 import Template from '../../Template/Template';
 import TasksContext from '../../context/tasksContext';
-
+import HowBusyThisWeek from './HowBusyThisWeek/HowBusyThisWeek';
 const Cockpit = props => {
   //can do anything that componentDidUpdate can do
   //can send http request here
@@ -71,21 +71,51 @@ const Cockpit = props => {
   const [howBusyToggle, setHowBusyToggle] = useState({
     showTasksNumEachDay: true
   });
-
-  const setHowBusyToggleHandler = event => {
+  //tasksContext.dataRequestHandler(event, 'tasks', '7', null, null)
+  const setHowBusyToggleHandler = () => {
     let currentToggleStatus = howBusyToggle.showTasksNumEachDay;
-
-    if (!currentToggleStatus) {
-      tasksContext.dataRequestHandler(event, 'tasks', '7', null, null);
-    }
-
     setHowBusyToggle({
       showTasksNumEachDay: !currentToggleStatus
     });
+
+    // if (howBusyToggle.showTasksNumEachDay) {
+
+    // } else {
+    //   let currentToggleStatus = howBusyToggle.showTasksNumEachDay;
+    //   setHowBusyToggle(
+    //     () => tasksContext.dataRequestHandler(event, 'tasks', '7', null, null),
+    //     {
+    //       showTasksNumEachDay: !currentToggleStatus
+    //     }
+    //   );
+    // }
   };
+
+  //tasksContext = useContext(TasksContext);
+  //.numTasksThisWeek['Monday']showHowBusyWeeek
+  // if (tasksContext.tasksData.tasksData['showHowBusyWeeek'] == !null) {
+  //   alert('inside of cockpit');
+  // }
+  let displayHowBusyThisWeek = null;
+
+  if (tasksContext.tasksData.tasksData) {
+    //console.log('inside if (!howBusyToggle.showTasksNumEachDay) statement');
+
+    //console.log(tasksContext.tasksData.tasksData.numTasksThisWeek.Monday);
+    if (tasksContext.tasksData.tasksData)
+      displayHowBusyThisWeek = (
+        <React.Fragment>
+          <HowBusyThisWeek
+            showHowBusyThisWeek={howBusyToggle.showTasksNumEachDay}
+            deadline={tasksContext.tasksData.numTasksThisWeek}
+          />
+        </React.Fragment>
+      );
+  }
 
   return (
     <React.Fragment>
+      {displayHowBusyThisWeek}
       <div className="">
         <img
           className={classes.leftCockpitIcon}
@@ -93,12 +123,23 @@ const Cockpit = props => {
         />
 
         <h5>Pick Content View!</h5>
-        {tasksContext.crunk}
-        <button onClick={event => setHowBusyToggleHandler(event)}>
+        <br></br>
+        <br></br>
+        <button
+          onClick={event =>
+            setHowBusyToggleHandler(
+              tasksContext.dataRequestHandler(event, 'tasks', '7', null, null)
+            )
+          }
+        >
           Click To see Column Chart
         </button>
         <br></br>
         <br></br>
+        <p>
+          howBusyToggle.showTasksNumEachDay:{' '}
+          {JSON.stringify(howBusyToggle.showTasksNumEachDay)}
+        </p>
 
         {howBusyToggle.showTasksNumEachDay ? (
           <React.Fragment>

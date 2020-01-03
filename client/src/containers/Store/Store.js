@@ -111,10 +111,10 @@ class Store extends Component {
   };
 
   render() {
-    let displayMessage = null;
-    if (this.state.syllabusHandlerChoice === '0') {
-      displayMessage = <div>Hey syllabusHandlerchoice is recorded</div>;
-    }
+    // let displayMessage = null;
+    // if (this.state.syllabusHandlerChoice === '0') {
+    //   displayMessage = <div>Hey syllabusHandlerchoice is recorded</div>;
+    // }
 
     return (
       <Aux>

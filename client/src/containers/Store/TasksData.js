@@ -5,6 +5,7 @@ import TasksContext from '../../context/tasksContext';
 class TasksData extends Component {
   state = {
     dataBaseName: 'tasks',
+    showHowBusyWeeek: false,
     unAssignedTasksForWeek: [
       {
         id: 'qrwrwq',
@@ -386,8 +387,6 @@ class TasksData extends Component {
     );
   };
   showHowBusyEverydayHandler = () => {
-    console.log('hello in showHowBusyEverydayHandler');
-
     let numTasksThisWeek = {
       Monday: this.state.Monday.length,
       Tuesday: this.state.Tuesday.length,
@@ -396,9 +395,12 @@ class TasksData extends Component {
       Friday: this.state.Friday.length,
       Saturday: this.state.Saturday.length,
       Sunday: this.state.Sunday.length
-    };
+    }; //alert(this.state.numTasksThisWeek.Monday)
 
-    this.setState({ numTasksThisWeek: numTasksThisWeek });
+    this.setState(
+      { numTasksThisWeek: numTasksThisWeek, showHowBusyWeek: true },
+      () => this.context.dataReceiverHandler(this.state)
+    );
   };
   static contextType = TasksContext;
 
