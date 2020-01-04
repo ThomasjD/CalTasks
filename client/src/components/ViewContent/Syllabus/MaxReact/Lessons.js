@@ -127,11 +127,11 @@ class Lessons extends Component {
 
   render() {
     console.log('[Lessons] rendering...');
-
+    //<p> contentChoice: {this.props.everything.contentChoice}</p>;
     return (
       <div>
         <h3 id="title"> Syllabus</h3>
-        <p> contentChoice: {this.props.everything.contentChoice}</p>
+
         <table id="students">
           <tbody>
             <tr>{this.renderAllLessonsTableHeaderHandler()}</tr>

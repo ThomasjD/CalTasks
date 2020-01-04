@@ -231,34 +231,13 @@ class RightCockpit extends Component {
         contentViewHandler={event => this.contentViewHandler(event)}
       />
     );
-    let displaySyllabusList = null;
-    if (this.context.everythingSyllabus.syllabusData) {
-      displaySyllabusList = Object.keys(
-        this.context.everythingSyllabus.syllabusData.syllabi
-      )
-        .map(igKey => {
-          // alert(
-          //   JSON.stringify(
-          //     this.context.everythingSyllabus.syllabusData.syllabi[igKey].name
-          //   )
-          // );
-          return this.context.everythingSyllabus.syllabusData.syllabi[igKey]
-            .name;
-
-          //.map((_, i) => {
-          //return <SyllabiProgresskey={igKey + i} type={igKey} />;
-        })
-        .reduce((arr, el) => {
-          return arr.concat(el);
-        });
-    }
 
     return (
       <React.Fragment>
         {navbar}
         <div className="rightcockpitClasses.deskTop">
           {viewContentOptions}
-          {displaySyllabusList}
+
           {displayCockpit}
         </div>
       </React.Fragment>

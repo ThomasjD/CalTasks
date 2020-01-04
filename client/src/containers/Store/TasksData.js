@@ -75,24 +75,24 @@ class TasksData extends Component {
         assignedTimeStart: '',
         assignedTimeStop: '',
         assignedDate: ''
-      },
-      {
-        id: 'afternoon2',
-        timeOfDay: 'afternoon',
-        task: 'eat lunch',
-        deadline: 'Jueves',
-        category: 'Laureles',
-        assignedTimeStart: '',
-        assignedTimeStop: '',
-        assignedDate: ''
-      },
-      {
-        id: 'evening2',
-        timeOfDay: 'evening',
-        task: 'play ball',
-        deadline: 'Jueves',
-        category: 'Laureles'
       }
+      // {
+      //   id: 'afternoon2',
+      //   timeOfDay: 'afternoon',
+      //   task: 'eat lunch',
+      //   deadline: 'Jueves',
+      //   category: 'Laureles',
+      //   assignedTimeStart: '',
+      //   assignedTimeStop: '',
+      //   assignedDate: ''
+      // },
+      // {
+      //   id: 'evening2',
+      //   timeOfDay: 'evening',
+      //   task: 'play ball',
+      //   deadline: 'Jueves',
+      //   category: 'Laureles'
+      // }
     ],
     Wednesday: [
       {
@@ -143,17 +143,17 @@ class TasksData extends Component {
         assignedTimeStart: '',
         assignedTimeStop: '',
         assignedDate: ''
-      },
-      {
-        id: 'evening4',
-        timeOfDay: 'evening',
-        task: 'play ball',
-        deadline: 'Jueves',
-        category: 'Laureles',
-        assignedTimeStart: '',
-        assignedTimeStop: '',
-        assignedDate: ''
       }
+      // {
+      //   id: 'evening4',
+      //   timeOfDay: 'evening',
+      //   task: 'play ball',
+      //   deadline: 'Jueves',
+      //   category: 'Laureles',
+      //   assignedTimeStart: '',
+      //   assignedTimeStop: '',
+      //   assignedDate: ''
+      // }
     ],
     Friday: [
       {
@@ -233,17 +233,17 @@ class TasksData extends Component {
         assignedTimeStart: '',
         assignedTimeStop: '',
         assignedDate: ''
-      },
-      {
-        id: 'evening7',
-        timeOfDay: 'evening',
-        task: 'play ball',
-        deadline: 'Jueves',
-        category: 'Laureles',
-        assignedTimeStart: '',
-        assignedTimeStop: '',
-        assignedDate: ''
       }
+      // {
+      //   id: 'evening7',
+      //   timeOfDay: 'evening',
+      //   task: 'play ball',
+      //   deadline: 'Jueves',
+      //   category: 'Laureles',
+      //   assignedTimeStart: '',
+      //   assignedTimeStop: '',
+      //   assignedDate: ''
+      // }
     ],
     TodayTasksHeader: '',
     word: 'red',
@@ -455,14 +455,11 @@ class TasksData extends Component {
       }
     }
 
-    return (
-      <React.Fragment>
-        {this.context.dataRequestDetails['handlerChoice'] ? (
-          <div>{this.context.dataRequestDetails.handlerChoice} </div>
-        ) : null}
-      </React.Fragment>
-    );
+    return <React.Fragment></React.Fragment>;
   }
 }
 
 export default TasksData;
+// {this.context.dataRequestDetails['handlerChoice'] ? (
+//   <div>{this.context.dataRequestDetails.handlerChoice} </div>
+// ) : null}

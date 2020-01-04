@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/ThomasjD/CalTasks/issues"
   },
-  "homepage": "https://github.com/ThomasjD/CalTasks#readme"
+  "homepage": "https://github.com/ThomasjD/CalTasks#readme",
+  "dependencies": {
+    "mdbootstrap": "^4.11.0"
+  }
 }

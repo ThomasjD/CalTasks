@@ -115,11 +115,10 @@ class Store extends Component {
     // if (this.state.syllabusHandlerChoice === '0') {
     //   displayMessage = <div>Hey syllabusHandlerchoice is recorded</div>;
     // }
-
+    // Layout wrap displayed
     return (
       <Aux>
         <Layout>
-          Layout wrap displayed
           <SyllabusContext.Provider
             value={{
               resetHandlerChoice: this.resetHandlerChoice,

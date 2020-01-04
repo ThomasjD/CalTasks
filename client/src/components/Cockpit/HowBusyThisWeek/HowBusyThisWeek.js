@@ -13,6 +13,9 @@ import Aux from '../../../hoc/Aux';
 
 const HowBusyThisWeek = props => {
   const tasksContext = useContext(TasksContext);
+  // const (aa,setbb) = useState({
+
+  // })
 
   const renderTableHeaderDayTasksHandler = () => {
     // let header = null;
@@ -41,29 +44,63 @@ const HowBusyThisWeek = props => {
 
     return busyTask.map((day, index) => {
       let taskNum = tasksContext.tasksData.tasksData.numTasksThisWeek[day];
-      //alert(taskNum * '*');
+      let particularKey = day.concat(index);
       return (
         <Aux>
+          <tr>
+            <td className="text-dark">{day}</td>
+            <td className="text-dark">
+              {makeIconHandler(day, taskNum, particularKey)}
+            </td>
+          </tr>
+        </Aux>
+      );
+    });
+  };
+  const makeIconHandler = (day, taskNum, particularKey) => {
+    let makeIcon = null;
+    return (makeIcon = [...Array(taskNum)]
+      .map((_, index) => {
+        return (
           <HowBusyThisDay
             taskNum={taskNum}
             particularKey={day.concat(index)}
             type={day}
           />
-        </Aux>
-      );
-    });
+        );
+      })
+      .reduce((arr, el) => {
+        return arr.concat(el);
+      }, [])); //get rid of the array
+
+    // let busyTask = Object.keys(
+    //   tasksContext.tasksData.tasksData.numTasksThisWeek
+    // ) // array of keys
+    //   .map(day => {
+    //     //use each key  make arrays equivalent to their value
+    //     return [
+    //       ...Array(tasksContext.tasksData.tasksData.numTasksThisWeek[day])
+    //     ].map((_, index) => {
+    //       //for each of these undefined array pass in this component
+    //       return
+    //        <HowBusyThisDay
+    //       taskNum={taskNum}
+    //       particularKey={day.concat(index)}
+    //       type={day}
+    //     />
+
+    //     <HowBusyThisDay key={day + index} type={day} />;
+    //     });
+    //   }) //end up w/ an array of components
+    // .reduce((arr, el) => {
+    //   return arr.concat(el);
+    // }, []); //get rid of the array
+
+    // return busyTask;
   };
-  // .reduce((arr, el) => {
-  //   return arr.concat(el);
-  // }, []);
-
-  // return <div>day</div>;
-
-  //{allTasksPerDay()}
   return (
     <React.Fragment>
       <div>
-        {tasksContext.tasksData.tasksData.numTasksThisWeek['Tuesday']}
         <table id="students">
           <tbody>
             <tr>{renderTableHeaderDayTasksHandler()}</tr>
@@ -74,20 +111,4 @@ const HowBusyThisWeek = props => {
     </React.Fragment>
   );
 };
-
 export default HowBusyThisWeek;
-
-// let busyTask = null;
-//     busyTask = Object.keys(tasksContext.tasksData.tasksData.numTasksThisWeek)
-//       .map(day => {
-//         return [
-//           ...Array(tasksContext.tasksData.tasksData.numTasksThisWeek[day])
-//         ].map((_, i) => {
-//           return <HowBusyThisDay key={day + i} type={day} />;
-//         });
-//       })
-//       .reduce((arr, el) => {
-//         return arr.concat(el);
-//       }, []);
-
-//     return <div>day</div>;

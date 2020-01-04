@@ -102,7 +102,10 @@ const Cockpit = props => {
     //console.log('inside if (!howBusyToggle.showTasksNumEachDay) statement');
 
     //console.log(tasksContext.tasksData.tasksData.numTasksThisWeek.Monday);
-    if (tasksContext.tasksData.tasksData)
+    if (
+      tasksContext.tasksData.tasksData &&
+      tasksContext.tasksData.tasksData.showHowBusyWeek
+    )
       displayHowBusyThisWeek = (
         <React.Fragment>
           <HowBusyThisWeek
@@ -125,6 +128,7 @@ const Cockpit = props => {
         <h5>Pick Content View!</h5>
         <br></br>
         <br></br>
+
         <button
           onClick={event =>
             setHowBusyToggleHandler(
@@ -132,14 +136,10 @@ const Cockpit = props => {
             )
           }
         >
-          Click To see Column Chart
+          Click to see # of Tasks/Day
         </button>
         <br></br>
         <br></br>
-        <p>
-          howBusyToggle.showTasksNumEachDay:{' '}
-          {JSON.stringify(howBusyToggle.showTasksNumEachDay)}
-        </p>
 
         {howBusyToggle.showTasksNumEachDay ? (
           <React.Fragment>
@@ -161,3 +161,4 @@ const Cockpit = props => {
 //export default Cockpit;
 
 export default React.memo(Cockpit);
+//<MDBIcon icon="briefcase" />
