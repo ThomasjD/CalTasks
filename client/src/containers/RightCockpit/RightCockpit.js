@@ -11,6 +11,7 @@ import DatePickerPicker from './DatePicker.js';
 import SyllabusContext from '../../context/syllabusContext';
 import TasksDataContext from '../../context/tasksContext';
 //import Layout from '../../hoc/Layout';
+import NewEvent from '../../components/Creation/NewEvent';
 
 class RightCockpit extends Component {
   constructor(props) {
@@ -172,9 +173,9 @@ class RightCockpit extends Component {
   static contextType = TasksDataContext;
   static contextType = SyllabusContext;
   render() {
-    let viewOptions = null;
+    let leftCockpit = null;
     if (this.state.showCockpit == true) {
-      viewOptions = (
+      leftCockpit = (
         <React.Fragment>
           <Cockpit
             title={this.props.appTitle}
@@ -190,12 +191,13 @@ class RightCockpit extends Component {
       <div className="container">
         <div className="row d-flex d-lg-block">
           <div className="col-lg-4 order-1 float-left">
-            <div className="card text-white bg-info m-3 p-3">{viewOptions}</div>
+            <div className="card text-white bg-info m-3 p-3">{leftCockpit}</div>
           </div>
         </div>
 
         <div className="col-lg-8 order-0 float-left">
           <div className="card bg-light m-3 p-3 ">
+            <NewEvent />
             <DisplayContent
               contentViewHandler={event => this.contentViewHandler(event)}
               newestSyllabus={event => this.newestSyllabusHandler(event)}

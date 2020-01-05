@@ -71,7 +71,7 @@ class TasksData extends Component {
         timeOfDay: 'morning',
         task: 'comprar comida',
         deadline: 'Jueves',
-        category: 'Laureles',
+        category: 'errands',
         assignedTimeStart: '',
         assignedTimeStop: '',
         assignedDate: ''

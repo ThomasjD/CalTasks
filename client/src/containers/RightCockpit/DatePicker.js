@@ -10,6 +10,12 @@ const DatePickerComp = () => {
 
   let Sunday = format(startDate, 'MM/dd/yyyy, hh:mm:ss a');
   console.log(JSON.stringify(Sunday));
+
+  // {
+  //   "name": "State",
+  //   "value": "Wed Jan 08 2020 19:45:00 GMT-0500 (Colombia Standard Time)",
+  //   "subHooks": []
+  // }
   return (
     <DatePicker
       selected={startDate}

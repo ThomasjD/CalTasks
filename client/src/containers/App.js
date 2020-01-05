@@ -25,15 +25,18 @@ import RightCockpit from './RightCockpit/RightCockpit';
 // import Post from '../components/Post';
 // import Header from '../components/Header';
 // import SideCard from '../components/SideCard';
+
 import TasksData from './Store/TasksData';
 import SyllabusData from './Store/SyllabusData';
 import Store from './Store/Store';
+
 class App extends Component {
   constructor(props) {
     super(props);
   }
   //
-  //<RightCockpit />
+  //React Date
+
   render() {
     return (
       <WithClass passClass={rocky.App}>
