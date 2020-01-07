@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
-//import ReactDatePicker from '../Calendar/ReactDatePicker';
+import ReactDatePicker from '../Calendar/ReactDatePicker';
+import RightCockpitContext from '../../context/RightCockpitContext';
+import CalendarContext from '../../context/calendarContext';
 import Icon from '../Calendar/Icon';
 import { Form, Input, FormGroup, Container, Label } from 'reactstrap';
 import 'react-dates/initialize';
@@ -10,6 +12,7 @@ import {
   SingleDatePicker,
   DayPickerRangeController
 } from 'react-dates';
+import { fi } from 'date-fns/locale';
 
 // onSubmit = e => {
 // e.preventDefault();
@@ -26,82 +29,99 @@ import {
 // };
 
 class NewEvent extends Component {
+  //startDate1: Thu Jan 16 2020 14:00:00 GMT-0500 (Colombia Standard Time)
   state = {
-    eventTitle: '',
-    day: '',
-    month: '',
-    year: '',
-    time: '',
-    task: {
-      id: '', //task + date + start time
-      timeOfDay: '',
-      task: '', //title
-      note: '',
-      deadline: '', //scheduled date
-      category: '', //
-      source: '', //event
-      assignedTimeStart: '',
-      assignedTimeStop: '',
-      assignedDate: ''
-    },
-    date: null,
-    focused: null,
-    showPickedDate: false
+    eventId: '', //task + date + start time
+    eventTitle: '', //title, string
+
+    eventNote: '', //text, string
+    eventCategory: '', //errand,multiday event, single day event, (radial choices)
+
+    //required
+    assignedTimeStart: '', //14:00:00 GMT-0500 (Colombia Standard Time)
+    assignedDateStart: '', //Thu Jan 16 2020
+    //optional
+    eventDuration: '', //
+    blockOffTimeSlot: '', //T-F  when event will take on time slot for scheduled day
+    assignedTimeStop: '', //00:00 - 24:00, string
+    assignedDateStop: '',
+    startDate1: '',
+    startDate2: null
   };
-  change = e => {
+
+  onSubmit = e => {
+    //send state to Store, reset empty state, go to new view: events/tasks for specific day,
+    e.preventDefault();
+
+    //this.props.newestEvent(this.state);
+
+    this.resetState(this.context.newestEvent(this.state));
+  };
+
+  resetState = () => {
+    this.setState(
+      {
+        eventId: '', //task + date + start time
+        eventTitle: '', //title, string
+
+        eventNote: '', //text, string
+        eventCategory: '', //errand,multiday event, single day event, (radial choices)
+
+        //required
+        assignedTimeStart: '', //14:00:00 GMT-0500 (Colombia Standard Time)
+        assignedDateStart: '', //Thu Jan 16 2020
+        //optional
+        eventDuration: '', //
+        blockOffTimeSlot: '', //T-F  when event will take on time slot for scheduled day
+        assignedTimeStop: '', //00:00 - 24:00, string
+        assignedDateStop: ''
+      },
+      () => this.context.newContentViewHandler('2', 'Monday')
+    );
+    //send new view
+  };
+  handleDateChange = date => {
+    //let date = event.target.value;
+    this.setState({ date: date, showPickedDate: true });
+  };
+
+  startDateTimeHandler = date => {
+    //alert(JSON.stringify(date));
+
+    //console.log(`valueOF ${Object.prototype.valueOf(date)}`);
+    console.log(JSON.stringify(date));
+
+    //console.log(...hood);
+    // let scheduledStartDateTime = valueOf(date);
+    // console.log(scheduledStartDateTime);
+    this.setState({ startDate1: date, day: '1' });
+    console.log(this.state.startDate1);
+    // //startDate1: Thu Jan 23 2020 16:30:00 GMT-0500 (Colombia Standard Time)
+
+    console.log(
+      `Inside NewEvent startDateTimeHandler: typeOf date ${typeof date} `
+    );
+  };
+
+  finishTimeHandler = date => {
+    this.setState({ startDate2: JSON.stringify(date) });
+    console.log(`finishTimeHandler in newEvent: ${date}`);
+  };
+
+  eventTitleChange = e => {
     this.setState({
       [e.target.name]: e.target.value
     });
   };
+  eventNoteChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+  static contextType = CalendarContext;
+  static contextType = RightCockpitContext;
 
-  onSubmit = e => {
-    e.preventDefault();
-    this.props.newestEvent(this.state);
-  };
-  handleDateChange = date => {
-    //let date = event.target.value;
-    this.setState({ date: date, showPickedDate: true }, () =>
-      alert(this.state.date._d)
-    );
-  };
   render() {
-    let showCaseReactDate = (
-      <div>
-        <Container>
-          <Form>
-            <FormGroup>
-              <SingleDatePicker
-                firstDayOfWeek={1}
-                keepOpenOnDateSelect={true} //doesn't close screen after picking date
-                hideKeyboardShortcutsPanel={false}
-                //displayFormat={() => moment.localeData().longDateFormat('L')}
-
-                //phrases={SingleDatePickerPhrases}
-                showClearDate={false}
-                small={true}
-                block={false}
-                numberOfMonths={2}
-                date={this.state.date}
-                onDateChange={date => this.handleDateChange(date)}
-                focused={this.state.focused}
-                onFocusChange={({ focused }) => this.setState({ focused })}
-                openDirection="down"
-                hideKeyboardShortcutsPanel={true}
-              />
-            </FormGroup>
-          </Form>
-        </Container>
-      </div>
-    );
-    let showCurrentPickedDate = null;
-
-    if (this.state.date && this.state.date._d) {
-      showCurrentPickedDate = (
-        <div>{JSON.stringify(this.state.date['_d'])}</div>
-      );
-    }
-
-    //{ showCurrentPickedDate }
     return (
       <React.Fragment>
         <div className="container">
@@ -110,10 +130,10 @@ class NewEvent extends Component {
               <label>Event Title</label>
               <input
                 type="text"
-                name="title"
+                name="eventTitle"
                 className="form-control"
-                value={this.state.task.task}
-                onChange={e => this.change(e)}
+                value={this.state.eventTitle}
+                onChange={e => this.eventTitleChange(e)}
               />
             </div>
 
@@ -121,15 +141,18 @@ class NewEvent extends Component {
               <label>Note</label>
               <input
                 type="text"
-                name="description"
+                name="eventNote"
                 className="form-control"
-                value={this.state.task.note}
-                onChange={e => this.change(e)}
+                value={this.state.eventNote}
+                onChange={e => this.eventNoteChange(e)}
               />
 
-              {showCaseReactDate}
+              <DatePickerPicker
+                startDateTimeHandler={date => this.startDateTimeHandler(date)}
+                finishTimeHandler={date => this.finishTimeHandler(date)}
+              />
             </div>
-            {showCurrentPickedDate}
+
             <button onClick={e => this.onSubmit(e)}>Submit</button>
           </form>
         </div>

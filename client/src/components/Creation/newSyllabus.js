@@ -3,6 +3,7 @@ import ShowAllTasksAfterAddingTask from '../../context/tasksContext';
 import RightCockpit from '../../containers/RightCockpit/RightCockpit';
 import DisplayContent from '../Cockpit/displayContent';
 import SyllabusContext from '../../context/syllabusContext';
+import RightCockpitContext from '../../context/RightCockpitContext';
 import { set } from 'date-fns';
 import MaxReactSyllabus from './SyllabusData';
 
@@ -58,10 +59,11 @@ class NewSyllabus extends Component {
     //allow deleteSyllabusHandler in RightCockpit to either add or splice to the stored maxReact array
 
     //passing new content choice to displayContent -> RightCockpit
-    this.props.newestSyllabus('3');
+    this.context.newContentViewHandler('3', 'maxReact');
     //console.log(`after resetting state ${this.state.contentChoice2}`);
   };
 
+  static contextType = RightCockpitContext;
   static contextType = SyllabusContext;
 
   render() {

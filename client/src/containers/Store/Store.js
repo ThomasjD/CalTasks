@@ -7,6 +7,7 @@ import SyllabusContext from '../../context/syllabusContext.js';
 import TasksDataContext from '../../context/tasksContext.js';
 import Aux from '../../hoc/Aux';
 import Layout from '../../hoc/Layout';
+import CalendarContext from '../../context/calendarContext';
 
 class Store extends Component {
   state = {
@@ -119,34 +120,45 @@ class Store extends Component {
     return (
       <Aux>
         <Layout>
-          <SyllabusContext.Provider
+          <CalendarContext.Provider
             value={{
               resetHandlerChoice: this.resetHandlerChoice,
-              everythingSyllabus: this.state,
+              everythingCalendar: this.state,
               dataRequestHandler: this.dataRequestHandler,
               dataRequestDetails: this.state.dataRequestDetails,
               dataReceiverHandler: this.dataReceiverHandler
             }}
           >
-            <SyllabusData></SyllabusData>
-
-            <TasksDataContext.Provider
+            {/* <Calendar /> */}
+            <SyllabusContext.Provider
               value={{
-                crunk: this.state.crunk,
-                dataReceiverHandler: this.dataReceiverHandler,
+                resetHandlerChoice: this.resetHandlerChoice,
+                everythingSyllabus: this.state,
                 dataRequestHandler: this.dataRequestHandler,
                 dataRequestDetails: this.state.dataRequestDetails,
-                tasksData: this.state,
-                resetHandlerChoice: this.resetHandlerChoice
+                dataReceiverHandler: this.dataReceiverHandler
               }}
             >
-              <TasksData
-                showLeftOverTasksForWeek={this.state.showLeftOverTasksForWeek}
-                dataRequestDetails={this.state.dataRequestDetails}
-              />
-              <RightCockpit></RightCockpit>
-            </TasksDataContext.Provider>
-          </SyllabusContext.Provider>
+              <SyllabusData></SyllabusData>
+
+              <TasksDataContext.Provider
+                value={{
+                  crunk: this.state.crunk,
+                  dataReceiverHandler: this.dataReceiverHandler,
+                  dataRequestHandler: this.dataRequestHandler,
+                  dataRequestDetails: this.state.dataRequestDetails,
+                  tasksData: this.state,
+                  resetHandlerChoice: this.resetHandlerChoice
+                }}
+              >
+                <TasksData
+                  showLeftOverTasksForWeek={this.state.showLeftOverTasksForWeek}
+                  dataRequestDetails={this.state.dataRequestDetails}
+                />
+                <RightCockpit></RightCockpit>
+              </TasksDataContext.Provider>
+            </SyllabusContext.Provider>
+          </CalendarContext.Provider>
         </Layout>
       </Aux>
     );

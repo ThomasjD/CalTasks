@@ -219,22 +219,16 @@ const Navbar = props => {
       </nav>
     </div>
   );
-  return (
-    <React.Fragment>
-      {navbarDisplay}
-
-      {newTaskState.showNewTaskForm ? (
-        <NewTask
-          newTaskInfo={props.newTaskInfo}
-          newTaskTitle={props.newTaskInfoComing}
-          changed={event => newSetTaskInfoState(event)}
-          category={newTaskInfoState.newTaskCategory}
-          categoryChange={event => newSetTaskCategoryState(event)}
-          showTasksAfterNewTask={props.clicked}
-        />
-      ) : null}
-    </React.Fragment>
-  );
+  return <React.Fragment>{navbarDisplay}) : null}</React.Fragment>;
 };
 
 export default Navbar;
+// {newTaskState.showNewTaskForm ? (
+//   <NewTask
+//     newTaskInfo={props.newTaskInfo}
+//     newTaskTitle={props.newTaskInfoComing}
+//     changed={event => newSetTaskInfoState(event)}
+//     category={newTaskInfoState.newTaskCategory}
+//     categoryChange={event => newSetTaskCategoryState(event)}
+//     showTasksAfterNewTask={props.clicked}
+//   />

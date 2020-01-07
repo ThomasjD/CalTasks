@@ -104,13 +104,13 @@ const DisplayContent = props => {
     case '5':
       displayContent = (
         <React.Fragment>
-          <NewEvent newestEvent={props.newestEvent} />
+          <NewEvent />
         </React.Fragment>
       );
       break;
     //showLeftOverLessonsFromSyllabus: for Table Header (add/delete this lesson message)
 
-    case '6':
+    case '6': //NewSyllabus Creation
       if (syllabusContext.everythingSyllabus.syllabusData) {
         displayContent = (
           <React.Fragment>
@@ -146,7 +146,7 @@ const DisplayContent = props => {
       }
 
       break;
-    case '7':
+    case '7': //display a list of syllabi
       //alert('case 7');
       if (syllabusContext.everythingSyllabus.syllabusData) {
         //alert('inside displayContent case');
@@ -159,6 +159,12 @@ const DisplayContent = props => {
       }
 
       break;
+    // case '8':
+    // displayContent = (
+
+    // );
+
+    // break;
   }
 
   return <div>{displayContent}</div>;

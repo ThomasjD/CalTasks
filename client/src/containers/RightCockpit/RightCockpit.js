@@ -12,7 +12,7 @@ import SyllabusContext from '../../context/syllabusContext';
 import TasksDataContext from '../../context/tasksContext';
 //import Layout from '../../hoc/Layout';
 import NewEvent from '../../components/Creation/NewEvent';
-
+import RightCockpitContext from '../../context/RightCockpitContext';
 class RightCockpit extends Component {
   constructor(props) {
     super(props);
@@ -154,16 +154,40 @@ class RightCockpit extends Component {
     this.setState({ events: newestEvent, showEvents: true });
   };
 
-  newestSyllabusHandler = contentChoice => {
+  // newestSyllabusHandler = contentChoice => {
+  //   //this handler send message to contentViewHandler to render the new assigned contentchoice
+  //   //console.log(`i am inside of newestSyllabusHandler event: ${event}`);
+
+  //   let newContentChoice = contentChoice;
+  //   let contentViewObject = {
+  //     target: {
+  //       value: newContentChoice
+  //     }
+  //   };
+
+  //   this.contentViewHandler(contentViewObject);
+  // };
+
+  newContentViewHandler = (contentChoice, info) => {
     //this handler send message to contentViewHandler to render the new assigned contentchoice
     //console.log(`i am inside of newestSyllabusHandler event: ${event}`);
 
     let newContentChoice = contentChoice;
-    let contentViewObject = {
-      target: {
-        value: newContentChoice
-      }
-    };
+    let contentViewObject = null;
+    if (info === 'Monday') {
+      contentViewObject = {
+        target: {
+          value: newContentChoice
+        },
+        info: info
+      };
+    } else {
+      contentViewObject = {
+        target: {
+          value: newContentChoice
+        }
+      };
+    }
 
     this.contentViewHandler(contentViewObject);
   };
@@ -236,12 +260,20 @@ class RightCockpit extends Component {
 
     return (
       <React.Fragment>
-        {navbar}
-        <div className="rightcockpitClasses.deskTop">
-          {viewContentOptions}
+        <RightCockpitContext.Provider
+          value={{
+            newContentViewHandler: (contentChoice, info) =>
+              this.newContentViewHandler(contentChoice, info),
+            rightCockpitState: this.state
+          }}
+        >
+          {navbar}
+          <div className="rightcockpitClasses.deskTop">
+            {viewContentOptions}
 
-          {displayCockpit}
-        </div>
+            {displayCockpit}
+          </div>
+        </RightCockpitContext.Provider>
       </React.Fragment>
     );
   }
