@@ -1,9 +1,0 @@
-.DisplayCockpit {
-  display: flex;
-}
-
-@media (min-width: 500px) {
-  .DisplayCockpit {
-    flex-flow: column;
-  }
-}
