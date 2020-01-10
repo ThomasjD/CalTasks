@@ -6,6 +6,16 @@ class TasksData extends Component {
   state = {
     dataBaseName: 'tasks',
     showHowBusyWeeek: false,
+
+    //NewEvent
+    assignedTimeStart: '', //14:00:00 GMT-0500 (Colombia Standard Time)
+    assignedTimeStop: '', //00:00 - 24:00, string
+    assignedDateStart: '', //Thu Jan 16 2020
+    assignedDateStop: '',
+    //optional
+    eventDuration: '', //
+    blockOffTimeSlot: '', //T-F  when event will take on time slot for scheduled day
+
     unAssignedTasksForWeek: [
       {
         id: 'qrwrwq',
@@ -402,10 +412,60 @@ class TasksData extends Component {
       () => this.context.dataReceiverHandler(this.state)
     );
   };
+
+  newEventHandler = value => {
+    alert(`inside newEventHandler ${this.context.dataRequestDetails}`);
+    let newEvent = this.context.dataRequestDetails.value;
+    let assignTask = {
+      id: newEvent.startTimeDate.dateObjectString,
+      timeOfDay: newEvent.startTimeDate.time,
+      task: newEvent.eventTitle,
+      deadline: newEvent,
+      category: newEvent.eventCategory,
+      assignedTimeStart: newEvent.startTimeDate.toLocaleTimeString,
+      assignedTimeStop: newEvent.startTimeDate.toLocaleTimeString,
+      assignedDate: newEvent.startTimeDate.toLocalDateString
+    };
+    alert(`assignTask.task ${assignTask.task}`);
+    //THE DAY OF THE WEEK
+    let assignToDay = newEvent.startTimeDate.day;
+    alert(`assignToDay: ${assignToDay}`);
+    let findDay = '';
+    switch (assignToDay) {
+      case 1:
+        findDay = 'Monday';
+        break;
+      case 2:
+        findDay = 'Tuesday';
+        break;
+      case 3:
+        findDay = 'Wednesday';
+        break;
+      case 4:
+        findDay = 'Thursday';
+        break;
+      case 5:
+        findDay = 'Friday';
+        break;
+      case 6:
+        findDay = 'Saturday';
+        break;
+      case 0:
+        findDay = 'Sunday';
+        break;
+    }
+    alert(`findDay: ${findDay}`);
+    let foundDay = this.state[findDay]; //array of objects on certain day
+    foundDay.push(assignTask);
+    this.setState({ [findDay]: foundDay }, () =>
+      this.context.dataReceiverHandler(this.state)
+    );
+  };
+
   static contextType = TasksContext;
 
   render() {
-    if (this.context.dataRequestDetails.typeOfData === 'tasks') {
+    if (this.context.dataRequestDetails.typeOfData === 'tasks' || 'events') {
       switch (this.context.dataRequestDetails.handlerChoice) {
         case '1':
           this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
@@ -450,6 +510,25 @@ class TasksData extends Component {
           break;
         case '7':
           this.context.resetHandlerChoice(this.showHowBusyEverydayHandler());
+
+          break;
+        case '8': //new Event
+          //alert('inside case 8');
+          //this.newEventHandler();
+          this.context.resetHandlerChoice(
+            this.newEventHandler(this.props.dataRequestDetails.value)
+          );
+
+          break;
+      }
+    } else {
+      switch (this.context.dataRequestDetails.handlerChoice) {
+        case '8': //new Event
+          alert('inside case 8');
+
+          this.context.resetHandlerChoice(
+            this.newEventHandler(this.props.dataRequestDetails.value)
+          );
 
           break;
       }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
 import ReactDatePicker from '../Calendar/ReactDatePicker';
 import RightCockpitContext from '../../context/RightCockpitContext';
-import CalendarContext from '../../context/calendarContext';
+import TasksDataContext from '../../context/tasksContext';
 import Icon from '../Calendar/Icon';
 import { Form, Input, FormGroup, Container, Label } from 'reactstrap';
 import 'react-dates/initialize';
@@ -14,48 +14,47 @@ import {
 } from 'react-dates';
 import { fi } from 'date-fns/locale';
 
-// onSubmit = e => {
-// e.preventDefault();
-
-// const [newEvent, setNewEvent] = useState({
-//   title: ''
-// });
-
-// setNewEvent({
-//   [e.target.name]: e.target.value
-// });
-// let bigEvent = { [e.target.name]: e.target.value };
-// props.newestEvent(bigEvent);
-// };
-
 class NewEvent extends Component {
-  //startDate1: Thu Jan 16 2020 14:00:00 GMT-0500 (Colombia Standard Time)
   state = {
     eventId: '', //task + date + start time
-    eventTitle: '', //title, string
-
-    eventNote: '', //text, string
+    eventTitle: '',
+    eventNote: '',
     eventCategory: '', //errand,multiday event, single day event, (radial choices)
-
     //required
-    assignedTimeStart: '', //14:00:00 GMT-0500 (Colombia Standard Time)
-    assignedDateStart: '', //Thu Jan 16 2020
-    //optional
-    eventDuration: '', //
-    blockOffTimeSlot: '', //T-F  when event will take on time slot for scheduled day
-    assignedTimeStop: '', //00:00 - 24:00, string
-    assignedDateStop: '',
-    startDate1: '',
-    startDate2: null
+    StartTimeDate: '',
+    FinishTimeDate: '',
+
+    showStartTimeDate: false,
+    showFinishTimeDate: false
   };
 
   onSubmit = e => {
-    //send state to Store, reset empty state, go to new view: events/tasks for specific day,
     e.preventDefault();
 
-    //this.props.newestEvent(this.state);
+    let typeOfData = 'events';
+    let handlerChoice = '8';
+    let infoType = 'newEvent';
+    let info = this.state;
 
-    this.resetState(this.context.newestEvent(this.state));
+    // this.setState({ blue: 'blue' }, event =>
+    //   this.context.dataRequestHandler(
+    //     event,
+    //     typeOfData,
+    //     handlerChoice,
+    //     infoType,
+    //     info
+    //   )
+    // );
+
+    this.resetState(event =>
+      this.context.dataRequestHandler(
+        event,
+        typeOfData,
+        handlerChoice,
+        infoType,
+        info
+      )
+    );
   };
 
   resetState = () => {
@@ -76,35 +75,28 @@ class NewEvent extends Component {
         assignedTimeStop: '', //00:00 - 24:00, string
         assignedDateStop: ''
       },
-      () => this.context.newContentViewHandler('2', 'Monday')
+      () => this.context.contentViewHandler('2')
     );
     //send new view
   };
   handleDateChange = date => {
     //let date = event.target.value;
-    this.setState({ date: date, showPickedDate: true });
+    this.setState({
+      startTimeDate: date,
+      showStartTimeDate: true
+    });
   };
 
   startDateTimeHandler = date => {
-    //alert(JSON.stringify(date));
-
-    //console.log(`valueOF ${Object.prototype.valueOf(date)}`);
-    console.log(JSON.stringify(date));
-
-    //console.log(...hood);
-    // let scheduledStartDateTime = valueOf(date);
-    // console.log(scheduledStartDateTime);
-    this.setState({ startDate1: date, day: '1' });
-    console.log(this.state.startDate1);
-    // //startDate1: Thu Jan 23 2020 16:30:00 GMT-0500 (Colombia Standard Time)
+    this.setState({ startTimeDate: date, showStartTimeDate: true });
 
     console.log(
       `Inside NewEvent startDateTimeHandler: typeOf date ${typeof date} `
     );
   };
 
-  finishTimeHandler = date => {
-    this.setState({ startDate2: JSON.stringify(date) });
+  finishTimeDateHandler = date => {
+    this.setState({ finishTimeDate: date, showFinishTimeDate: true });
     console.log(`finishTimeHandler in newEvent: ${date}`);
   };
 
@@ -118,7 +110,13 @@ class NewEvent extends Component {
       [e.target.name]: e.target.value
     });
   };
-  static contextType = CalendarContext;
+
+  eventTypeChange = e => {
+    this.setState({
+      eventType: e.target.value
+    });
+  };
+  //static contextType = TasksDataContext;
   static contextType = RightCockpitContext;
 
   render() {
@@ -138,6 +136,24 @@ class NewEvent extends Component {
             </div>
 
             <div className="form-group">
+              <label>Event Type</label>
+              <select
+                name="assignedTimeStart"
+                className="form-control"
+                placeholder="Enter Start Time."
+                onChange={e => this.eventTypeChange(e)}
+                id="assignedTimeStart"
+                defaultValue="1"
+              >
+                <option value="1">Appointment</option>
+                <option value="2eeting">Meeting</option>
+                <option value="3">One Time - Scheduled</option>
+                <option value="4">One Time - Unschedule</option>
+                <option value="5">Multi Day Event</option>
+              </select>
+            </div>
+
+            <div className="form-group">
               <label>Note</label>
               <input
                 type="text"
@@ -149,7 +165,7 @@ class NewEvent extends Component {
 
               <DatePickerPicker
                 startDateTimeHandler={date => this.startDateTimeHandler(date)}
-                finishTimeHandler={date => this.finishTimeHandler(date)}
+                finishTimeDateHandler={date => this.finishTimeHandler(date)}
               />
             </div>
 
@@ -160,14 +176,5 @@ class NewEvent extends Component {
     );
   }
 }
-// {this.state.showPickedDate ? { showCurrentPickedDate } : null}
-export default NewEvent;
 
-// <div className="form-group">
-//             <label for="exampleFormControlTextarea1">Example textarea</label>
-//             <textarea
-//               value = 'Search on Ebay'
-//               className="form-control"
-//               rows="3">
-//                </textarea>
-//           </div>
+export default NewEvent;

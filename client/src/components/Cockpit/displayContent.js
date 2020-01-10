@@ -12,6 +12,7 @@ import SyllabusContext from '../../context/syllabusContext';
 import TasksContext from '../../context/tasksContext';
 import statusClass from '../../components/ViewContent/Tasks/Tasks.module.css';
 import Syllabi from '../ViewContent/Syllabus/Syllabi';
+import PickedDayTasks from '../ViewContent/PickedDayTasks/PickedDayTasks';
 
 const DisplayContent = props => {
   const syllabusContext = useContext(SyllabusContext);
@@ -65,14 +66,6 @@ const DisplayContent = props => {
         <React.Fragment>
           {syllabusContext.everythingSyllabus.syllabusData ? (
             <div>
-              <p>
-                tasks has #{' '}
-                {
-                  syllabusContext.everythingSyllabus.syllabusData.maxReact
-                    .length
-                }
-              </p>
-
               <Lessons
                 everything={props.everything}
                 lessons={
@@ -159,12 +152,19 @@ const DisplayContent = props => {
       }
 
       break;
-    // case '8':
-    // displayContent = (
+    case '8': //View tasks according to chosen day
+      displayContent = (
+        <React.Fragment>
+                      
+          <TodayTasks
+            everything={props.everything}
+            reRenderTodayTasks={props.everything.reRenderTodayTasks}
+          />
+                    
+        </React.Fragment>
+      );
 
-    // );
-
-    // break;
+      break;
   }
 
   return <div>{displayContent}</div>;

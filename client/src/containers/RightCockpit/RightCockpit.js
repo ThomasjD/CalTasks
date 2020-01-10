@@ -75,7 +75,6 @@ class RightCockpit extends Component {
 */
 
   contentViewHandler = event => {
-    console.log('inside contentViewer');
     let newViewChoice = event.target.value;
     this.setState({ contentChoice: newViewChoice });
 
@@ -104,7 +103,7 @@ class RightCockpit extends Component {
 
           break;
         case '4':
-          //this.context.dataRequestHandler(event, 'syllabus', '8', null, null);
+          this.context.dataRequestHandler(event, 'tasks', '8', null, null);
           break;
 
         case '6': //Adding Lessons from Syllabus
@@ -114,6 +113,20 @@ class RightCockpit extends Component {
         case '7':
           this.context.dataRequestHandler(event, 'syllabus', '8', null, null);
           console.log('Inside case 7');
+
+          break;
+        case '8': //newEvent submitForm, later change the typeOfData to event
+          this.context.dataRequestHandler(
+            event,
+            'tasks',
+            '8',
+            'unAssignedTasksForWeek',
+            info
+          );
+          break;
+        case '9':
+          // this.context.dataRequestHandler(event, 'tasks', '9', null, null);
+          // console.log('Inside case 9');
 
           break;
       }
@@ -146,56 +159,101 @@ class RightCockpit extends Component {
     });
   };
 
-  newestEventHandler = e => {
-    let incomingEvent = { title: e.title, name: e.name }; //obj
+  /*viewRequestHandler = (event, typeOfData, viewHandlerChoice, infoType, info) => {}
+        event, 
+        typeOfData:  'tasks', 'syllabus', 'event
+        viewHandlerChoice: num string, 
+        dataLocation: 'Monday', 'unAssignedTasksForWeek', 'maxReact'
+        infoType, string of database description:  'id', 'index'
+        info: obj: data that need to added to location of database
+        )
 
-    let newestEvent = [...this.state.events, incomingEvent];
+      //handle exchange of info for manipulation of database    
+      dataRequestHandler = (event, typeOfData, HandlerChoice, infoType, info) => {}
+        event, 
+        typeOfData, string: description of types of database: 'syllabus', 'tasks', 'events'
+        HandlerChoice, num string: -> determines what functions gets called up in database
+        dataLocation: 'Monday', 'unAssignedTasksForWeek', 'maxReact'
+        infoType, string: 'id', 'index', 'newObjData'
+        info: obj => data that will become value in dataRequestDetails
+        )
+      dataRequestDetails = {handlerChoice, index, id, typeOfData, value
+          handlerChoice: handlerChoice, //case that calls up functions in database
+          index: index, //coul be null
+          id: id, //could be null
+          typeOfData: typeOfData: // 'syllabus', 'tasks', 'events'
+          dataLocation: 'Monday', 'unAssignedTasksForWeek', 'maxReact'
+          value: value, //obj to be added to database      
+        };*/
 
-    this.setState({ events: newestEvent, showEvents: true });
-  };
+  viewRequestHandler = message => {
+    const {
+      event,
+      typeOfView,
+      viewHandlerChoice,
+      dataLocation,
+      infoType,
+      info
+    } = message;
+    let newViewChoice = viewHandlerChoice;
 
-  // newestSyllabusHandler = contentChoice => {
-  //   //this handler send message to contentViewHandler to render the new assigned contentchoice
-  //   //console.log(`i am inside of newestSyllabusHandler event: ${event}`);
-
-  //   let newContentChoice = contentChoice;
-  //   let contentViewObject = {
-  //     target: {
-  //       value: newContentChoice
-  //     }
-  //   };
-
-  //   this.contentViewHandler(contentViewObject);
-  // };
-
-  newContentViewHandler = (contentChoice, info) => {
-    //this handler send message to contentViewHandler to render the new assigned contentchoice
-    //console.log(`i am inside of newestSyllabusHandler event: ${event}`);
-
-    let newContentChoice = contentChoice;
-    let contentViewObject = null;
-    if (info === 'Monday') {
-      contentViewObject = {
-        target: {
-          value: newContentChoice
-        },
-        info: info
-      };
+    if (newViewChoice === this.state.contentChoice) {
+      return this.setState({ contentChoice: '0' });
     } else {
-      contentViewObject = {
-        target: {
-          value: newContentChoice
-        }
-      };
+      switch (newViewChoice) {
+        case '1': //All tasks
+          this.context.dataRequestHandler(event, 'tasks', '1', null, null);
+
+          break;
+
+        case '2': //TodaysTasks
+          this.context.dataRequestHandler(event, 'tasks', '2', null, null);
+
+          break;
+
+        case '3': //Syllabus (for viewing Syllabus)
+          //reaching out to SyllabusData
+
+          this.context.dataRequestHandler(event, 'syllabus', '1', null, null);
+
+          break;
+        case '4': //newEvent submitForm, later change the typeOfData to event
+          this.context.dataRequestHandler(
+            event,
+            'tasks',
+            '8',
+            dataLocation,
+            null
+          );
+          break;
+
+        case '6': //Adding Lessons from Syllabus
+          this.context.dataRequestHandler(event, 'syllabus', '6', null, null);
+          //this.props.showLeftOverLessonsFromSyllabus();
+          break;
+        case '7':
+          this.context.dataRequestHandler(event, 'syllabus', '8', null, null);
+          console.log('Inside case 7');
+
+          break;
+        case '8':
+          this.context.dataRequestHandler(
+            event,
+            'tasks', //need to change it later to events
+            '8',
+            dataLocation,
+            info
+          );
+          break;
+        case '9':
+          break;
+      }
     }
-
-    this.contentViewHandler(contentViewObject);
   };
-
   //static usually used in getDerivedStateFromProps
   //static contextType = ShowAllTasksAfterAddingTask;
   static contextType = TasksDataContext;
-  static contextType = SyllabusContext;
+  //static contextType = SyllabusContext;
   render() {
     let leftCockpit = null;
     if (this.state.showCockpit == true) {
@@ -222,7 +280,9 @@ class RightCockpit extends Component {
         <div className="col-lg-8 order-0 float-left">
           <div className="card bg-light m-3 p-3 ">
             <NewEvent />
+
             <DisplayContent
+              dataLocation={this.state.dataLocation}
               contentViewHandler={event => this.contentViewHandler(event)}
               newestSyllabus={event => this.newestSyllabusHandler(event)}
               everything={this.state}
@@ -254,7 +314,7 @@ class RightCockpit extends Component {
 
     let viewContentOptions = (
       <ViewContentOptions
-        contentViewHandler={event => this.contentViewHandler(event)}
+        viewRequestHandler={event => this.viewRequestHandler(event)}
       />
     );
 
@@ -262,6 +322,7 @@ class RightCockpit extends Component {
       <React.Fragment>
         <RightCockpitContext.Provider
           value={{
+            contentViewHandler: this.contentViewHandler,
             newContentViewHandler: (contentChoice, info) =>
               this.newContentViewHandler(contentChoice, info),
             rightCockpitState: this.state

@@ -17,6 +17,7 @@ class Store extends Component {
     showLeftOverTasksForWeek: false,
     syllabusData: null,
     tasksData: null,
+    fish: 'blowFish',
 
     dataRequestDetails: {
       handlerChoice: false,
@@ -56,26 +57,41 @@ class Store extends Component {
   };
 
   dataRequestHandler = (event, typeOfData, handlerChoice, infoType, info) => {
+    //alert('inside dataRequestHandler');
+    alert(` ${typeOfData}  :${handlerChoice} :${infoType} :${info}`);
     let index = null;
     let id = null;
     let value = '';
+    let dataRequestDetails = null;
     //let inspection = event.value;
-
-    if (infoType === 'index') {
-      index = info;
-      //value = null;
-    } else {
-      id = info;
+    switch (typeOfData) {
+      case 'tasks':
+        if (infoType === 'index') {
+          index = info;
+          //value = null;
+        } else {
+          id = info;
+        }
+        value = event.target.value;
+        dataRequestDetails = {
+          handlerChoice: handlerChoice,
+          index: index,
+          id: id,
+          value: value,
+          typeOfData: typeOfData
+        };
+        break;
+      case 'events':
+        dataRequestDetails = {
+          handlerChoice: handlerChoice,
+          index: index,
+          id: id,
+          typeOfData: typeOfData,
+          value: info
+        };
+        break;
     }
-    value = event.target.value;
 
-    let dataRequestDetails = {
-      handlerChoice: handlerChoice,
-      index: index,
-      id: id,
-      value: value,
-      typeOfData: typeOfData
-    };
     //event, index, handlerType
     this.setState({
       dataRequestDetails: dataRequestDetails
@@ -130,6 +146,7 @@ class Store extends Component {
             }}
           >
             {/* <Calendar /> */}
+
             <SyllabusContext.Provider
               value={{
                 resetHandlerChoice: this.resetHandlerChoice,
@@ -148,14 +165,15 @@ class Store extends Component {
                   dataRequestHandler: this.dataRequestHandler,
                   dataRequestDetails: this.state.dataRequestDetails,
                   tasksData: this.state,
-                  resetHandlerChoice: this.resetHandlerChoice
+                  resetHandlerChoice: this.resetHandlerChoice,
+                  newDataHandler: this.newDataHandler
                 }}
               >
                 <TasksData
                   showLeftOverTasksForWeek={this.state.showLeftOverTasksForWeek}
                   dataRequestDetails={this.state.dataRequestDetails}
                 />
-                <RightCockpit></RightCockpit>
+                <RightCockpit crunk={this.state.crunk}></RightCockpit>
               </TasksDataContext.Provider>
             </SyllabusContext.Provider>
           </CalendarContext.Provider>
