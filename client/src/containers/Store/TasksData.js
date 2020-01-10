@@ -297,6 +297,33 @@ class TasksData extends Component {
             () => this.context.dataReceiverHandler(this.state)
           );
         }
+        break;
+      case '9':
+        let pickedDay = this.context.dataRequestDetails.dataLocation;
+        if (this.state[pickedDay].length != 0) {
+          //alert(`Inside of lastTaskHeaderHandler case 2 if statement:`);
+
+          this.setState(
+            {
+              pickedDayTasksHeader: this.state[pickedDay][0],
+              dataLocation: this.context.dataRequestDetails.dataLocation
+            },
+
+            () => this.context.dataReceiverHandler(this.state)
+          );
+        } else {
+          //alert(`Inside of lastTaskHeaderHandler case 2 else statement:`);
+          this.setState(
+            {
+              pickedDayTasksHeader: this.state.pickedDayTasksHeader,
+              dataLocation: this.context.dataRequestDetails.dataLocation
+            },
+
+            () => this.context.dataReceiverHandler(this.state)
+          );
+        }
+
+        break;
     }
   };
   //dynamic edit task for Today (Monday)
@@ -508,7 +535,7 @@ class TasksData extends Component {
           );
 
           break;
-        case '7':
+        case '7': //for cockpit displaying icons for every task for each day of week
           this.context.resetHandlerChoice(this.showHowBusyEverydayHandler());
 
           break;
@@ -519,6 +546,9 @@ class TasksData extends Component {
             this.newEventHandler(this.props.dataRequestDetails.value)
           );
 
+          break;
+        case '9':
+          this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
           break;
       }
     } else {

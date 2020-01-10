@@ -153,12 +153,27 @@ const DisplayContent = props => {
 
       break;
     case '8': //View tasks according to chosen day
+      // displayContent = (
+      //   <React.Fragment>
+      //
+      //     <PickedDayTasks
+      //       everything={props.everything}
+      //       dataLocation={props.dataLocation}
+      //       //reRenderTodayTasks={props.everything.reRenderTodayTasks}
+      //     />
+      //
+      //   </React.Fragment>
+      // );
+
+      break;
+    case '9': //View tasks according to chosen day
       displayContent = (
         <React.Fragment>
                       
-          <TodayTasks
+          <PickedDayTasks
             everything={props.everything}
-            reRenderTodayTasks={props.everything.reRenderTodayTasks}
+            //dataLocation={tasksContext.dataRequestDetails.value}
+            //reRenderTodayTasks={props.everything.reRenderTodayTasks}
           />
                     
         </React.Fragment>

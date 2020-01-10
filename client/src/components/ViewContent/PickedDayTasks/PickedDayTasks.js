@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
-import TodayTask from './TodayTask/TodayTask';
+import PickedDayTask from './PickedDayTask/PickedDayTask';
 import student from '../../../containers/Student.css';
 import TasksContext from '../../../context/tasksContext';
 
 const PickedDayTasks = props => {
   const tasksContext = useContext(TasksContext);
-  let dataLocation = props.dataLocation;
+
   const renderTableHeaderHandler = () => {
     if (tasksContext.tasksData.tasksData) {
       let header = Object.keys(
-        tasksContext.tasksData.tasksData.TodayTasksHeader
+        tasksContext.tasksData.tasksData.pickedDayTasksHeader
       );
       return header.map((key, index) => {
         switch (key) {
@@ -38,8 +38,11 @@ const PickedDayTasks = props => {
   };
   //todayTaskChanged={props.changed}
   const tasksOfSelectedDayHandler = () => {
-    let dataLocation = props.dataLocation;
+    //let dataLocation = tasksContext.dataRequestDetails.value;
+    //alert(`dataLocation: ${dataLocation}`);
     if (tasksContext.tasksData.tasksData) {
+      let dataLocation = tasksContext.tasksData.tasksData.dataLocation;
+      alert(`Inside tasksOfSelectedDayHandler dataLocation: ${dataLocation}`); //tasksContext.tasksData.tasksData.Tuesday  [dataLocation]
       return tasksContext.tasksData.tasksData[dataLocation].map(
         (day, index) => {
           let functionChoiceDelete = null;
@@ -56,7 +59,7 @@ const PickedDayTasks = props => {
 
           return (
             <React.Fragment key={day.id}>
-              <TodayTask
+              <PickedDayTask
                 id={day.id}
                 timeOfDay={day.timeOfDay}
                 task={day.task}

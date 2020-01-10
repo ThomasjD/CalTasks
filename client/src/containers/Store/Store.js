@@ -21,7 +21,9 @@ class Store extends Component {
 
     dataRequestDetails: {
       handlerChoice: false,
+      dataLocation: null,
       index: null,
+
       id: null,
       value: null
     }
@@ -56,9 +58,16 @@ class Store extends Component {
     }
   };
 
-  dataRequestHandler = (event, typeOfData, handlerChoice, infoType, info) => {
-    //alert('inside dataRequestHandler');
-    alert(` ${typeOfData}  :${handlerChoice} :${infoType} :${info}`);
+  //dataRequestHandler = (event, typeOfData, handlerChoice,dataLocation,infoType, info) => {
+  dataRequestHandler = (event, dataRequestMessage) => {
+    let {
+      typeOfData,
+      handlerChoice,
+      dataLocation,
+      infoType,
+      info
+    } = dataRequestMessage;
+
     let index = null;
     let id = null;
     let value = '';
@@ -66,19 +75,27 @@ class Store extends Component {
     //let inspection = event.value;
     switch (typeOfData) {
       case 'tasks':
-        if (infoType === 'index') {
-          index = info;
-          //value = null;
-        } else {
-          id = info;
+        switch (infoType) {
+          case 'index':
+            index = info;
+            value = event.target.value;
+            break;
+          case 'id':
+            id = info;
+            value = event.target.value;
+            break;
+          case 'pickedDayTasks':
+            value = null;
+            break;
         }
-        value = event.target.value;
+
         dataRequestDetails = {
           handlerChoice: handlerChoice,
           index: index,
           id: id,
           value: value,
-          typeOfData: typeOfData
+          typeOfData: typeOfData,
+          dataLocation: dataLocation
         };
         break;
       case 'events':
@@ -86,6 +103,7 @@ class Store extends Component {
           handlerChoice: handlerChoice,
           index: index,
           id: id,
+          typeOfData: typeOfData,
           typeOfData: typeOfData,
           value: info
         };

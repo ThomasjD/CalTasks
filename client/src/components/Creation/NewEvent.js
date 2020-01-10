@@ -75,7 +75,14 @@ class NewEvent extends Component {
         assignedTimeStop: '', //00:00 - 24:00, string
         assignedDateStop: ''
       },
-      () => this.context.contentViewHandler('2')
+      event =>
+        this.context.viewRequestHandler(
+          event,
+          'newViewNewData',
+          '8',
+          'tasks',
+          'unAssignedTasksForWeek'
+        )
     );
     //send new view
   };

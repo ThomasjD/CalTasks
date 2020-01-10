@@ -76,6 +76,7 @@ class RightCockpit extends Component {
 
   contentViewHandler = event => {
     let newViewChoice = event.target.value;
+    //alert(`inside contentViewHandler ${newViewChoice}`);
     this.setState({ contentChoice: newViewChoice });
 
     //Comparing new contentChoice with previous contentChoice
@@ -102,8 +103,8 @@ class RightCockpit extends Component {
           this.context.dataRequestHandler(event, 'syllabus', '1', null, null);
 
           break;
-        case '4':
-          this.context.dataRequestHandler(event, 'tasks', '8', null, null);
+        case '4': //view tasks for picked day
+          //this.context.dataRequestHandler(event, 'tasks', '', null, null);
           break;
 
         case '6': //Adding Lessons from Syllabus
@@ -116,15 +117,15 @@ class RightCockpit extends Component {
 
           break;
         case '8': //newEvent submitForm, later change the typeOfData to event
-          this.context.dataRequestHandler(
-            event,
-            'tasks',
-            '8',
-            'unAssignedTasksForWeek',
-            info
-          );
+          // this.context.dataRequestHandler(
+          //   event,
+          //   'tasks',
+          //   '8',
+          //   'unAssignedTasksForWeek',
+          //   info
+          // );
           break;
-        case '9':
+        case '9': //view tasks for picked day
           // this.context.dataRequestHandler(event, 'tasks', '9', null, null);
           // console.log('Inside case 9');
 
@@ -159,7 +160,7 @@ class RightCockpit extends Component {
     });
   };
 
-  /*viewRequestHandler = (event, typeOfData, viewHandlerChoice, infoType, info) => {}
+  /*viewRequestHandler = (event, typeOfData, viewHandlerChoice, dataLocation, dataHandlerChoice, infoType, info) => {}
         event, 
         typeOfData:  'tasks', 'syllabus', 'event
         viewHandlerChoice: num string, 
@@ -189,11 +190,12 @@ class RightCockpit extends Component {
   viewRequestHandler = message => {
     const {
       event,
-      typeOfView,
-      viewHandlerChoice,
-      dataLocation,
-      infoType,
-      info
+      typeOfView, //'syllabus', 'tasks', 'events'
+      viewHandlerChoice, //determines view only
+      dataLocation, //object location where it needs to locate to pull, change, or alter
+      dataHandlerChoice, //# representing the what will get done in database
+      infoType, //category of index,id,
+      info //the actual info
     } = message;
     let newViewChoice = viewHandlerChoice;
 
@@ -202,25 +204,25 @@ class RightCockpit extends Component {
     } else {
       switch (newViewChoice) {
         case '1': //All tasks
-          this.context.dataRequestHandler(event, 'tasks', '1', null, null);
+          this.context.dataRequestHandler(event, typeOfView, '1', null, null);
 
           break;
 
         case '2': //TodaysTasks
-          this.context.dataRequestHandler(event, 'tasks', '2', null, null);
+          this.context.dataRequestHandler(event, typeOfView, '2', null, null);
 
           break;
 
         case '3': //Syllabus (for viewing Syllabus)
           //reaching out to SyllabusData
 
-          this.context.dataRequestHandler(event, 'syllabus', '1', null, null);
+          this.context.dataRequestHandler(event, typeOfView, '1', null, null);
 
           break;
         case '4': //newEvent submitForm, later change the typeOfData to event
           this.context.dataRequestHandler(
             event,
-            'tasks',
+            typeOfView,
             '8',
             dataLocation,
             null
@@ -228,22 +230,15 @@ class RightCockpit extends Component {
           break;
 
         case '6': //Adding Lessons from Syllabus
-          this.context.dataRequestHandler(event, 'syllabus', '6', null, null);
+          this.context.dataRequestHandler(event, typeOfView, '6', null, null);
           //this.props.showLeftOverLessonsFromSyllabus();
           break;
         case '7':
-          this.context.dataRequestHandler(event, 'syllabus', '8', null, null);
+          this.context.dataRequestHandler(event, typeOfView, '8', null, null);
           console.log('Inside case 7');
 
           break;
         case '8':
-          this.context.dataRequestHandler(
-            event,
-            'tasks', //need to change it later to events
-            '8',
-            dataLocation,
-            info
-          );
           break;
         case '9':
           break;
@@ -315,6 +310,7 @@ class RightCockpit extends Component {
     let viewContentOptions = (
       <ViewContentOptions
         viewRequestHandler={event => this.viewRequestHandler(event)}
+        contentViewHandler={event => this.contentViewHandler(event)}
       />
     );
 
