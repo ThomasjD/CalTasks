@@ -5,12 +5,82 @@ import classes from './Cockpit.module.css';
 // import classNames from 'classnames';
 // import classes from './Cockpit.module.css';
 // import Navbar from './navBar';
+import SyllabiList from '../ViewContent/Syllabus/SyllabiList';
 import TasksContext from '../../context/tasksContext';
+import SyllabusContext from '../../context/syllabusContext';
 
 const ViewContentOptions = props => {
   const tasksContext = useContext(TasksContext);
+  const syllabusContext = useContext(SyllabusContext);
 
-  const prepareViewRequestHandler = event => {
+  const pickedSyllabusRequestHandler = event => {
+    //let dayPicked = event.target.value;
+    //event
+    let dataRequestMessage = null;
+    if (event.target.value === 'showSyllabiList') {
+      dataRequestMessage = {
+        typeOfData: 'syllabus',
+        handlerChoice: '18',
+        dataLocation: null,
+        infoType: 'triggerShowSyllabus',
+        info: ''
+      };
+      tasksContext.dataRequestHandler(event, dataRequestMessage);
+    } else {
+      alert(
+        `inside pickedSyllabusRequestHandler value from onClick: ${event.target.value}`
+      );
+      dataRequestMessage = {
+        typeOfData: 'syllabus',
+        handlerChoice: '11',
+        dataLocation: event.target.value,
+        infoType: 'triggerShowSyllabus',
+        info: ''
+      };
+      syllabusContext.dataRequestHandler(event, dataRequestMessage);
+      // let newContentChoice = event.target.value;
+
+      let contentViewObject = {
+        target: {
+          value: '10'
+        }
+      };
+      props.contentViewHandler(contentViewObject);
+    }
+
+    //tasksContext.contentViewHandler(3)
+  };
+
+  const processSyllabiList = () => {
+    return Object.keys(
+      syllabusContext.everythingSyllabus.syllabusData.syllabi
+    ).map((syllabus, index) => {
+      //alert(`inside const ViewContentOptions
+      //  props.syllabusName ${syllabusContext.everythingSyllabus.syllabusData.syllabi[syllabus].syllabusId}`);
+      return (
+        <React.Fragment key={index}>
+          <SyllabiList
+            click={event => pickedSyllabusRequestHandler(event)}
+            syllabusId={
+              syllabusContext.everythingSyllabus.syllabusData.syllabi[syllabus]
+                .syllabusId
+            }
+            value={
+              syllabusContext.everythingSyllabus.syllabusData.syllabi[syllabus]
+                .syllabusId
+            }
+            index={index}
+            syllabusName={
+              syllabusContext.everythingSyllabus.syllabusData.syllabi[syllabus]
+                .name
+            }
+          />
+        </React.Fragment>
+      );
+    });
+  };
+
+  const pickedDayRequestHandler = event => {
     let dayPicked = event.target.value;
     //props.viewRequestHandler()
     let dataLocation = null;
@@ -54,6 +124,7 @@ const ViewContentOptions = props => {
 
     props.contentViewHandler(contentViewObject);
   };
+
   let displayOptions = (
     <React.Fragment>
       <div>
@@ -94,16 +165,26 @@ const ViewContentOptions = props => {
             Today's Tasks
           </label>
 
-          <label className="btn btn-warning m-2 active">
+          <label className="btn dropdown m-2 active">
             <button
-              type="radio"
-              name="options"
-              id="option3"
-              autoComplete="off"
-              onClick={props.contentViewHandler}
-              value="3"
-            />{' '}
-            React Syllabus
+              className="btn btn-success dropdown-toggle"
+              type="button"
+              id="dropdownMenu2"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              onClick={event => pickedSyllabusRequestHandler(event)}
+              value="showSyllabiList"
+            >
+              {' '}
+              View Syllabi
+            </button>
+
+            <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
+              {syllabusContext.everythingSyllabus.syllabusData
+                ? processSyllabiList()
+                : null}
+            </div>
           </label>
 
           <label className="btn  dropdown m-2 active">
@@ -125,7 +206,7 @@ const ViewContentOptions = props => {
                 name="options"
                 id="option1"
                 autoComplete="off"
-                onClick={event => prepareViewRequestHandler(event)}
+                onClick={event => pickedDayRequestHandler(event)}
                 value="1"
               >
                 {' '}
@@ -138,7 +219,7 @@ const ViewContentOptions = props => {
                 name="options"
                 id="option1"
                 autoComplete="off"
-                onClick={event => prepareViewRequestHandler(event)}
+                onClick={event => pickedDayRequestHandler(event)}
                 value="2"
               >
                 {' '}
@@ -151,7 +232,7 @@ const ViewContentOptions = props => {
                 name="options"
                 id="option1"
                 autoComplete="off"
-                onClick={event => prepareViewRequestHandler(event)}
+                onClick={event => pickedDayRequestHandler(event)}
                 value="3"
               >
                 {' '}
@@ -163,7 +244,7 @@ const ViewContentOptions = props => {
                 name="options"
                 id="option1"
                 autoComplete="off"
-                onClick={event => prepareViewRequestHandler(event)}
+                onClick={event => pickedDayRequestHandler(event)}
                 value="4"
               >
                 {' '}
@@ -175,7 +256,7 @@ const ViewContentOptions = props => {
                 name="options"
                 id="option1"
                 autoComplete="off"
-                onClick={event => prepareViewRequestHandler(event)}
+                onClick={event => pickedDayRequestHandler(event)}
                 value="5"
               >
                 {' '}
@@ -187,7 +268,7 @@ const ViewContentOptions = props => {
                 name="options"
                 id="option1"
                 autoComplete="off"
-                onClick={event => prepareViewRequestHandler(event)}
+                onClick={event => pickedDayRequestHandler(event)}
                 value="6"
               >
                 {' '}
@@ -199,7 +280,7 @@ const ViewContentOptions = props => {
                 name="options"
                 id="option1"
                 autoComplete="off"
-                onClick={event => prepareViewRequestHandler(event)}
+                onClick={event => pickedDayRequestHandler(event)}
                 value="7"
               >
                 {' '}

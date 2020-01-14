@@ -172,6 +172,17 @@ class Syllabus extends Component {
   lastLessonHeaderHandler = () => {
     switch (this.context.dataRequestDetails.handlerChoice) {
       case '1':
+        //list of syllabi
+
+        //[key: syllabiName, value: index]
+        //sallabiName1: {syllabi[syllabikey]}
+        //key = syllabiName+ index & value {this.state[syllabiName]}
+
+        // alert(`syllabiList ${syllabiList}`);
+        // this.context.resetHandlerChoice(
+        //   this.context.dataReceiverHandler(this.state)
+        // );
+
         if (this.state.maxReact.length != 0) {
           this.setState(
             { lastLessonHeader: this.state.maxReact[0] },
@@ -251,41 +262,47 @@ class Syllabus extends Component {
         let newShowSyllabistList = !this.state.currentShowSyllabusList;
 
         let syllabusListKeys = Object.keys(this.state.syllabi);
+        //[maxReact, boostrap]
 
         let syllabusListLength = syllabusListKeys.length;
         //alert(syllabusListLength);
 
         //taking one of the syllabus object out
-        let modelHeader = syllabusListKeys[0]; //an object of one of the syllabus
+        let modelHeader = syllabusListKeys[0]; //a key of one of the syllabus
 
         if (syllabusListLength != 0) {
           let syllabusHeaders = Object.keys(this.state.syllabi[modelHeader]);
+          //[] keys for the specific syllabus
 
-          this.setState(
-            {
-              syllabusHeaders: syllabusHeaders,
-              currentShowSyllabusList: newShowSyllabistList
-            },
+          //   this.setState(
+          //     {
+          //       syllabusHeaders: syllabusHeaders,
+          //       currentShowSyllabusList: newShowSyllabistList
+          //     },
 
-            () => {
-              this.context.resetHandlerChoice(
-                this.context.dataReceiverHandler(this.state)
-              );
-            }
-          );
-        } else {
-          this.setState(
-            { syllabusHeaders: this.state.syllabusHeaders },
+          //     () => {
+          //       this.context.resetHandlerChoice(
+          //         this.context.dataReceiverHandler(this.state)
+          //       );
+          //     }
+          //   );
+          // } else {
+          //   this.setState(
+          //     { syllabusHeaders: this.state.syllabusHeaders },
 
-            () => {
-              this.context.resetHandlerChoice(
-                this.context.dataReceiverHandler(this.state)
-              );
-            }
-          );
+          //     () => {
+          //       this.context.resetHandlerChoice(
+          //         this.context.dataReceiverHandler(this.state)
+          //       );
+          //     }
+          //   );
+          // }
+
+          // break;
         }
-
-        break;
+        this.context.resetHandlerChoice(
+          this.context.dataReceiverHandler(this.state.syllabi)
+        );
     }
   };
 
@@ -363,6 +380,14 @@ class Syllabus extends Component {
     );
   };
 
+  lastSyllabusHeaderHandler = () => {
+    this.context.dataReceiverHandler(this.state);
+
+    //this.setState({syllabiList})
+
+    //[{},{}, {}]
+  };
+
   render() {
     //syllabusHandlerChoice
     if (this.context.dataRequestDetails.typeOfData === 'syllabus') {
@@ -428,11 +453,25 @@ class Syllabus extends Component {
           );
 
           break;
-        case '8':
-          this.lastLessonHeaderHandler();
+        case '18':
+          //this.lastLessonHeaderHandler();
+          // alert(
+          //   `this.context.dataRequestDetails: ${JSON.stringify(
+          //     this.context.dataRequestDetails
+          //   )}`
+          // );
 
+          this.context.resetHandlerChoice(
+            this.context.dataReceiverHandler(this.state)
+          );
           // this.context.resetHandlerChoice(this.showSyllabusListHandler());
 
+          break;
+        case '9':
+          this.lastSyllabusHeaderHandler();
+
+          break;
+        case '10':
           break;
       }
     }

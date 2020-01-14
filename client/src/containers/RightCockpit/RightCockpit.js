@@ -82,7 +82,7 @@ class RightCockpit extends Component {
     //Comparing new contentChoice with previous contentChoice
     //if newContentChoice === oldContentChoice
     //turn off the view
-
+    //alert(`contentChoice: ${this.state.contentChoice}`);
     if (newViewChoice === this.state.contentChoice) {
       return this.setState({ contentChoice: '0' });
     } else {
@@ -100,7 +100,7 @@ class RightCockpit extends Component {
         case '3': //Syllabus (for viewing Syllabus)
           //reaching out to SyllabusData
 
-          this.context.dataRequestHandler(event, 'syllabus', '1', null, null);
+          //this.context.dataRequestHandler(event, 'syllabus', '1', null, null);
 
           break;
         case '4': //view tasks for picked day
@@ -283,6 +283,8 @@ class RightCockpit extends Component {
               everything={this.state}
               newestTaskHandler={event => this.newestTaskHandler(event)}
               newestEvent={event => this.newestEventHandler(event)}
+              syllabusData={this.context.syllabusData}
+              contentChoice={this.state.contentChoice}
             />
           </div>
         </div>
@@ -311,6 +313,7 @@ class RightCockpit extends Component {
       <ViewContentOptions
         viewRequestHandler={event => this.viewRequestHandler(event)}
         contentViewHandler={event => this.contentViewHandler(event)}
+        contentChoice={this.state.contentChoice}
       />
     );
 

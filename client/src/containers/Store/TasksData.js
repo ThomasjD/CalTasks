@@ -316,7 +316,7 @@ class TasksData extends Component {
           this.setState(
             {
               pickedDayTasksHeader: this.state.pickedDayTasksHeader,
-              dataLocation: this.context.dataRequestDetails.dataLocation
+              dataLocation: this.context.dataRequestDetails.value
             },
 
             () => this.context.dataReceiverHandler(this.state)
@@ -330,8 +330,6 @@ class TasksData extends Component {
   addTaskHandler = e => {
     console.log(e.task);
     //need to fix this in newTask so that it automaticly picks up the default value of the radio button
-    let category = !e.task.category ? (e.task.category = 'Popblado') : null;
-    console.log(`target category is ${category}`);
 
     let newestEvent = [...this.state.tasks, e.task];
 
@@ -492,7 +490,8 @@ class TasksData extends Component {
   static contextType = TasksContext;
 
   render() {
-    if (this.context.dataRequestDetails.typeOfData === 'tasks' || 'events') {
+    //need to put back this.context.dataRequestDetails.typeOfData === 'events'
+    if (this.context.dataRequestDetails.typeOfData === 'tasks') {
       switch (this.context.dataRequestDetails.handlerChoice) {
         case '1':
           this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
@@ -569,6 +568,3 @@ class TasksData extends Component {
 }
 
 export default TasksData;
-// {this.context.dataRequestDetails['handlerChoice'] ? (
-//   <div>{this.context.dataRequestDetails.handlerChoice} </div>
-// ) : null}

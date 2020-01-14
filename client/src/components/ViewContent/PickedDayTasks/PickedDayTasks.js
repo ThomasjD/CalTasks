@@ -42,7 +42,7 @@ const PickedDayTasks = props => {
     //alert(`dataLocation: ${dataLocation}`);
     if (tasksContext.tasksData.tasksData) {
       let dataLocation = tasksContext.tasksData.tasksData.dataLocation;
-      alert(`Inside tasksOfSelectedDayHandler dataLocation: ${dataLocation}`); //tasksContext.tasksData.tasksData.Tuesday  [dataLocation]
+      alert(`Inside tasksOfSelectedDayHandler dataLocation: ${dataLocation}`); //
       return tasksContext.tasksData.tasksData[dataLocation].map(
         (day, index) => {
           let functionChoiceDelete = null;

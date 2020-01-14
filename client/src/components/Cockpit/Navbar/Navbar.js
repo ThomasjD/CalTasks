@@ -219,7 +219,7 @@ const Navbar = props => {
       </nav>
     </div>
   );
-  return <React.Fragment>{navbarDisplay}) : null}</React.Fragment>;
+  return <React.Fragment>{navbarDisplay}</React.Fragment>;
 };
 
 export default Navbar;
