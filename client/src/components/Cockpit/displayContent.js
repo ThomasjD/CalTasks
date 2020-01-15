@@ -105,7 +105,7 @@ const DisplayContent = props => {
       break;
     //showLeftOverLessonsFromSyllabus: for Table Header (add/delete this lesson message)
 
-    case '6': //NewSyllabus Creation
+    case '6': //Adding syllabus lesson from maxreact to nonscheduled
       if (syllabusContext.everythingSyllabus.syllabusData) {
         displayContent = (
           <React.Fragment>

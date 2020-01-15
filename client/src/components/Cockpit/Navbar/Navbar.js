@@ -1,18 +1,131 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect, useContext } from 'react';
+import SyllabusContext from '../../../context/syllabusContext';
+import TasksContext from '../../../context/tasksContext';
 //import App from '../../containers/App';
 import App from '../../../containers/App';
 import classes from '../Cockpit.module.css';
 import classNames from 'classnames';
 import NewTask from '../../Creation/newTask';
 import NewSyllabus from '../../Creation/newSyllabus';
-
+import SyllabiList from '../../ViewContent/Syllabus/SyllabiList';
 const Navbar = props => {
   const [newTaskState, setTaskState] = useState({
     showNewTaskForm: false
   });
+  const syllabusContext = useContext(SyllabusContext);
+  const tasksContext = useContext(TasksContext);
 
-  console.log(newTaskState.showNewTaskForm);
+  const requestDataHandler = event => {
+    let contentchoice = event.target.value;
+    // let value = '';
+    let dataRequestMessage = {};
+    switch (contentchoice) {
+      case '1':
+        break;
+      case '2':
+        break;
+      case '3':
+        break;
+      case '4':
+        break;
+      case '5':
+        break;
+      case '6':
+        dataRequestMessage = {
+          typeOfData: 'syllabus',
+          handlerChoice: '6',
+          dataLocation: 'maxReact',
+          infoType: null,
+          info: null
+        };
+        syllabusContext.dataRequestHandler(event, dataRequestMessage);
+        break;
+    }
+
+    let contentViewObject = {
+      target: {
+        value: contentchoice
+      }
+    };
+    // dataRequestMessage = {
+    //   typeOfData: 'syllabus',
+    //   handlerChoice: '11',
+    //   dataLocation: event.target.value,
+    //   infoType: 'triggerShowSyllabus',
+    //   info: ''
+    // };
+    // syllabusContext.dataRequestHandler(event, dataRequestMessage);
+    // let newContentChoice = event.target.value;
+
+    props.contentViewHandler(contentViewObject);
+  };
+
+  const pickedSyllabusRequestHandler = event => {
+    //let dayPicked = event.target.value;
+    //event
+    let dataRequestMessage = null;
+    if (event.target.value === 'showSyllabiList') {
+      dataRequestMessage = {
+        typeOfData: 'syllabus',
+        handlerChoice: '18',
+        dataLocation: null,
+        infoType: 'triggerShowSyllabus',
+        info: ''
+      };
+      tasksContext.dataRequestHandler(event, dataRequestMessage);
+    } else {
+      // alert(
+      //   `inside pickedSyllabusRequestHandler value from onClick: ${event.target.value}`
+      // );
+      dataRequestMessage = {
+        typeOfData: 'syllabus',
+        handlerChoice: '11',
+        dataLocation: event.target.value,
+        infoType: 'triggerShowSyllabus',
+        info: ''
+      };
+      syllabusContext.dataRequestHandler(event, dataRequestMessage);
+      // let newContentChoice = event.target.value;
+
+      let contentViewObject = {
+        target: {
+          value: '10'
+        }
+      };
+      props.contentViewHandler(contentViewObject);
+    }
+
+    //tasksContext.contentViewHandler(3)
+  };
+
+  const processSyllabiList = () => {
+    return Object.keys(
+      syllabusContext.everythingSyllabus.syllabusData.syllabi
+    ).map((syllabus, index) => {
+      //alert(`inside const ViewContentOptions
+      //  props.syllabusName ${syllabusContext.everythingSyllabus.syllabusData.syllabi[syllabus].syllabusId}`);
+      return (
+        <React.Fragment key={index}>
+          <SyllabiList
+            click={event => pickedSyllabusRequestHandler(event)}
+            syllabusId={
+              syllabusContext.everythingSyllabus.syllabusData.syllabi[syllabus]
+                .syllabusId
+            }
+            value={
+              syllabusContext.everythingSyllabus.syllabusData.syllabi[syllabus]
+                .syllabusId
+            }
+            index={index}
+            syllabusName={
+              syllabusContext.everythingSyllabus.syllabusData.syllabi[syllabus]
+                .name
+            }
+          />
+        </React.Fragment>
+      );
+    });
+  };
 
   useEffect(() => {
     console.log('[Cockpit.js] useffect');
@@ -96,7 +209,7 @@ const Navbar = props => {
                 <div className={classes.specialbtnAllTasks}>
                   <button
                     className="dropdown-item"
-                    onClick={props.clicked}
+                    onClick={event => requestDataHandler(event)}
                     value="1"
                   >
                     All Tasks
@@ -106,7 +219,7 @@ const Navbar = props => {
                 <div className={classes.specialbtnTodayTasks}>
                   <button
                     className="dropdown-item"
-                    onClick={props.clicked}
+                    onClick={event => requestDataHandler(event)}
                     value="2"
                   >
                     Today
@@ -133,8 +246,29 @@ const Navbar = props => {
                   Objetivos
                 </a>
               </li>
-              <li className="nav-item">
-                <div className="dropdown">
+              <li className="nav-item dropdown active">
+                {/* <label className="btn dropdown active"> */}
+                <button
+                  className="btn dropdown-toggle"
+                  type="button"
+                  id="dropdownMenu2"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  onClick={event => pickedSyllabusRequestHandler(event)}
+                  value="showSyllabiList"
+                >
+                  {' '}
+                  View Syllabi
+                </button>
+
+                <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  {syllabusContext.everythingSyllabus.syllabusData
+                    ? processSyllabiList()
+                    : null}
+                </div>
+                {/* </label> */}
+                {/* <div className="dropdown">
                   <button
                     className="btn dropdown-toggle"
                     type="button"
@@ -143,26 +277,25 @@ const Navbar = props => {
                     <span className="navbar-toggler-icon"></span>
                     Syllabus
                   </button>
-                  <div className="dropdown-menu">
-                    <button
-                      className="dropdown-item"
-                      onClick={props.clicked}
-                      value="7"
-                    >
-                      Syllabus List
-                    </button>
 
-                    <div className={classes.specialbtnTodayTasks}>
-                      <button
-                        className="dropdown-item"
-                        onClick={props.clicked}
-                        value="3"
-                      >
-                        MaxReact
-                      </button>
-                    </div>
+                  
+                  <button
+                    className="dropdown-item"
+                    onClick={event => pickedSyllabusRequestHandler(event)}
+                    value="showSyllabiList"
+                  >
+                    Syllabus List
+                  </button>
+
+                  <div
+                    className="dropdown-item"
+                    aria-labelledby="dropdownMenu2"
+                  >
+                    {syllabusContext.everythingSyllabus.syllabusData
+                      ? processSyllabiList()
+                      : null}
                   </div>
-                </div>
+                </div> */}
               </li>
             </ul>
 
@@ -184,7 +317,7 @@ const Navbar = props => {
               </a>
               <div className="dropdown-menu">
                 <button
-                  onClick={props.clickedNewTask}
+                  onClick={event => requestDataHandler(event)}
                   value="4"
                   className="dropdown-item"
                 >
@@ -193,7 +326,7 @@ const Navbar = props => {
                 </button>
 
                 <button
-                  onClick={props.clickedNewEvent}
+                  onClick={event => requestDataHandler(event)}
                   value="5"
                   className="dropdown-item"
                 >
@@ -201,7 +334,7 @@ const Navbar = props => {
                 </button>
 
                 <button
-                  onClick={props.clickedSyllabus}
+                  onClick={event => requestDataHandler(event)}
                   value="6"
                   className="dropdown-item"
                 >
@@ -223,12 +356,3 @@ const Navbar = props => {
 };
 
 export default Navbar;
-// {newTaskState.showNewTaskForm ? (
-//   <NewTask
-//     newTaskInfo={props.newTaskInfo}
-//     newTaskTitle={props.newTaskInfoComing}
-//     changed={event => newSetTaskInfoState(event)}
-//     category={newTaskInfoState.newTaskCategory}
-//     categoryChange={event => newSetTaskCategoryState(event)}
-//     showTasksAfterNewTask={props.clicked}
-//   />

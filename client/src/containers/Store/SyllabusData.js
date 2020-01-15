@@ -417,7 +417,7 @@ class Syllabus extends Component {
 
           this.context.resetHandlerChoice(
             this.lessonChangeHandler(
-              this.context.dataRequestDetails['value'],
+              this.context.dataRequestDetails.value,
               this.context.dataRequestDetails.id
             )
           );

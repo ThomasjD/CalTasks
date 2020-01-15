@@ -27,9 +27,9 @@ const ViewContentOptions = props => {
       };
       tasksContext.dataRequestHandler(event, dataRequestMessage);
     } else {
-      alert(
-        `inside pickedSyllabusRequestHandler value from onClick: ${event.target.value}`
-      );
+      // alert(
+      //   `inside pickedSyllabusRequestHandler value from onClick: ${event.target.value}`
+      // );
       dataRequestMessage = {
         typeOfData: 'syllabus',
         handlerChoice: '11',

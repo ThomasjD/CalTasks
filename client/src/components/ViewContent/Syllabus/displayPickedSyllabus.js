@@ -9,6 +9,7 @@ const DisplayPickedSyllabus = props => {
   const renderTableHeaderHandler = () => {
     if (syllabusContext.everythingSyllabus.syllabusData) {
       let dataLocation = syllabusContext.dataRequestDetails.dataLocation;
+
       let header = Object.keys(
         syllabusContext.everythingSyllabus.syllabusData.syllabi[dataLocation]
       );
@@ -24,7 +25,7 @@ const DisplayPickedSyllabus = props => {
             break;
 
           case 'syllabusCompletionTime':
-            return <th key={index}>Schedule Task</th>;
+            return <th key={index}>Total Time</th>;
             break;
 
           case 'completionStatus':
@@ -40,75 +41,50 @@ const DisplayPickedSyllabus = props => {
   };
   //todayTaskChanged={props.changed}
   const infoOfSelectedSyllabusHandler = () => {
+    let starvingCow = {};
     if (syllabusContext.everythingSyllabus.syllabusData) {
       let dataLocation = syllabusContext.dataRequestDetails.dataLocation;
       let syllabus =
         syllabusContext.everythingSyllabus.syllabusData.syllabi[dataLocation];
-      let bigPicture = Object.keys(
-        syllabus //[keys of that syllabus]
-      )
-        .map(key => {
-          return [...Array(syllabus[key])].map((_, index) => {
-            return (
-              <React.Fragment>
-                <DisplayPickedSyllabusInfo
-                  // syllabus={
-                  //   syllabusContext.everythingSyllabus.syllabusData.syllabi[
-                  //     dataLocation
-                  //   ]
-                  // }
-                  Igkey={key}
-                  particularKey={key + index}
-                />
-              </React.Fragment>
-            );
-          });
-        })
-        .reduce((arr, el) => {
-          return arr.concat(el);
-        }, []);
-      return bigPicture;
 
-      // alert(
-      //   `inside infoOfSelectedSyllabusHandler object value  ${syllabusContext.everythingSyllabus.syllabusData.syllabi[dataLocation].key}`
-      // );
-      //alert(key);
-      //let keykey = JSON.stringify(key);
+      let grass = Object.keys(syllabus).map(key => {
+        if (
+          key === 'syllabusId' ||
+          'name' ||
+          'syllabusCompletionTime' ||
+          'completionStatus' ||
+          'lessons'
+        ) {
+          let food = { ...starvingCow, [key]: syllabus[key] };
+          starvingCow = food;
+        }
 
-      //for each key, return the value of that key
+        return starvingCow;
+      });
 
-      // let syllabus =
-      //   syllabusContext.everythingSyllabus.syllabusData.syllabi[
-      //     dataLocation
-      //   ];
+      console.log(starvingCow); //single object
+      console.log(grass); //array of objects
 
-      // alert(
-      //   `inside infoOfSelectedSyllabusHandler header ${JSON.stringify(header)}`
-      // );
-
-      // return (
-      //   <React.Fragment>
-      //     <DisplayPickedsyllabusInfo
-      //       particularKey = {key.concat(index)}
-      //       syllabus={
-      //         syllabusContext.syllabusData.syllabusData.syllabi[dataLocation]
-      //       }
-      //     ></DisplayPickedsyllabusInfo>
-      //   </React.Fragment>
-      // );
-
-      //alert(`Inside tasksOfSelectedDayHandler dataLocation: ${dataLocation}`); //
+      return (
+        <React.Fragment>
+          <DisplayPickedSyllabusInfo
+            syllabus={starvingCow}
+            particularKey={starvingCow.name}
+          />
+        </React.Fragment>
+      );
     }
   };
 
   return (
     <div>
       <h1 id="title"> Tasks for The Day</h1>
+
       <table id="students">
-        <tbody>
+        <thead>
           <tr>{renderTableHeaderHandler()}</tr>
-          {infoOfSelectedSyllabusHandler()}
-        </tbody>
+        </thead>
+        <tbody>{infoOfSelectedSyllabusHandler()}</tbody>
       </table>
     </div>
   );

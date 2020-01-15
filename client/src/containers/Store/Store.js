@@ -23,7 +23,6 @@ class Store extends Component {
       handlerChoice: false,
       dataLocation: null,
       index: null,
-
       id: null,
       value: null
     }
@@ -74,42 +73,42 @@ class Store extends Component {
     let dataRequestDetails = null;
     //let inspection = event.value;
     switch (typeOfData) {
-      // case 'tasks':
-      //   switch (infoType) {
-      //     case 'index':
-      //       index = info;
-      //       value = event.target.value;
-      //       break;
-      //     case 'id':
-      //       id = info;
-      //       value = event.target.value;
-      //       break;
-      //     case 'pickedDayTasks':
-      //       value = null;
-      //       break;
-      //   }
+      case 'tasks':
+        switch (infoType) {
+          case 'index':
+            index = info;
+            value = event.target.value;
+            break;
+          case 'id':
+            id = info;
+            value = event.target.value;
+            break;
+          case 'pickedDayTasks':
+            value = null;
+            break;
+        }
 
-      //   dataRequestDetails = {
-      //     handlerChoice: handlerChoice,
-      //     index: index,
-      //     id: id,
-      //     value: value,
-      //     typeOfData: typeOfData,
-      //     dataLocation: dataLocation
-      //   };
-      //   break;
-      // case 'events':
-      //   dataRequestDetails = {
-      //     handlerChoice: handlerChoice,
-      //     index: index,
-      //     id: id,
-      //     typeOfData: typeOfData,
-      //     dataLocation: dataLocation,
-      //     value: info
-      //   };
-      //   break;
+        dataRequestDetails = {
+          handlerChoice: handlerChoice,
+          index: index,
+          id: id,
+          value: value,
+          typeOfData: typeOfData,
+          dataLocation: dataLocation
+        };
+        break;
+      case 'events':
+        dataRequestDetails = {
+          handlerChoice: handlerChoice,
+          index: index,
+          id: id,
+          typeOfData: typeOfData,
+          dataLocation: dataLocation,
+          value: info
+        };
+        break;
       case 'syllabus':
-        //alert('inside Store syllabus case');
+        alert(`inside Store syllabus case ${typeOfData}`);
         dataRequestDetails = {
           handlerChoice: handlerChoice,
           index: index,

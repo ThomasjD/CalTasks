@@ -17,10 +17,10 @@ const DisplayPickedSyllabusInfo = props => {
           <button className={taskStyle.delete}></button>
         </td>
 
-        <td>{props.Igkey}</td>
-        {/* <td>{props.Igkey.syllabusCompletionTime}</td>
-        <td>{props.Igkey.completionStatus}%</td>
-        <td>{props.Igkey.lessons.length} lessons</td> */}
+        <td>{props.syllabus.name}</td>
+        <td>{props.syllabus.syllabusCompletionTime}</td>
+        <td>{props.syllabus.completionStatus}%</td>
+        <td>{props.syllabus.lessons.length} lessons</td>
       </tr>
     </React.Fragment>
   );

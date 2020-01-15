@@ -97,7 +97,7 @@ class RightCockpit extends Component {
 
           break;
 
-        case '3': //Syllabus (for viewing Syllabus)
+        case '3': //Syllabus (for viewing List of syllabus
           //reaching out to SyllabusData
 
           //this.context.dataRequestHandler(event, 'syllabus', '1', null, null);
@@ -111,7 +111,7 @@ class RightCockpit extends Component {
           this.context.dataRequestHandler(event, 'syllabus', '6', null, null);
           //this.props.showLeftOverLessonsFromSyllabus();
           break;
-        case '7':
+        case '7': //View MaxReact
           this.context.dataRequestHandler(event, 'syllabus', '8', null, null);
           console.log('Inside case 7');
 
@@ -204,38 +204,38 @@ class RightCockpit extends Component {
     } else {
       switch (newViewChoice) {
         case '1': //All tasks
-          this.context.dataRequestHandler(event, typeOfView, '1', null, null);
+          // this.context.dataRequestHandler(event, typeOfView, '1', null, null);
 
           break;
 
         case '2': //TodaysTasks
-          this.context.dataRequestHandler(event, typeOfView, '2', null, null);
+          // this.context.dataRequestHandler(event, typeOfView, '2', null, null);
 
           break;
 
         case '3': //Syllabus (for viewing Syllabus)
           //reaching out to SyllabusData
 
-          this.context.dataRequestHandler(event, typeOfView, '1', null, null);
+          // this.context.dataRequestHandler(event, typeOfView, '1', null, null);
 
           break;
         case '4': //newEvent submitForm, later change the typeOfData to event
-          this.context.dataRequestHandler(
-            event,
-            typeOfView,
-            '8',
-            dataLocation,
-            null
-          );
+          // this.context.dataRequestHandler(
+          //   event,
+          //   typeOfView,
+          //   '8',
+          //   dataLocation,
+          //   null
+          // );
           break;
 
         case '6': //Adding Lessons from Syllabus
-          this.context.dataRequestHandler(event, typeOfView, '6', null, null);
+          // this.context.dataRequestHandler(event, typeOfView, '6', null, null);
           //this.props.showLeftOverLessonsFromSyllabus();
           break;
         case '7':
-          this.context.dataRequestHandler(event, typeOfView, '8', null, null);
-          console.log('Inside case 7');
+          // this.context.dataRequestHandler(event, typeOfView, '8', null, null);
+          //console.log('Inside case 7');
 
           break;
         case '8':
@@ -294,13 +294,9 @@ class RightCockpit extends Component {
     let navbar = (
       <Navbar
         newTaskInfoComing={event => this.newTaskHandler(event)}
-        newTaskInfo={event => this.eventContentViewHandler(event)}
-        clickedNewEvent={event => this.contentViewHandler(event)}
-        title={this.props.appTitle}
-        clicked={event => this.contentViewHandler(event)}
-        clickedSyllabus={event => this.contentViewHandler(event)}
-        clickedNewTask={event => this.contentViewHandler(event)}
         newTaskInfo2={event => this.newTaskHandler(event)}
+        title={this.props.appTitle}
+        contentViewHandler={event => this.contentViewHandler(event)}
         deleteCockpit={() => {
           this.setState({ showCockpit: false });
         }}
