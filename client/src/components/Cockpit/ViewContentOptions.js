@@ -13,6 +13,88 @@ const ViewContentOptions = props => {
   const tasksContext = useContext(TasksContext);
   const syllabusContext = useContext(SyllabusContext);
 
+  const requestDataHandler = event => {
+    let contentChoice = event.target.value; //'' number used in displayContent component
+
+    let typeOfData = ''; //string: syllabus,tasks,events,objectives
+    let handlerChoice = ''; //string: '#' handler inside of database
+    let dataLocation = ''; // string: where obj found inside database
+    let infoType = ''; //string: index/id/
+    let info = ''; //string: actual info
+
+    switch (contentChoice) {
+      case '1': //Unscheduled Tasks for Week
+        typeOfData = 'tasks';
+        handlerChoice = '1';
+        dataLocation = 'unAssignedTasksForWeek';
+        infoType = null;
+        info = null;
+        break;
+
+      case '2': //Today's Tasks
+        typeOfData = 'tasks';
+        handlerChoice = '';
+        dataLocation = '';
+        infoType = null;
+        info = null;
+        break;
+
+      case '3': //Pick Syllabus to View
+        typeOfData = 'syllabus';
+        handlerChoice = '';
+        dataLocation = '';
+        infoType = '';
+        info = 'showSyllabiList';
+        break;
+
+      case '4':
+        typeOfData = '';
+        handlerChoice = '';
+        dataLocation = '';
+        infoType = null;
+        info = null;
+        break;
+
+      case '5':
+        typeOfData = '';
+        handlerChoice = '';
+        dataLocation = '';
+        infoType = null;
+        info = null;
+        break;
+
+      case '6':
+        typeOfData = '';
+        handlerChoice = '';
+        dataLocation = '';
+        infoType = null;
+        info = null;
+        break;
+    }
+
+    let dataRequestMessage = {
+      typeOfData: typeOfData,
+      handlerChoice: handlerChoice,
+      dataLocation: dataLocation,
+      infoType: infoType,
+      info: info
+    };
+
+    let contentViewObject = {
+      target: {
+        value: contentChoice
+      }
+    };
+    alert(`typeOfData: ${typeOfData}`);
+    alert(`handlerChoice ${handlerChoice}`);
+    alert(`dataLocation ${dataLocation}`);
+    alert(`infoType ${infoType}`);
+    alert(`info ${info}`);
+    syllabusContext.dataRequestHandler(event, dataRequestMessage);
+
+    props.contentViewHandler(contentViewObject);
+  };
+
   const pickedSyllabusRequestHandler = event => {
     //let dayPicked = event.target.value;
     //event
@@ -37,6 +119,9 @@ const ViewContentOptions = props => {
         infoType: 'triggerShowSyllabus',
         info: ''
       };
+
+      alert(`viewContentOptions handlerChoice: ${dataRequestMessage}`);
+
       syllabusContext.dataRequestHandler(event, dataRequestMessage);
       // let newContentChoice = event.target.value;
 
@@ -147,10 +232,10 @@ const ViewContentOptions = props => {
               name="options"
               id="option1"
               autoComplete="off"
-              onClick={props.contentViewHandler}
+              onClick={event => requestDataHandler(event)}
               value="1"
             />{' '}
-            Tasks For Week
+            Unscheduled Tasks
           </label>
 
           <label className="btn btn-success m-2 active ">

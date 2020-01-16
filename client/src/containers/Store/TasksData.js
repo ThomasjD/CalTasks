@@ -493,13 +493,12 @@ class TasksData extends Component {
     //need to put back this.context.dataRequestDetails.typeOfData === 'events'
     if (this.context.dataRequestDetails.typeOfData === 'tasks') {
       switch (this.context.dataRequestDetails.handlerChoice) {
-        case '1':
+        case '1': //Unscheduled Tasks for Week
+          alert('inside switch');
           this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
           break;
 
-        case '2':
-          //alert('case 2 tasksdata');
-          //TodayTasksHeader
+        case '2': //Today's Tasks: TodayTasksHeader
           this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
           break;
 

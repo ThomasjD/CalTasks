@@ -389,6 +389,9 @@ class Syllabus extends Component {
   };
 
   render() {
+    // alert(
+    //   `inside SyllabusData handlerChoice: ${this.context.dataRequestDetails.handlerChoice}`
+    // );
     //syllabusHandlerChoice
     if (this.context.dataRequestDetails.typeOfData === 'syllabus') {
       switch (this.context.dataRequestDetails.handlerChoice) {

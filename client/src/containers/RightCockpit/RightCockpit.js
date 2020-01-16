@@ -88,12 +88,12 @@ class RightCockpit extends Component {
     } else {
       switch (newViewChoice) {
         case '1': //All tasks
-          this.context.dataRequestHandler(event, 'tasks', '1', null, null);
+          //this.context.dataRequestHandler(event, 'tasks', '1', null, null);
 
           break;
 
         case '2': //TodaysTasks
-          this.context.dataRequestHandler(event, 'tasks', '2', null, null);
+          //this.context.dataRequestHandler(event, 'tasks', '2', null, null);
 
           break;
 
@@ -133,59 +133,6 @@ class RightCockpit extends Component {
       }
     }
   };
-
-  //dynamic edit task for Today (Monday)
-  newestTaskHandler = contentChoice => {
-    let newContentChoice = contentChoice;
-    let contentViewObject = {
-      target: {
-        value: newContentChoice
-      }
-    };
-
-    this.contentViewHandler(contentViewObject);
-  };
-
-  newTaskLocationHandler = event => {
-    // let location = event.target.value;
-    // console.log(event.name);
-
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value,
-      realNum: '1'
-    });
-  };
-
-  /*viewRequestHandler = (event, typeOfData, viewHandlerChoice, dataLocation, dataHandlerChoice, infoType, info) => {}
-        event, 
-        typeOfData:  'tasks', 'syllabus', 'event
-        viewHandlerChoice: num string, 
-        dataLocation: 'Monday', 'unAssignedTasksForWeek', 'maxReact'
-        infoType, string of database description:  'id', 'index'
-        info: obj: data that need to added to location of database
-        )
-
-      //handle exchange of info for manipulation of database    
-      dataRequestHandler = (event, typeOfData, HandlerChoice, infoType, info) => {}
-        event, 
-        typeOfData, string: description of types of database: 'syllabus', 'tasks', 'events'
-        HandlerChoice, num string: -> determines what functions gets called up in database
-        dataLocation: 'Monday', 'unAssignedTasksForWeek', 'maxReact'
-        infoType, string: 'id', 'index', 'newObjData'
-        info: obj => data that will become value in dataRequestDetails
-        )
-      dataRequestDetails = {handlerChoice, index, id, typeOfData, value
-          handlerChoice: handlerChoice, //case that calls up functions in database
-          index: index, //coul be null
-          id: id, //could be null
-          typeOfData: typeOfData: // 'syllabus', 'tasks', 'events'
-          dataLocation: 'Monday', 'unAssignedTasksForWeek', 'maxReact'
-          value: value, //obj to be added to database      
-        };*/
 
   viewRequestHandler = message => {
     const {
