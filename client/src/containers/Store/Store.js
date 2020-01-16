@@ -87,7 +87,7 @@ class Store extends Component {
             value = null;
             break;
         }
-
+        //alert('inside typeOfData of tasks ');
         dataRequestDetails = {
           handlerChoice: handlerChoice,
           index: index,

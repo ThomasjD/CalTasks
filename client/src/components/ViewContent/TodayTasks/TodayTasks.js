@@ -37,8 +37,11 @@ const TodayTasks = props => {
     }
   };
   //todayTaskChanged={props.changed}
-  const todayTasksHandler = dataLocation => {
+  const todayTasksHandler = () => {
     if (tasksContext.tasksData.tasksData) {
+      let dataLocation = tasksContext.tasksData.tasksData.dataLocation;
+
+      //alert(`dataLocation: ${dataLocation}`);
       return tasksContext.tasksData.tasksData[dataLocation].map(
         (day, index) => {
           let functionChoiceDelete = null;
@@ -88,9 +91,9 @@ const TodayTasks = props => {
     }
   };
 
-  const [lastTaskHeader, setLastTaskHeader] = useState({
-    lastHeader: props.monday
-  });
+  // const [lastTaskHeader, setLastTaskHeader] = useState({
+  //   lastHeader: props.monday
+  // });
 
   // useEffect(() => {
   //   // console.log(`this is the state of alert ${onCallDelete.signalAlert}`);

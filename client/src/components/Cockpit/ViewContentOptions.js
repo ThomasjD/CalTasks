@@ -5,6 +5,7 @@ import classes from './Cockpit.module.css';
 // import classNames from 'classnames';
 // import classes from './Cockpit.module.css';
 // import Navbar from './navBar';
+import calendarObj from '../Calendar/calendarObj';
 import SyllabiList from '../ViewContent/Syllabus/SyllabiList';
 import TasksContext from '../../context/tasksContext';
 import SyllabusContext from '../../context/syllabusContext';
@@ -21,7 +22,7 @@ const ViewContentOptions = props => {
     let dataLocation = ''; // string: where obj found inside database
     let infoType = ''; //string: index/id/
     let info = ''; //string: actual info
-
+    let today = calendarObj();
     switch (contentChoice) {
       case '1': //Unscheduled Tasks for Week
         typeOfData = 'tasks';
@@ -33,8 +34,8 @@ const ViewContentOptions = props => {
 
       case '2': //Today's Tasks
         typeOfData = 'tasks';
-        handlerChoice = '';
-        dataLocation = '';
+        handlerChoice = '2';
+        dataLocation = today;
         infoType = null;
         info = null;
         break;
@@ -48,7 +49,7 @@ const ViewContentOptions = props => {
         break;
 
       case '4':
-        typeOfData = '';
+        typeOfData = 'tasks';
         handlerChoice = '';
         dataLocation = '';
         infoType = null;
@@ -85,11 +86,11 @@ const ViewContentOptions = props => {
         value: contentChoice
       }
     };
-    alert(`typeOfData: ${typeOfData}`);
-    alert(`handlerChoice ${handlerChoice}`);
-    alert(`dataLocation ${dataLocation}`);
-    alert(`infoType ${infoType}`);
-    alert(`info ${info}`);
+    // alert(`typeOfData: ${typeOfData}`);
+    // alert(`handlerChoice ${handlerChoice}`);
+    // alert(`dataLocation ${dataLocation}`);
+    // alert(`infoType ${infoType}`);
+    // alert(`info ${info}`);
     syllabusContext.dataRequestHandler(event, dataRequestMessage);
 
     props.contentViewHandler(contentViewObject);
@@ -109,9 +110,6 @@ const ViewContentOptions = props => {
       };
       tasksContext.dataRequestHandler(event, dataRequestMessage);
     } else {
-      // alert(
-      //   `inside pickedSyllabusRequestHandler value from onClick: ${event.target.value}`
-      // );
       dataRequestMessage = {
         typeOfData: 'syllabus',
         handlerChoice: '11',
@@ -120,7 +118,7 @@ const ViewContentOptions = props => {
         info: ''
       };
 
-      alert(`viewContentOptions handlerChoice: ${dataRequestMessage}`);
+      // alert(`viewContentOptions handlerChoice: ${dataRequestMessage}`);
 
       syllabusContext.dataRequestHandler(event, dataRequestMessage);
       // let newContentChoice = event.target.value;
@@ -244,7 +242,7 @@ const ViewContentOptions = props => {
               name="options"
               id="option2"
               autoComplete="off"
-              onClick={props.contentViewHandler}
+              onClick={event => requestDataHandler(event)}
               value="2"
             />{' '}
             Today's Tasks

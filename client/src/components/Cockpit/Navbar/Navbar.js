@@ -8,6 +8,8 @@ import classNames from 'classnames';
 import NewTask from '../../Creation/newTask';
 import NewSyllabus from '../../Creation/newSyllabus';
 import SyllabiList from '../../ViewContent/Syllabus/SyllabiList';
+import calendarObj from '../../Calendar/calendarObj';
+
 const Navbar = props => {
   const [newTaskState, setTaskState] = useState({
     showNewTaskForm: false
@@ -17,6 +19,12 @@ const Navbar = props => {
 
   const requestDataHandler = event => {
     let contentchoice = event.target.value;
+    let typeOfData = ''; //string: syllabus,tasks,events,objectives
+    let handlerChoice = ''; //string: '#' handler inside of database
+    let dataLocation = ''; // string: where obj found inside database
+    let infoType = ''; //string: index/id/
+    let info = ''; //string: actual info
+    let today = calendarObj();
     // let value = '';
     let dataRequestMessage = {};
     switch (contentchoice) {
@@ -31,31 +39,28 @@ const Navbar = props => {
       case '5':
         break;
       case '6':
-        dataRequestMessage = {
-          typeOfData: 'syllabus',
-          handlerChoice: '6',
-          dataLocation: 'maxReact',
-          infoType: null,
-          info: null
-        };
-        syllabusContext.dataRequestHandler(event, dataRequestMessage);
+        typeOfData = 'syllabus';
+        handlerChoice = '6';
+        dataLocation = 'maxReactWorkLeft';
+        infoType = null;
+        info = null;
+
         break;
     }
+    dataRequestMessage = {
+      typeOfData: typeOfData,
+      handlerChoice: handlerChoice,
+      dataLocation: dataLocation,
+      infoType: infoType,
+      info: info
+    };
+    syllabusContext.dataRequestHandler(event, dataRequestMessage);
 
     let contentViewObject = {
       target: {
         value: contentchoice
       }
     };
-    // dataRequestMessage = {
-    //   typeOfData: 'syllabus',
-    //   handlerChoice: '11',
-    //   dataLocation: event.target.value,
-    //   infoType: 'triggerShowSyllabus',
-    //   info: ''
-    // };
-    // syllabusContext.dataRequestHandler(event, dataRequestMessage);
-    // let newContentChoice = event.target.value;
 
     props.contentViewHandler(contentViewObject);
   };

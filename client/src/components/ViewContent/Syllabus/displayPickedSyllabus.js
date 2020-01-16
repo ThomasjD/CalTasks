@@ -78,7 +78,7 @@ const DisplayPickedSyllabus = props => {
 
   return (
     <div>
-      <h1 id="title"> Tasks for The Day</h1>
+      <h1 id="title"> Syllabus Info</h1>
 
       <table id="students">
         <thead>

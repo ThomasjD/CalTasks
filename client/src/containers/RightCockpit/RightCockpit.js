@@ -113,7 +113,6 @@ class RightCockpit extends Component {
           break;
         case '7': //View MaxReact
           this.context.dataRequestHandler(event, 'syllabus', '8', null, null);
-          console.log('Inside case 7');
 
           break;
         case '8': //newEvent submitForm, later change the typeOfData to event

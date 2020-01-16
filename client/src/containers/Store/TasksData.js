@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 //import classes from '../../components/Cockpit/Cockpit.module.css';
 import RightCockpit from '../RightCockpit/RightCockpit';
 import TasksContext from '../../context/tasksContext';
+import calendarObj from '../../components/Calendar/calendarObj';
+
 class TasksData extends Component {
   state = {
     dataBaseName: 'tasks',
@@ -282,10 +284,14 @@ class TasksData extends Component {
         break;
 
       case '2':
-        if (this.state.Monday.length != 0) {
+        //alert(`Inside of lastTaskHeaderHandler case 2 if statement:`);
+        let today = this.context.dataRequestDetails.dataLocation;
+        //alert(`inside case 2 LastTaskHeadre today: ${today}`);
+
+        if (this.state[today].length != 0) {
           //alert(`Inside of lastTaskHeaderHandler case 2 if statement:`);
           this.setState(
-            { TodayTasksHeader: this.state.Monday[0] },
+            { TodayTasksHeader: this.state[today][0], dataLocation: today },
 
             () => this.context.dataReceiverHandler(this.state)
           );
@@ -299,6 +305,7 @@ class TasksData extends Component {
         }
         break;
       case '9':
+        //alert('inside case 9');
         let pickedDay = this.context.dataRequestDetails.dataLocation;
         if (this.state[pickedDay].length != 0) {
           //alert(`Inside of lastTaskHeaderHandler case 2 if statement:`);
@@ -453,10 +460,11 @@ class TasksData extends Component {
     };
     alert(`assignTask.task ${assignTask.task}`);
     //THE DAY OF THE WEEK
-    let assignToDay = newEvent.startTimeDate.day;
-    alert(`assignToDay: ${assignToDay}`);
+    //let assignToDay = newEvent.startTimeDate.day;
+    let today = calendarObj();
+    alert(`today: ${today}`);
     let findDay = '';
-    switch (assignToDay) {
+    switch (today) {
       case 1:
         findDay = 'Monday';
         break;
@@ -479,10 +487,10 @@ class TasksData extends Component {
         findDay = 'Sunday';
         break;
     }
-    alert(`findDay: ${findDay}`);
-    let foundDay = this.state[findDay]; //array of objects on certain day
+    alert(`today: ${today}`);
+    let foundDay = this.state[today]; //array of objects on certain day
     foundDay.push(assignTask);
-    this.setState({ [findDay]: foundDay }, () =>
+    this.setState({ [today]: foundDay }, () =>
       this.context.dataReceiverHandler(this.state)
     );
   };
@@ -490,7 +498,9 @@ class TasksData extends Component {
   static contextType = TasksContext;
 
   render() {
-    //need to put back this.context.dataRequestDetails.typeOfData === 'events'
+    //need to put back this.context.
+
+    //dataRequestDetails.typeOfData === 'events';
     if (this.context.dataRequestDetails.typeOfData === 'tasks') {
       switch (this.context.dataRequestDetails.handlerChoice) {
         case '1': //Unscheduled Tasks for Week
