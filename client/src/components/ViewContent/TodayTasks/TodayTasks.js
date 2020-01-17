@@ -2,9 +2,97 @@ import React, { useState, useEffect, useContext } from 'react';
 import TodayTask from './TodayTask/TodayTask';
 import student from '../../../containers/Student.css';
 import TasksContext from '../../../context/tasksContext';
+import calendarObj from '../../Calendar/calendarObj';
 
 const TodayTasks = props => {
   const tasksContext = useContext(TasksContext);
+
+  const taskDeleteHandler = (event, info) => {
+    let typeOfData = ''; //string: syllabus,tasks,events,objectives
+    let handlerChoice = ''; //string: '#' handler inside of database
+    let dataLocation = ''; // string: where obj found inside database
+    let infoType = ''; //string: index/id/
+    //let info = ''; //string: actual info
+
+    // let value = '';
+    let dataRequestMessage = {};
+    let today = calendarObj();
+    switch (props.contentChoice) {
+      case '1':
+        // typeOfData = 'tasks';
+        // handlerChoice = '3';
+        // dataLocation = this.context.dataRequestDetails.dataLocation;
+        // infoType = 'index';
+        // //info = '';
+        break;
+      case '2':
+        typeOfData = 'tasks';
+        handlerChoice = '5';
+        dataLocation = today;
+        infoType = 'index';
+        //info = null;
+
+        break;
+      case '5':
+        break;
+    }
+
+    dataRequestMessage = {
+      typeOfData: typeOfData,
+      handlerChoice: handlerChoice,
+      dataLocation: dataLocation,
+      infoType: infoType,
+      info: info
+    };
+    alert(`inside [TodayTasks]  taskDeleteHandler() typeOfData: ${dataRequestMessage.typeOfData}
+    handlerChoice: ${dataRequestMessage.handlerChoice}
+    dataLocation: ${dataRequestMessage.dataLocation}
+    infoType: ${dataRequestMessage.infoType}
+    info: ${dataRequestMessage.info}`);
+
+    tasksContext.dataRequestHandler(event, dataRequestMessage);
+  };
+
+  const taskChangeHandler = (event, info) => {
+    //let contentchoice = event.target.value;
+    let typeOfData = ''; //string: syllabus,tasks,events,objectives
+    let handlerChoice = ''; //string: '#' handler inside of database
+    let dataLocation = ''; // string: where obj found inside database
+    let infoType = ''; //string: index/id/
+    //let info = ''; //string: actual info
+    let today = calendarObj();
+    // let value = '';
+    let dataRequestMessage = {};
+    switch (props.contentChoice) {
+      case '1':
+        // typeOfData = 'tasks';
+        // handlerChoice = '4';
+        // dataLocation = this.context.dataRequestDetails.dataLocation;
+        // infoType = 'id';
+        // //info = '';
+        break;
+      case '2':
+        typeOfData = 'tasks';
+        handlerChoice = '6';
+        dataLocation = today; // 'maxReactWorkLeft';
+        infoType = 'id';
+        //info = null;
+        break;
+      case '4':
+        break;
+      case '5':
+        break;
+    }
+    dataRequestMessage = {
+      typeOfData: typeOfData,
+      handlerChoice: handlerChoice,
+      dataLocation: dataLocation,
+      infoType: infoType,
+      info: info
+    };
+
+    tasksContext.dataRequestHandler(event, dataRequestMessage);
+  };
 
   const renderTableHeaderHandler = () => {
     if (tasksContext.tasksData.tasksData) {
@@ -65,24 +153,8 @@ const TodayTasks = props => {
                 deleteTodayTask={props.clicked}
                 deadline={day.deadline}
                 category={day.category}
-                click={event =>
-                  tasksContext.dataRequestHandler(
-                    event,
-                    'tasks',
-                    functionChoiceDelete,
-                    'index',
-                    index
-                  )
-                }
-                changed={event =>
-                  tasksContext.dataRequestHandler(
-                    event,
-                    'tasks',
-                    functionChoiceChange,
-                    'id',
-                    day.id
-                  )
-                }
+                click={event => taskDeleteHandler(event, index)}
+                changed={event => taskChangeHandler(event, day.id)}
               />
             </React.Fragment>
           );

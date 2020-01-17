@@ -125,7 +125,7 @@ class Syllabus extends Component {
 
   static contextType = SyllabusContext;
   assignLessonFromSyllabus = () => {
-    alert('inside assignedLesson');
+    //alert('inside assignedLesson');
 
     let currentShowLeftOverLessonsFromSyllabus = this.state
       .showLeftOverLessonsFromSyllabus;
@@ -143,8 +143,8 @@ class Syllabus extends Component {
     } else {
       this.setState(
         {
-          lastLessonHeader: this.state.lastLessonHeader,
-          showLeftOverLessonsFromSyllabus: !currentShowLeftOverLessonsFromSyllabus
+          lastLessonHeader: this.state.lastLessonHeader
+          // showLeftOverLessonsFromSyllabus: !currentShowLeftOverLessonsFromSyllabus
         },
         () => {
           this.context.dataReceiverHandler(this.state);
@@ -154,32 +154,36 @@ class Syllabus extends Component {
   };
 
   deleteLessonFromOriginalSyllabusHandler = taskIndex => {
-    alert('Are you sure you want to add this lesson?');
+    //this to trigger rerender()
+    // let currentShowLeftOverLessonsFromSyllabus = this.state
+    //   .showLeftOverLessonsFromSyllabus;
+
+    //   showLeftOverLessonsFromSyllabus: !currentShowLeftOverLessonsFromSyllabus
 
     let currentOriginalLessons = [...this.state.maxReactWorkLeft];
 
     currentOriginalLessons.splice(taskIndex, 1);
 
-    this.setState({ maxReactWorkLeft: currentOriginalLessons }, () =>
-      this.context.dataReceiverHandler(this.state)
+    this.setState(
+      {
+        maxReactWorkLeft: currentOriginalLessons
+      },
+      () => this.context.dataReceiverHandler(this.state)
     );
   };
 
   addLessonFromOriginalSyllabusHandler = taskIndex => {
+    // alert(
+    //   `inside [SyllabusData] addLessonFromOriginalSyllabusHandler() ->  showLeftOverLessonsFromSyllabus:${this.state.showLeftOverLessonsFromSyllabus}`
+    // );
     let currentOriginalLessons = [...this.state.maxReactWorkLeft];
     let lessonToAdd = currentOriginalLessons[taskIndex];
 
     //add to maxReact the picked lesson
-    console.log('I am inside addNewLesonHandler');
+    //this to trigger rerender()
     let currentMaxReactSyllabus = [...this.state.maxReact];
     currentMaxReactSyllabus.push(lessonToAdd);
 
-    //currentMaxReactSyllabus.push(newLesson);
-    console.log(currentMaxReactSyllabus);
-    let currentShowLeftOverLessonsFromSyllabus = this.state
-      .showLeftOverLessonsFromSyllabus;
-    //showLeftOverLessonsFromSyllabus: !currentShowLeftOverLessonsFromSyllabus,
-    //Showing current left over Lessons from Syllabus (after addition/deletion)
     this.setState(
       {
         maxReact: currentMaxReactSyllabus
@@ -189,19 +193,10 @@ class Syllabus extends Component {
   };
 
   lastLessonHeaderHandler = () => {
-    alert(this.context.dataRequestDetails.handlerChoice);
+    //alert(this.context.dataRequestDetails.handlerChoice);
     switch (this.context.dataRequestDetails.handlerChoice) {
       case '1':
         //list of syllabi
-
-        //[key: syllabiName, value: index]
-        //sallabiName1: {syllabi[syllabikey]}
-        //key = syllabiName+ index & value {this.state[syllabiName]}
-
-        // alert(`syllabiList ${syllabiList}`);
-        // this.context.resetHandlerChoice(
-        //   this.context.dataReceiverHandler(this.state)
-        // );
 
         if (this.state.maxReact.length != 0) {
           this.setState(
@@ -228,7 +223,7 @@ class Syllabus extends Component {
         break;
 
       case '2':
-        alert('In case 2 of lastHeader()');
+        //alert('In case 2 of lastHeader()');
         let dataLocation = this.context.dataRquestDetails.dataLocation;
         if (this.state[dataLocation].length != 0) {
           this.setState(
@@ -254,7 +249,6 @@ class Syllabus extends Component {
         break;
 
       case '6':
-        //alert('inside case 6');
         if (this.state.maxReactWorkLeft.length != 0) {
           this.setState(
             {
@@ -294,33 +288,6 @@ class Syllabus extends Component {
 
         if (syllabusListLength != 0) {
           let syllabusHeaders = Object.keys(this.state.syllabi[modelHeader]);
-          //[] keys for the specific syllabus
-
-          //   this.setState(
-          //     {
-          //       syllabusHeaders: syllabusHeaders,
-          //       currentShowSyllabusList: newShowSyllabistList
-          //     },
-
-          //     () => {
-          //       this.context.resetHandlerChoice(
-          //         this.context.dataReceiverHandler(this.state)
-          //       );
-          //     }
-          //   );
-          // } else {
-          //   this.setState(
-          //     { syllabusHeaders: this.state.syllabusHeaders },
-
-          //     () => {
-          //       this.context.resetHandlerChoice(
-          //         this.context.dataReceiverHandler(this.state)
-          //       );
-          //     }
-          //   );
-          // }
-
-          // break;
         }
         this.context.resetHandlerChoice(
           this.context.dataReceiverHandler(this.state.syllabi)
@@ -404,29 +371,16 @@ class Syllabus extends Component {
 
   lastSyllabusHeaderHandler = () => {
     this.context.dataReceiverHandler(this.state);
-
-    //this.setState({syllabiList})
-
-    //[{},{}, {}]
   };
 
   render() {
-    // alert(
-    //   `inside SyllabusData handlerChoice: ${this.context.dataRequestDetails.handlerChoice}`
-    // );
-    //syllabusHandlerChoice
-
     let {
       typeOfData,
       handlerChoice,
       dataLocation,
       infoType,
-      info
+      value
     } = this.context.dataRequestDetails;
-
-    // alert(
-    //   `inside SyllabusData typeOfData: ${typeOfData} handlerChoice:${handlerChoice} dataLocation: ${dataLocation} info: ${info}`
-    // );
 
     if (this.context.dataRequestDetails.typeOfData === 'syllabus') {
       switch (this.context.dataRequestDetails.handlerChoice) {
@@ -470,14 +424,14 @@ class Syllabus extends Component {
 
           break;
         case '6': //Lesson change in maxReactWorkLeft
-          //alert('case 6');
-          // leftOverLessonChangeHandler;
-          //this.context.resetSyllabusHandlerChoice();
-
-          // this.leftOverLessonChangeHandler(
-          //   this.context.dataRequestDetails.value,
-          //   this.context.dataRequestDetails.id
+          // alert(
+          //   `Inside [SyllabusData] case 6 dataRequestDetails.value: ${this.context.dataRequestDetails.value} dataRequestDetails.id: ${this.context.dataRequestDetails.id}`
           // );
+
+          this.leftOverLessonChangeHandler(
+            this.context.dataRequestDetails.value,
+            this.context.dataRequestDetails.id
+          );
 
           break;
 
@@ -496,8 +450,7 @@ class Syllabus extends Component {
           this.lastSyllabusHeaderHandler();
 
           break;
-        case '10':
-          //alert('case 6');
+        case '10': //newSyllabusHandler
           // leftOverLessonChangeHandler;
           //this.context.resetSyllabusHandlerChoice();
           this.context.resetHandlerChoice(this.assignLessonFromSyllabus());

@@ -38,7 +38,7 @@ const Navbar = props => {
         break;
       case '5':
         break;
-      case '6':
+      case '6': //load up newSyllabus component -> get data prepared to display maxReactWorkLeft
         typeOfData = 'syllabus';
         handlerChoice = '10';
         dataLocation = 'maxReactWorkLeft';

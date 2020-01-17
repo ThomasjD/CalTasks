@@ -5,6 +5,7 @@ import student from '../../../../containers/Student.css';
 import Lesson from './Lesson/Lesson';
 import SyllabusContext from '../../../../context/syllabusContext';
 import calendarObj from '../../../Calendar/calendarObj';
+
 class Lessons extends Component {
   constructor(props) {
     super(props);
@@ -13,14 +14,15 @@ class Lessons extends Component {
     clickToAddDelete: null
   };
   static contextType = SyllabusContext;
-  // shouldComponentUpdate(nextProps, nextState) {
+
+  // shouldComponentUpdate = (nextProps, nextState) => {
   //   console.log('[maxReact Lessons.js] shouldComponentUpdate');
   //   if (nextProps.lessonsLength !== this.props.lessonsLength) {
   //     return true;
   //   } else {
   //     return false;
   //   }
-  // }
+  // };
 
   //rendering current lessons headers
   lessonChangeHandler = (event, info) => {
@@ -30,7 +32,7 @@ class Lessons extends Component {
     let dataLocation = ''; // string: where obj found inside database
     let infoType = ''; //string: index/id/
     //let info = ''; //string: actual info
-    let today = calendarObj();
+
     // let value = '';
     let dataRequestMessage = {};
     switch (this.props.contentChoice) {
@@ -70,9 +72,10 @@ class Lessons extends Component {
     let dataLocation = ''; // string: where obj found inside database
     let infoType = ''; //string: index/id/
     //let info = ''; //string: actual info
-    let today = calendarObj();
+
     // let value = '';
     let dataRequestMessage = {};
+
     switch (this.props.contentChoice) {
       case '3':
         typeOfData = 'syllabus';
@@ -88,11 +91,12 @@ class Lessons extends Component {
       case '6':
         typeOfData = 'syllabus';
         handlerChoice = '5';
-        dataLocation = this.context.dataRequestDetails.dataLocation; // 'maxReactWorkLeft';
+        dataLocation = 'maxReactWorkLeft';
         infoType = 'index';
         //info = null;
         break;
     }
+
     dataRequestMessage = {
       typeOfData: typeOfData,
       handlerChoice: handlerChoice,
@@ -100,69 +104,25 @@ class Lessons extends Component {
       infoType: infoType,
       info: info
     };
+    // alert(`inside [Lessons]  lessonDeleteHandler() typeOfData: ${dataRequestMessage.typeOfData}
+    // handlerChoice: ${dataRequestMessage.handlerChoice}
+    // dataLocation: ${dataRequestMessage.dataLocation}
+    // infoType: ${dataRequestMessage.infoType}
+    // info: ${dataRequestMessage.info}`);
 
     this.context.dataRequestHandler(event, dataRequestMessage);
-  };
-  requestDataHandler = event => {
-    let contentchoice = event.target.value;
-    let typeOfData = ''; //string: syllabus,tasks,events,objectives
-    let handlerChoice = ''; //string: '#' handler inside of database
-    let dataLocation = ''; // string: where obj found inside database
-    let infoType = ''; //string: index/id/
-    let info = ''; //string: actual info
-    //let today = calendarObj();
-    // let value = '';
-    let dataRequestMessage = {};
-    switch (contentchoice) {
-      case '1':
-        break;
-      case '2':
-        break;
-      case '3':
-        // change
-        //   event,
-        //   'syllabus',
-        //   functionChoiceChange,
-        //   'id',
-        //   lesson.id
-        // )
-        break;
-      case '4':
-        break;
-      case '5':
-        break;
-      case '6':
-        typeOfData = 'syllabus';
-        handlerChoice = '6';
-        dataLocation = 'maxReactWorkLeft';
-        infoType = null;
-        info = null;
-        break;
-    }
-    dataRequestMessage = {
-      typeOfData: typeOfData,
-      handlerChoice: handlerChoice,
-      dataLocation: dataLocation,
-      infoType: infoType,
-      info: info
-    };
-
-    this.context.dataRequestHandler(event, dataRequestMessage);
-
-    // let contentViewObject = {
-    //   target: {
-    //     value: contentchoice
-    //   }
-    // };
-
-    // this.props.contentViewHandler(contentViewObject);
   };
 
   renderAllLessonsTableHeaderHandler() {
     //this is part of First row of table
     let clickToAddDelete = null;
+    // if (this.context.everythingSyllabus.syllabusData) {
+    //   alert(
+    //     `inside [Lessons] renderAllLessonsTableHeaderHandler() showLeftOverLessonsFromOrigSyllabus ${this.props.showLeftOverLessonsFromSyllabus}`
+    //   );
+    // }
 
-    if (this.props.showLeftOverLessonsFromOrigSyllabus) {
+    if (this.props.showLeftOverLessonsFromSyllabus) {
       clickToAddDelete = 'Click to schedule this lesson';
     } else {
       clickToAddDelete = 'Click to Delete Lesson';
@@ -185,29 +145,16 @@ class Lessons extends Component {
 
   //rendering current lessons
   allLessonssHandler() {
-    //let contentchoice = event.target.value;
-    let typeOfData = 'syllabus'; //string: syllabus,tasks,events,objectives
-    let handlerChoice = ''; //string: '#' handler inside of database
-    let dataLocation = ''; // string: where obj found inside database
-    let infoType = ''; //string: index/id/
-    let info = ''; //string: actual info
-
-    let handlerType = null;
-
-    switch (this.props.everything.contentChoice) {
-      case '3': //show syllbus choice, then pick one to view
-        break;
-      case '6': //from newSyllabus Component
-        this.props.showLeftOverLessonsFromOrigSyllabus
-          ? (handlerType = 'add')
-          : (handlerType = 'delete');
-        // this.props.showLeftOverLessonsFromOrigSyllabus
-        // ? handlerChoice =
-
-        break;
-    }
+    // //let contentchoice = event.target.value;
+    // let typeOfData = 'syllabus'; //string: syllabus,tasks,events,objectives
+    // let handlerChoice = ''; //string: '#' handler inside of database
+    // let dataLocation = ''; // string: where obj found inside database
+    // let infoType = ''; //string: index/id/
+    // let info = ''; //string: actual info
 
     return this.props.lessons.map((lesson, index) => {
+      //alert(`inside allLessonssHandler index: ${index}`);
+      //alert(`inside allLessonssHandler id: ${lesson.id}`);
       return (
         <ErrorBoundary key={lesson.id}>
           <Lesson
@@ -222,26 +169,25 @@ class Lessons extends Component {
     });
   }
 
-  // getSnapshotBeforeUpdate(prevProps, prevState) {
-  //   console.log('[Tasks] getSnapshotBeforeUpdate');
-  //   return { message: 'Snapshot' };
-  // }
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    console.log('[Syllabus] getSnapshotBeforeUpdate');
+    return { message: 'Snapshot' };
+  }
 
   // // componentWillUpdate() {
   // //     return
   // // }
 
-  // componentDidUpdate(prevProps, prevState, message) {
-  //   console.log('[Tasks] componentDidUpdate');
-  //   console.log(message);
-  // }
+  componentDidUpdate(prevProps, prevState, message) {
+    console.log('[Syllabus] componentDidUpdate');
+    console.log(message);
+  }
 
   // componentWillUnmount() {
   //   console.log('[Tasks.js] componentWillUnmount');
   // }
 
   render() {
-    console.log('[Lessons] rendering...');
     //<p> contentChoice: {this.props.everything.contentChoice}</p>;
     return (
       <div>

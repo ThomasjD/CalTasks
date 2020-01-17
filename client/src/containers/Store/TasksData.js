@@ -296,7 +296,7 @@ class TasksData extends Component {
             () => this.context.dataReceiverHandler(this.state)
           );
         } else {
-          alert(`Inside of lastTaskHeaderHandler case 2 else statement:`);
+          // alert(`Inside of lastTaskHeaderHandler case 2 else statement:`);
           this.setState(
             { TodayTasksHeader: this.state.TodayTasksHeader },
 
@@ -446,7 +446,7 @@ class TasksData extends Component {
   };
 
   newEventHandler = value => {
-    alert(`inside newEventHandler ${this.context.dataRequestDetails}`);
+    // alert(`inside newEventHandler ${this.context.dataRequestDetails}`);
     let newEvent = this.context.dataRequestDetails.value;
     let assignTask = {
       id: newEvent.startTimeDate.dateObjectString,
@@ -458,11 +458,11 @@ class TasksData extends Component {
       assignedTimeStop: newEvent.startTimeDate.toLocaleTimeString,
       assignedDate: newEvent.startTimeDate.toLocalDateString
     };
-    alert(`assignTask.task ${assignTask.task}`);
+    // alert(`assignTask.task ${assignTask.task}`);
     //THE DAY OF THE WEEK
     //let assignToDay = newEvent.startTimeDate.day;
     let today = calendarObj();
-    alert(`today: ${today}`);
+    // alert(`today: ${today}`);
     let findDay = '';
     switch (today) {
       case 1:
@@ -487,7 +487,7 @@ class TasksData extends Component {
         findDay = 'Sunday';
         break;
     }
-    alert(`today: ${today}`);
+    // alert(`today: ${today}`);
     let foundDay = this.state[today]; //array of objects on certain day
     foundDay.push(assignTask);
     this.setState({ [today]: foundDay }, () =>
@@ -504,7 +504,6 @@ class TasksData extends Component {
     if (this.context.dataRequestDetails.typeOfData === 'tasks') {
       switch (this.context.dataRequestDetails.handlerChoice) {
         case '1': //Unscheduled Tasks for Week
-          alert('inside switch');
           this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
           break;
 
@@ -528,7 +527,7 @@ class TasksData extends Component {
           );
           break;
 
-        case '5': //Changes on TodayTasks contentChoice = #2
+        case '5': //Delete task on TodayTasks contentChoice = #2
           this.context.resetHandlerChoice(
             this.deleteTodayTaskhandler(this.props.dataRequestDetails.index)
           );

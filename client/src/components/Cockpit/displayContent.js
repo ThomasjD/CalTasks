@@ -114,6 +114,11 @@ const DisplayContent = props => {
             {syllabusContext.everythingSyllabus.syllabusData
               .showLeftOverLessonsFromSyllabus ? (
               <Lessons
+                showLeftOverLessonsFromSyllabus={
+                  syllabusContext.everythingSyllabus.syllabusData
+                    .showLeftOverLessonsFromSyllabus
+                }
+                contentChoice={props.contentChoice}
                 everything={props.everything}
                 // showLeftOverLessonsFromOrigSyllabus={
                 //   this.props.everythingSyllabus.syllabusData

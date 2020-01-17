@@ -6,13 +6,100 @@ import TasksContext from '../../../context/tasksContext';
 import statusClasses from './Tasks.module.css'; //changes color of text depending on # of unscheduled tasks left
 import Aux from '../../../hoc/Aux';
 import PropTypes from 'prop-types';
-
+import calendarObj from '../../Calendar/calendarObj';
 class Tasks extends PureComponent {
   constructor(props) {
     super(props);
   }
   state = {
     showMessageForEventValue: false
+  };
+
+  taskDeleteHandler = (event, info) => {
+    let typeOfData = ''; //string: syllabus,tasks,events,objectives
+    let handlerChoice = ''; //string: '#' handler inside of database
+    let dataLocation = ''; // string: where obj found inside database
+    let infoType = ''; //string: index/id/
+    //let info = ''; //string: actual info
+
+    // let value = '';
+    let dataRequestMessage = {};
+    let today = calendarObj();
+    switch (this.props.contentChoice) {
+      case '1':
+        typeOfData = 'tasks';
+        handlerChoice = '3';
+        dataLocation = this.context.dataRequestDetails.dataLocation;
+        infoType = 'index';
+        //info = '';
+        break;
+      case '2':
+        typeOfData = 'tasks';
+        handlerChoice = '5';
+        dataLocation = today;
+        infoType = 'index';
+        //info = null;
+
+        break;
+      case '5':
+        break;
+    }
+
+    dataRequestMessage = {
+      typeOfData: typeOfData,
+      handlerChoice: handlerChoice,
+      dataLocation: dataLocation,
+      infoType: infoType,
+      info: info
+    };
+    // alert(`inside [Lessons]  lessonDeleteHandler() typeOfData: ${dataRequestMessage.typeOfData}
+    // handlerChoice: ${dataRequestMessage.handlerChoice}
+    // dataLocation: ${dataRequestMessage.dataLocation}
+    // infoType: ${dataRequestMessage.infoType}
+    // info: ${dataRequestMessage.info}`);
+
+    this.context.dataRequestHandler(event, dataRequestMessage);
+  };
+
+  taskChangeHandler = (event, info) => {
+    //let contentchoice = event.target.value;
+    let typeOfData = ''; //string: syllabus,tasks,events,objectives
+    let handlerChoice = ''; //string: '#' handler inside of database
+    let dataLocation = ''; // string: where obj found inside database
+    let infoType = ''; //string: index/id/
+    //let info = ''; //string: actual info
+
+    // let value = '';
+    let dataRequestMessage = {};
+    switch (this.props.contentChoice) {
+      case '1':
+        typeOfData = 'tasks';
+        handlerChoice = '4';
+        dataLocation = this.context.dataRequestDetails.dataLocation;
+        infoType = 'id';
+        //info = '';
+        break;
+      case '2':
+        typeOfData = 'tasks';
+        handlerChoice = '6';
+        dataLocation = this.context.dataRequestDetails.dataLocation; // 'maxReactWorkLeft';
+        infoType = 'id';
+        //info = null;
+        break;
+      case '4':
+        break;
+      case '5':
+        break;
+    }
+    dataRequestMessage = {
+      typeOfData: typeOfData,
+      handlerChoice: handlerChoice,
+      dataLocation: dataLocation,
+      infoType: infoType,
+      info: info
+    };
+
+    this.context.dataRequestHandler(event, dataRequestMessage);
   };
 
   renderTableHeaderAllTasksHandler() {
@@ -76,24 +163,8 @@ class Tasks extends PureComponent {
                 category={task.category}
                 particularKey={task.id}
                 scheduleTask={task.schedulTask}
-                click={event =>
-                  this.context.dataRequestHandler(
-                    event,
-                    'tasks',
-                    functionChoiceDelete,
-                    'index',
-                    index
-                  )
-                }
-                changed={event =>
-                  this.context.dataRequestHandler(
-                    event,
-                    'tasks',
-                    functionChoiceChange,
-                    'id',
-                    task.id
-                  )
-                }
+                click={event => this.taskDeleteHandler(event, index)}
+                changed={event => this.taskChangeHandler(event, task.id)}
               ></Task>
             </ErrorBoundary>
           </Aux>
