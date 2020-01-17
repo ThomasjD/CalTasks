@@ -108,11 +108,11 @@ class RightCockpit extends Component {
           break;
 
         case '6': //Adding Lessons from Syllabus
-          this.context.dataRequestHandler(event, 'syllabus', '6', null, null);
+          //this.context.dataRequestHandler(event, 'syllabus', '6', null, null);
           //this.props.showLeftOverLessonsFromSyllabus();
           break;
         case '7': //View MaxReact
-          this.context.dataRequestHandler(event, 'syllabus', '8', null, null);
+          //this.context.dataRequestHandler(event, 'syllabus', '8', null, null);
 
           break;
         case '8': //newEvent submitForm, later change the typeOfData to event

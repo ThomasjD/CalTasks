@@ -108,7 +108,9 @@ class Store extends Component {
         };
         break;
       case 'syllabus':
-        alert(`inside Store syllabus case ${typeOfData}`);
+        // alert(
+        //   `inside Store syllabus case ${typeOfData} handlerChoice:${handlerChoice} dataLocation: ${dataLocation} info: ${info}`
+        // );
         dataRequestDetails = {
           handlerChoice: handlerChoice,
           index: index,

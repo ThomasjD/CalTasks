@@ -125,12 +125,31 @@ class Syllabus extends Component {
 
   static contextType = SyllabusContext;
   assignLessonFromSyllabus = () => {
-    this.setState({ showLeftOverLessonsFromSyllabus: true });
+    alert('inside assignedLesson');
+
+    let currentShowLeftOverLessonsFromSyllabus = this.state
+      .showLeftOverLessonsFromSyllabus;
 
     if (this.state.maxReact.length != 0) {
-      this.setState({ lastLessonHeader: this.state.maxReact[0] });
+      this.setState(
+        {
+          lastLessonHeader: this.state.maxReact[0],
+          showLeftOverLessonsFromSyllabus: !currentShowLeftOverLessonsFromSyllabus
+        },
+        () => {
+          this.context.dataReceiverHandler(this.state);
+        }
+      );
     } else {
-      this.setState({ lastLessonHeader: this.state.lastLessonHeader });
+      this.setState(
+        {
+          lastLessonHeader: this.state.lastLessonHeader,
+          showLeftOverLessonsFromSyllabus: !currentShowLeftOverLessonsFromSyllabus
+        },
+        () => {
+          this.context.dataReceiverHandler(this.state);
+        }
+      );
     }
   };
 
@@ -170,6 +189,7 @@ class Syllabus extends Component {
   };
 
   lastLessonHeaderHandler = () => {
+    alert(this.context.dataRequestDetails.handlerChoice);
     switch (this.context.dataRequestDetails.handlerChoice) {
       case '1':
         //list of syllabi
@@ -209,9 +229,10 @@ class Syllabus extends Component {
 
       case '2':
         alert('In case 2 of lastHeader()');
-        if (this.state.Monday.length != 0) {
+        let dataLocation = this.context.dataRquestDetails.dataLocation;
+        if (this.state[dataLocation].length != 0) {
           this.setState(
-            { lastLessonHeader: this.state.Monday[0] },
+            { lastLessonHeader: this.state[dataLocation][0] },
 
             () => {
               this.context.resetHandlerChoice(
@@ -233,6 +254,7 @@ class Syllabus extends Component {
         break;
 
       case '6':
+        //alert('inside case 6');
         if (this.state.maxReactWorkLeft.length != 0) {
           this.setState(
             {
@@ -393,6 +415,19 @@ class Syllabus extends Component {
     //   `inside SyllabusData handlerChoice: ${this.context.dataRequestDetails.handlerChoice}`
     // );
     //syllabusHandlerChoice
+
+    let {
+      typeOfData,
+      handlerChoice,
+      dataLocation,
+      infoType,
+      info
+    } = this.context.dataRequestDetails;
+
+    // alert(
+    //   `inside SyllabusData typeOfData: ${typeOfData} handlerChoice:${handlerChoice} dataLocation: ${dataLocation} info: ${info}`
+    // );
+
     if (this.context.dataRequestDetails.typeOfData === 'syllabus') {
       switch (this.context.dataRequestDetails.handlerChoice) {
         case '1':
@@ -426,7 +461,7 @@ class Syllabus extends Component {
           );
           break;
 
-        case '5':
+        case '5': //deleting from maxReactWorkLeft & add to maxReact Syllabus
           this.context.resetHandlerChoice(
             this.addLessonFromOriginalSyllabusHandler(
               this.context.dataRequestDetails.index
@@ -434,15 +469,15 @@ class Syllabus extends Component {
           );
 
           break;
-
-        case '6':
+        case '6': //Lesson change in maxReactWorkLeft
+          //alert('case 6');
           // leftOverLessonChangeHandler;
           //this.context.resetSyllabusHandlerChoice();
 
-          this.leftOverLessonChangeHandler(
-            this.context.dataRequestDetails.value,
-            this.context.dataRequestDetails.id
-          );
+          // this.leftOverLessonChangeHandler(
+          //   this.context.dataRequestDetails.value,
+          //   this.context.dataRequestDetails.id
+          // );
 
           break;
 
@@ -456,7 +491,27 @@ class Syllabus extends Component {
           );
 
           break;
-        case '18':
+
+        case '9':
+          this.lastSyllabusHeaderHandler();
+
+          break;
+        case '10':
+          //alert('case 6');
+          // leftOverLessonChangeHandler;
+          //this.context.resetSyllabusHandlerChoice();
+          this.context.resetHandlerChoice(this.assignLessonFromSyllabus());
+
+          // this.leftOverLessonChangeHandler(
+          //   this.context.dataRequestDetails.value,
+          //   this.context.dataRequestDetails.id
+          // );
+
+          break;
+        case '11':
+          break;
+
+        case '18': //picked syllabus from navBar
           //this.lastLessonHeaderHandler();
           // alert(
           //   `this.context.dataRequestDetails: ${JSON.stringify(
@@ -469,12 +524,6 @@ class Syllabus extends Component {
           );
           // this.context.resetHandlerChoice(this.showSyllabusListHandler());
 
-          break;
-        case '9':
-          this.lastSyllabusHeaderHandler();
-
-          break;
-        case '10':
           break;
       }
     }

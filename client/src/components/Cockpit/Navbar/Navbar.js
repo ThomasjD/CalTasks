@@ -40,11 +40,10 @@ const Navbar = props => {
         break;
       case '6':
         typeOfData = 'syllabus';
-        handlerChoice = '6';
+        handlerChoice = '10';
         dataLocation = 'maxReactWorkLeft';
         infoType = null;
         info = null;
-
         break;
     }
     dataRequestMessage = {
@@ -54,6 +53,7 @@ const Navbar = props => {
       infoType: infoType,
       info: info
     };
+
     syllabusContext.dataRequestHandler(event, dataRequestMessage);
 
     let contentViewObject = {
@@ -332,7 +332,7 @@ const Navbar = props => {
 
                 <button
                   onClick={event => requestDataHandler(event)}
-                  value="5"
+                  value="5" //will be contentChoice later
                   className="dropdown-item"
                 >
                   Event
@@ -340,7 +340,7 @@ const Navbar = props => {
 
                 <button
                   onClick={event => requestDataHandler(event)}
-                  value="6"
+                  value="6" //for contentChoice //'10' is handlerChoice
                   className="dropdown-item"
                 >
                   Syllabus
