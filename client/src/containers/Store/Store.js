@@ -87,6 +87,7 @@ class Store extends Component {
           case 'id':
             id = info;
             value = event.target.value;
+            alert(`inside Store value: ${value}`);
             break;
           case 'pickedDayTasks':
             value = null;

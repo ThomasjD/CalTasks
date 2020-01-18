@@ -388,17 +388,18 @@ class TasksData extends Component {
   };
 
   deleteTodayTaskhandler = taskIndex => {
-    alert('Are you sure you want to delete this task?');
+    //alert('Are you sure you want to delete this task?');
     this.setState({ reRenderTodayTasks: true });
-
+    let dataLocation = this.context.dataRequestDetails.dataLocation;
+    alert(`dataLocation: ${dataLocation}`);
     //get tasks array
-    const Monday = [...this.state.Monday];
+    const todayTasks = [...this.state[dataLocation]];
 
     //splice task of interst
-    Monday.splice(taskIndex, 1);
-
+    todayTasks.splice(taskIndex, 1);
+    alert(`dataLocation: ${dataLocation} `);
     //update new list of tasks to state
-    this.setState({ Monday: Monday }, () =>
+    this.setState({ [dataLocation]: todayTasks }, () =>
       this.context.dataReceiverHandler(this.state)
     );
 
@@ -407,24 +408,26 @@ class TasksData extends Component {
 
   todayTaskChangeHandler = (newTaskValue, taskChangedId) => {
     //find the task that matches the taskChangedId
-    const foundTaskIndex = this.state.Monday.findIndex(currentId => {
+    let dataLocation = this.context.dataRequestDetails.dataLocation;
+    alert(`newTaskValue: ${newTaskValue}`);
+    const foundTaskIndex = this.state[dataLocation].findIndex(currentId => {
       return currentId.id === taskChangedId;
     });
 
     //create new task item that we will put into array
-    const updatedTask = { ...this.state.Monday[foundTaskIndex] };
+    const updatedTask = { ...this.state[dataLocation][foundTaskIndex] };
 
     updatedTask.task = newTaskValue;
 
     //pull out the states tasks array
-    const Monday = [...this.state.Monday];
+    const todayTasks = [...this.state[dataLocation]];
 
     //update the task with id of interest w/ new task description
-    Monday[foundTaskIndex] = updatedTask;
+    todayTasks[foundTaskIndex] = updatedTask;
 
     //update the state
     //without the () =>() -> dataReceiver will not wait till things have been updated in state, it will exicute rightaway
-    this.setState({ Monday: Monday }, () =>
+    this.setState({ [dataLocation]: todayTasks }, () =>
       this.context.dataReceiverHandler(this.state)
     );
   };
@@ -554,22 +557,22 @@ class TasksData extends Component {
           );
 
           break;
-        case '9':
+        case '9': //picked day
           this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
           break;
       }
-    } else {
-      switch (this.context.dataRequestDetails.handlerChoice) {
-        case '8': //new Event
-          alert('inside case 8');
+    } // else {
+    //   switch (this.context.dataRequestDetails.handlerChoice) {
+    //     case '8': //new Event
+    //       alert('inside case 8');
 
-          this.context.resetHandlerChoice(
-            this.newEventHandler(this.props.dataRequestDetails.value)
-          );
+    //       this.context.resetHandlerChoice(
+    //         this.newEventHandler(this.props.dataRequestDetails.value)
+    //       );
 
-          break;
-      }
-    }
+    //       break;
+    //   }
+    // }
 
     return <React.Fragment></React.Fragment>;
   }

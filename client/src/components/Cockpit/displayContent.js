@@ -57,6 +57,7 @@ const DisplayContent = props => {
           <TodayTasks
             everything={props.everything}
             reRenderTodayTasks={props.everything.reRenderTodayTasks}
+            contentChoice={props.everything.contentChoice}
           />
                     
         </React.Fragment>
@@ -179,6 +180,7 @@ const DisplayContent = props => {
                       
           <PickedDayTasks
             everything={props.everything}
+            contentChoice={props.contentChoice}
             //dataLocation={tasksContext.dataRequestDetails.value}
             //reRenderTodayTasks={props.everything.reRenderTodayTasks}
           />

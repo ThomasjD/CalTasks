@@ -6,6 +6,79 @@ import TasksContext from '../../../context/tasksContext';
 const PickedDayTasks = props => {
   const tasksContext = useContext(TasksContext);
 
+  const taskDeleteHandler = (event, info) => {
+    let typeOfData = 'tasks'; //string: syllabus,tasks,events,objectives
+    let handlerChoice = '5'; //string: '#' handler inside of database
+    let dataLocation = tasksContext.tasksData.tasksData.dataLocation; // string: where obj found inside database
+    let infoType = 'index'; //string: index/id/
+    //let info = ''; //string: actual info
+
+    // let value = '';
+    let dataRequestMessage = {};
+    //let today = calendarObj();
+
+    switch (props.contentChoice) {
+      case '9':
+        typeOfData = 'tasks';
+        handlerChoice = '';
+        dataLocation = dataLocation;
+        infoType = 'index';
+        //info = null;
+
+        break;
+      case '5':
+        break;
+    }
+
+    dataRequestMessage = {
+      typeOfData: typeOfData,
+      handlerChoice: handlerChoice,
+      dataLocation: dataLocation,
+      infoType: infoType,
+      info: info
+    };
+
+    tasksContext.dataRequestHandler(event, dataRequestMessage);
+  };
+
+  const taskChangeHandler = (event, info) => {
+    let typeOfData = ''; //string: syllabus,tasks,events,objectives
+    let handlerChoice = ''; //string: '#' handler inside of database
+    let dataLocation = ''; // string: where obj found inside database
+    let infoType = ''; //string: index/id/
+
+    let dataRequestMessage = {};
+    switch (props.contentChoice) {
+      case '9':
+        typeOfData = 'tasks';
+        handlerChoice = '6';
+
+        dataLocation = tasksContext.tasksData.tasksData.dataLocation;
+        infoType = 'id';
+        //info = null;
+        break;
+      case '4':
+        break;
+      case '5':
+        break;
+    }
+    dataRequestMessage = {
+      typeOfData: typeOfData,
+      handlerChoice: handlerChoice,
+      dataLocation: dataLocation,
+      infoType: infoType,
+      info: info
+    };
+    alert(`inside [PickedDayTasks]  taskChangeHandler()
+    typeOfData: ${dataRequestMessage.typeOfData}
+    handlerChoice: ${dataRequestMessage.handlerChoice}
+    dataLocation: ${dataRequestMessage.dataLocation}
+    infoType?: ${dataRequestMessage.infoType}
+    info: ${dataRequestMessage.info}`);
+
+    tasksContext.dataRequestHandler(event, dataRequestMessage);
+  };
+
   const renderTableHeaderHandler = () => {
     if (tasksContext.tasksData.tasksData) {
       let header = Object.keys(
@@ -45,18 +118,6 @@ const PickedDayTasks = props => {
       //alert(`Inside tasksOfSelectedDayHandler dataLocation: ${dataLocation}`); //
       return tasksContext.tasksData.tasksData[dataLocation].map(
         (day, index) => {
-          let functionChoiceDelete = null;
-          let functionChoiceChange = null;
-
-          //const { id, task } = day;
-          if (props.everything.contentChoice === '2') {
-            functionChoiceDelete = '5';
-            functionChoiceChange = '6';
-          } else {
-            functionChoiceDelete = '7';
-            functionChoiceChange = '8';
-          }
-
           return (
             <React.Fragment key={day.id}>
               <PickedDayTask
@@ -66,24 +127,8 @@ const PickedDayTasks = props => {
                 deleteTodayTask={props.clicked}
                 deadline={day.deadline}
                 category={day.category}
-                click={event =>
-                  tasksContext.dataRequestHandler(
-                    event,
-                    'tasks',
-                    functionChoiceDelete,
-                    'index',
-                    index
-                  )
-                }
-                changed={event =>
-                  tasksContext.dataRequestHandler(
-                    event,
-                    'tasks',
-                    functionChoiceChange,
-                    'id',
-                    day.id
-                  )
-                }
+                click={event => taskDeleteHandler(event, index)}
+                changed={event => taskChangeHandler(event, day.id)}
               />
             </React.Fragment>
           );

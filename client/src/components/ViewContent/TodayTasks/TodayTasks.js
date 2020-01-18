@@ -8,15 +8,16 @@ const TodayTasks = props => {
   const tasksContext = useContext(TasksContext);
 
   const taskDeleteHandler = (event, info) => {
-    let typeOfData = ''; //string: syllabus,tasks,events,objectives
-    let handlerChoice = ''; //string: '#' handler inside of database
+    let typeOfData = 'tasks'; //string: syllabus,tasks,events,objectives
+    let handlerChoice = '5'; //string: '#' handler inside of database
     let dataLocation = ''; // string: where obj found inside database
-    let infoType = ''; //string: index/id/
+    let infoType = 'index'; //string: index/id/
     //let info = ''; //string: actual info
 
     // let value = '';
     let dataRequestMessage = {};
     let today = calendarObj();
+
     switch (props.contentChoice) {
       case '1':
         // typeOfData = 'tasks';
@@ -44,11 +45,6 @@ const TodayTasks = props => {
       infoType: infoType,
       info: info
     };
-    alert(`inside [TodayTasks]  taskDeleteHandler() typeOfData: ${dataRequestMessage.typeOfData}
-    handlerChoice: ${dataRequestMessage.handlerChoice}
-    dataLocation: ${dataRequestMessage.dataLocation}
-    infoType: ${dataRequestMessage.infoType}
-    info: ${dataRequestMessage.info}`);
 
     tasksContext.dataRequestHandler(event, dataRequestMessage);
   };
@@ -90,6 +86,12 @@ const TodayTasks = props => {
       infoType: infoType,
       info: info
     };
+    // alert(`inside [TodayTasks] Friday taskChangeHandler()
+    // typeOfData: ${dataRequestMessage.typeOfData}
+    // handlerChoice: ${dataRequestMessage.handlerChoice}
+    // dataLocation: ${dataRequestMessage.dataLocation}
+    // infoType: ${dataRequestMessage.infoType}
+    // info: ${dataRequestMessage.info}`);
 
     tasksContext.dataRequestHandler(event, dataRequestMessage);
   };
@@ -132,17 +134,17 @@ const TodayTasks = props => {
       //alert(`dataLocation: ${dataLocation}`);
       return tasksContext.tasksData.tasksData[dataLocation].map(
         (day, index) => {
-          let functionChoiceDelete = null;
-          let functionChoiceChange = null;
+          // let functionChoiceDelete = null;
+          // let functionChoiceChange = null;
 
-          //const { id, task } = day;
-          if (props.everything.contentChoice === '2') {
-            functionChoiceDelete = '5';
-            functionChoiceChange = '6';
-          } else {
-            functionChoiceDelete = '7';
-            functionChoiceChange = '8';
-          }
+          // //const { id, task } = day;
+          // if (props.everything.contentChoice === '2') {
+          //   functionChoiceDelete = '5';
+          //   functionChoiceChange = '6';
+          // } else {
+          //   functionChoiceDelete = '7';
+          //   functionChoiceChange = '8';
+          // }
 
           return (
             <React.Fragment key={day.id}>
