@@ -220,7 +220,10 @@ class RightCockpit extends Component {
 
         <div className="col-lg-8 order-0 float-left">
           <div className="card bg-light m-3 p-3 ">
-            <NewEvent />
+            <NewEvent
+              contentViewHandler={this.contentViewHandler}
+              contentChoice={this.state.contentChoice}
+            />
 
             <DisplayContent
               dataLocation={this.state.dataLocation}

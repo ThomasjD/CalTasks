@@ -8,7 +8,7 @@ import TasksDataContext from '../../context/tasksContext.js';
 import Aux from '../../hoc/Aux';
 import Layout from '../../hoc/Layout';
 import CalendarContext from '../../context/calendarContext';
-
+//import Basic from './react-big-scheduler-master/Basic';
 class Store extends Component {
   state = {
     showSyllabusList: false,
@@ -63,7 +63,7 @@ class Store extends Component {
     handlerChoice: ${dataRequestMessage.handlerChoice}
     dataLocation: ${dataRequestMessage.dataLocation}
     infoType: ${dataRequestMessage.infoType}
-    info: ${dataRequestMessage.info}`);
+    info: ${dataRequestMessage.info.eventTitle}`);
     let {
       typeOfData,
       handlerChoice,
@@ -104,6 +104,7 @@ class Store extends Component {
         };
         break;
       case 'events':
+        alert('inside store case events');
         dataRequestDetails = {
           handlerChoice: handlerChoice,
           index: index,

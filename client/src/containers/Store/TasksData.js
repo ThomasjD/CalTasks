@@ -135,38 +135,38 @@ class TasksData extends Component {
         category: 'Laureles'
       }
     ],
-    Thursday: [
-      {
-        id: 'morning4',
-        timeOfDay: 'morning',
-        task: 'comprar comida',
-        deadline: 'Jueves',
-        category: 'Laureles',
-        assignedTimeStart: '',
-        assignedTimeStop: '',
-        assignedDate: ''
-      },
-      {
-        id: 'afternoon4',
-        timeOfDay: 'afternoon',
-        task: 'eat lunch',
-        deadline: 'Jueves',
-        category: 'Laureles',
-        assignedTimeStart: '',
-        assignedTimeStop: '',
-        assignedDate: ''
-      }
-      // {
-      //   id: 'evening4',
-      //   timeOfDay: 'evening',
-      //   task: 'play ball',
-      //   deadline: 'Jueves',
-      //   category: 'Laureles',
-      //   assignedTimeStart: '',
-      //   assignedTimeStop: '',
-      //   assignedDate: ''
-      // }
-    ],
+    // Thursday: [
+    //   {
+    //     id: 'morning4',
+    //     timeOfDay: 'morning',
+    //     task: 'comprar comida',
+    //     deadline: 'Jueves',
+    //     category: 'Laureles',
+    //     assignedTimeStart: '',
+    //     assignedTimeStop: '',
+    //     assignedDate: ''
+    //   },
+    //   {
+    //     id: 'afternoon4',
+    //     timeOfDay: 'afternoon',
+    //     task: 'eat lunch',
+    //     deadline: 'Jueves',
+    //     category: 'Laureles',
+    //     assignedTimeStart: '',
+    //     assignedTimeStop: '',
+    //     assignedDate: ''
+    //   }
+    // {
+    //   id: 'evening4',
+    //   timeOfDay: 'evening',
+    //   task: 'play ball',
+    //   deadline: 'Jueves',
+    //   category: 'Laureles',
+    //   assignedTimeStart: '',
+    //   assignedTimeStop: '',
+    //   assignedDate: ''
+    // }
+    //],
     Friday: [
       {
         id: 'morning5',
@@ -331,6 +331,21 @@ class TasksData extends Component {
         }
 
         break;
+      case '10':
+        alert(`inside case 10`);
+        //pickedDay = this.context.dataRequestDetails.dataLocation;
+        alert(
+          `inside case 10: ${this.context.dataRequestDetails.dataLocation}`
+        );
+        this.setState(
+          {
+            pickedDayTasksHeader: this.state.Monday[0],
+            dataLocation: this.context.dataRequestDetails.dataLocation
+          },
+
+          () => this.context.dataReceiverHandler(this.state)
+        );
+        break;
     }
   };
   //dynamic edit task for Today (Monday)
@@ -391,13 +406,13 @@ class TasksData extends Component {
     //alert('Are you sure you want to delete this task?');
     this.setState({ reRenderTodayTasks: true });
     let dataLocation = this.context.dataRequestDetails.dataLocation;
-    alert(`dataLocation: ${dataLocation}`);
+
     //get tasks array
     const todayTasks = [...this.state[dataLocation]];
 
     //splice task of interst
     todayTasks.splice(taskIndex, 1);
-    alert(`dataLocation: ${dataLocation} `);
+
     //update new list of tasks to state
     this.setState({ [dataLocation]: todayTasks }, () =>
       this.context.dataReceiverHandler(this.state)
@@ -409,7 +424,7 @@ class TasksData extends Component {
   todayTaskChangeHandler = (newTaskValue, taskChangedId) => {
     //find the task that matches the taskChangedId
     let dataLocation = this.context.dataRequestDetails.dataLocation;
-    alert(`newTaskValue: ${newTaskValue}`);
+
     const foundTaskIndex = this.state[dataLocation].findIndex(currentId => {
       return currentId.id === taskChangedId;
     });
@@ -440,7 +455,7 @@ class TasksData extends Component {
       Friday: this.state.Friday.length,
       Saturday: this.state.Saturday.length,
       Sunday: this.state.Sunday.length
-    }; //alert(this.state.numTasksThisWeek.Monday)
+    };
 
     this.setState(
       { numTasksThisWeek: numTasksThisWeek, showHowBusyWeek: true },
@@ -449,64 +464,100 @@ class TasksData extends Component {
   };
 
   newEventHandler = value => {
-    // alert(`inside newEventHandler ${this.context.dataRequestDetails}`);
+    alert('slickdealz');
+    alert(`inside TasksData newEventHandler() value: ${value.eventTitle}`);
     let newEvent = this.context.dataRequestDetails.value;
+
     let assignTask = {
       id: newEvent.startTimeDate.dateObjectString,
-      timeOfDay: newEvent.startTimeDate.time,
       task: newEvent.eventTitle,
-      deadline: newEvent,
+      note: newEvent.eventNote,
+      deadline: newEvent.deadline,
       category: newEvent.eventCategory,
-      assignedTimeStart: newEvent.startTimeDate.toLocaleTimeString,
-      assignedTimeStop: newEvent.startTimeDate.toLocaleTimeString,
-      assignedDate: newEvent.startTimeDate.toLocalDateString
+      assignedTimeStart: newEvent.startTimeDate,
+      assignedTimeStop: newEvent.finishTimeDate
     };
-    // alert(`assignTask.task ${assignTask.task}`);
-    //THE DAY OF THE WEEK
-    //let assignToDay = newEvent.startTimeDate.day;
-    let today = calendarObj();
-    // alert(`today: ${today}`);
-    let findDay = '';
-    switch (today) {
-      case 1:
-        findDay = 'Monday';
-        break;
-      case 2:
-        findDay = 'Tuesday';
-        break;
-      case 3:
-        findDay = 'Wednesday';
-        break;
-      case 4:
-        findDay = 'Thursday';
-        break;
-      case 5:
-        findDay = 'Friday';
-        break;
-      case 6:
-        findDay = 'Saturday';
-        break;
-      case 0:
-        findDay = 'Sunday';
-        break;
+
+    //Thur blocked out
+    let assignToCalendar = newEvent.startTimeDate.day;
+    // let availableObjects = Object.keys(this.state)
+    if (typeof this.state[assignToCalendar] !== 'undefined') {
+      // object exists
+      let addNewEventToCurrentDay = [
+        ...this.state[assignToCalendar],
+        assignTask
+      ];
+
+      // Thursday: {},
+      this.setState({ [assignToCalendar]: addNewEventToCurrentDay }, () =>
+        this.context.dataReceiverHandler(this.state)
+      );
+    } else {
+      this.setState({ Thursday: [assignTask] }, () =>
+        this.context.dataReceiverHandler(this.state)
+      );
     }
-    // alert(`today: ${today}`);
-    let foundDay = this.state[today]; //array of objects on certain day
-    foundDay.push(assignTask);
-    this.setState({ [today]: foundDay }, () =>
-      this.context.dataReceiverHandler(this.state)
-    );
+
+    // //THE DAY OF THE WEEK
+    // //let assignToDay = newEvent.startTimeDate.day;
+    // let today = calendarObj();
+
+    // let findDay = '';
+    // switch (today) {
+    //   case 1:
+    //     findDay = 'Monday';
+    //     break;
+    //   case 2:
+    //     findDay = 'Tuesday';
+    //     break;
+    //   case 3:
+    //     findDay = 'Wednesday';
+    //     break;
+    //   case 4:
+    //     findDay = 'Thursday';
+    //     break;
+    //   case 5:
+    //     findDay = 'Friday';
+    //     break;
+    //   case 6:
+    //     findDay = 'Saturday';
+    //     break;
+    //   case 0:
+    //     findDay = 'Sunday';
+    //     break;
+    // }
+
+    // let foundDay = this.state[today]; //array of objects on certain day
+    // foundDay.push(assignTask);
+
+    // this.setState({ [today]: foundDay }, () =>
+    //   this.context.dataReceiverHandler(this.state)
+    // );
   };
 
   static contextType = TasksContext;
 
   render() {
     //need to put back this.context.
+    if (this.context.dataRequestDetails.typeOfData === 'events') {
+      switch (this.context.dataRequestDetails.handlerChoice) {
+        case '1': //new Event
+          alert(
+            `doogie inside TasksData events case 1 contentChoice: ${this.context.dataRequestDetails.handlerChoice}`
+          );
+          this.context.resetHandlerChoice(
+            this.newEventHandler(this.props.dataRequestDetails.value)
+          );
+
+          break;
+      }
+    }
 
     //dataRequestDetails.typeOfData === 'events';
     if (this.context.dataRequestDetails.typeOfData === 'tasks') {
       switch (this.context.dataRequestDetails.handlerChoice) {
         case '1': //Unscheduled Tasks for Week
+          alert(`in case 1 of tasksdata`);
           this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
           break;
 
@@ -550,28 +601,20 @@ class TasksData extends Component {
 
           break;
         case '8': //new Event
-          //alert('inside case 8');
-          //this.newEventHandler();
-          this.context.resetHandlerChoice(
-            this.newEventHandler(this.props.dataRequestDetails.value)
-          );
+          // this.context.resetHandlerChoice(
+          //   this.newEventHandler(this.props.dataRequestDetails.value)
+          // );
 
           break;
         case '9': //picked day
           this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
           break;
+        case '10': //picked day
+          this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
+          break;
       }
-    } // else {
-    //   switch (this.context.dataRequestDetails.handlerChoice) {
-    //     case '8': //new Event
-    //       alert('inside case 8');
+    }
 
-    //       this.context.resetHandlerChoice(
-    //         this.newEventHandler(this.props.dataRequestDetails.value)
-    //       );
-
-    //       break;
-    //   }
     // }
 
     return <React.Fragment></React.Fragment>;

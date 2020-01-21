@@ -128,11 +128,6 @@ class Tasks extends PureComponent {
             return <th key={index}>{key.toUpperCase()}</th>;
             break;
         }
-        // if (key === 'id') {
-        //   return <th key={index}>Click to Delete</th>;
-        // } else {
-        //   return <th key={index}>{key.toUpperCase()}</th>;
-        // }
       });
     }
   }

@@ -114,8 +114,9 @@ const PickedDayTasks = props => {
     //let dataLocation = tasksContext.dataRequestDetails.value;
     //alert(`dataLocation: ${dataLocation}`);
     if (tasksContext.tasksData.tasksData) {
+      alert('inside PickedDayTasks tasksOfSelectedDayHandler');
       let dataLocation = tasksContext.tasksData.tasksData.dataLocation;
-      //alert(`Inside tasksOfSelectedDayHandler dataLocation: ${dataLocation}`); //
+      alert(`Inside tasksOfSelectedDayHandler dataLocation: ${dataLocation}`); //
       return tasksContext.tasksData.tasksData[dataLocation].map(
         (day, index) => {
           return (

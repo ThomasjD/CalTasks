@@ -97,10 +97,14 @@ const DisplayContent = props => {
         </React.Fragment>
       );
       break;
-    case '5':
+    case '5': //coming from NavBar
+      //after submition will show calendar and where that will placed
       displayContent = (
         <React.Fragment>
-          <NewEvent />
+          <NewEvent
+            contentViewHandler={props.contentViewHandler}
+            contentChoice={props.contentChoice}
+          />
         </React.Fragment>
       );
       break;
@@ -148,10 +152,7 @@ const DisplayContent = props => {
 
       break;
     case '7': //display a list of syllabi
-      //alert('case 7');
       if (syllabusContext.everythingSyllabus.syllabusData) {
-        //alert('inside displayContent case');
-        //
         displayContent = (
           <React.Fragment>
             <Syllabi />
@@ -189,10 +190,7 @@ const DisplayContent = props => {
       );
 
       break;
-    case '10': //View tasks according to chosen day
-      let dataLocation = syllabusContext.dataRequestDetails.dataLocation;
-      //alert('inside of case 10');
-      //alert(dataLocation);
+    case '10': //View syllabus according to chosen day
       displayContent = (
         <React.Fragment>
           {syllabusContext.everythingSyllabus.syllabusData ? (
