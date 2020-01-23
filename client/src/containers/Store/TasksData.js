@@ -305,10 +305,17 @@ class TasksData extends Component {
         }
         break;
       case '9':
-        //alert('inside case 9');
         let pickedDay = this.context.dataRequestDetails.dataLocation;
-        if (this.state[pickedDay].length != 0) {
-          //alert(`Inside of lastTaskHeaderHandler case 2 if statement:`);
+        // alert(`inside case 9 pickedDay: ${pickedDay}`);
+        // alert(
+        //   `inside case 9 datalocation: ${this.state[pickedDay].eventTitle}`
+        // );
+        if (!this.state[pickedDay]) {
+          let chair = this.state[pickedDay]; //[]
+          alert(pickedDay);
+          alert(
+            `Inside of lastTaskHeaderHandler case 2 if statement: ${chair}`
+          );
 
           this.setState(
             {
@@ -319,11 +326,11 @@ class TasksData extends Component {
             () => this.context.dataReceiverHandler(this.state)
           );
         } else {
-          //alert(`Inside of lastTaskHeaderHandler case 2 else statement:`);
+          //alert(`Inside of lastTaskHeaderHandler else statement:`);
           this.setState(
             {
-              pickedDayTasksHeader: this.state.pickedDayTasksHeader,
-              dataLocation: this.context.dataRequestDetails.value
+              pickedDayTasksHeader: this.state[pickedDay][0],
+              dataLocation: this.context.dataRequestDetails.dataLocation
             },
 
             () => this.context.dataReceiverHandler(this.state)
@@ -332,19 +339,18 @@ class TasksData extends Component {
 
         break;
       case '10':
-        alert(`inside case 10`);
-        //pickedDay = this.context.dataRequestDetails.dataLocation;
-        alert(
-          `inside case 10: ${this.context.dataRequestDetails.dataLocation}`
-        );
-        this.setState(
-          {
-            pickedDayTasksHeader: this.state.Monday[0],
-            dataLocation: this.context.dataRequestDetails.dataLocation
-          },
+        if (!this.state[pickedDay]) {
+          //pickedDay = this.context.dataRequestDetails.dataLocation;
+          alert(`inside case 10 pickedDay: ${pickedDay}`);
+          this.setState(
+            {
+              pickedDayTasksHeader: this.state.Monday[0],
+              dataLocation: this.context.dataRequestDetails.dataLocation
+            },
 
-          () => this.context.dataReceiverHandler(this.state)
-        );
+            () => this.context.dataReceiverHandler(this.state)
+          );
+        }
         break;
     }
   };
@@ -464,40 +470,53 @@ class TasksData extends Component {
   };
 
   newEventHandler = value => {
-    alert('slickdealz');
-    alert(`inside TasksData newEventHandler() value: ${value.eventTitle}`);
+    // alert(`inside TasksData newEventHandler() value: ${value.eventTitle}`);
     let newEvent = this.context.dataRequestDetails.value;
+    let startTimeDate = this.context.dataRequestDetails.value.startTimeDate;
 
     let assignTask = {
       id: newEvent.startTimeDate.dateObjectString,
+      timeOfDay: startTimeDate.time,
       task: newEvent.eventTitle,
       note: newEvent.eventNote,
       deadline: newEvent.deadline,
       category: newEvent.eventCategory,
-      assignedTimeStart: newEvent.startTimeDate,
+      assignedTimeStart: startTimeDate,
       assignedTimeStop: newEvent.finishTimeDate
     };
 
     //Thur blocked out
-    let assignToCalendar = newEvent.startTimeDate.day;
-    // let availableObjects = Object.keys(this.state)
-    if (typeof this.state[assignToCalendar] !== 'undefined') {
-      // object exists
-      let addNewEventToCurrentDay = [
-        ...this.state[assignToCalendar],
-        assignTask
-      ];
+    let dataLocation = this.context.dataRequestDetails.dataLocation;
 
-      // Thursday: {},
-      this.setState({ [assignToCalendar]: addNewEventToCurrentDay }, () =>
-        this.context.dataReceiverHandler(this.state)
+    // let availableObjects = Object.keys(this.state)
+
+    if (!this.state[dataLocation]) {
+      // object exists
+      let addNewEventToNewDataLocation = [assignTask];
+
+      this.setState(
+        {
+          [dataLocation]: addNewEventToNewDataLocation,
+          pickedDayTasksHeader: assignTask,
+          dataLocation: dataLocation
+        },
+
+        () => this.context.dataReceiverHandler(this.state)
       );
     } else {
-      this.setState({ Thursday: [assignTask] }, () =>
-        this.context.dataReceiverHandler(this.state)
+      let addNewEventToExistingDataLocation = this.state[dataLocation][0];
+
+      this.setState(
+        {
+          [dataLocation]: addNewEventToExistingDataLocation,
+          pickedDayTasksHeader: assignTask,
+          dataLocation: dataLocation
+        },
+
+        () => this.context.dataReceiverHandler(this.state)
       );
     }
-
+    //alert(`inside case 9 datalocation: ${JSON.stringify(this.state.Thursday)}`);
     // //THE DAY OF THE WEEK
     // //let assignToDay = newEvent.startTimeDate.day;
     // let today = calendarObj();
@@ -533,21 +552,60 @@ class TasksData extends Component {
     // this.setState({ [today]: foundDay }, () =>
     //   this.context.dataReceiverHandler(this.state)
     // );
+    // if (this.state[this.context.dataRequestDetails.dataLocation]) {
+    //   let pickedDay = this.context.dataRequestDetails.dataLocation;
+    //   //alert(`inside case 9 pickedDay: ${pickedDay}`);
+    //   // alert(
+    //   //   `inside case 9 datalocation: ${this.state[pickedDay].eventTitle}`
+    //   // );
+    //   if (!this.state[pickedDay]) {
+    //     //alert(`Inside of lastTaskHeaderHandler case 2 if statement:`);
+    //     //alert('inside TasksData newEventHandler if statement');
+    //     this.setState(
+    //       {
+    //         pickedDayTasksHeader: this.state[pickedDay][0],
+    //         dataLocation: this.context.dataRequestDetails.dataLocation
+    //       },
+
+    //       () => this.context.dataReceiverHandler(this.state)
+    //     );
+    //   } else {
+    //     //alert(`Inside of lastTaskHeaderHandler case 2 else statement:`);
+    //     this.setState(
+    //       {
+    //         pickedDayTasksHeader: this.state[pickedDay][0],
+    //         dataLocation: this.context.dataRequestDetails.dataLocation
+    //       },
+
+    //       () => this.context.dataReceiverHandler(this.state)
+    //     );
+    //   }
+    // }
   };
 
   static contextType = TasksContext;
 
   render() {
     //need to put back this.context.
+
     if (this.context.dataRequestDetails.typeOfData === 'events') {
       switch (this.context.dataRequestDetails.handlerChoice) {
         case '1': //new Event
-          alert(
-            `doogie inside TasksData events case 1 contentChoice: ${this.context.dataRequestDetails.handlerChoice}`
-          );
+          // alert(
+          //   `doogie inside TasksData events case 1 contentChoice: ${this.context.dataRequestDetails.handlerChoice}`
+          // );
+
           this.context.resetHandlerChoice(
             this.newEventHandler(this.props.dataRequestDetails.value)
           );
+
+          this.context.resetHandlerChoice(() =>
+            this.lastTaskHeaderHandler(() =>
+              this.newEventHandler(this.props.dataRequestDetails.value)
+            )
+          );
+
+          // this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
 
           break;
       }
@@ -557,8 +615,8 @@ class TasksData extends Component {
     if (this.context.dataRequestDetails.typeOfData === 'tasks') {
       switch (this.context.dataRequestDetails.handlerChoice) {
         case '1': //Unscheduled Tasks for Week
-          alert(`in case 1 of tasksdata`);
           this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
+
           break;
 
         case '2': //Today's Tasks: TodayTasksHeader
@@ -601,10 +659,6 @@ class TasksData extends Component {
 
           break;
         case '8': //new Event
-          // this.context.resetHandlerChoice(
-          //   this.newEventHandler(this.props.dataRequestDetails.value)
-          // );
-
           break;
         case '9': //picked day
           this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
@@ -614,8 +668,6 @@ class TasksData extends Component {
           break;
       }
     }
-
-    // }
 
     return <React.Fragment></React.Fragment>;
   }

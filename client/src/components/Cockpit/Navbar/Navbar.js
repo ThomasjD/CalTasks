@@ -37,6 +37,11 @@ const Navbar = props => {
       case '4':
         break;
       case '5':
+        // typeOfData = 'syllabus';
+        // handlerChoice = '10';
+        // dataLocation = 'maxReactWorkLeft';
+        // infoType = null;
+        // info = null;
         break;
       case '6': //load up newSyllabus component -> get data prepared to display maxReactWorkLeft
         typeOfData = 'syllabus';
@@ -44,17 +49,17 @@ const Navbar = props => {
         dataLocation = 'maxReactWorkLeft';
         infoType = null;
         info = null;
+        dataRequestMessage = {
+          typeOfData: typeOfData,
+          handlerChoice: handlerChoice,
+          dataLocation: dataLocation,
+          infoType: infoType,
+          info: info
+        };
+
+        syllabusContext.dataRequestHandler(event, dataRequestMessage);
         break;
     }
-    dataRequestMessage = {
-      typeOfData: typeOfData,
-      handlerChoice: handlerChoice,
-      dataLocation: dataLocation,
-      infoType: infoType,
-      info: info
-    };
-
-    syllabusContext.dataRequestHandler(event, dataRequestMessage);
 
     let contentViewObject = {
       target: {

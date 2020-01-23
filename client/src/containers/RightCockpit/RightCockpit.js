@@ -129,6 +129,8 @@ class RightCockpit extends Component {
           // console.log('Inside case 9');
 
           break;
+        case '11':
+          break;
       }
     }
   };
@@ -212,12 +214,6 @@ class RightCockpit extends Component {
 
     let displayCockpit = (
       <div className="container">
-        <div className="row d-flex d-lg-block">
-          <div className="col-lg-4 order-1 float-left">
-            <div className="card text-white bg-info m-3 p-3">{leftCockpit}</div>
-          </div>
-        </div>
-
         <div className="col-lg-8 order-0 float-left">
           <div className="card bg-light m-3 p-3 ">
             <NewEvent
@@ -235,6 +231,12 @@ class RightCockpit extends Component {
               syllabusData={this.context.syllabusData}
               contentChoice={this.state.contentChoice}
             />
+          </div>
+        </div>
+
+        <div className="row d-flex d-lg-block">
+          <div className="col-lg-4 order-1 float-left">
+            <div className="card text-white bg-info m-3 p-3">{leftCockpit}</div>
           </div>
         </div>
       </div>

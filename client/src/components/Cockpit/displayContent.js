@@ -178,13 +178,14 @@ const DisplayContent = props => {
     case '9': //View tasks according to chosen day
       displayContent = (
         <React.Fragment>
-                      
-          <PickedDayTasks
-            everything={props.everything}
-            contentChoice={props.contentChoice}
-            //dataLocation={tasksContext.dataRequestDetails.value}
-            //reRenderTodayTasks={props.everything.reRenderTodayTasks}
-          />
+           
+          {tasksContext.tasksData.tasksData ? (
+            <PickedDayTasks
+              everything={props.everything}
+              contentChoice={props.contentChoice}
+              //dataLocation={tasksContext.dataRequestDetails.value}
+            />
+          ) : null}
                     
         </React.Fragment>
       );
@@ -200,6 +201,22 @@ const DisplayContent = props => {
           ) : null}
         </React.Fragment>
       );
+      break;
+    case '11': //View tasks according to chosen day
+      displayContent = (
+        <React.Fragment>
+           
+          {tasksContext.tasksData.tasksData ? (
+            <PickedDayTasks
+              everything={props.everything}
+              contentChoice={props.contentChoice}
+              //dataLocation={tasksContext.dataRequestDetails.value}
+            />
+          ) : null}
+                    
+        </React.Fragment>
+      );
+
       break;
   }
 

@@ -59,11 +59,11 @@ class Store extends Component {
 
   //dataRequestHandler = (event, typeOfData, handlerChoice,dataLocation,infoType, info) => {
   dataRequestHandler = (event, dataRequestMessage) => {
-    alert(` in Store dataRequestHandler-->  typeOfData: ${dataRequestMessage.typeOfData}
-    handlerChoice: ${dataRequestMessage.handlerChoice}
-    dataLocation: ${dataRequestMessage.dataLocation}
-    infoType: ${dataRequestMessage.infoType}
-    info: ${dataRequestMessage.info.eventTitle}`);
+    // alert(` in Store dataRequestHandler-->  typeOfData: ${dataRequestMessage.typeOfData}
+    // handlerChoice: ${dataRequestMessage.handlerChoice}
+    // dataLocation: ${dataRequestMessage.dataLocation}
+    // infoType: ${dataRequestMessage.infoType}
+    // info: ${dataRequestMessage.info.eventTitle}`);
     let {
       typeOfData,
       handlerChoice,
@@ -104,7 +104,7 @@ class Store extends Component {
         };
         break;
       case 'events':
-        alert('inside store case events');
+        //alert('inside store case events');
         dataRequestDetails = {
           handlerChoice: handlerChoice,
           index: index,

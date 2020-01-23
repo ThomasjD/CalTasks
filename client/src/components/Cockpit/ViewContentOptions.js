@@ -198,6 +198,7 @@ const ViewContentOptions = props => {
       infoType: 'pickedDayTasks',
       info: ''
     };
+
     tasksContext.dataRequestHandler(event, dataRequestMessage);
     let contentViewObject = {
       target: {
