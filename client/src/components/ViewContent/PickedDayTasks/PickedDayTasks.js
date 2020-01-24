@@ -4,12 +4,8 @@ import student from '../../../containers/Student.css';
 import TasksContext from '../../../context/tasksContext';
 
 const PickedDayTasks = props => {
-  // const tasksContext = useContext(TasksContext);
-  // let tasksData = { ...tasksContext.tasksData.tasksData };
-  // let pickedDayTasksHeader = tasksData.pickedDayTasksHeader;
-  // let timeOfDay = { ...pickedDayTasksHeader };
-  // console.dir(`timeOfDay.timeOfDay: ${timeOfDay.timeOfDay}`);
   const tasksContext = useContext(TasksContext);
+
   const taskDeleteHandler = (event, info) => {
     let typeOfData = 'tasks'; //string: syllabus,tasks,events,objectives
     let handlerChoice = '5'; //string: '#' handler inside of database
@@ -85,19 +81,6 @@ const PickedDayTasks = props => {
   };
 
   const renderTableHeaderHandler = () => {
-    // let dataRequestMessage = {
-    //   typeOfData: 'tasks',
-    //   handlerChoice: '9',
-    //   dataLocation: 'Thursday',
-    //   infoType: 'pickedDayTasks',
-    //   info: ''
-    // };
-
-    // this.context.dataRequestHandler(event, dataRequestMessage);
-    // } else {
-
-    // console.log(tasksData.pickedDayTasksHeader);
-
     let tasksData = { ...tasksContext.tasksData.tasksData };
 
     if (tasksData) {
@@ -134,23 +117,18 @@ const PickedDayTasks = props => {
     }
   };
 
-  //todayTaskChanged={props.changed}
   const tasksOfSelectedDayHandler = () => {
-    //let dataLocation = tasksContext.dataRequestDetails.value;
-    //alert(`dataLocation: ${dataLocation}`);
     if (tasksContext.tasksData.tasksData) {
       let dataLocation = tasksContext.tasksData.tasksData.dataLocation;
       let tasksData = { ...tasksContext.tasksData.tasksData };
-      //alert(
-      //   `inside PickedDayTasks typeOf tasksContext.tasksData.tasksData[dataLocation]: ${typeof tasksContext
-      //     .tasksData.tasksData[dataLocation]}`
-      // );
+
       console.dir(tasksData);
-      //alert(`Inside tasksOfSelectedDayHandler dataLocation: ${dataLocation}`); //
+
       return tasksData[dataLocation].map((day, index) => {
         return (
-          <React.Fragment key={day.id}>
+          <React.Fragment>
             <PickedDayTask
+              key={day.id}
               id={day.id}
               timeOfDay={day.timeOfDay}
               task={day.task}

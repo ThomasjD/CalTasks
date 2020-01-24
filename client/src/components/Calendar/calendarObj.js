@@ -1,6 +1,6 @@
 //import React, { useState, useContext } from 'react';
 
-const calendarObj = () => {
+const calendarObj = num => {
   let today = new Date();
 
   let findDay = '';

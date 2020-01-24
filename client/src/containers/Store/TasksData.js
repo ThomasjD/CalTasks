@@ -516,7 +516,7 @@ class TasksData extends Component {
         () => this.context.dataReceiverHandler(this.state)
       );
     }
-    //alert(`inside case 9 datalocation: ${JSON.stringify(this.state.Thursday)}`);
+
     // //THE DAY OF THE WEEK
     // //let assignToDay = newEvent.startTimeDate.day;
     // let today = calendarObj();

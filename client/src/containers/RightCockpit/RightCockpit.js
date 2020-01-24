@@ -13,6 +13,8 @@ import TasksDataContext from '../../context/tasksContext';
 //import Layout from '../../hoc/Layout';
 import NewEvent from '../../components/Creation/NewEvent';
 import RightCockpitContext from '../../context/RightCockpitContext';
+import WeeklyTimeBudget from '../../components/Creation/WeeklyTimeBudget/WeeklyTimeBudget';
+
 class RightCockpit extends Component {
   constructor(props) {
     super(props);
@@ -216,10 +218,10 @@ class RightCockpit extends Component {
       <div className="container">
         <div className="col-lg-8 order-0 float-left">
           <div className="card bg-light m-3 p-3 ">
-            <NewEvent
+            {/* <NewEvent
               contentViewHandler={this.contentViewHandler}
               contentChoice={this.state.contentChoice}
-            />
+            /> */}
 
             <DisplayContent
               dataLocation={this.state.dataLocation}
@@ -278,6 +280,7 @@ class RightCockpit extends Component {
           <div className="rightcockpitClasses.deskTop">
             {viewContentOptions}
 
+            <WeeklyTimeBudget />
             {displayCockpit}
           </div>
         </RightCockpitContext.Provider>

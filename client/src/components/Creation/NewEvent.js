@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import numToDay from '../Calendar/numToDay';
 import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
 import ReactDatePicker from '../Calendar/ReactDatePicker';
 //import RightCockpitContext from '../../context/RightCockpitContext';
@@ -29,19 +30,23 @@ class NewEvent extends Component {
   //   showFinishTimeDate: false,
   //   deadline: ''
   // };
+  constructor(props) {
+    super(props);
+    this.emptyTitle = React.createRef();
+  }
 
   state = {
-    eventId: 'ri Jan 31 2020 08:00:00 GMT-0500 (Colombia Standard Time',
-    eventTitle: 'Mavs vs Lakers',
-    eventNote: 'watch on TnT',
-    eventCategory: 'leisure',
+    eventId: '',
+    eventTitle: '',
+    eventNote: '',
+    eventCategory: '',
     startTimeDate: '',
     finishTimeDate: '',
     eventDuration: '', //
     blockOffTimeSlot: false,
     showStartTimeDate: false,
     showFinishTimeDate: false,
-    deadline: 'tomorrow'
+    deadline: ''
   };
 
   newEventHandler = (event, info) => {
@@ -57,7 +62,6 @@ class NewEvent extends Component {
     //alert(`dataRequestMessage: ${dataRequestMessage}`);
     switch (this.props.contentChoice) {
       case '5':
-        alert('case 5');
         typeOfData = 'events';
         handlerChoice = '1';
         dataLocation = '';
@@ -84,32 +88,14 @@ class NewEvent extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    let start = this.state.startTimeDate;
-    alert(`this.state.startTimeDate.day: ${start}`);
-    let findDay = '';
-    switch (this.state.startTimeDate.day) {
-      case 1:
-        findDay = 'Monday';
-        break;
-      case 2:
-        findDay = 'Tuesday';
-        break;
-      case 3:
-        findDay = 'Wednesday';
-        break;
-      case 4:
-        findDay = 'Thursday';
-        break;
-      case 5:
-        findDay = 'Friday';
-        break;
-      case 6:
-        findDay = 'Saturday';
-        break;
-      case 0:
-        findDay = 'Sunday';
-        break;
+    //if forgot to fill out the title it will focus on it
+    if (!this.state.eventTitle) {
+      this.emptyTitle.current.focus();
+      return alert('Give the event a name!');
     }
+    let start = this.state.startTimeDate;
+
+    let findDay = numToDay(start.day);
 
     let dataRequestMessage = {
       typeOfData: 'events',
@@ -150,7 +136,6 @@ class NewEvent extends Component {
   };
 
   handleDateChange = date => {
-    //let date = event.target.value;
     this.setState({
       startTimeDate: date,
       showStartTimeDate: true
@@ -158,22 +143,6 @@ class NewEvent extends Component {
   };
 
   startDateTimeHandler = date => {
-    console.log(date);
-
-    //alert(`date2.day: ${date2.day}`);
-
-    // let eventStartTimeDate = {
-    //   dateObjectString: date.dateObjectString,
-    //   dateString: date.dateString,
-    //   day: date.day,
-    //   date: date.date,
-    //   month: date.month,
-    //   year: date.year,
-    //   timeString: date.time,
-    //   hour: date.hour,
-    //   minute: date.minute
-    // };
-
     let eventStartTimeDate = {
       dateObjectString: date.dateObjectString,
       dateString: date.dateString,
@@ -185,15 +154,10 @@ class NewEvent extends Component {
       hour: date.hour,
       minute: date.minute
     };
-    this.setState(
-      {
-        startTimeDate: eventStartTimeDate,
-        showFinishTimeDate: true
-      },
-
-      event => this.resetState(event)
-    );
-    //alert(`eventStartTimeDate.dateString: ${eventStartTimeDate.dateString}`);
+    this.setState({
+      startTimeDate: eventStartTimeDate,
+      showFinishTimeDate: true
+    });
   };
 
   finishTimeDateHandler = date => {
@@ -244,8 +208,8 @@ class NewEvent extends Component {
                 type="text"
                 name="eventTitle"
                 className="form-control"
+                ref={this.emptyTitle}
                 //defaultValue="NBA AllStar Game"
-
                 value={this.state.eventTitle}
                 onChange={e => this.eventTitleChange(e)}
               />
