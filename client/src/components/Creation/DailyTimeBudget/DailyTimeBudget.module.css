@@ -1,0 +1,61 @@
+.DailyTimeBudget {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.DailyTimeBudget button {
+  display: block;
+  font: inherit;
+  padding: 5px;
+  margin: 0 5px;
+  width: 80px;
+  border: 1px solid #47326e;
+  cursor: pointer;
+  outline: none;
+}
+
+.DailyTimeBudget button:disabled {
+  background-color: #0395d8;
+  border: 1px solid #7e7365;
+  color: #ccc;
+  cursor: default;
+}
+
+.DailyTimeBudget button:hover:disabled {
+  background-color: #17a5f7;
+  color: #ccc;
+  cursor: not-allowed;
+}
+.Activity {
+  align-items: center;
+  background-color: #9cf5fc;
+  padding: 5px 1px;
+  margin: 1px 10px;
+  font-weight: bold;
+  border: 1px solid #90f1ed;
+  width: 100px;
+}
+
+.DailyTimeBudget .Less {
+  background-color: #2a8f3f;
+  color: white;
+}
+
+.DailyTimeBudget .More {
+  background-color: #e70909;
+  color: white;
+}
+
+.DailyTimeBudget .Less:hover,
+.DailyTimeBudget .Less:active {
+  background-color: #55aa4d;
+  color: white;
+}
+
+.DailyTimeBudget .More:hover,
+.DailyTimeBudget .More:active {
+  background-color: #df8a0c;
+  color: white;
+}

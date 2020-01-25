@@ -1,143 +1,132 @@
 import { parseWithOptions } from 'date-fns/fp';
 import React, { Component } from 'react';
-/*let maxReact2 = new Syllabus(
-      'maxReact2',
-      'maxReact22222',
-      '11asfd',
-      'Use this in fusfsasgnctions',
-      '11.Read allasf about this'
-    );
-*/
+import classes from './DailyTimeBudget.module.css';
+import PickedDayTimeBudget from './PickedDayTimeBudget/PickedDayTimeBudget';
 
 //import React, {useState, useContext} from 'react'
 class DailyTimeBudget extends Component {
   constructor(props) {
-    super();
+    super(props);
+
     this.hoursInWeek = 168;
     this.hoursInDay = 24;
-    this.weeklyTotal = {
-      sleep: 7,
+    this.activityWeekCategories = {
+      sleep: 49,
       exercise: 7,
       work: 49,
-      relaxation: 7,
+      free: 7,
       errands: 14,
-      getReady: 28
+      getReady: 28,
+      totalHours: 168
     };
-    this.Monday = {
+
+    this.activityDayCategories = {
       sleep: 7,
       exercise: 1,
       work: 9,
-      relaxation: 1,
+      free: 1,
       errands: 2,
-      getReady: 4
+      getReady: 4,
+      totalHours: 24
     };
-    this.Tuesday = {
-      sleep: 7,
-      exercise: 1,
-      work: 9,
-      relaxation: 1,
-      errands: 2,
-      getReady: 4
+
+    this.daysOfWeek = {
+      Monday: {},
+      Tuesday: {},
+      WednesDay: {},
+      ThursDay: {},
+      Friday: {},
+      Saturday: {},
+      Sunday: {}
     };
-    this.Wednesday = {
-      sleep: 7,
-      exercise: 1,
-      work: 9,
-      relaxation: 1,
-      errands: 2,
-      getReady: 4
+    this.dailyBudget = {};
+
+    //create a seperate object that contains activityCategories
+    this.timeBudgetDay = () => {
+      Object.keys(this.daysOfWeek).map(day => {
+        //give each day the categories w/ hours
+        console.log(day);
+        let updatedDailyBudget = {
+          ...this.dailyBudget,
+          [day]: this.activityDayCategories
+        };
+
+        return (this.dailyBudget = updatedDailyBudget);
+      });
     };
-    this.Thursday = {
-      sleep: 7,
-      exercise: 1,
-      work: 9,
-      relaxation: 1,
-      errands: 2,
-      getReady: 4
-    };
-    this.Friday = {
-      sleep: 7,
-      exercise: 1,
-      work: 9,
-      relaxation: 1,
-      errands: 2,
-      getReady: 4
-    };
-    this.Saturday = {
-      sleep: 7,
-      exercise: 1,
-      work: 9,
-      relaxation: 1,
-      errands: 2,
-      getReady: 4
-    };
-    this.Sunday = {
-      sleep: 7,
-      exercise: 1,
-      work: 9,
-      relaxation: 1,
-      errands: 2,
-      getReady: 4
-    };
+
+    // timeBudgetWeek = () => {
+    //   //
+    // }
   }
 
-  // state = {
-  //   hoursInWeek: 168,
-  //   hoursInDay: 24,
-  //   weeklyTotal: {sleep: 7,
-  //     exercise: 7,
-  //     work: 49,
-  //     relaxation: 7,
-  //     errands: 14,
-  //     getReady: 28},
-  //   Monday:
-  //     {sleep: 7,
-  //     exercise: 1,
-  //     work: 9,
-  //     relaxation: 1,
-  //     errands: 2,
-  //     getReady: 4},
-  //   Tuesday: {sleep: 7,
-  //     exercise: 1,
-  //     work: 9,
-  //     relaxation: 1,
-  //     errands: 2,
-  //     getReady: 4},
-  //   Wednesday: {sleep: 7,
-  //     exercise: 1,
-  //     work: 9,
-  //     relaxation: 1,
-  //     errands: 2,
-  //     getReady: 4},
-  //   Thursday: {sleep: 7,
-  //     exercise: 1,
-  //     work: 9,
-  //     relaxation: 1,
-  //     errands: 2,
-  //     getReady: 4},
-  //   Friday: {sleep: 7,
-  //     exercise: 1,
-  //     work: 9,
-  //     relaxation: 1,
-  //     errands: 2,
-  //     getReady: 4},
-  //   Saturday: {sleep: 7,
-  //     exercise: 1,
-  //     work: 9,
-  //     relaxation: 1,
-  //     errands: 2,
-  //     getReady: 4},
-  //   Sunday: {sleep: 7,
-  //     exercise: 1,
-  //     work: 9,
-  //     relaxation: 1,
-  //     errands: 2,
-  //     getReady: 4}
-  // }
+  TimeBudgetPickedDay = () => {
+    let pickedDay = this.props.pickedDay;
+    let dailyBudget = this.props.dailyBudget;
+    let foundDayBudget = dailyBudget[pickedDay];
+
+    return Object.keys(foundDayBudget).map(eachCategory => (
+      <pickedDayTimeBudget
+        key={eachCategory.concat(eachCategory)}
+        activity={eachCategory}
+        hours={foundDayBudget[eachCategory]}
+        // reduce={() => this.deductHourToActivity(eachCategory)}
+        // add={() => this.addHourToActivity(eachCategory)}
+        pickedDay={pickedDay}
+        dailyBudget={dailyBudget}
+      />
+    ));
+  };
+
   render() {
+    // alert(this.props.pickedDay);
+
+    // let Monday = { ...this.dailyBudget };
+    // // console.dir(Monday['Monday']);
+    // let workMonday = { ...this.dailyBudget.Monday };
+    // let workWork = { ...workMonday };
+
+    let pickedDay = this.props.pickedDay;
+    let dailyBudget = this.props.dailyBudget;
+    let displayPickedDay = null;
+    if (this.props.pickedDay) {
+      let foundDayBudget = dailyBudget[pickedDay];
+      console.dir(dailyBudget);
+      console.dir(foundDayBudget);
+      // alert(`sleep: ${foundDayBudget.sleep}`);
+
+      displayPickedDay = Object.keys(foundDayBudget).map(eachCategory => {
+        console.log(`eachCategory: ${eachCategory}`);
+        return (
+          <pickedDayTimeBudget
+            key={eachCategory.concat(eachCategory)}
+            activity={eachCategory}
+            hours={foundDayBudget[eachCategory]}
+            // reduce={() => this.deductHourToActivity(eachCategory)}
+            // add={() => this.addHourToActivity(eachCategory)}
+            pickedDay={pickedDay}
+            dailyBudget={dailyBudget}
+          />
+        );
+      });
+    }
+
     return (
-      <div>
-        <p>inside of DailyTimeBudget</p>
+      <div className="classes.DailyTimeBudget">
+        <div className={classes.DailyTimeBudget}>
+          <div className={classes.Activity}>
+            {this.props.activity.toUpperCase()}
+          </div>
+          <div className={classes.Activity}>{this.props.hours}</div>
+
+          <button className={classes.Less} onClick={this.props.reduce}>
+            Less
+          </button>
+          <button className={classes.More} onClick={this.props.add}>
+            More
+          </button>
+        </div>
+        <div>{displayPickedDay}</div>
       </div>
     );
   }
