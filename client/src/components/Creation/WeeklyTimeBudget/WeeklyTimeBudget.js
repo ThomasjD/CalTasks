@@ -21,20 +21,48 @@ class weeklyTimeBudget extends Component {
     };
   }
 
-  // state = {
-  //   totalWeekHours: 168,
+  addHourToActivityPickedDay = activity => {
+    let pickedDay = this.state.pickedDay;
+    let allDaysTimeBudget = this.state.dailyBudget;
+    let pickedDayDailyBudget = { ...this.state.dailyBudget[pickedDay] };
 
-  //   hoursPerDay: 24,
-  //   weeklyBudget: {
-  //     sleep: 7,
-  //     exercise: 7,
-  //     work: 49,
-  //     free: 7,
-  //     errands: 14,
-  //     getReady: 28,
-  //     totalHours: 168
-  //   }
-  // };
+    let pickedDayCurrentTotalHourCount = pickedDayDailyBudget.totalHours;
+    let pickedDayCurrentActivityHourCount = pickedDayDailyBudget[activity];
+
+    //const [[activity], totalHours] = {...this.state.activityWeekCategories}
+    let pickedDayUpdatedTotalHourCount = pickedDayCurrentTotalHourCount + 1;
+
+    let pickedDayUpdatedActivityHourCount =
+      pickedDayCurrentActivityHourCount + 1;
+    pickedDayDailyBudget.totalHours = pickedDayUpdatedTotalHourCount;
+    pickedDayDailyBudget[activity] = pickedDayUpdatedActivityHourCount;
+    allDaysTimeBudget[pickedDay] = pickedDayDailyBudget;
+
+    this.setState({ dailyBudget: allDaysTimeBudget });
+    this.addHourToActivity(activity);
+    //this.updatePurchaseState(updatedIngredients);
+  };
+
+  deductHourToActivityPickedDay = activity => {
+    let pickedDay = this.state.pickedDay;
+    let allDaysTimeBudget = this.state.dailyBudget;
+    let pickedDayDailyBudget = { ...this.state.dailyBudget[pickedDay] };
+
+    let pickedDayCurrentTotalHourCount = pickedDayDailyBudget.totalHours;
+    let pickedDayCurrentActivityHourCount = pickedDayDailyBudget[activity];
+
+    //const [[activity], totalHours] = {...this.state.activityWeekCategories}
+    let pickedDayUpdatedTotalHourCount = pickedDayCurrentTotalHourCount - 1;
+
+    let pickedDayUpdatedActivityHourCount =
+      pickedDayCurrentActivityHourCount - 1;
+    pickedDayDailyBudget.totalHours = pickedDayUpdatedTotalHourCount;
+    pickedDayDailyBudget[activity] = pickedDayUpdatedActivityHourCount;
+    allDaysTimeBudget[pickedDay] = pickedDayDailyBudget;
+
+    this.setState({ dailyBudget: allDaysTimeBudget });
+    this.deductHourToActivity(activity);
+  };
 
   addHourToActivity = activity => {
     let activityWeekCategories = { ...this.state.activityWeekCategories };
@@ -48,39 +76,142 @@ class weeklyTimeBudget extends Component {
     activityWeekCategories[activity] = updatedActivityHourCount;
 
     this.setState({ activityWeekCategories: activityWeekCategories });
-
+    //this.deductHourToActivity(activity);
     //this.updatePurchaseState(updatedIngredients);
   };
-  deductHourToActivity = activity => {};
+  deductHourToActivity = activity => {
+    let activityWeekCategories = { ...this.state.activityWeekCategories };
+    let currentTotalHourCount = activityWeekCategories.totalHours;
+    let currentActivityHourCount = activityWeekCategories[activity];
+
+    //const [[activity], totalHours] = {...this.state.activityWeekCategories}
+    let updatedTotalHourCount = currentTotalHourCount - 1;
+    activityWeekCategories.totalHours = updatedTotalHourCount;
+    let updatedActivityHourCount = currentActivityHourCount - 1;
+    activityWeekCategories[activity] = updatedActivityHourCount;
+
+    this.setState({ activityWeekCategories: activityWeekCategories });
+  };
 
   pickDayHandler = event => {
     let pickedDay = event.target.value;
-    alert(pickedDay);
+    //alert(pickedDay);
     this.setState({
       pickedDay: pickedDay
     });
   };
 
+  //disablled = when -hours for each category
+  //when totalHours = for week is not balanced
+  //need to balance each day first
+
   render() {
+    let disabledDeductBtnWeek = { ...this.state.activityWeekCategories };
+
+    for (let key in disabledDeductBtnWeek) {
+      //alert(disabledDeductBtnWeek[key]);
+      disabledDeductBtnWeek[key] = disabledDeductBtnWeek[key] <= 0;
+      // console.log(`key: ${key} value: ${disabledDeductBtnWeek[key]}`);
+    }
+
     let displayDailyTimeBudget = null;
-    console.log(Object.keys(this.state.activityWeekCategories));
-    let Monday = { ...this.state.dailyBudget.Monday };
+    let pickedDay = this.state.pickedDay;
+    displayDailyTimeBudget = Object.keys(this.state.activityWeekCategories).map(
+      eachCategory => {
+        let moreButtonDisabled = null;
+        let lessButtonDisabled = null;
+        // let disabled24hr = null;
+        // // if (disabledDeductBtnWeek[eachCategory]) {
+        // //   disabled24hr = true;
+        // // }
+        if (this.state.activityWeekCategories.totalHours >= 168) {
+          moreButtonDisabled = true;
+        }
+        if (this.state.activityWeekCategories[eachCategory] <= 0) {
+          lessButtonDisabled = true;
+        }
+        let disabled24hr = null;
+        let pickDayLess0hours = null;
+        if (pickedDay) {
+          if (this.state.dailyBudget[pickedDay].totalHours >= 24) {
+            disabled24hr = true;
+          }
+          if (this.state.dailyBudget[pickedDay][eachCategory] <= 0) {
+            pickDayLess0hours = true;
+          }
+        }
+        return (
+          <DailyTimeBudget
+            key={eachCategory.concat(eachCategory)}
+            activity={eachCategory}
+            hours={this.state.activityWeekCategories[eachCategory]}
+            reduce={() => this.deductHourToActivity(eachCategory)}
+            add={() => this.addHourToActivity(eachCategory)}
+            reducePickedDay={() =>
+              this.deductHourToActivityPickedDay(eachCategory)
+            }
+            addPickedDay={() => this.addHourToActivityPickedDay(eachCategory)}
+            pickedDay={this.state.pickedDay}
+            dailyBudget={this.state.dailyBudget}
+            //disabled24hr={disabled24hr}
+            moreButtonDisabled={moreButtonDisabled}
+            lessButtonDisabled={lessButtonDisabled}
+            disabled24hr={disabled24hr}
+            pickDayLess0hours={pickDayLess0hours}
+          />
+        );
+      }
+    );
 
-    console.log(this.state.dailyBudget.Monday.work);
+    let displayPickedDay = null;
 
-    displayDailyTimeBudget = Object.keys(
-      this.state.activityWeekCategories
-    ).map(eachCategory => (
-      <DailyTimeBudget
-        key={eachCategory.concat(eachCategory)}
-        activity={eachCategory}
-        hours={this.state.activityWeekCategories[eachCategory]}
-        reduce={() => this.deductHourToActivity(eachCategory)}
-        add={() => this.addHourToActivity(eachCategory)}
-        pickedDay={this.state.pickedDay}
-        dailyBudget={this.state.dailyBudget}
-      />
-    ));
+    if (this.state.pickedDay) {
+      // console.dir(dailyBudget);
+      // console.dir(foundDayBudget.sleep);
+      // alert(`sleep: ${foundDayBudget.sleep}`);
+      let pickedDayBudget = { ...this.state.dailyBudget };
+      let foundDayBudget = { ...this.state.dailyBudget[pickedDay] };
+
+      // for (let key in pickedDayBudget) {
+      //   //alert(disabledDeductBtnWeek[key]);
+
+      //   pickedDayBudget[key] = pickedDayBudget[key] >= 24;
+
+      //   // console.log(`key: ${key} value: ${disabledDeductBtnWeek[key]}`);
+      // }
+
+      displayPickedDay = Object.keys(this.state.dailyBudget[pickedDay]).map(
+        eachCategory => {
+          let disabled24hr = null;
+          let pickDayLess0hours = null;
+          if (this.state.dailyBudget[pickedDay].totalHours >= 24) {
+            disabled24hr = true;
+          }
+          if (this.state.dailyBudget[pickedDay][eachCategory] <= 0) {
+            pickDayLess0hours = true;
+          }
+          //console.log(`eachCategory: ${eachCategory}`);
+          return (
+            <DailyTimeBudget
+              key={eachCategory.concat(eachCategory)}
+              activity={eachCategory}
+              hours={foundDayBudget[eachCategory]}
+              reducePickedDay={() =>
+                this.deductHourToActivityPickedDay(eachCategory)
+              }
+              addPickedDay={() => this.addHourToActivityPickedDay(eachCategory)}
+              pickedDay={this.state.pickedDay}
+              dailyBudget={this.state.dailyBudget}
+              //disabled={disabledPickedDay}
+              disabled24hr={disabled24hr}
+              pickDayLess0hours={pickDayLess0hours}
+
+              //disabledPickedDay={disabledPickedDay}
+            />
+          );
+        }
+      );
+    }
 
     return (
       <React.Fragment>
@@ -109,6 +240,7 @@ class weeklyTimeBudget extends Component {
           >
             Wednesday
           </button>
+
           <button
             type="button"
             className="btn btn-secondary mr-2"
@@ -117,6 +249,7 @@ class weeklyTimeBudget extends Component {
           >
             Thursday
           </button>
+
           <button
             type="button"
             className="btn btn-secondary mr-2"
@@ -143,12 +276,25 @@ class weeklyTimeBudget extends Component {
           </button>
         </div>
 
-        <div className={classes.WeeklyTimeBudget}>{displayDailyTimeBudget}</div>
-        <div></div>
+        <div className={classes.WeeklyTimeBudget}>
+          <div className="container">
+            <div className="col-lg-8 order-0 float-left align-left">
+              <h3 className="">Time Budget for Week</h3>
+              {displayDailyTimeBudget}
+            </div>
+            <div className="col-lg-4 order-1 float-left">
+              <h4>
+                {this.state.pickedDay ? (
+                  <div>{this.state.pickedDay}</div>
+                ) : null}
+              </h4>
+              {/* {displayPickedDay} */}
+            </div>
+          </div>
+        </div>
       </React.Fragment>
     );
   }
 }
 
 export default weeklyTimeBudget;
-//

@@ -33,8 +33,8 @@ class DailyTimeBudget extends Component {
     this.daysOfWeek = {
       Monday: {},
       Tuesday: {},
-      WednesDay: {},
-      ThursDay: {},
+      Wednesday: {},
+      Thursday: {},
       Friday: {},
       Saturday: {},
       Sunday: {}
@@ -65,17 +65,17 @@ class DailyTimeBudget extends Component {
     let dailyBudget = this.props.dailyBudget;
     let foundDayBudget = dailyBudget[pickedDay];
 
-    return Object.keys(foundDayBudget).map(eachCategory => (
-      <pickedDayTimeBudget
-        key={eachCategory.concat(eachCategory)}
-        activity={eachCategory}
-        hours={foundDayBudget[eachCategory]}
-        // reduce={() => this.deductHourToActivity(eachCategory)}
-        // add={() => this.addHourToActivity(eachCategory)}
-        pickedDay={pickedDay}
-        dailyBudget={dailyBudget}
-      />
-    ));
+    // return Object.keys(foundDayBudget).map(eachCategory => (
+    //   <pickedDayTimeBudget
+    //     key={eachCategory.concat(eachCategory)}
+    //     activity={eachCategory}
+    //     hours={foundDayBudget[eachCategory]}
+    //     // reduce={() => this.deductHourToActivity(eachCategory)}
+    //     // add={() => this.addHourToActivity(eachCategory)}
+    //     pickedDay={pickedDay}
+    //     dailyBudget={dailyBudget}
+    //   />
+    // ));
   };
 
   render() {
@@ -85,44 +85,62 @@ class DailyTimeBudget extends Component {
     // // console.dir(Monday['Monday']);
     // let workMonday = { ...this.dailyBudget.Monday };
     // let workWork = { ...workMonday };
+    let dynamicDisableMoreBtn = null;
+    if (this.props.pickedDay) {
+      dynamicDisableMoreBtn = true;
+    }
 
-    let pickedDay = this.props.pickedDay;
-    let dailyBudget = this.props.dailyBudget;
     let displayPickedDay = null;
     if (this.props.pickedDay) {
-      let foundDayBudget = dailyBudget[pickedDay];
-      console.dir(dailyBudget);
-      console.dir(foundDayBudget);
-      // alert(`sleep: ${foundDayBudget.sleep}`);
+      let activity = this.props.activity;
+      let hours = this.props.dailyBudget[this.props.pickedDay][activity];
+      displayPickedDay = (
+        <div className={classes.DailyTimeBudget}>
+          <div className={classes.Activity}>{activity.toUpperCase()}</div>
+          <div className={classes.ActivityHours}>{hours}</div>
 
-      displayPickedDay = Object.keys(foundDayBudget).map(eachCategory => {
-        console.log(`eachCategory: ${eachCategory}`);
-        return (
-          <pickedDayTimeBudget
-            key={eachCategory.concat(eachCategory)}
-            activity={eachCategory}
-            hours={foundDayBudget[eachCategory]}
-            // reduce={() => this.deductHourToActivity(eachCategory)}
-            // add={() => this.addHourToActivity(eachCategory)}
-            pickedDay={pickedDay}
-            dailyBudget={dailyBudget}
-          />
-        );
-      });
+          <button
+            className={classes.Less}
+            onClick={this.props.reducePickedDay}
+            disabled={this.props.pickDayLess0hours}
+          >
+            Less
+          </button>
+          <button
+            className={classes.More}
+            onClick={this.props.addPickedDay}
+            //disabled={this.props.moreButtonDisabled}
+            disabled={this.props.disabled24hr}
+            //disabled={this.props.moreButtonDisabled}
+          >
+            More
+          </button>
+        </div>
+      );
     }
 
     return (
-      <div className="classes.DailyTimeBudget">
+      <div className={classes.DailyTimeBudget}>
         <div className={classes.DailyTimeBudget}>
           <div className={classes.Activity}>
             {this.props.activity.toUpperCase()}
           </div>
-          <div className={classes.Activity}>{this.props.hours}</div>
+          <div className={classes.ActivityHours}>{this.props.hours}</div>
 
-          <button className={classes.Less} onClick={this.props.reduce}>
+          <button
+            className={classes.Less}
+            onClick={this.props.reduce}
+            disabled={this.props.lessButtonDisabled}
+          >
             Less
           </button>
-          <button className={classes.More} onClick={this.props.add}>
+          <button
+            className={classes.More}
+            onClick={this.props.add}
+            // disabled={this.props.moreButtonDisabled}
+
+            disabled={this.props.moreButtonDisabled}
+          >
             More
           </button>
         </div>

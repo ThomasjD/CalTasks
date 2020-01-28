@@ -3,12 +3,13 @@
   justify-content: space-between;
   align-items: center;
   margin: 5px 0;
+  padding: 1px 50px;
 }
 
 .DailyTimeBudget button {
   display: block;
   font: inherit;
-  padding: 5px;
+  padding: 5px px;
   margin: 0 5px;
   width: 80px;
   border: 1px solid #47326e;
@@ -35,7 +36,16 @@
   margin: 1px 10px;
   font-weight: bold;
   border: 1px solid #90f1ed;
-  width: 100px;
+  width: 130px;
+}
+.ActivityHours {
+  align-items: center;
+  background-color: #9cf5fc;
+  padding: 5px 1px;
+  margin: 1px 10px;
+  font-weight: bold;
+  border: 1px solid #90f1ed;
+  width: 70px;
 }
 
 .DailyTimeBudget .Less {

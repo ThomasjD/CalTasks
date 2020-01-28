@@ -7,6 +7,8 @@ import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
 import Template from '../../Template/Template';
 import TasksContext from '../../context/tasksContext';
 import HowBusyThisWeek from './HowBusyThisWeek/HowBusyThisWeek';
+export default React.memo(Cockpit);
+
 const Cockpit = props => {
   //can do anything that componentDidUpdate can do
   //can send http request here
@@ -96,26 +98,88 @@ const Cockpit = props => {
   // if (tasksContext.tasksData.tasksData['showHowBusyWeeek'] == !null) {
   //   alert('inside of cockpit');
   // }
-  let displayHowBusyThisWeek = null;
+  
 
-  if (tasksContext.tasksData.tasksData) {
+  //if (tasksContext.tasksData.tasksData) {
     //console.log('inside if (!howBusyToggle.showTasksNumEachDay) statement');
+    
+      
+  
 
-    //console.log(tasksContext.tasksData.tasksData.numTasksThisWeek.Monday);
-    if (
-      tasksContext.tasksData.tasksData &&
-      tasksContext.tasksData.tasksData.showHowBusyWeek
-    )
-      displayHowBusyThisWeek = (
-        <React.Fragment>
-          <HowBusyThisWeek
-            showHowBusyThisWeek={howBusyToggle.showTasksNumEachDay}
-            deadline={tasksContext.tasksData.numTasksThisWeek}
-          />
-        </React.Fragment>
-      );
+
+const requestDataHandler = event => {
+  let viewOptionChoice = event.target.value; //'' number used in displayContent component
+  let contentChoice = null;
+  let typeOfData = ''; //string: syllabus,tasks,events,objectives
+  let handlerChoice = ''; //string: '#' handler inside of database
+  let dataLocation = ''; // string: where obj found inside database
+  let infoType = ''; //string: index/id/
+  let info = ''; //string: actual info
+  let today = calendarObj();
+  switch (viewOptionChoice) {
+    case '0': //Unscheduled Tasks for Week
+      typeOfData = 'tasks';
+      handlerChoice = '7';
+      dataLocation = '';
+      infoType = null;
+      info = null;
+      contentchoice = '7';
+
+      break;
+
+    case '1': //Today's Tasks
+      typeOfData = 'timeBudget';
+      handlerChoice = '2';
+      dataLocation = today;
+      infoType = null;
+      info = null;
+      break;
+
+      // case '3': //Pick Syllabus to View
+      //   typeOfData = 'syllabus';
+      //   handlerChoice = '';
+      //   dataLocation = '';
+      //   infoType = '';
+      //   info = 'showSyllabiList';
+      //   break;
+
+      let dataRequestMessage = {
+        typeOfData: typeOfData,
+        handlerChoice: handlerChoice,
+        dataLocation: dataLocation,
+        infoType: infoType,
+        info: info
+      };
+
+      let contentViewObject = {
+        target: {
+          value: contentChoice
+        }
+      };
+      // alert(`typeOfData: ${typeOfData}`);
+      // alert(`handlerChoice ${handlerChoice}`);
+      // alert(`dataLocation ${dataLocation}`);
+      // alert(`infoType ${infoType}`);
+      // alert(`info ${info}`);
+      syllabusContext.dataRequestHandler(event, dataRequestMessage);
+
+      props.contentViewHandler(contentViewObject);
   }
-
+  let displayHowBusyThisWeek = null;
+  //console.log(tasksContext.tasksData.tasksData.numTasksThisWeek.Monday);
+  if (
+    tasksContext.tasksData.tasksData &&
+    tasksContext.tasksData.tasksData.showHowBusyWeek
+  ) {
+    displayHowBusyThisWeek = (
+      <React.Fragment>
+        <HowBusyThisWeek
+          showHowBusyThisWeek={howBusyToggle.showTasksNumEachDay}
+          deadline={tasksContext.tasksData.numTasksThisWeek}
+        />
+      </React.Fragment>
+    );
+  }
   return (
     <React.Fragment>
       {displayHowBusyThisWeek}
@@ -128,16 +192,41 @@ const Cockpit = props => {
         <h5>Pick Content View!</h5>
         <br></br>
         <br></br>
+        <div className="btn-group-toggle d-flex-between" data-toggle="buttons">
+          <label className="btn btn-danger m-2 active">
+            <button
+              type="radio"
+              name="options"
+              id="option1"
+              autoComplete="off"
+              // onClick={props.viewContent}
+              onClick={setHowBusyToggleHandler(event =>
+                requestDataHandler(event)
+              )}
+              value="0"
+            />{' '}
+            Click to see # of Tasks/Day
+          </label>
 
-        <button
-          onClick={event =>
-            setHowBusyToggleHandler(
-              tasksContext.dataRequestHandler(event, 'tasks', '7', null, null)
-            )
-          }
-        >
-          Click to see # of Tasks/Day
-        </button>
+          <label className="btn btn-danger m-2 active">
+            <button
+              type="radio"
+              name="options"
+              id="option1"
+              autoComplete="off"
+              onClick={event => requestDataHandler(event)}
+              value="1"
+              // onClick={event =>
+              //   setHowBusyToggleHandler(
+              //     tasksContext.dataRequestHandler(event, 'tasks', '7', null, null)
+              //   )
+              // }
+              // value="0"
+            />{' '}
+            Click to see # of Tasks/Day
+          </label>
+        </div>
+        <button>Click to see # of Tasks/Day</button>
         <br></br>
         <br></br>
 
@@ -157,8 +246,4 @@ const Cockpit = props => {
       </div>
     </React.Fragment>
   );
-};
-//export default Cockpit;
-
-export default React.memo(Cockpit);
-//<MDBIcon icon="briefcase" />
+}

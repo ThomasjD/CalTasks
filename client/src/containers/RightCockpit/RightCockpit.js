@@ -280,7 +280,7 @@ class RightCockpit extends Component {
           <div className="rightcockpitClasses.deskTop">
             {viewContentOptions}
 
-            <WeeklyTimeBudget />
+            {/* <WeeklyTimeBudget /> */}
             {displayCockpit}
           </div>
         </RightCockpitContext.Provider>
