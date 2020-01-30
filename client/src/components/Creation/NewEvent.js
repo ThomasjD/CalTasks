@@ -61,7 +61,7 @@ class NewEvent extends Component {
     // let value = '';
     let dataRequestMessage = {};
     //alert(`dataRequestMessage: ${dataRequestMessage}`);
-    switch (this.props.contentChoice) {
+    switch (this.context.contentChoice) {
       case '5':
         typeOfData = 'events';
         handlerChoice = '1';
@@ -132,7 +132,7 @@ class NewEvent extends Component {
         eventDuration: '', //
         blockOffTimeSlot: ''
       },
-      () => this.props.contentViewHandler(contentChoiceObj)
+      () => this.context.contentViewHandler(contentChoiceObj)
     );
   };
 

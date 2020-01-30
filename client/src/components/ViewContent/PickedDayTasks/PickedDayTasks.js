@@ -19,7 +19,7 @@ const PickedDayTasks = props => {
     let dataRequestMessage = {};
     //let today = calendarObj();
 
-    switch (props.contentChoice) {
+    switch (storeContext.contentChoice) {
       case '9':
         typeOfData = 'tasks';
         handlerChoice = '';
@@ -50,7 +50,7 @@ const PickedDayTasks = props => {
     let infoType = ''; //string: index/id/
 
     let dataRequestMessage = {};
-    switch (props.contentChoice) {
+    switch (storeContext.contentChoice) {
       case '9':
         typeOfData = 'tasks';
         handlerChoice = '6';
@@ -123,7 +123,6 @@ const PickedDayTasks = props => {
       let dataLocation = storeContext.tasksData.tasksData.dataLocation;
       let tasksData = { ...storeContext.tasksData.tasksData };
 
-      console.dir(tasksData);
       if (!tasksData[dataLocation]) {
         return <div>No tasks Scheduled for this Day</div>;
       } else {

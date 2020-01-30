@@ -2,14 +2,6 @@ import React from 'react';
 import taskStyle from '..//Tasks/Task/Task.module.css';
 
 const Syllabus = props => {
-  // <SyllabiList
-  //         syllabusEverything={syllabusContext.everythingSyllabus.syllabusData}
-  //         syllabusId={
-  //           syllabusContext.everythingSyllabus.syllabusData[syllabus].syllabusId
-  //         }
-  //         index={index}
-  //       />
-  //alert(`inside SyllabiList props.syllabusName ${props.syllabusName}`);
   return (
     <React.Fragment>
       <button

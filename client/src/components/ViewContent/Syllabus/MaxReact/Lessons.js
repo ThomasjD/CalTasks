@@ -35,7 +35,7 @@ class Lessons extends Component {
 
     // let value = '';
     let dataRequestMessage = {};
-    switch (this.props.contentChoice) {
+    switch (this.context.contentChoice) {
       case '3':
         typeOfData = 'syllabus';
         handlerChoice = '4';
@@ -122,7 +122,10 @@ class Lessons extends Component {
     //   );
     // }
 
-    if (this.props.showLeftOverLessonsFromSyllabus) {
+    if (
+      this.context.everythingSyllabus.syllabusData
+        .showLeftOverLessonsFromSyllabus
+    ) {
       clickToAddDelete = 'Click to schedule this lesson';
     } else {
       clickToAddDelete = 'Click to Delete Lesson';
@@ -153,8 +156,6 @@ class Lessons extends Component {
     // let info = ''; //string: actual info
 
     return this.props.lessons.map((lesson, index) => {
-      //alert(`inside allLessonssHandler index: ${index}`);
-      //alert(`inside allLessonssHandler id: ${lesson.id}`);
       return (
         <ErrorBoundary key={lesson.id}>
           <Lesson
@@ -188,7 +189,6 @@ class Lessons extends Component {
   // }
 
   render() {
-    //<p> contentChoice: {this.props.everything.contentChoice}</p>;
     return (
       <div>
         <h3 id="title"> Syllabus</h3>

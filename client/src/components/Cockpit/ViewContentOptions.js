@@ -24,11 +24,8 @@ const ViewContentOptions = props => {
     let infoType = ''; //string: index/id/
     let info = ''; //string: actual info
     let today = calendarObj();
-    switch (contentChoice) {
-      case '0':
-        newContentChoice = '0';
 
-        break;
+    switch (contentChoice) {
       case '1': //Unscheduled Tasks for Week
         typeOfData = 'tasks';
         handlerChoice = '1';
@@ -91,7 +88,7 @@ const ViewContentOptions = props => {
       infoType: infoType,
       info: info
     };
-
+    // alert(newContentChoice);
     let contentViewObject = {
       target: {
         value: newContentChoice
@@ -104,7 +101,7 @@ const ViewContentOptions = props => {
     // alert(`info ${info}`);
     storeDataContext.dataRequestHandler(event, dataRequestMessage);
 
-    props.contentViewHandler(contentViewObject);
+    storeDataContext.contentViewHandler(contentViewObject);
   };
 
   const pickedSyllabusRequestHandler = event => {
@@ -137,10 +134,8 @@ const ViewContentOptions = props => {
           value: '10'
         }
       };
-      props.contentViewHandler(contentViewObject);
+      storeDataContext.contentViewHandler(contentViewObject);
     }
-
-    //tasksContext.contentViewHandler(3)
   };
 
   const processSyllabiList = () => {
@@ -194,7 +189,7 @@ const ViewContentOptions = props => {
       }
     };
 
-    props.contentViewHandler(contentViewObject);
+    storeDataContext.contentViewHandler(contentViewObject);
   };
 
   let displayOptions = (
@@ -207,7 +202,7 @@ const ViewContentOptions = props => {
               name="options"
               id="option1"
               autoComplete="off"
-              onClick={props.viewContent}
+              onClick={event => storeDataContext.contentViewHandler(event)}
               value="0"
             />{' '}
             Cockpit

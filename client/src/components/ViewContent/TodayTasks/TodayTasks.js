@@ -17,7 +17,7 @@ const TodayTasks = props => {
     let dataRequestMessage = {};
     let today = calendarObj();
 
-    switch (props.contentChoice) {
+    switch (storeContext.contentChoice) {
       case '1':
         // typeOfData = 'tasks';
         // handlerChoice = '3';
@@ -58,7 +58,7 @@ const TodayTasks = props => {
     let today = calendarObj();
     // let value = '';
     let dataRequestMessage = {};
-    switch (props.contentChoice) {
+    switch (storeContext.contentChoice) {
       case '1':
         // typeOfData = 'tasks';
         // handlerChoice = '4';
@@ -136,18 +136,6 @@ const TodayTasks = props => {
       //alert(`dataLocation: ${dataLocation}`);
       return storeContext.tasksData.tasksData[dataLocation].map(
         (day, index) => {
-          // let functionChoiceDelete = null;
-          // let functionChoiceChange = null;
-
-          // //const { id, task } = day;
-          // if (props.everything.contentChoice === '2') {
-          //   functionChoiceDelete = '5';
-          //   functionChoiceChange = '6';
-          // } else {
-          //   functionChoiceDelete = '7';
-          //   functionChoiceChange = '8';
-          // }
-
           return (
             <React.Fragment key={day.id}>
               <TodayTask
@@ -186,7 +174,7 @@ const TodayTasks = props => {
 
   //     console.log(`this is the last task alert ${lastTaskHeader.lastHeader}`);
   //   }
-  //   if (props.reRenderTodayTasks === true) {
+  //   if (storeDataContext.reRenderTodayTasks === true) {
   //     // alert('Are you sure you want to delete this task?');
   //     //return (props.reRender = {})
   //   }

@@ -89,7 +89,7 @@ const Navbar = props => {
       }
     };
 
-    props.contentViewHandler(contentViewObject);
+    storeContext.contentViewHandler(contentViewObject);
   };
 
   const pickedSyllabusRequestHandler = event => {
@@ -124,7 +124,7 @@ const Navbar = props => {
           value: '10'
         }
       };
-      props.contentViewHandler(contentViewObject);
+      storeContext.contentViewHandler(contentViewObject);
     }
 
     //tasksContext.contentViewHandler(3)

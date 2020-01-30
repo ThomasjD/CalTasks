@@ -65,7 +65,6 @@ const Cockpit = props => {
       break;
   }
 
-  //console.log(assignedClasses[0])
   //add multiple classes for <p> w/ strings
   //const classesFinal = classes.join(' ')
   const classesFinal = 'rocky.' + assignedClasses;

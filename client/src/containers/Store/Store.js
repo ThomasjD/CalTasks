@@ -15,6 +15,8 @@ import UiData from './UiData';
 
 class Store extends Component {
   state = {
+    contentChoice: '0',
+    reRenderTodayTasks: false, //TodayTasks inside useEffect()
     showSyllabusList: false,
     crunk: 'Hootie',
     showLeftOverLessonsFromSyllabus: false,
@@ -31,11 +33,13 @@ class Store extends Component {
       value: null
     }
   };
-
-  //Now deals with syllabusData strictly
-  sendSyllabusDataHandler = handlerChoice => {
-    this.setState({ syllabusHandlerChoice: handlerChoice });
-    console.log('Inside of sendSyllabusDataHandler');
+  contentViewHandler = event => {
+    let newViewChoice = event.target.value;
+    if (newViewChoice === this.state.contentChoice) {
+      return this.setState({ contentChoice: '0' });
+    } else {
+      this.setState({ contentChoice: newViewChoice });
+    }
   };
 
   receiveSyllabusDataHandler = dataBase => {
@@ -227,9 +231,11 @@ class Store extends Component {
               //tasksData
               tasksData: this.state,
               newDataHandler: this.newDataHandler,
-              showLeftOverTasksForWeek: this.state.showLeftOverTasksForWeek
+              showLeftOverTasksForWeek: this.state.showLeftOverTasksForWeek,
 
               //UI
+              contentViewHandler: this.contentViewHandler,
+              contentChoice: this.state.contentChoice
             }}
           >
             <CalendarContext.Provider

@@ -26,7 +26,7 @@ class Tasks extends PureComponent {
     // let value = '';
     let dataRequestMessage = {};
     let today = calendarObj();
-    switch (this.props.contentChoice) {
+    switch (StoreContext.contentChoice) {
       case '1':
         typeOfData = 'tasks';
         handlerChoice = '3';
@@ -63,7 +63,6 @@ class Tasks extends PureComponent {
   };
 
   taskChangeHandler = (event, info) => {
-    //let contentchoice = event.target.value;
     let typeOfData = ''; //string: syllabus,tasks,events,objectives
     let handlerChoice = ''; //string: '#' handler inside of database
     let dataLocation = ''; // string: where obj found inside database
@@ -72,7 +71,7 @@ class Tasks extends PureComponent {
 
     // let value = '';
     let dataRequestMessage = {};
-    switch (this.props.contentChoice) {
+    switch (StoreContext.contentChoice) {
       case '1':
         typeOfData = 'tasks';
         handlerChoice = '4';
@@ -141,7 +140,7 @@ class Tasks extends PureComponent {
 
         //destructuring
         // const { id, name, age, email } = student;
-        if (this.props.contentChoice === '1') {
+        if (StoreContext.contentChoice === '1') {
           functionChoiceDelete = '3';
           functionChoiceChange = '4';
         } else {

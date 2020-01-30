@@ -121,8 +121,15 @@ class RightCockpit extends Component {
   render() {
     if (this.context.dataRequestDetails.typeOfData === 'UiData') {
       switch (this.context.dataRequestDetails.handlerChoice) {
+        case '0':
+          this.context.resetHandlerChoice(event =>
+            this.contentViewHandler(event)
+          );
+          break;
         case '1':
-          this.context.resetHandlerChoice(() => this.contentViewHandler());
+          this.context.resetHandlerChoice(event =>
+            this.contentViewHandler(event)
+          );
           break;
         case '2':
           break;

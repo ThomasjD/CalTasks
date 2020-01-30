@@ -21,7 +21,7 @@ const DisplayContent = props => {
 
   let displayContent = null;
 
-  switch (props.everything.contentChoice) {
+  switch (storeDataContext.contentChoice) {
     case '0':
       displayContent = (
         <React.Fragment>
@@ -36,18 +36,13 @@ const DisplayContent = props => {
 
     case '1':
       if (storeDataContext.tasksData.tasksData) {
-        //console.log(storeDataContext.tasksData.tasksData);
       }
-      console.log(props.everything.contentChoice);
 
       displayContent = (
         <React.Fragment>
           {storeDataContext.tasksData.tasksData ? (
             <div>
-              <Tasks
-                everything={props.everything}
-                contentChoice={props.everything.contentChoice}
-              />
+              <Tasks />
             </div>
           ) : null}
                                  
@@ -56,16 +51,11 @@ const DisplayContent = props => {
       break;
 
     case '2': //Today's Tasks
-      console.log(props.everything);
       displayContent = (
         <React.Fragment>
+          {' '}
                       
-          <TodayTasks
-            everything={props.everything}
-            reRenderTodayTasks={props.everything.reRenderTodayTasks}
-            contentChoice={props.everything.contentChoice}
-          />
-                    
+          <TodayTasks />
         </React.Fragment>
       );
       break;
@@ -75,31 +65,17 @@ const DisplayContent = props => {
         <React.Fragment>
           {storeDataContext.everythingSyllabus.syllabusData ? (
             <div>
-              <SyllabiList
-                everything={props.everything}
-                lessons={
-                  storeDataContext.everythingSyllabus.syllabusData.maxReact
-                }
-                lessonsLength={
-                  storeDataContext.everythingSyllabus.syllabusData.maxReact
-                    .length
-                }
-              />
+              <SyllabiList />
             </div>
           ) : null}
         </React.Fragment>
       );
-      /*
-        clicked={(event, index, handlerType) =>
-                    props.deleteLessonHandler(event, index, handlerType)
-                  }
-        */
 
       break;
     case '4':
       displayContent = (
         <React.Fragment>
-          <NewTask newestTaskHandler={props.newestTaskHandler} />
+          <NewTask />
         </React.Fragment>
       );
       break;
@@ -107,10 +83,7 @@ const DisplayContent = props => {
       //after submition will show calendar and where that will placed
       displayContent = (
         <React.Fragment>
-          <NewEvent
-            contentViewHandler={props.contentViewHandler}
-            contentChoice={props.contentChoice}
-          />
+          <NewEvent />
         </React.Fragment>
       );
       break;
@@ -120,28 +93,15 @@ const DisplayContent = props => {
       if (storeDataContext.everythingSyllabus.syllabusData) {
         displayContent = (
           <React.Fragment>
-            <NewSyllabus newestSyllabus={props.newestSyllabus} />
+            <NewSyllabus />
 
             {storeDataContext.everythingSyllabus.syllabusData
               .showLeftOverLessonsFromSyllabus ? (
               <Lessons
-                showLeftOverLessonsFromSyllabus={
-                  storeDataContext.everythingSyllabus.syllabusData
-                    .showLeftOverLessonsFromSyllabus
-                }
-                contentChoice={props.contentChoice}
-                everything={props.everything}
-                // showLeftOverLessonsFromOrigSyllabus={
-                //   this.props.everythingSyllabus.syllabusData
-                //     .showLeftOverLessonsFromSyllabus
-                // }
                 lessons={
                   storeDataContext.everythingSyllabus.syllabusData
                     .maxReactWorkLeft
                 }
-                // changed={(event, handlerType, id) =>
-                //   this.props.leftOverLessonChangeHandler(event, handlerType, id)
-                // }
                 lastLessonHeader={
                   storeDataContext.everythingSyllabus.syllabusData
                     .lastLessonHeader
@@ -172,14 +132,7 @@ const DisplayContent = props => {
     case '9': //View tasks according to chosen day
       displayContent = (
         <React.Fragment>
-           
-          {storeDataContext.tasksData.tasksData ? (
-            <PickedDayTasks
-              everything={props.everything}
-              contentChoice={props.contentChoice}
-              //dataLocation={tasksContext.dataRequestDetails.value}
-            />
-          ) : null}
+           {storeDataContext.tasksData.tasksData ? <PickedDayTasks /> : null}
                     
         </React.Fragment>
       );
@@ -199,14 +152,7 @@ const DisplayContent = props => {
     case '11': //View tasks according to chosen day
       displayContent = (
         <React.Fragment>
-           
-          {storeDataContext.tasksData.tasksData ? (
-            <PickedDayTasks
-              everything={props.everything}
-              contentChoice={props.contentChoice}
-              //dataLocation={tasksContext.dataRequestDetails.value}
-            />
-          ) : null}
+           {storeDataContext.tasksData.tasksData ? <PickedDayTasks /> : null}
                     
         </React.Fragment>
       );
