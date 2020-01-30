@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PickedDayTask from './PickedDayTask/PickedDayTask';
 import student from '../../../containers/Student.css';
-import TasksContext from '../../../context/tasksContext';
+
+import StoreContext from '../../../context/StoreDataContext';
 
 const PickedDayTasks = props => {
-  const tasksContext = useContext(TasksContext);
+  const storeContext = useContext(StoreContext);
 
   const taskDeleteHandler = (event, info) => {
     let typeOfData = 'tasks'; //string: syllabus,tasks,events,objectives
     let handlerChoice = '5'; //string: '#' handler inside of database
-    let dataLocation = tasksContext.tasksData.tasksData.dataLocation;
+    let dataLocation = storeContext.tasksData.tasksData.dataLocation;
     // string: where obj found inside database
     let infoType = 'index'; //string: index/id/
     //let info = ''; //string: actual info
@@ -39,7 +40,7 @@ const PickedDayTasks = props => {
       info: info
     };
 
-    tasksContext.dataRequestHandler(event, dataRequestMessage);
+    storeContext.dataRequestHandler(event, dataRequestMessage);
   };
 
   const taskChangeHandler = (event, info) => {
@@ -54,7 +55,7 @@ const PickedDayTasks = props => {
         typeOfData = 'tasks';
         handlerChoice = '6';
 
-        dataLocation = tasksContext.tasksData.tasksData.dataLocation;
+        dataLocation = storeContext.tasksData.tasksData.dataLocation;
         infoType = 'id';
         //info = null;
         break;
@@ -77,11 +78,11 @@ const PickedDayTasks = props => {
     infoType?: ${dataRequestMessage.infoType}
     info: ${dataRequestMessage.info}`);
 
-    tasksContext.dataRequestHandler(event, dataRequestMessage);
+    storeContext.dataRequestHandler(event, dataRequestMessage);
   };
 
   const renderTableHeaderHandler = () => {
-    let tasksData = { ...tasksContext.tasksData.tasksData };
+    let tasksData = { ...storeContext.tasksData.tasksData };
 
     if (tasksData) {
       let pickedDayTasksHeader = { ...tasksData.pickedDayTasksHeader };
@@ -118,29 +119,32 @@ const PickedDayTasks = props => {
   };
 
   const tasksOfSelectedDayHandler = () => {
-    if (tasksContext.tasksData.tasksData) {
-      let dataLocation = tasksContext.tasksData.tasksData.dataLocation;
-      let tasksData = { ...tasksContext.tasksData.tasksData };
+    if (storeContext.tasksData.tasksData) {
+      let dataLocation = storeContext.tasksData.tasksData.dataLocation;
+      let tasksData = { ...storeContext.tasksData.tasksData };
 
       console.dir(tasksData);
-
-      return tasksData[dataLocation].map((day, index) => {
-        return (
-          <React.Fragment>
-            <PickedDayTask
-              key={day.id}
-              id={day.id}
-              timeOfDay={day.timeOfDay}
-              task={day.task}
-              deleteTodayTask={props.clicked}
-              deadline={day.deadline}
-              category={day.category}
-              click={event => taskDeleteHandler(event, index)}
-              changed={event => taskChangeHandler(event, day.id)}
-            />
-          </React.Fragment>
-        );
-      });
+      if (!tasksData[dataLocation]) {
+        return <div>No tasks Scheduled for this Day</div>;
+      } else {
+        return tasksData[dataLocation].map((day, index) => {
+          return (
+            <React.Fragment>
+              <PickedDayTask
+                key={day.id}
+                id={day.id}
+                timeOfDay={day.timeOfDay}
+                task={day.task}
+                deleteTodayTask={props.clicked}
+                deadline={day.deadline}
+                category={day.category}
+                click={event => taskDeleteHandler(event, index)}
+                changed={event => taskChangeHandler(event, day.id)}
+              />
+            </React.Fragment>
+          );
+        });
+      }
     }
   };
 

@@ -1,7 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import SyllabusContext from '../../../context/syllabusContext';
-import TasksContext from '../../../context/tasksContext';
-//import App from '../../containers/App';
 import App from '../../../containers/App';
 import classes from '../Cockpit.module.css';
 import classNames from 'classnames';
@@ -9,13 +6,14 @@ import NewTask from '../../Creation/newTask';
 import NewSyllabus from '../../Creation/newSyllabus';
 import SyllabiList from '../../ViewContent/Syllabus/SyllabiList';
 import calendarObj from '../../Calendar/calendarObj';
+import StoreContext from '../../../context/StoreDataContext';
 
 const Navbar = props => {
   const [newTaskState, setTaskState] = useState({
     showNewTaskForm: false
   });
-  const syllabusContext = useContext(SyllabusContext);
-  const tasksContext = useContext(TasksContext);
+
+  const storeContext = useContext(StoreContext);
 
   const requestDataHandler = event => {
     let contentchoice = event.target.value;
@@ -25,23 +23,47 @@ const Navbar = props => {
     let infoType = ''; //string: index/id/
     let info = ''; //string: actual info
     let today = calendarObj();
+
     // let value = '';
     let dataRequestMessage = {};
     switch (contentchoice) {
       case '1':
+        typeOfData = 'tasks';
+        handlerChoice = '1';
+        dataLocation = 'unAssignedTasksForWeek';
+        infoType = null;
+        info = null;
+        dataRequestMessage = {
+          typeOfData: typeOfData,
+          handlerChoice: handlerChoice,
+          dataLocation: dataLocation,
+          infoType: infoType,
+          info: info
+        };
+
+        storeContext.dataRequestHandler(event, dataRequestMessage);
         break;
       case '2':
+        typeOfData = 'tasks';
+        handlerChoice = '2';
+        dataLocation = today;
+        infoType = null;
+        info = null;
+        dataRequestMessage = {
+          typeOfData: typeOfData,
+          handlerChoice: handlerChoice,
+          dataLocation: dataLocation,
+          infoType: infoType,
+          info: info
+        };
+
+        storeContext.dataRequestHandler(event, dataRequestMessage);
         break;
       case '3':
         break;
       case '4':
         break;
       case '5':
-        // typeOfData = 'syllabus';
-        // handlerChoice = '10';
-        // dataLocation = 'maxReactWorkLeft';
-        // infoType = null;
-        // info = null;
         break;
       case '6': //load up newSyllabus component -> get data prepared to display maxReactWorkLeft
         typeOfData = 'syllabus';
@@ -57,7 +79,7 @@ const Navbar = props => {
           info: info
         };
 
-        syllabusContext.dataRequestHandler(event, dataRequestMessage);
+        storeContext.dataRequestHandler(event, dataRequestMessage);
         break;
     }
 
@@ -82,7 +104,7 @@ const Navbar = props => {
         infoType: 'triggerShowSyllabus',
         info: ''
       };
-      tasksContext.dataRequestHandler(event, dataRequestMessage);
+      storeContext.dataRequestHandler(event, dataRequestMessage);
     } else {
       // alert(
       //   `inside pickedSyllabusRequestHandler value from onClick: ${event.target.value}`
@@ -94,7 +116,7 @@ const Navbar = props => {
         infoType: 'triggerShowSyllabus',
         info: ''
       };
-      syllabusContext.dataRequestHandler(event, dataRequestMessage);
+      storeContext.dataRequestHandler(event, dataRequestMessage);
       // let newContentChoice = event.target.value;
 
       let contentViewObject = {
@@ -110,25 +132,23 @@ const Navbar = props => {
 
   const processSyllabiList = () => {
     return Object.keys(
-      syllabusContext.everythingSyllabus.syllabusData.syllabi
+      storeContext.everythingSyllabus.syllabusData.syllabi
     ).map((syllabus, index) => {
-      //alert(`inside const ViewContentOptions
-      //  props.syllabusName ${syllabusContext.everythingSyllabus.syllabusData.syllabi[syllabus].syllabusId}`);
       return (
         <React.Fragment key={index}>
           <SyllabiList
             click={event => pickedSyllabusRequestHandler(event)}
             syllabusId={
-              syllabusContext.everythingSyllabus.syllabusData.syllabi[syllabus]
+              storeContext.everythingSyllabus.syllabusData.syllabi[syllabus]
                 .syllabusId
             }
             value={
-              syllabusContext.everythingSyllabus.syllabusData.syllabi[syllabus]
+              storeContext.everythingSyllabus.syllabusData.syllabi[syllabus]
                 .syllabusId
             }
             index={index}
             syllabusName={
-              syllabusContext.everythingSyllabus.syllabusData.syllabi[syllabus]
+              storeContext.everythingSyllabus.syllabusData.syllabi[syllabus]
                 .name
             }
           />
@@ -185,16 +205,6 @@ const Navbar = props => {
       newTaskCategory: event.target.value
     });
   };
-
-  // const newSetTaskCategoryState = event => {
-  //   console.log('inside newSetTaskCategoryState()');
-  //   setTaskInfoState({
-  //     newTaskTitle: newTaskInfoState.newTaskTitle,
-  //     newTaskCategory: newTaskInfoState.newTaskCategory
-  //   });
-  // };
-
-  //const newTaskDisplay = <NewTask />;
 
   const navbarDisplay = (
     <div>
@@ -257,7 +267,6 @@ const Navbar = props => {
                 </a>
               </li>
               <li className="nav-item dropdown active">
-                {/* <label className="btn dropdown active"> */}
                 <button
                   className="btn dropdown-toggle"
                   type="button"
@@ -273,39 +282,10 @@ const Navbar = props => {
                 </button>
 
                 <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
-                  {syllabusContext.everythingSyllabus.syllabusData
+                  {storeContext.everythingSyllabus.syllabusData
                     ? processSyllabiList()
                     : null}
                 </div>
-                {/* </label> */}
-                {/* <div className="dropdown">
-                  <button
-                    className="btn dropdown-toggle"
-                    type="button"
-                    data-toggle="dropdown"
-                  >
-                    <span className="navbar-toggler-icon"></span>
-                    Syllabus
-                  </button>
-
-                  
-                  <button
-                    className="dropdown-item"
-                    onClick={event => pickedSyllabusRequestHandler(event)}
-                    value="showSyllabiList"
-                  >
-                    Syllabus List
-                  </button>
-
-                  <div
-                    className="dropdown-item"
-                    aria-labelledby="dropdownMenu2"
-                  >
-                    {syllabusContext.everythingSyllabus.syllabusData
-                      ? processSyllabiList()
-                      : null}
-                  </div>
-                </div> */}
               </li>
             </ul>
 

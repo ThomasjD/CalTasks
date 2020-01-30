@@ -3,7 +3,7 @@ import React from 'react';
 const tasksData = React.createContext({
   crunk: '',
   dataRequestHandler: () => {},
-  tasksData: false,
+  tasksData: '',
   dataRequestDetails: '',
   dataReceiverHandler: () => {},
   resetHandlerChoice: () => {}

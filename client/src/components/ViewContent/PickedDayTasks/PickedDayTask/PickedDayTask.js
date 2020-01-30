@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import taskStyle from '../../Tasks/Task/Task.module.css';
-//import Tasks from '../Tasks';
 
 const PickedDayTask = props => {
   useEffect(() => {

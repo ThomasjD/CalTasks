@@ -3,16 +3,23 @@ import DisplayPickedSyllabusInfo from './displayPickedSyllabusInfo/displayPicked
 import student from '../../../containers/Student.css';
 import SyllabusContext from '../../../context/syllabusContext';
 import taskStyle from '../Tasks/Task/Task.module.css';
+import StoreContext from '../../../context/StoreDataContext';
 const DisplayPickedSyllabus = props => {
-  const syllabusContext = useContext(SyllabusContext);
+  const storeContext = useContext(StoreContext);
 
   const renderTableHeaderHandler = () => {
-    if (syllabusContext.everythingSyllabus.syllabusData) {
-      let dataLocation = syllabusContext.dataRequestDetails.dataLocation;
-
-      let header = Object.keys(
-        syllabusContext.everythingSyllabus.syllabusData.syllabi[dataLocation]
-      );
+    let dataLocation = storeContext.dataRequestDetails.dataLocation;
+    if (
+      storeContext.everythingSyllabus &&
+      storeContext.everythingSyllabus.syllabusData &&
+      storeContext.everythingSyllabus.syllabusData.syllabi &&
+      storeContext.everythingSyllabus.syllabusData.syllabi[dataLocation]
+    ) {
+      alert(dataLocation);
+      let syllabi = {
+        ...storeContext.everythingSyllabus.syllabusData.syllabi
+      };
+      let header = Object.keys(syllabi[dataLocation]);
 
       return header.map((key, index) => {
         switch (key) {
@@ -42,10 +49,19 @@ const DisplayPickedSyllabus = props => {
   //todayTaskChanged={props.changed}
   const infoOfSelectedSyllabusHandler = () => {
     let starvingCow = {};
-    if (syllabusContext.everythingSyllabus.syllabusData) {
-      let dataLocation = syllabusContext.dataRequestDetails.dataLocation;
+
+    let dataLocation = storeContext.dataRequestDetails.dataLocation;
+    if (
+      // storeContext.everythingSyllabus.syllabusData &&
+      // storeContext.everythingSyllabus.syllabusData.syllabi
+      storeContext.everythingSyllabus &&
+      storeContext.everythingSyllabus.syllabusData &&
+      storeContext.everythingSyllabus.syllabusData.syllabi &&
+      storeContext.everythingSyllabus.syllabusData.syllabi[dataLocation]
+    ) {
+      // let dataLocation = storeContext.dataRequestDetails.dataLocation;
       let syllabus =
-        syllabusContext.everythingSyllabus.syllabusData.syllabi[dataLocation];
+        storeContext.everythingSyllabus.syllabusData.syllabi[dataLocation];
 
       let grass = Object.keys(syllabus).map(key => {
         if (

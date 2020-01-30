@@ -7,16 +7,17 @@ import classes from './Cockpit.module.css';
 // import Navbar from './navBar';
 import calendarObj from '../Calendar/calendarObj';
 import SyllabiList from '../ViewContent/Syllabus/SyllabiList';
-import TasksContext from '../../context/tasksContext';
-import SyllabusContext from '../../context/syllabusContext';
+import StoreDataContext from '../../context/StoreDataContext';
+import numToDay from '../Calendar/numToDay';
 
 const ViewContentOptions = props => {
-  const tasksContext = useContext(TasksContext);
-  const syllabusContext = useContext(SyllabusContext);
+  // const tasksContext = useContext(TasksContext);
+  //const syllabusContext = useContext(SyllabusContext);
+  const storeDataContext = useContext(StoreDataContext);
 
   const requestDataHandler = event => {
     let contentChoice = event.target.value; //'' number used in displayContent component
-
+    let newContentChoice = '';
     let typeOfData = ''; //string: syllabus,tasks,events,objectives
     let handlerChoice = ''; //string: '#' handler inside of database
     let dataLocation = ''; // string: where obj found inside database
@@ -24,12 +25,17 @@ const ViewContentOptions = props => {
     let info = ''; //string: actual info
     let today = calendarObj();
     switch (contentChoice) {
+      case '0':
+        newContentChoice = '0';
+
+        break;
       case '1': //Unscheduled Tasks for Week
         typeOfData = 'tasks';
         handlerChoice = '1';
         dataLocation = 'unAssignedTasksForWeek';
         infoType = null;
         info = null;
+        newContentChoice = '1';
         break;
 
       case '2': //Today's Tasks
@@ -38,6 +44,7 @@ const ViewContentOptions = props => {
         dataLocation = today;
         infoType = null;
         info = null;
+        newContentChoice = '2';
         break;
 
       case '3': //Pick Syllabus to View
@@ -46,6 +53,7 @@ const ViewContentOptions = props => {
         dataLocation = '';
         infoType = '';
         info = 'showSyllabiList';
+        newContentChoice = '0';
         break;
 
       case '4':
@@ -54,6 +62,7 @@ const ViewContentOptions = props => {
         dataLocation = '';
         infoType = null;
         info = null;
+        newContentChoice = '4';
         break;
 
       case '5':
@@ -62,6 +71,7 @@ const ViewContentOptions = props => {
         dataLocation = '';
         infoType = null;
         info = null;
+        newContentChoice = '5';
         break;
 
       case '6':
@@ -70,6 +80,7 @@ const ViewContentOptions = props => {
         dataLocation = '';
         infoType = null;
         info = null;
+        newContentChoice = '6';
         break;
     }
 
@@ -83,7 +94,7 @@ const ViewContentOptions = props => {
 
     let contentViewObject = {
       target: {
-        value: contentChoice
+        value: newContentChoice
       }
     };
     // alert(`typeOfData: ${typeOfData}`);
@@ -91,7 +102,7 @@ const ViewContentOptions = props => {
     // alert(`dataLocation ${dataLocation}`);
     // alert(`infoType ${infoType}`);
     // alert(`info ${info}`);
-    syllabusContext.dataRequestHandler(event, dataRequestMessage);
+    storeDataContext.dataRequestHandler(event, dataRequestMessage);
 
     props.contentViewHandler(contentViewObject);
   };
@@ -108,7 +119,7 @@ const ViewContentOptions = props => {
         infoType: 'triggerShowSyllabus',
         info: ''
       };
-      tasksContext.dataRequestHandler(event, dataRequestMessage);
+      storeDataContext.dataRequestHandler(event, dataRequestMessage);
     } else {
       dataRequestMessage = {
         typeOfData: 'syllabus',
@@ -118,9 +129,7 @@ const ViewContentOptions = props => {
         info: ''
       };
 
-      // alert(`viewContentOptions handlerChoice: ${dataRequestMessage}`);
-
-      syllabusContext.dataRequestHandler(event, dataRequestMessage);
+      storeDataContext.dataRequestHandler(event, dataRequestMessage);
       // let newContentChoice = event.target.value;
 
       let contentViewObject = {
@@ -136,7 +145,7 @@ const ViewContentOptions = props => {
 
   const processSyllabiList = () => {
     return Object.keys(
-      syllabusContext.everythingSyllabus.syllabusData.syllabi
+      storeDataContext.everythingSyllabus.syllabusData.syllabi
     ).map((syllabus, index) => {
       //alert(`inside const ViewContentOptions
       //  props.syllabusName ${syllabusContext.everythingSyllabus.syllabusData.syllabi[syllabus].syllabusId}`);
@@ -145,16 +154,16 @@ const ViewContentOptions = props => {
           <SyllabiList
             click={event => pickedSyllabusRequestHandler(event)}
             syllabusId={
-              syllabusContext.everythingSyllabus.syllabusData.syllabi[syllabus]
+              storeDataContext.everythingSyllabus.syllabusData.syllabi[syllabus]
                 .syllabusId
             }
             value={
-              syllabusContext.everythingSyllabus.syllabusData.syllabi[syllabus]
+              storeDataContext.everythingSyllabus.syllabusData.syllabi[syllabus]
                 .syllabusId
             }
             index={index}
             syllabusName={
-              syllabusContext.everythingSyllabus.syllabusData.syllabi[syllabus]
+              storeDataContext.everythingSyllabus.syllabusData.syllabi[syllabus]
                 .name
             }
           />
@@ -165,31 +174,10 @@ const ViewContentOptions = props => {
 
   const pickedDayRequestHandler = event => {
     let dayPicked = event.target.value;
+
     //props.viewRequestHandler()
-    let dataLocation = null;
-    switch (dayPicked) {
-      case '1':
-        dataLocation = 'Monday';
-        break;
-      case '2':
-        dataLocation = 'Tuesday';
-        break;
-      case '3':
-        dataLocation = 'Wednesday';
-        break;
-      case '4':
-        dataLocation = 'Thursday';
-        break;
-      case '5':
-        dataLocation = 'Friday';
-        break;
-      case '6':
-        dataLocation = 'Saturday';
-        break;
-      case '7':
-        dataLocation = 'Sunday';
-        break;
-    }
+    let dataLocation = numToDay(Number(dayPicked));
+
     //(event, typeOfData, handlerChoice,dataLocation,infoType, info)
     let dataRequestMessage = {
       typeOfData: 'tasks',
@@ -199,7 +187,7 @@ const ViewContentOptions = props => {
       info: ''
     };
 
-    tasksContext.dataRequestHandler(event, dataRequestMessage);
+    storeDataContext.dataRequestHandler(event, dataRequestMessage);
     let contentViewObject = {
       target: {
         value: '9'
@@ -265,7 +253,7 @@ const ViewContentOptions = props => {
             </button>
 
             <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
-              {syllabusContext.everythingSyllabus.syllabusData
+              {storeDataContext.everythingSyllabus.syllabusData
                 ? processSyllabiList()
                 : null}
             </div>
@@ -382,16 +370,3 @@ const ViewContentOptions = props => {
 };
 
 export default ViewContentOptions;
-/*
-<label className="btn btn-success m-2 active ">
-            <button
-              type="button"
-              name="options"
-              id="option2"
-              autoComplete="off"
-              onClick={props.viewContent}
-              value="2"
-            />{' '}
-            Tasks by Day
-          </label>
-*/

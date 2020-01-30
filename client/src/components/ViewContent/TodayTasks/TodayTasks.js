@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import TodayTask from './TodayTask/TodayTask';
 import student from '../../../containers/Student.css';
-import TasksContext from '../../../context/tasksContext';
 import calendarObj from '../../Calendar/calendarObj';
-
+import StoreContext from '../../../context/StoreDataContext';
 const TodayTasks = props => {
-  const tasksContext = useContext(TasksContext);
+  const storeContext = useContext(StoreContext);
 
   const taskDeleteHandler = (event, info) => {
     let typeOfData = 'tasks'; //string: syllabus,tasks,events,objectives
@@ -46,7 +45,7 @@ const TodayTasks = props => {
       info: info
     };
 
-    tasksContext.dataRequestHandler(event, dataRequestMessage);
+    storeContext.dataRequestHandler(event, dataRequestMessage);
   };
 
   const taskChangeHandler = (event, info) => {
@@ -93,13 +92,13 @@ const TodayTasks = props => {
     // infoType: ${dataRequestMessage.infoType}
     // info: ${dataRequestMessage.info}`);
 
-    tasksContext.dataRequestHandler(event, dataRequestMessage);
+    storeContext.dataRequestHandler(event, dataRequestMessage);
   };
 
   const renderTableHeaderHandler = () => {
-    if (tasksContext.tasksData.tasksData) {
+    if (storeContext.tasksData.tasksData) {
       let header = Object.keys(
-        tasksContext.tasksData.tasksData.TodayTasksHeader
+        storeContext.tasksData.tasksData.TodayTasksHeader
       );
       return header.map((key, index) => {
         switch (key) {
@@ -128,11 +127,14 @@ const TodayTasks = props => {
   };
   //todayTaskChanged={props.changed}
   const todayTasksHandler = () => {
-    if (tasksContext.tasksData.tasksData) {
-      let dataLocation = tasksContext.tasksData.tasksData.dataLocation;
+    if (
+      storeContext.tasksData.tasksData &&
+      storeContext.tasksData.tasksData.dataLocation
+    ) {
+      let dataLocation = storeContext.tasksData.tasksData.dataLocation;
 
       //alert(`dataLocation: ${dataLocation}`);
-      return tasksContext.tasksData.tasksData[dataLocation].map(
+      return storeContext.tasksData.tasksData[dataLocation].map(
         (day, index) => {
           // let functionChoiceDelete = null;
           // let functionChoiceChange = null;

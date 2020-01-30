@@ -9,6 +9,10 @@ import Aux from '../../hoc/Aux';
 import Layout from '../../hoc/Layout';
 import CalendarContext from '../../context/calendarContext';
 //import Basic from './react-big-scheduler-master/Basic';
+import StoreDataContext from '../../context/StoreDataContext';
+import ObjectiveData from './ObjectiveData';
+import UiData from './UiData';
+
 class Store extends Component {
   state = {
     showSyllabusList: false,
@@ -57,13 +61,12 @@ class Store extends Component {
     }
   };
 
-  //dataRequestHandler = (event, typeOfData, handlerChoice,dataLocation,infoType, info) => {
   dataRequestHandler = (event, dataRequestMessage) => {
     // alert(` in Store dataRequestHandler-->  typeOfData: ${dataRequestMessage.typeOfData}
     // handlerChoice: ${dataRequestMessage.handlerChoice}
     // dataLocation: ${dataRequestMessage.dataLocation}
     // infoType: ${dataRequestMessage.infoType}
-    // info: ${dataRequestMessage.info.eventTitle}`);
+    // info: ${dataRequestMessage.info}`);
     let {
       typeOfData,
       handlerChoice,
@@ -78,18 +81,34 @@ class Store extends Component {
     let dataRequestDetails = null;
     //let inspection = event.value;
     switch (typeOfData) {
+      case 'UiData':
+        value = info;
+        alert(`inside Store dataRequest typeOfData: UiData value: ${value}`);
+        dataRequestDetails = {
+          handlerChoice: handlerChoice,
+          index: index,
+          id: id,
+          value: value,
+          typeOfData: typeOfData,
+          dataLocation: dataLocation
+        };
+        break;
       case 'tasks':
         switch (infoType) {
           case 'index':
             index = info;
             value = event.target.value;
+
             break;
           case 'id':
             id = info;
             value = event.target.value;
-            alert(`inside Store value: ${value}`);
+
             break;
           case 'pickedDayTasks':
+            value = null;
+            break;
+          case 'howBusy':
             value = null;
             break;
         }
@@ -115,10 +134,6 @@ class Store extends Component {
         };
         break;
       case 'syllabus':
-        // alert(
-        //   `inside Store syllabus case ${typeOfData} handlerChoice:${handlerChoice} dataLocation: ${dataLocation} info: ${info}`
-        // );
-
         switch (infoType) {
           case 'index':
             index = info;
@@ -139,6 +154,17 @@ class Store extends Component {
           value: value
         };
         break;
+
+      case 'obj':
+        dataRequestDetails = {
+          handlerChoice: handlerChoice,
+          index: index,
+          id: id,
+          typeOfData: typeOfData,
+          dataLocation: dataLocation,
+          value: info
+        };
+        break;
     }
 
     //event, index, handlerType
@@ -150,12 +176,15 @@ class Store extends Component {
   dataReceiverHandler = dataBase => {
     switch (dataBase.dataBaseName) {
       case 'syllabus':
+        //alert(`Inside of dataReceiverHandler syllabus statement:`);
         this.setState({
           syllabusData: dataBase
         });
         break;
 
       case 'tasks':
+        //alert(`Inside of dataReceiverHandler taskData dataBase: ${dataBase}`);
+        console.log(dataBase);
         this.setState({
           tasksData: dataBase
         });
@@ -177,55 +206,77 @@ class Store extends Component {
   };
 
   render() {
-    // let displayMessage = null;
-    // if (this.state.syllabusHandlerChoice === '0') {
-    //   displayMessage = <div>Hey syllabusHandlerchoice is recorded</div>;
-    // }
     // Layout wrap displayed
     return (
       <Aux>
         <Layout>
-          <CalendarContext.Provider
+          <StoreDataContext.Provider
             value={{
-              resetHandlerChoice: this.resetHandlerChoice,
-              everythingCalendar: this.state,
+              //all dataBases
               dataRequestHandler: this.dataRequestHandler,
               dataRequestDetails: this.state.dataRequestDetails,
-              dataReceiverHandler: this.dataReceiverHandler
+              dataReceiverHandler: this.dataReceiverHandler,
+              resetHandlerChoice: this.resetHandlerChoice,
+              storeData: this.state,
+              //calendarData
+              everythingCalendar: this.state,
+
+              //syllabusData
+              everythingSyllabus: this.state,
+
+              //tasksData
+              tasksData: this.state,
+              newDataHandler: this.newDataHandler,
+              showLeftOverTasksForWeek: this.state.showLeftOverTasksForWeek
+
+              //UI
             }}
           >
-            {/* <Calendar /> */}
-
-            <SyllabusContext.Provider
+            <CalendarContext.Provider
               value={{
                 resetHandlerChoice: this.resetHandlerChoice,
-                everythingSyllabus: this.state,
+                everythingCalendar: this.state,
                 dataRequestHandler: this.dataRequestHandler,
                 dataRequestDetails: this.state.dataRequestDetails,
                 dataReceiverHandler: this.dataReceiverHandler
               }}
             >
-              <SyllabusData></SyllabusData>
+              {/* <ObjectiveData /> */}
 
-              <TasksDataContext.Provider
+              <SyllabusContext.Provider
                 value={{
-                  crunk: this.state.crunk,
-                  dataReceiverHandler: this.dataReceiverHandler,
+                  resetHandlerChoice: this.resetHandlerChoice,
+                  everythingSyllabus: this.state,
                   dataRequestHandler: this.dataRequestHandler,
                   dataRequestDetails: this.state.dataRequestDetails,
-                  tasksData: this.state,
-                  resetHandlerChoice: this.resetHandlerChoice,
-                  newDataHandler: this.newDataHandler
+                  dataReceiverHandler: this.dataReceiverHandler
                 }}
               >
-                <TasksData
-                  showLeftOverTasksForWeek={this.state.showLeftOverTasksForWeek}
-                  dataRequestDetails={this.state.dataRequestDetails}
-                />
-                <RightCockpit crunk={this.state.crunk}></RightCockpit>
-              </TasksDataContext.Provider>
-            </SyllabusContext.Provider>
-          </CalendarContext.Provider>
+                <SyllabusData></SyllabusData>
+                <UiData></UiData>
+
+                <TasksDataContext.Provider
+                  value={{
+                    crunk: this.state.crunk,
+                    dataReceiverHandler: this.dataReceiverHandler,
+                    dataRequestHandler: this.dataRequestHandler,
+                    dataRequestDetails: this.state.dataRequestDetails,
+                    tasksData: this.state,
+                    resetHandlerChoice: this.resetHandlerChoice,
+                    newDataHandler: this.newDataHandler
+                  }}
+                >
+                  <TasksData
+                    showLeftOverTasksForWeek={
+                      this.state.showLeftOverTasksForWeek
+                    }
+                    dataRequestDetails={this.state.dataRequestDetails}
+                  />
+                  <RightCockpit crunk={this.state.crunk}></RightCockpit>
+                </TasksDataContext.Provider>
+              </SyllabusContext.Provider>
+            </CalendarContext.Provider>
+          </StoreDataContext.Provider>
         </Layout>
       </Aux>
     );

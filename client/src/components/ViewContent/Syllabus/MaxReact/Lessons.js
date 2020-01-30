@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import ErrorBoundary from '../../../ErrorBoundary/ErrorBoundary';
 import student from '../../../../containers/Student.css';
 import Lesson from './Lesson/Lesson';
-import SyllabusContext from '../../../../context/syllabusContext';
+import StoreContext from '../../../../context/StoreDataContext';
 import calendarObj from '../../../Calendar/calendarObj';
 
 class Lessons extends Component {
@@ -13,7 +13,7 @@ class Lessons extends Component {
   state = {
     clickToAddDelete: null
   };
-  static contextType = SyllabusContext;
+  static contextType = StoreContext;
 
   // shouldComponentUpdate = (nextProps, nextState) => {
   //   console.log('[maxReact Lessons.js] shouldComponentUpdate');

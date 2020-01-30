@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import students from '../../../containers/Student.css';
 import TasksContext from '../../../context/tasksContext';
-import Task from '../../ViewContent/Tasks/Task/Task';
+//import Task from '../../ViewContent/Tasks/Task/Task';
 import HowBusyThisDay from './HowBusyThisDay/HowBusyThisDay';
 import Aux from '../../../hoc/Aux';
 //import rocky from '../../containers/App.module.css'
@@ -40,23 +40,29 @@ const HowBusyThisWeek = props => {
   const allTasksPerDay = () => {
     //
     let busyTask = null;
-    busyTask = Object.keys(tasksContext.tasksData.tasksData.numTasksThisWeek);
+    if (
+      tasksContext.tasksData.tasksData &&
+      tasksContext.tasksData.tasksData.numTasksThisWeek
+    ) {
+      busyTask = Object.keys(tasksContext.tasksData.tasksData.numTasksThisWeek);
 
-    return busyTask.map((day, index) => {
-      let taskNum = tasksContext.tasksData.tasksData.numTasksThisWeek[day];
-      let particularKey = day.concat(index);
-      return (
-        <Aux>
-          <tr>
-            <td className="text-dark">{day}</td>
-            <td className="text-dark">
-              {makeIconHandler(day, taskNum, particularKey)}
-            </td>
-          </tr>
-        </Aux>
-      );
-    });
+      return busyTask.map((day, index) => {
+        let taskNum = tasksContext.tasksData.tasksData.numTasksThisWeek[day];
+        let particularKey = day.concat(index);
+        return (
+          <Aux>
+            <tr>
+              <td className="text-dark">{day}</td>
+              <td className="text-dark">
+                {makeIconHandler(day, taskNum, particularKey)}
+              </td>
+            </tr>
+          </Aux>
+        );
+      });
+    }
   };
+
   const makeIconHandler = (day, taskNum, particularKey) => {
     let makeIcon = null;
     return (makeIcon = [...Array(taskNum)]
@@ -72,31 +78,6 @@ const HowBusyThisWeek = props => {
       .reduce((arr, el) => {
         return arr.concat(el);
       }, [])); //get rid of the array
-
-    // let busyTask = Object.keys(
-    //   tasksContext.tasksData.tasksData.numTasksThisWeek
-    // ) // array of keys
-    //   .map(day => {
-    //     //use each key  make arrays equivalent to their value
-    //     return [
-    //       ...Array(tasksContext.tasksData.tasksData.numTasksThisWeek[day])
-    //     ].map((_, index) => {
-    //       //for each of these undefined array pass in this component
-    //       return
-    //        <HowBusyThisDay
-    //       taskNum={taskNum}
-    //       particularKey={day.concat(index)}
-    //       type={day}
-    //     />
-
-    //     <HowBusyThisDay key={day + index} type={day} />;
-    //     });
-    //   }) //end up w/ an array of components
-    // .reduce((arr, el) => {
-    //   return arr.concat(el);
-    // }, []); //get rid of the array
-
-    // return busyTask;
   };
   return (
     <React.Fragment>

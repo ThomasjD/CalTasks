@@ -8,12 +8,12 @@ import ViewContentOptions from '../../components/Cockpit/ViewContentOptions';
 import NewTask from '../../components/Creation/newTask';
 import DisplayContent from '../../components/Cockpit/displayContent';
 import DatePickerPicker from './DatePicker.js';
-import SyllabusContext from '../../context/syllabusContext';
-import TasksDataContext from '../../context/tasksContext';
+
 //import Layout from '../../hoc/Layout';
 import NewEvent from '../../components/Creation/NewEvent';
 import RightCockpitContext from '../../context/RightCockpitContext';
 import WeeklyTimeBudget from '../../components/Creation/WeeklyTimeBudget/WeeklyTimeBudget';
+import StoreDataContext from '../../context/StoreDataContext';
 
 class RightCockpit extends Component {
   constructor(props) {
@@ -54,27 +54,6 @@ class RightCockpit extends Component {
       )}`
     );
   };
-
-  /*
-      console.log(newViewChoice);
-    console.log(JSON.stringify(newViewChoice, null, 2));
-    //console.log(event.target.['location'].value);
-
-    let maxReact2 = new Syllabus(
-      'maxReact2',
-      'maxReact22222',
-      '11asfd',
-      'Use this in fusfsasgnctions',
-      '11.Read allasf about this'
-    );
-
-    //if array is empty no need to use spread operator
-    const tryOutSyllabi = this.state.syllabi;
-
-    tryOutSyllabi.push(maxReact2);
-
-    this.setState({ syllabi: tryOutSyllabi });
-*/
 
   contentViewHandler = event => {
     let newViewChoice = event.target.value;
@@ -192,19 +171,25 @@ class RightCockpit extends Component {
           break;
         case '9':
           break;
+        case '10': //View syllabus according to chosen day
+          break;
+        case '11': //View tasks according to chosen day
+          break;
+        case '12': //Cockpit - WeeklyTimeBudget-timeBudgetForWeek
+          break;
       }
     }
   };
-  //static usually used in getDerivedStateFromProps
-  //static contextType = ShowAllTasksAfterAddingTask;
-  static contextType = TasksDataContext;
-  //static contextType = SyllabusContext;
+
+  static contextType = StoreDataContext;
+
   render() {
     let leftCockpit = null;
     if (this.state.showCockpit == true) {
       leftCockpit = (
         <React.Fragment>
           <Cockpit
+            contentViewHandler={() => this.contentViewHandler()}
             title={this.props.appTitle}
             deleteCockpit={() => {
               this.setState({ showCockpit: false });
@@ -218,11 +203,6 @@ class RightCockpit extends Component {
       <div className="container">
         <div className="col-lg-8 order-0 float-left">
           <div className="card bg-light m-3 p-3 ">
-            {/* <NewEvent
-              contentViewHandler={this.contentViewHandler}
-              contentChoice={this.state.contentChoice}
-            /> */}
-
             <DisplayContent
               dataLocation={this.state.dataLocation}
               contentViewHandler={event => this.contentViewHandler(event)}
@@ -268,22 +248,22 @@ class RightCockpit extends Component {
 
     return (
       <React.Fragment>
-        <RightCockpitContext.Provider
+        {/* <RightCockpitContext.Provider
           value={{
             contentViewHandler: this.contentViewHandler,
             newContentViewHandler: (contentChoice, info) =>
               this.newContentViewHandler(contentChoice, info),
             rightCockpitState: this.state
           }}
-        >
-          {navbar}
-          <div className="rightcockpitClasses.deskTop">
-            {viewContentOptions}
+        > */}
+        {navbar}
+        <div className="rightcockpitClasses.deskTop">
+          {viewContentOptions}
 
-            {/* <WeeklyTimeBudget /> */}
-            {displayCockpit}
-          </div>
-        </RightCockpitContext.Provider>
+          {/* <WeeklyTimeBudget /> */}
+          {displayCockpit}
+        </div>
+        {/* </RightCockpitContext.Provider> */}
       </React.Fragment>
     );
   }

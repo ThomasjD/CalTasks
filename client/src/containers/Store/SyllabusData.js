@@ -5,6 +5,7 @@ import TasksData from './TasksData';
 import Store from './Store';
 import EventsData from './EventsData';
 import SyllabusContext from '../../context/syllabusContext';
+import StoreContext from '../../context/StoreDataContext';
 
 class Syllabus extends Component {
   state = {
@@ -123,7 +124,7 @@ class Syllabus extends Component {
     TasksData: 'd'
   };
 
-  static contextType = SyllabusContext;
+  static contextType = StoreContext;
   assignLessonFromSyllabus = () => {
     //alert('inside assignedLesson');
 

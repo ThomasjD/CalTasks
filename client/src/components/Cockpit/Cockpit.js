@@ -2,17 +2,16 @@ import React, { useEffect, useState, useContext } from 'react';
 //import rocky from '../../containers/App.module.css'
 import classNames from 'classnames';
 import classes from './Cockpit.module.css';
-import Navbar from './navBar';
 import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
 import Template from '../../Template/Template';
-import TasksContext from '../../context/tasksContext';
 import HowBusyThisWeek from './HowBusyThisWeek/HowBusyThisWeek';
-export default React.memo(Cockpit);
+import WeeklyTimeBudget from '../Creation/WeeklyTimeBudget/WeeklyTimeBudget';
+import StoreContext from '../../context/StoreDataContext';
 
 const Cockpit = props => {
   //can do anything that componentDidUpdate can do
   //can send http request here
-  const tasksContext = useContext(TasksContext);
+  const storeContext = useContext(StoreContext);
 
   useEffect(() => {
     console.log('I am inside of [Cockpit.js] useffect');
@@ -35,7 +34,7 @@ const Cockpit = props => {
     return () => { //don't have to have a return statement
       console.log('[Cockpit.js] cleanup work in useEffect')
     }
-  }, []); 
+  }, []);
   */
   //if 2nd argument [props.tasks] it doesn't involve tasks -> it won't run this again
   //[props.tasks]
@@ -70,120 +69,103 @@ const Cockpit = props => {
   //add multiple classes for <p> w/ strings
   //const classesFinal = classes.join(' ')
   const classesFinal = 'rocky.' + assignedClasses;
-  const [howBusyToggle, setHowBusyToggle] = useState({
-    showTasksNumEachDay: true
+
+  const [cockpitViewOptions, setCockpitViewOptions] = useState({
+    showTasksNumEachDay: false,
+    showTimeBudgetForWeek: false
   });
-  //tasksContext.dataRequestHandler(event, 'tasks', '7', null, null)
+
   const setHowBusyToggleHandler = () => {
-    let currentToggleStatus = howBusyToggle.showTasksNumEachDay;
-    setHowBusyToggle({
+    let currentToggleStatus = cockpitViewOptions.showTasksNumEachDay;
+    setCockpitViewOptions({
       showTasksNumEachDay: !currentToggleStatus
     });
-
-    // if (howBusyToggle.showTasksNumEachDay) {
-
-    // } else {
-    //   let currentToggleStatus = howBusyToggle.showTasksNumEachDay;
-    //   setHowBusyToggle(
-    //     () => tasksContext.dataRequestHandler(event, 'tasks', '7', null, null),
-    //     {
-    //       showTasksNumEachDay: !currentToggleStatus
-    //     }
-    //   );
-    // }
   };
 
-  //tasksContext = useContext(TasksContext);
-  //.numTasksThisWeek['Monday']showHowBusyWeeek
-  // if (tasksContext.tasksData.tasksData['showHowBusyWeeek'] == !null) {
-  //   alert('inside of cockpit');
-  // }
-  
+  const requestDataHandler = event => {
+    let viewOptionChoice = event.target.value; //'' number used in displayContent component
+    let contentChoice = null;
+    let typeOfData = ''; //string: syllabus,tasks,events,objectives
+    let handlerChoice = ''; //string: '#' handler inside of database
+    let dataLocation = ''; // string: where obj found inside database
+    let infoType = ''; //string: index/id/
+    let info = ''; //string: actual info
+    //let today = calendarObj();
 
-  //if (tasksContext.tasksData.tasksData) {
-    //console.log('inside if (!howBusyToggle.showTasksNumEachDay) statement');
-    
-      
-  
+    switch (viewOptionChoice) {
+      case '0': //Unscheduled Tasks for Week
+        let currentShowTasksNumEachDay = cockpitViewOptions.showTasksNumEachDay;
+        setCockpitViewOptions({
+          showTasksNumEachDay: !currentShowTasksNumEachDay,
+          showTimeBudgetForWeek: cockpitViewOptions.showTimeBudgetForWeek
+        });
+        typeOfData = 'tasks';
+        handlerChoice = '7';
+        dataLocation = '';
+        infoType = 'howBusy';
+        info = null;
+        //contentChoice = '7';
+        let dataRequestMessage = {
+          typeOfData: typeOfData,
+          handlerChoice: handlerChoice,
+          dataLocation: dataLocation,
+          infoType: infoType,
+          info: info
+        };
+        storeContext.dataRequestHandler(event, dataRequestMessage);
+        break;
 
+      case '1': //TimeBudget for Week
+        let currentShowTimeBudgetForWeek =
+          cockpitViewOptions.showTimeBudgetForWeek;
+        setCockpitViewOptions({
+          showTimeBudgetForWeek: !currentShowTimeBudgetForWeek,
+          showTasksNumEachDay: cockpitViewOptions.showTasksNumEachDay
+        });
+        //reconnect to UiData after forming universal Store
+        // contentChoice = '12';
+        // let contentViewObject = {
+        //   target: {
+        //     value: contentChoice
+        //   }
+        // };
+        // props.contentViewHandler(contentViewObject);
+        break;
+    }
 
-const requestDataHandler = event => {
-  let viewOptionChoice = event.target.value; //'' number used in displayContent component
-  let contentChoice = null;
-  let typeOfData = ''; //string: syllabus,tasks,events,objectives
-  let handlerChoice = ''; //string: '#' handler inside of database
-  let dataLocation = ''; // string: where obj found inside database
-  let infoType = ''; //string: index/id/
-  let info = ''; //string: actual info
-  let today = calendarObj();
-  switch (viewOptionChoice) {
-    case '0': //Unscheduled Tasks for Week
-      typeOfData = 'tasks';
-      handlerChoice = '7';
-      dataLocation = '';
-      infoType = null;
-      info = null;
-      contentchoice = '7';
+    // alert(`typeOfData: ${typeOfData}`);
+    // alert(`handlerChoice ${handlerChoice}`);
+    // alert(`dataLocation ${dataLocation}`);
+    // alert(`infoType ${infoType}`);
+    // alert(`info ${info}`);
 
-      break;
-
-    case '1': //Today's Tasks
-      typeOfData = 'timeBudget';
-      handlerChoice = '2';
-      dataLocation = today;
-      infoType = null;
-      info = null;
-      break;
-
-      // case '3': //Pick Syllabus to View
-      //   typeOfData = 'syllabus';
-      //   handlerChoice = '';
-      //   dataLocation = '';
-      //   infoType = '';
-      //   info = 'showSyllabiList';
-      //   break;
-
-      let dataRequestMessage = {
-        typeOfData: typeOfData,
-        handlerChoice: handlerChoice,
-        dataLocation: dataLocation,
-        infoType: infoType,
-        info: info
-      };
-
-      let contentViewObject = {
-        target: {
-          value: contentChoice
-        }
-      };
-      // alert(`typeOfData: ${typeOfData}`);
-      // alert(`handlerChoice ${handlerChoice}`);
-      // alert(`dataLocation ${dataLocation}`);
-      // alert(`infoType ${infoType}`);
-      // alert(`info ${info}`);
-      syllabusContext.dataRequestHandler(event, dataRequestMessage);
-
-      props.contentViewHandler(contentViewObject);
-  }
+    //props.contentViewHandler(contentViewObject);
+  };
   let displayHowBusyThisWeek = null;
-  //console.log(tasksContext.tasksData.tasksData.numTasksThisWeek.Monday);
+
   if (
-    tasksContext.tasksData.tasksData &&
-    tasksContext.tasksData.tasksData.showHowBusyWeek
+    storeContext.tasksData.tasksData &&
+    cockpitViewOptions.showTasksNumEachDay
+    // tasksContext.tasksData.tasksData.showHowBusyWeek
   ) {
     displayHowBusyThisWeek = (
       <React.Fragment>
         <HowBusyThisWeek
-          showHowBusyThisWeek={howBusyToggle.showTasksNumEachDay}
-          deadline={tasksContext.tasksData.numTasksThisWeek}
+          showHowBusyThisWeek={cockpitViewOptions.showTasksNumEachDay}
+          deadline={storeContext.tasksData.numTasksThisWeek}
         />
       </React.Fragment>
     );
   }
+
+  let displayShowTimeBudgetForWeek = null;
+  if (cockpitViewOptions.showTimeBudgetForWeek) {
+    displayShowTimeBudgetForWeek = <WeeklyTimeBudget />;
+  }
+
   return (
     <React.Fragment>
-      {displayHowBusyThisWeek}
-      <div className="">
+      <div>
         <img
           className={classes.leftCockpitIcon}
           src={require('../../Assets/aptIcon.png')}
@@ -195,14 +177,12 @@ const requestDataHandler = event => {
         <div className="btn-group-toggle d-flex-between" data-toggle="buttons">
           <label className="btn btn-danger m-2 active">
             <button
-              type="radio"
+              // type="radio"
               name="options"
               id="option1"
               autoComplete="off"
               // onClick={props.viewContent}
-              onClick={setHowBusyToggleHandler(event =>
-                requestDataHandler(event)
-              )}
+              onClick={event => requestDataHandler(event)}
               value="0"
             />{' '}
             Click to see # of Tasks/Day
@@ -210,7 +190,7 @@ const requestDataHandler = event => {
 
           <label className="btn btn-danger m-2 active">
             <button
-              type="radio"
+              // type="radio"
               name="options"
               id="option1"
               autoComplete="off"
@@ -223,14 +203,15 @@ const requestDataHandler = event => {
               // }
               // value="0"
             />{' '}
-            Click to see # of Tasks/Day
+            Click to see Time Budget For Week
           </label>
         </div>
-        <button>Click to see # of Tasks/Day</button>
-        <br></br>
-        <br></br>
 
-        {howBusyToggle.showTasksNumEachDay ? (
+        <br></br>
+        <br></br>
+        {displayHowBusyThisWeek}
+        {displayShowTimeBudgetForWeek}
+        {cockpitViewOptions.showTasksNumEachDay ? (
           <React.Fragment>
             <Template />
 
@@ -246,4 +227,6 @@ const requestDataHandler = event => {
       </div>
     </React.Fragment>
   );
-}
+};
+
+export default React.memo(Cockpit);

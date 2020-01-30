@@ -6,7 +6,7 @@ import SyllabusContext from '../../context/syllabusContext';
 import RightCockpitContext from '../../context/RightCockpitContext';
 import { set } from 'date-fns';
 import MaxReactSyllabus from './SyllabusData';
-
+import StoreDataContext from '../../context/StoreDataContext';
 class NewSyllabus extends Component {
   constructor(props) {
     super(props);
@@ -64,7 +64,7 @@ class NewSyllabus extends Component {
   };
 
   static contextType = RightCockpitContext;
-  static contextType = SyllabusContext;
+  static contextType = StoreDataContext;
 
   render() {
     //console.log(JSON.stringify(this.props.maxReactWork, null, 2));

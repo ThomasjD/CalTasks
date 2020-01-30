@@ -3,7 +3,8 @@ import numToDay from '../Calendar/numToDay';
 import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
 import ReactDatePicker from '../Calendar/ReactDatePicker';
 //import RightCockpitContext from '../../context/RightCockpitContext';
-import TasksDataContext from '../../context/tasksContext';
+
+import StoreDataContext from '../../context/StoreDataContext';
 import Icon from '../Calendar/Icon';
 import { Form, Input, FormGroup, Container, Label } from 'reactstrap';
 import 'react-dates/initialize';
@@ -194,8 +195,8 @@ class NewEvent extends Component {
       eventType: e.target.value
     });
   };
-  //static contextType = TasksDataContext;
-  static contextType = TasksDataContext;
+
+  static contextType = StoreDataContext;
 
   render() {
     return (

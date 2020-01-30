@@ -79,12 +79,7 @@ class DailyTimeBudget extends Component {
   };
 
   render() {
-    // alert(this.props.pickedDay);
-
-    // let Monday = { ...this.dailyBudget };
-    // // console.dir(Monday['Monday']);
-    // let workMonday = { ...this.dailyBudget.Monday };
-    // let workWork = { ...workMonday };
+    
     let dynamicDisableMoreBtn = null;
     if (this.props.pickedDay) {
       dynamicDisableMoreBtn = true;

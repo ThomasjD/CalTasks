@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import ErrorBoundary from './../../ErrorBoundary/ErrorBoundary';
 import student from './../../../containers/Student.css';
 import Syllabus from './Syllabus';
-import SyllabusContext from './../../../context/syllabusContext';
+//import SyllabusContext from './../../../context/syllabusContext';
+import StoreContext from '../../../context/StoreDataContext';
 
 class Syllabi extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class Syllabi extends Component {
   state = {
     clickToAddDelete: null
   };
-  static contextType = SyllabusContext;
+  static contextType = StoreContext;
   // shouldComponentUpdate(nextProps, nextState) {
   //   console.log('[maxReact Lessons.js] shouldComponentUpdate');
   //   if (nextProps.lessonsLength !== this.props.lessonsLength) {

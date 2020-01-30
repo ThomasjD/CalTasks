@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 //import classes from '../../components/Cockpit/Cockpit.module.css';
 import RightCockpit from '../RightCockpit/RightCockpit';
-import TasksContext from '../../context/tasksContext';
+//import TasksContext from '../../context/tasksContext';
 import calendarObj from '../../components/Calendar/calendarObj';
+import StoreContext from '../../context/StoreDataContext';
 
 class TasksData extends Component {
   state = {
@@ -155,18 +156,18 @@ class TasksData extends Component {
     //     assignedTimeStart: '',
     //     assignedTimeStop: '',
     //     assignedDate: ''
+    //   },
+    //   {
+    //     id: 'evening4',
+    //     timeOfDay: 'evening',
+    //     task: 'play ball',
+    //     deadline: 'Jueves',
+    //     category: 'Laureles',
+    //     assignedTimeStart: '',
+    //     assignedTimeStop: '',
+    //     assignedDate: ''
     //   }
-    // {
-    //   id: 'evening4',
-    //   timeOfDay: 'evening',
-    //   task: 'play ball',
-    //   deadline: 'Jueves',
-    //   category: 'Laureles',
-    //   assignedTimeStart: '',
-    //   assignedTimeStop: '',
-    //   assignedDate: ''
-    // }
-    //],
+    // ],
     Friday: [
       {
         id: 'morning5',
@@ -261,17 +262,18 @@ class TasksData extends Component {
     word: 'red',
     reRenderTasks: false
   };
-
+  static contextType = StoreContext;
   lastTaskHeaderHandler = () => {
     switch (this.context.dataRequestDetails.handlerChoice) {
       case '1':
         if (this.state.unAssignedTasksForWeek.length != 0) {
-          //alert(`Inside of lastTaskHeaderHandler if statement:`);
+          // alert(`Inside of lastTaskHeaderHandler if statement:`);
           this.setState(
             { lastTaskHeader: this.state.unAssignedTasksForWeek[0] },
 
             () => this.context.dataReceiverHandler(this.state)
           );
+          // alert(`Inside of lastTaskHeaderHandler after setState :`);
         } else {
           //alert(`Inside of lastTaskHeaderHandler else statement:`);
           this.setState(
@@ -286,7 +288,6 @@ class TasksData extends Component {
       case '2':
         //alert(`Inside of lastTaskHeaderHandler case 2 if statement:`);
         let today = this.context.dataRequestDetails.dataLocation;
-        //alert(`inside case 2 LastTaskHeadre today: ${today}`);
 
         if (this.state[today].length != 0) {
           //alert(`Inside of lastTaskHeaderHandler case 2 if statement:`);
@@ -299,10 +300,14 @@ class TasksData extends Component {
           // alert(`Inside of lastTaskHeaderHandler case 2 else statement:`);
           this.setState(
             { TodayTasksHeader: this.state.TodayTasksHeader },
-
+            // () => console.log(this.state)
             () => this.context.dataReceiverHandler(this.state)
           );
         }
+        // alert(
+        //   `inside tasksData  TodayTasksHeader: ${this.state.TodayTasksHeader}`
+        // );
+
         break;
       case '9':
         let pickedDay = this.context.dataRequestDetails.dataLocation;
@@ -312,14 +317,15 @@ class TasksData extends Component {
         // );
         if (!this.state[pickedDay]) {
           let chair = this.state[pickedDay]; //[]
-          alert(pickedDay);
-          alert(
-            `Inside of lastTaskHeaderHandler case 2 if statement: ${chair}`
-          );
+          // alert(pickedDay);
+          // alert(
+          //   `Inside of lastTaskHeaderHandler case 2 if statement: ${chair}`
+          // );
 
           this.setState(
             {
-              pickedDayTasksHeader: this.state[pickedDay][0],
+              pickedDayTasksHeader: this.state.Friday[0],
+              // pickedDayTasksHeader: this.state.Monday[0],
               dataLocation: this.context.dataRequestDetails.dataLocation
             },
 
@@ -453,15 +459,30 @@ class TasksData extends Component {
     );
   };
   showHowBusyEverydayHandler = () => {
-    let numTasksThisWeek = {
-      Monday: this.state.Monday.length,
-      Tuesday: this.state.Tuesday.length,
-      Wednesday: this.state.Wednesday.length,
-      Thursday: this.state.Thursday.length,
-      Friday: this.state.Friday.length,
-      Saturday: this.state.Saturday.length,
-      Sunday: this.state.Sunday.length
-    };
+    let daysOfWeek = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
+    ];
+
+    let numTasksThisWeek = {};
+    daysOfWeek.map(day => {
+      let numberOfTaskForDay = 0;
+      if (this.state[day]) {
+        numberOfTaskForDay = this.state[day].length;
+        // alert(numberOfTaskForDay);
+      }
+      let currentNumTasksThisWeek = {
+        ...numTasksThisWeek,
+        [day]: numberOfTaskForDay
+      };
+
+      numTasksThisWeek = currentNumTasksThisWeek;
+    });
 
     this.setState(
       { numTasksThisWeek: numTasksThisWeek, showHowBusyWeek: true },
@@ -470,7 +491,6 @@ class TasksData extends Component {
   };
 
   newEventHandler = value => {
-    // alert(`inside TasksData newEventHandler() value: ${value.eventTitle}`);
     let newEvent = this.context.dataRequestDetails.value;
     let startTimeDate = this.context.dataRequestDetails.value.startTimeDate;
 
@@ -582,8 +602,6 @@ class TasksData extends Component {
     //   }
     // }
   };
-
-  static contextType = TasksContext;
 
   render() {
     //need to put back this.context.

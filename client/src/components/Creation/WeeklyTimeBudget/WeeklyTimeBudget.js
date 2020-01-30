@@ -212,85 +212,88 @@ class weeklyTimeBudget extends Component {
         }
       );
     }
+    let PickDaysOfWeekTimeBudget = (
+      <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
+        <button
+          type="button"
+          className="btn btn-secondary mr-2 dropdown-item"
+          value="Monday"
+          onClick={event => this.pickDayHandler(event)}
+        >
+          Monday
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary mr-2 dropdown-item"
+          value="Tuesday"
+          onClick={event => this.pickDayHandler(event)}
+        >
+          Tuesday
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary mr-2 dropdown-item"
+          value="Wednesday"
+          onClick={event => this.pickDayHandler(event)}
+        >
+          Wednesday
+        </button>
 
+        <button
+          type="button"
+          className="btn btn-secondary mr-2 dropdown-item"
+          value="Thursday"
+          onClick={event => this.pickDayHandler(event)}
+        >
+          Thursday
+        </button>
+
+        <button
+          type="button"
+          className="btn btn-secondary mr-2 dropdown-item"
+          value="Friday"
+          onClick={event => this.pickDayHandler(event)}
+        >
+          Friday
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary mr-2 dropdown-item"
+          value="Saturday"
+          onClick={event => this.pickDayHandler(event)}
+        >
+          Saturday
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary mr-2 dropdown-item"
+          value="Sunday"
+          onClick={event => this.pickDayHandler(event)}
+        >
+          Sunday
+        </button>
+      </div>
+    );
     return (
       <React.Fragment>
-        <div className="btn-group mb-2" role="group" aria-label="Basic example">
+        <label className="btn  dropdown m-2 active">
           <button
+            className="btn btn-success dropdown-toggle"
             type="button"
-            className="btn btn-secondary mr-2"
-            value="Monday"
-            onClick={event => this.pickDayHandler(event)}
+            id="dropdownMenu2"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
           >
-            Monday
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary mr-2"
-            value="Tuesday"
-            onClick={event => this.pickDayHandler(event)}
-          >
-            Tuesday
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary mr-2"
-            value="Wednesday"
-            onClick={event => this.pickDayHandler(event)}
-          >
-            Wednesday
+            Pick Day to edit Time Budget
           </button>
 
-          <button
-            type="button"
-            className="btn btn-secondary mr-2"
-            value="Thursday"
-            onClick={event => this.pickDayHandler(event)}
-          >
-            Thursday
-          </button>
+          {PickDaysOfWeekTimeBudget}
+        </label>
 
-          <button
-            type="button"
-            className="btn btn-secondary mr-2"
-            value="Friday"
-            onClick={event => this.pickDayHandler(event)}
-          >
-            Friday
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary mr-2"
-            value="Saturday"
-            onClick={event => this.pickDayHandler(event)}
-          >
-            Saturday
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary mr-2"
-            value="Sunday"
-            onClick={event => this.pickDayHandler(event)}
-          >
-            Sunday
-          </button>
-        </div>
-
-        <div className={classes.WeeklyTimeBudget}>
-          <div className="container">
-            <div className="col-lg-8 order-0 float-left align-left">
-              <h3 className="">Time Budget for Week</h3>
-              {displayDailyTimeBudget}
-            </div>
-            <div className="col-lg-4 order-1 float-left">
-              <h4>
-                {this.state.pickedDay ? (
-                  <div>{this.state.pickedDay}</div>
-                ) : null}
-              </h4>
-              {/* {displayPickedDay} */}
-            </div>
-          </div>
+        <div>
+          <h3 className="">Time Budget for Week</h3>
+          {displayDailyTimeBudget}
         </div>
       </React.Fragment>
     );
@@ -298,3 +301,4 @@ class weeklyTimeBudget extends Component {
 }
 
 export default weeklyTimeBudget;
+//className={classes.WeeklyTimeBudget}

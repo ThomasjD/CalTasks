@@ -2,11 +2,12 @@ import React, { PureComponent } from 'react';
 import Task from './Task/Task';
 import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary';
 import student from '../../../containers/Student.css';
-import TasksContext from '../../../context/tasksContext';
 import statusClasses from './Tasks.module.css'; //changes color of text depending on # of unscheduled tasks left
 import Aux from '../../../hoc/Aux';
 import PropTypes from 'prop-types';
 import calendarObj from '../../Calendar/calendarObj';
+import StoreContext from '../../../context/StoreDataContext';
+
 class Tasks extends PureComponent {
   constructor(props) {
     super(props);
@@ -222,7 +223,7 @@ class Tasks extends PureComponent {
     });
   };
 
-  static contextType = TasksContext;
+  static contextType = StoreContext;
 
   render() {
     //applying styling to text basing on amount of unscheduled Tasks
