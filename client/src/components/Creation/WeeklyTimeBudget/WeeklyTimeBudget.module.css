@@ -1,12 +1,12 @@
 .WeeklyTimeBudget {
-  width: 70%;
+  width: 80%;
   background-color: #88a5c0;
   display: flex;
   flex-flow: column;
   align-items: center;
   box-shadow: 0 2px 1px #ccc;
-  margin: auto;
-  padding: 10px 0;
+  margin: 0px;
+  padding: 0px 0px;
 }
 
 .PickDay2 {

@@ -375,13 +375,15 @@ class Syllabus extends Component {
   };
 
   render() {
-    let {
-      typeOfData,
-      handlerChoice,
-      dataLocation,
-      infoType,
-      value
-    } = this.context.dataRequestDetails;
+    if (this.context.dataRequestDetails) {
+      let {
+        typeOfData,
+        handlerChoice,
+        dataLocation,
+        infoType,
+        value
+      } = this.context.dataRequestDetails;
+    }
 
     if (this.context.dataRequestDetails.typeOfData === 'syllabus') {
       switch (this.context.dataRequestDetails.handlerChoice) {

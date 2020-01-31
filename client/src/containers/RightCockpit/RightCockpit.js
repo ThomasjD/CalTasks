@@ -11,9 +11,10 @@ import DatePickerPicker from './DatePicker.js';
 
 //import Layout from '../../hoc/Layout';
 import NewEvent from '../../components/Creation/NewEvent';
-import RightCockpitContext from '../../context/RightCockpitContext';
+
 import WeeklyTimeBudget from '../../components/Creation/WeeklyTimeBudget/WeeklyTimeBudget';
 import StoreDataContext from '../../context/StoreDataContext';
+import Modal from '../../components/UI/Modal/Modal';
 
 class RightCockpit extends Component {
   constructor(props) {
@@ -107,14 +108,14 @@ class RightCockpit extends Component {
     let displayCockpit = (
       <div className="container">
         <div className="col-lg-8 order-0 float-left">
-          <div className="card bg-light m-3 p-3 ">
+          <div className="card bg-light m-2 p-1 ">
             <DisplayContent everything={this.state} />
           </div>
         </div>
 
         <div className="row d-flex d-lg-block">
           <div className="col-lg-4 order-1 float-left">
-            <div className="card text-white bg-info m-3 p-3">{leftCockpit}</div>
+            <div className="card text-white bg-info m-1 p-1">{leftCockpit}</div>
           </div>
         </div>
       </div>
@@ -134,7 +135,6 @@ class RightCockpit extends Component {
         {navbar}
         <div className="rightcockpitClasses.deskTop">
           <ViewContentOptions />
-
           {displayCockpit}
         </div>
       </React.Fragment>

@@ -63,7 +63,6 @@ class NewSyllabus extends Component {
     //console.log(`after resetting state ${this.state.contentChoice2}`);
   };
 
-  static contextType = RightCockpitContext;
   static contextType = StoreDataContext;
 
   render() {

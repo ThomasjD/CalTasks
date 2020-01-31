@@ -79,7 +79,6 @@ class DailyTimeBudget extends Component {
   };
 
   render() {
-    
     let dynamicDisableMoreBtn = null;
     if (this.props.pickedDay) {
       dynamicDisableMoreBtn = true;
@@ -129,6 +128,7 @@ class DailyTimeBudget extends Component {
           >
             Less
           </button>
+
           <button
             className={classes.More}
             onClick={this.props.add}

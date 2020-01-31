@@ -12,7 +12,7 @@ import CalendarContext from '../../context/calendarContext';
 import StoreDataContext from '../../context/StoreDataContext';
 import ObjectiveData from './ObjectiveData';
 import UiData from './UiData';
-
+import Modal from '../../components/UI/Modal/Modal';
 class Store extends Component {
   state = {
     contentChoice: '0',
@@ -178,6 +178,7 @@ class Store extends Component {
   };
 
   dataReceiverHandler = dataBase => {
+    console.log(dataBase.dataLocation);
     switch (dataBase.dataBaseName) {
       case 'syllabus':
         //alert(`Inside of dataReceiverHandler syllabus statement:`);
@@ -188,9 +189,10 @@ class Store extends Component {
 
       case 'tasks':
         //alert(`Inside of dataReceiverHandler taskData dataBase: ${dataBase}`);
-        console.log(dataBase);
+        // console.log(dataBase);
         this.setState({
-          tasksData: dataBase
+          tasksData: dataBase,
+          dataLocation: dataBase.dataLocation
         });
 
         break;
@@ -259,8 +261,10 @@ class Store extends Component {
                 }}
               >
                 <SyllabusData></SyllabusData>
-                <UiData></UiData>
-
+                {/* <UiData></UiData> */}
+                {/* <Modal>
+                  <h3>calTech</h3>
+                </Modal> */}
                 <TasksDataContext.Provider
                   value={{
                     crunk: this.state.crunk,

@@ -1,33 +1,57 @@
-import React, { Component } from 'react';
-
+import React, { useContext } from 'react';
+import StoreDataContext from '../../../context/StoreDataContext';
 import classes from './Modal.module.css';
-//import Aux from '../../../hoc/Aux/Aux';
+import Aux from '../../../hoc/Aux';
 //import Backdrop from '../Backdrop/Backdrop';
 
-class Modal extends Component {
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return (
-  //     nextProps.show !== this.props.show ||
-  //     nextProps.children !== this.props.children
+const Modal = props => {
+  const storeDataContext = useContext(StoreDataContext);
+  // let displayModal = null;
+  // if (storeDataContext.contentChoice === '12') {
+  //   displayModal = (
+  //     <Aux>
+  //       <div
+  //         className={classes.Modal}
+  //         //bind style here to something dynamic, needs to be js object
+  //         //If props.show = true
+  //         // -transform to translateY(0)
+  //         // -which is the position defined in css,
+
+  //         style={{
+  //           //set transform property -> vh = viewport (slide it outside of the screen)
+  //           transform: props.show ? 'translateY(0)' : 'translateY(-100vh)',
+  //           opacity: props.show ? '1' : '0' //is show true = opacity 100% if not then 0%
+  //         }}
+  //       >
+  //         {props.children}
+  //       </div>
+  //     </Aux>
   //   );
   // }
-
-  // componentWillUpdate() {
-  //   console.log('[Modal] WillUpdate');
-  // }
-
-  render() {
-    return (
+  return (
+    <Aux>
+      <div>{storeDataContext.contentChoice}</div>
       <div
         className={classes.Modal}
+        //bind style here to something dynamic, needs to be js object
+        //If props.show = true
+        // -transform to translateY(0)
+        // -which is the position defined in css,
+        //set transform property -> vh = viewport (slide it outside of the screen)
+        //is show true = opacity 100% if not then 0%
         style={{
-          transform: this.props.show ? 'translateY(0)' : 'translateY(-100vh)',
-          opacity: this.props.show ? '1' : '0'
+          transform:
+            storeDataContext.contentChoice === '1'
+              ? 'translateY(0)'
+              : 'translateY(-100vh)',
+          opacity: storeDataContext.contentChoice === '1' ? '1' : '0'
         }}
-      ></div>
-    );
-  }
-}
+      >
+        {props.children}
+      </div>
+    </Aux>
+  );
+};
 
 export default Modal;
 

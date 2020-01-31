@@ -119,7 +119,10 @@ class RightCockpit extends Component {
   static contextType = StoreDataContext;
 
   render() {
-    if (this.context.dataRequestDetails.typeOfData === 'UiData') {
+    if (
+      this.context.dataRequestDetails &&
+      this.context.dataRequestDetails.typeOfData === 'UiData'
+    ) {
       switch (this.context.dataRequestDetails.handlerChoice) {
         case '0':
           this.context.resetHandlerChoice(event =>
@@ -138,7 +141,7 @@ class RightCockpit extends Component {
 
     return (
       <React.Fragment>
-        <div>UiData Component</div>
+        {this.context.dataRequestDetails.typeOfData}
       </React.Fragment>
     );
   }

@@ -269,7 +269,10 @@ class TasksData extends Component {
         if (this.state.unAssignedTasksForWeek.length != 0) {
           // alert(`Inside of lastTaskHeaderHandler if statement:`);
           this.setState(
-            { lastTaskHeader: this.state.unAssignedTasksForWeek[0] },
+            {
+              lastTaskHeader: this.state.unAssignedTasksForWeek[0],
+              dataLocation: this.context.dataRequestDetails.dataLocation
+            },
 
             () => this.context.dataReceiverHandler(this.state)
           );
@@ -277,7 +280,10 @@ class TasksData extends Component {
         } else {
           //alert(`Inside of lastTaskHeaderHandler else statement:`);
           this.setState(
-            { lastTaskHeader: this.state.lastTaskHeader },
+            {
+              lastTaskHeader: this.state.lastTaskHeader,
+              dataLocation: this.context.dataRequestDetails.dataLocation
+            },
 
             () => this.context.dataReceiverHandler(this.state)
           );
@@ -379,8 +385,10 @@ class TasksData extends Component {
     this.setState(
       {
         unAssignedTasksForWeek: currentUnassignedTasksForWeek,
-        receivedData: 'YES'
+        receivedData: 'YES',
+        dataLocation: 'unAssignedTasksForWeek'
       },
+
       () => this.context.dataReceiverHandler(this.state)
     );
   };
@@ -606,7 +614,10 @@ class TasksData extends Component {
   render() {
     //need to put back this.context.
 
-    if (this.context.dataRequestDetails.typeOfData === 'events') {
+    if (
+      this.context.dataRequestDetails &&
+      this.context.dataRequestDetails.typeOfData === 'events'
+    ) {
       switch (this.context.dataRequestDetails.handlerChoice) {
         case '1': //new Event
           // alert(

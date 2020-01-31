@@ -26,11 +26,18 @@ class Tasks extends PureComponent {
     // let value = '';
     let dataRequestMessage = {};
     let today = calendarObj();
-    switch (StoreContext.contentChoice) {
+    switch (this.context.contentChoice) {
       case '1':
+        // alert(
+        //   `dataLocation: ${JSON.stringify(
+        //     this.context.dataRequestDetails.dataLocation
+        //   )}`
+        // );
+        console.log(this.context.tasksData.dataLocation);
+
         typeOfData = 'tasks';
         handlerChoice = '3';
-        dataLocation = this.context.dataRequestDetails.dataLocation;
+        dataLocation = this.context.tasksData.tasksData.dataLocation;
         infoType = 'index';
         //info = '';
         break;
@@ -71,7 +78,7 @@ class Tasks extends PureComponent {
 
     // let value = '';
     let dataRequestMessage = {};
-    switch (StoreContext.contentChoice) {
+    switch (this.context.contentChoice) {
       case '1':
         typeOfData = 'tasks';
         handlerChoice = '4';
@@ -140,7 +147,7 @@ class Tasks extends PureComponent {
 
         //destructuring
         // const { id, name, age, email } = student;
-        if (StoreContext.contentChoice === '1') {
+        if (this.context.contentChoice === '1') {
           functionChoiceDelete = '3';
           functionChoiceChange = '4';
         } else {
@@ -226,6 +233,7 @@ class Tasks extends PureComponent {
 
   render() {
     //applying styling to text basing on amount of unscheduled Tasks
+    console.log(this.context.tasksData.dataLocation);
     let workLoadStatus = null;
     if (this.context.tasksData.tasksData.unAssignedTasksForWeek) {
       switch (this.context.tasksData.tasksData.unAssignedTasksForWeek.length) {
