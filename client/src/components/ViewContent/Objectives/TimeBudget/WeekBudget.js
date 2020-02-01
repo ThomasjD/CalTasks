@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-//import DailyTimeBudget from '../DailyTimeBudget/DailyTimeBudget';
-import DailyTimeBudget from '../../../containers/Store/ObjectiveData';
-import classes from './WeeklyTimeBudget.module.css';
-import StoreDataContext from '../../../context/StoreDataContext';
+import WeeklyTimeBudget from '../../../../containers/Store/ObjectiveData';
+
+import classes from './WeekTimeBudget.module.css';
+import StoreDataContext from '../../../../context/StoreDataContext';
+
 //import classes2 from '../DailyTimeBudget/DailyTimeBudget.module.css';
 
 //each day have a predetermined amt of time for each category
@@ -14,7 +15,7 @@ import StoreDataContext from '../../../context/StoreDataContext';
 class weeklyTimeBudget extends Component {
   constructor(props) {
     super(props);
-    this.thisWeek = new DailyTimeBudget();
+    this.thisWeek = new WeeklyTimeBudget();
     this.thisWeek.timeBudgetDay();
     this.state = {
       activityWeekCategories: this.thisWeek.activityWeekCategories,
@@ -145,7 +146,7 @@ class weeklyTimeBudget extends Component {
           }
         }
         return (
-          <DailyTimeBudget
+          <PickedDayBudget
             key={eachCategory.concat(eachCategory)}
             activity={eachCategory}
             hours={this.state.activityWeekCategories[eachCategory]}
@@ -185,7 +186,7 @@ class weeklyTimeBudget extends Component {
           }
 
           return (
-            <DailyTimeBudget
+            <PickedDayBudget
               key={eachCategory.concat(eachCategory)}
               activity={eachCategory}
               hours={foundDayBudget[eachCategory]}

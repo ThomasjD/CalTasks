@@ -42,9 +42,11 @@ const DisplayContent = props => {
       displayContent = (
         <React.Fragment>
           {storeDataContext.tasksData.tasksData ? (
-            <div>
-              <Tasks />
-            </div>
+            <Modal>
+              <div>
+                <Tasks />
+              </div>
+            </Modal>
           ) : null}
                                  
         </React.Fragment>

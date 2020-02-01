@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import StoreDataContext from '../../../context/StoreDataContext';
 import classes from './Modal.module.css';
 import Aux from '../../../hoc/Aux';
-//import Backdrop from '../Backdrop/Backdrop';
+import Backdrop from '../Backdrop/Backdrop';
 
 const Modal = props => {
   const storeDataContext = useContext(StoreDataContext);
@@ -30,7 +30,8 @@ const Modal = props => {
   // }
   return (
     <Aux>
-      <div>{storeDataContext.contentChoice}</div>
+      {/* <div>{storeDataContext.contentChoice}</div> */}
+      <Backdrop />
       <div
         className={classes.Modal}
         //bind style here to something dynamic, needs to be js object
