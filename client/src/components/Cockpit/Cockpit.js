@@ -5,7 +5,8 @@ import classes from './Cockpit.module.css';
 import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
 import Template from '../../Template/Template';
 import HowBusyThisWeek from './HowBusyThisWeek/HowBusyThisWeek';
-import WeeklyTimeBudget from '../Creation/WeeklyTimeBudget/WeeklyTimeBudget';
+//import WeeklyTimeBudget from '../Creation/WeeklyTimeBudget/WeeklyTimeBudget';
+import WeeklyTimeBudget from '../ViewContent/Objectives/TimeBudget/WeeklyTimeBudget';
 import StoreContext from '../../context/StoreDataContext';
 
 const Cockpit = props => {

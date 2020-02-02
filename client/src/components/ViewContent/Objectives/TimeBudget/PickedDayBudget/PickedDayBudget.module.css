@@ -1,0 +1,75 @@
+.DailyTimeBudget {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin: 0; */
+  /* padding: 1px 0px; */
+}
+
+.DailyTimeBudget button {
+  display: block;
+  font: inherit;
+  padding: 1px 0;
+  margin: 0 1px;
+  width: 50px;
+  border: 1px solid #47326e;
+  cursor: pointer;
+  outline: none;
+}
+
+.DailyTimeBudget button:disabled {
+  background-color: #0395d8;
+  border: 1px solid #7e7365;
+  color: #ccc;
+  cursor: default;
+}
+
+.DailyTimeBudget button:hover:disabled {
+  background-color: #f40a0a;
+  color: #ccc;
+  cursor: not-allowed;
+}
+.Activity {
+  font-size: 15px;
+  align-items: center;
+  background-color: #9cf5fc;
+  padding: 3px 0px;
+  margin: 1px 1px;
+  font-weight: bold;
+  border: 1px solid #90f1ed;
+  width: 120px;
+  color: black;
+}
+.ActivityHours {
+  font-size: 15px;
+  align-items: center;
+  background-color: #9cf5fc;
+  padding: 3px 1px;
+  margin: 1px 10px;
+  font-weight: bold;
+  border: 1px solid #90f1ed;
+  width: 40px;
+  color: black;
+}
+
+.DailyTimeBudget .Less {
+  background-color: #2a8f3f;
+  color: white;
+}
+
+.DailyTimeBudget .More {
+  background-color: #097fe7;
+  color: white;
+}
+
+.DailyTimeBudget .Less:hover,
+.DailyTimeBudget .Less:active {
+  background-color: #55aa4d;
+  color: white;
+}
+
+.DailyTimeBudget .More:hover,
+.DailyTimeBudget .More:active {
+  background-color: #df8a0c;
+  color: white;
+}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import StoreDataContext from '../context/StoreDataContext';
 
 class ObjectiveData extends Component {
   constructor(props) {
@@ -53,14 +54,29 @@ class ObjectiveData extends Component {
   }
 
   state = {};
+  dataForDisplay = () => {
+    this.setState(
+      {
+        dataBudget: this.state.unAssignedTasksForWeek[0]
+        // ,
+        // dataLocation: this.context.dataRequestDetails.dataLocation
+      },
 
+      () => this.context.dataReceiverHandler(this.state)
+    );
+  };
+  static contextType = StoreDataContext;
   render() {
-    // if (this.context.dataRequestDetails.typeOfData === 'obj') {
-    //   switch (this.context.dataRequestDetails.handlerChoice) {
-    //     case '1':
-    //       break;
-    //   }
-    // }
+    if (this.context.dataRequestDetails.typeOfData === 'obj') {
+      switch (this.context.dataRequestDetails.handlerChoice) {
+        case '1': //show picked day timeBudget
+          this.context.dataReceiverHandler(this.state);
+
+          break;
+        case '2': //show picked day timeBudget
+          break;
+      }
+    }
     return <div>Inside of ObjData </div>;
   }
 }

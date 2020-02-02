@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-//import classes from './DailyTimeBudget.module.css';
-import StoreDataContext from '../../../../context/StoreDataContext';
+import classes from './PickedDayBudget.module.css';
+import StoreDataContext from '../../../../../context/StoreDataContext';
 
 class PickedDayBudget extends Component {
   TimeBudgetPickedDay = () => {
