@@ -66,11 +66,11 @@ class Store extends Component {
   };
 
   dataRequestHandler = (event, dataRequestMessage) => {
-    // alert(` in Store dataRequestHandler-->  typeOfData: ${dataRequestMessage.typeOfData}
-    // handlerChoice: ${dataRequestMessage.handlerChoice}
-    // dataLocation: ${dataRequestMessage.dataLocation}
-    // infoType: ${dataRequestMessage.infoType}
-    // info: ${dataRequestMessage.info}`);
+    alert(` in Store dataRequestHandler-->  typeOfData: ${dataRequestMessage.typeOfData}
+    handlerChoice: ${dataRequestMessage.handlerChoice}
+    dataLocation: ${dataRequestMessage.dataLocation}
+    infoType: ${dataRequestMessage.infoType}
+    info: ${dataRequestMessage.info}`);
     let {
       typeOfData,
       handlerChoice,
@@ -160,6 +160,7 @@ class Store extends Component {
         break;
 
       case 'obj':
+        alert('inside obj');
         dataRequestDetails = {
           handlerChoice: handlerChoice,
           index: index,
@@ -192,6 +193,13 @@ class Store extends Component {
         // console.log(dataBase);
         this.setState({
           tasksData: dataBase,
+          dataLocation: dataBase.dataLocation
+        });
+
+        break;
+      case 'obj':
+        this.setState({
+          dataBudget: dataBase,
           dataLocation: dataBase.dataLocation
         });
 
@@ -237,7 +245,9 @@ class Store extends Component {
 
               //UI
               contentViewHandler: this.contentViewHandler,
-              contentChoice: this.state.contentChoice
+              contentChoice: this.state.contentChoice,
+              //ObjectiveData
+              dataBudget: this.state
             }}
           >
             <CalendarContext.Provider
@@ -249,7 +259,7 @@ class Store extends Component {
                 dataReceiverHandler: this.dataReceiverHandler
               }}
             >
-              {/* <ObjectiveData /> */}
+              <ObjectiveData />
 
               <SyllabusContext.Provider
                 value={{

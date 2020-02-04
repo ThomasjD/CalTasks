@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import StoreDataContext from '../context/StoreDataContext';
+import StoreDataContext from '../../context/StoreDataContext';
 
 class ObjectiveData extends Component {
   constructor(props) {
@@ -37,9 +37,11 @@ class ObjectiveData extends Component {
       Sunday: {}
     };
     this.dailyBudget = {};
+    this.firstTimeLoad = true;
 
     //create a seperate object that contains activityCategories
     this.timeBudgetDay = () => {
+      //alert('inside Objective Data timeBudgetDay()');
       Object.keys(this.daysOfWeek).map(day => {
         //give each day the categories w/ hours
         console.log(day);
@@ -53,27 +55,60 @@ class ObjectiveData extends Component {
     };
   }
 
-  state = {};
+  state = {
+    dataBaseName: 'obj',
+    firstTimeData: true,
+    dailyBudget: null,
+    activityWeekCategories: null
+  };
   dataForDisplay = () => {
+    this.timeBudgetDay();
     this.setState(
       {
-        dataBudget: this.state.unAssignedTasksForWeek[0]
-        // ,
-        // dataLocation: this.context.dataRequestDetails.dataLocation
+        dataLocation: 'new'
       },
 
       () => this.context.dataReceiverHandler(this.state)
     );
   };
+
+  pickedDayHandler = () => {
+    let pickedDay = this.context.dataRequestDetails.info;
+    this.setState({ pickedDay: pickedDay }, () =>
+      this.context.dataReceiverHandler(this.state)
+    );
+  };
+  initialRun = () => {
+    this.setState({
+      dailyBudget: this.dailyBudget,
+      activityWeekCategories: this.activityDayCategories,
+      firstTimeData: !this.state.firstTimeData
+    });
+  };
   static contextType = StoreDataContext;
   render() {
-    if (this.context.dataRequestDetails.typeOfData === 'obj') {
+    console.log(this.context.dataRequestDetails.handlerChoice);
+    if (this.state.firstTimeData) {
+      this.initialRun(this.timeBudgetDay());
+    }
+
+    if (
+      !this.state.firstTimeData &&
+      this.context.dataRequestDetails.typeOfData === 'obj'
+    ) {
+      //alert(this.context.dataRequestDetails.handlerChoice);
+
       switch (this.context.dataRequestDetails.handlerChoice) {
         case '1': //show picked day timeBudget
-          this.context.dataReceiverHandler(this.state);
+          alert(
+            `inside case 1 this.context.dataRequestDetails.handlerChoice: ${this.context.dataRequestDetails.handlerChoice}`
+          );
+          this.context.resetHandlerChoice(this.dataForDisplay());
 
           break;
         case '2': //show picked day timeBudget
+          this.context.resetHandlerChoice(() => this.pickedDayHandler());
+
           break;
       }
     }

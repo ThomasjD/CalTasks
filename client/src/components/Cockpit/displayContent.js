@@ -14,8 +14,10 @@ import Syllabi from '../ViewContent/Syllabus/Syllabi';
 import PickedDayTasks from '../ViewContent/PickedDayTasks/PickedDayTasks';
 import SyllabiList from '../ViewContent/Syllabus/SyllabiList';
 import DisplayPickedSyllabus from '../ViewContent/Syllabus/displayPickedSyllabus';
+import PickedDayBudget from '../ViewContent/Objectives/TimeBudget/PickedDayBudget/PickedDayBudget';
 //import TimeBudgetForWeek from '../';
 import Modal from '../../components/UI/Modal/Modal';
+
 const DisplayContent = props => {
   const storeDataContext = useContext(StoreDataContext);
 
@@ -165,7 +167,9 @@ const DisplayContent = props => {
     case '12': //Show Modal
       displayContent = (
         <React.Fragment>
-          <Modal></Modal>
+          <div>inside displaycontent</div>
+          <PickedDayBudget />
+          {/* <Modal></Modal> */}
         </React.Fragment>
       );
       break;

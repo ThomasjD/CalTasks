@@ -91,7 +91,7 @@ const Cockpit = props => {
     let infoType = ''; //string: index/id/
     let info = ''; //string: actual info
     //let today = calendarObj();
-
+    let dataRequestMessage = null;
     switch (viewOptionChoice) {
       case '0': //Unscheduled Tasks for Week
         let currentShowTasksNumEachDay = cockpitViewOptions.showTasksNumEachDay;
@@ -105,7 +105,7 @@ const Cockpit = props => {
         infoType = 'howBusy';
         info = null;
         //contentChoice = '7';
-        let dataRequestMessage = {
+        dataRequestMessage = {
           typeOfData: typeOfData,
           handlerChoice: handlerChoice,
           dataLocation: dataLocation,
@@ -118,10 +118,24 @@ const Cockpit = props => {
       case '1': //TimeBudget for Week
         let currentShowTimeBudgetForWeek =
           cockpitViewOptions.showTimeBudgetForWeek;
-        setCockpitViewOptions({
-          showTimeBudgetForWeek: !currentShowTimeBudgetForWeek,
-          showTasksNumEachDay: cockpitViewOptions.showTasksNumEachDay
-        });
+        dataRequestMessage = {
+          typeOfData: 'obj',
+          handlerChoice: '1',
+          dataLocation: '',
+          infoType: '',
+          info: ''
+        };
+        setCockpitViewOptions(
+          {
+            showTimeBudgetForWeek: !currentShowTimeBudgetForWeek,
+            showTasksNumEachDay: cockpitViewOptions.showTasksNumEachDay
+          },
+          alert(
+            `dataRequestMessage: ${dataRequestMessage.typeOfData} dataRequestMessage.handlerChoice: ${dataRequestMessage.handlerChoice}`
+          )
+          // () => storeContext.dataRequestHandler(event, dataRequestMessage)
+        );
+
         //reconnect to UiData after forming universal Store
         // contentChoice = '12';
         // let contentViewObject = {
@@ -159,7 +173,10 @@ const Cockpit = props => {
   }
 
   let displayShowTimeBudgetForWeek = null;
-  if (cockpitViewOptions.showTimeBudgetForWeek) {
+  if (
+    cockpitViewOptions.showTimeBudgetForWeek &&
+    storeContext.dataBudget.dataBudget
+  ) {
     displayShowTimeBudgetForWeek = <WeeklyTimeBudget />;
   }
 
