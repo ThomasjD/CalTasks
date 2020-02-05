@@ -74,7 +74,10 @@ const Cockpit = props => {
     showTasksNumEachDay: false,
     showTimeBudgetForWeek: false
   });
-
+  const [timeBudget, setTimeBudget] = useState({
+    dailyBudget: false,
+    activityDayCategories: false
+  });
   const setHowBusyToggleHandler = () => {
     let currentToggleStatus = cockpitViewOptions.showTasksNumEachDay;
     setCockpitViewOptions({
@@ -129,10 +132,10 @@ const Cockpit = props => {
           {
             showTimeBudgetForWeek: !currentShowTimeBudgetForWeek,
             showTasksNumEachDay: cockpitViewOptions.showTasksNumEachDay
-          },
-          alert(
-            `dataRequestMessage: ${dataRequestMessage.typeOfData} dataRequestMessage.handlerChoice: ${dataRequestMessage.handlerChoice}`
-          )
+          }
+          // alert(
+          //   `dataRequestMessage: ${dataRequestMessage.typeOfData} dataRequestMessage.handlerChoice: ${dataRequestMessage.handlerChoice}`
+          // )
           // () => storeContext.dataRequestHandler(event, dataRequestMessage)
         );
 
@@ -155,6 +158,15 @@ const Cockpit = props => {
 
     //props.contentViewHandler(contentViewObject);
   };
+
+  const ReceivedState = (dailyBudget, activityDayCategories) => {
+    setTimeBudget({
+      dailyBudget: dailyBudget,
+      activityDayCategories: activityDayCategories
+      // showHowBusyThisWeek: cockpitViewOptions.showHowBusyThisWeek,
+      // deadline: cockpitViewOptions.deadline
+    });
+  };
   let displayHowBusyThisWeek = null;
 
   if (
@@ -172,13 +184,34 @@ const Cockpit = props => {
     );
   }
 
+  // const [cockpitViewOptions, setCockpitViewOptions] = useState({
+
   let displayShowTimeBudgetForWeek = null;
   if (
-    cockpitViewOptions.showTimeBudgetForWeek &&
-    storeContext.dataBudget.dataBudget
+    storeContext.dataBudget &&
+    storeContext.dataBudget.dataBudget &&
+    cockpitViewOptions.showTimeBudgetForWeek
   ) {
+    let dataBudget = { ...storeContext.dataBudget };
+    let dataBudget2 = dataBudget.dataBudget;
+    let dataBudget3 = { ...dataBudget2 };
+    let dailyBudgetObj = dataBudget3.dailyBudget;
+    let activityDayCategoriesObj = dataBudget3.activityDayCategories;
+    let dailyBudget = { ...dailyBudgetObj };
+    let activityDayCategories = { ...activityDayCategoriesObj };
+    let tuesdayObj = dailyBudget.Tuesday;
+    let Tuesday = { ...tuesdayObj };
+    // alert(
+    //   `Inside Cockpit ready to show displayShowTimeBudgetForWeek Tuesday.sleep: ${Tuesday.sleep}`
+    // );
+
+    // return ReceivedState(dailyBudget, activityDayCategories);
     displayShowTimeBudgetForWeek = <WeeklyTimeBudget />;
   }
+
+  // if (timeBudget.dailyBudget) {
+  //   displayShowTimeBudgetForWeek = <WeeklyTimeBudget />;
+  // }
 
   return (
     <React.Fragment>

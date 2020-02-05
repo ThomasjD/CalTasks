@@ -66,11 +66,11 @@ class Store extends Component {
   };
 
   dataRequestHandler = (event, dataRequestMessage) => {
-    alert(` in Store dataRequestHandler-->  typeOfData: ${dataRequestMessage.typeOfData}
-    handlerChoice: ${dataRequestMessage.handlerChoice}
-    dataLocation: ${dataRequestMessage.dataLocation}
-    infoType: ${dataRequestMessage.infoType}
-    info: ${dataRequestMessage.info}`);
+    // alert(` in Store dataRequestHandler-->  typeOfData: ${dataRequestMessage.typeOfData}
+    // handlerChoice: ${dataRequestMessage.handlerChoice}
+    // dataLocation: ${dataRequestMessage.dataLocation}
+    // infoType: ${dataRequestMessage.infoType}
+    // info: ${dataRequestMessage.info}`);
     let {
       typeOfData,
       handlerChoice,
@@ -87,7 +87,7 @@ class Store extends Component {
     switch (typeOfData) {
       case 'UiData':
         value = info;
-        alert(`inside Store dataRequest typeOfData: UiData value: ${value}`);
+        //alert(`inside Store dataRequest typeOfData: UiData value: ${value}`);
         dataRequestDetails = {
           handlerChoice: handlerChoice,
           index: index,
@@ -160,7 +160,6 @@ class Store extends Component {
         break;
 
       case 'obj':
-        alert('inside obj');
         dataRequestDetails = {
           handlerChoice: handlerChoice,
           index: index,
@@ -179,7 +178,7 @@ class Store extends Component {
   };
 
   dataReceiverHandler = dataBase => {
-    console.log(dataBase.dataLocation);
+    console.log({ ...dataBase });
     switch (dataBase.dataBaseName) {
       case 'syllabus':
         //alert(`Inside of dataReceiverHandler syllabus statement:`);
@@ -198,10 +197,14 @@ class Store extends Component {
 
         break;
       case 'obj':
-        this.setState({
-          dataBudget: dataBase,
-          dataLocation: dataBase.dataLocation
-        });
+        this.setState(
+          {
+            dataBudget: dataBase,
+            dataLocation: dataBase.dataLocation,
+            showDataBudget: true //Cockpit: prevent setState() infinite
+          }
+          //   () => console.log(this.state.dataBudget)
+        );
 
         break;
     }
@@ -221,6 +224,9 @@ class Store extends Component {
 
   render() {
     // Layout wrap displayed
+    console.log(this.state.dataBudget);
+    if (this.state.dataBudget) {
+    }
     return (
       <Aux>
         <Layout>

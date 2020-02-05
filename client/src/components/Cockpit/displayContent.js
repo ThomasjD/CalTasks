@@ -165,10 +165,17 @@ const DisplayContent = props => {
       break;
 
     case '12': //Show Modal
+      if (
+        storeDataContext.dataBudget.dataBudget &&
+        storeDataContext.dataBudget.dataBudget.pickedDay
+      )
+        console.dir(JSON.stringify(storeDataContext.dataBudget.dataBudget));
       displayContent = (
         <React.Fragment>
           <div>inside displaycontent</div>
-          <PickedDayBudget />
+          <PickedDayBudget
+            pickedDay={storeDataContext.dataBudget.dataBudget.pickedDay}
+          />
           {/* <Modal></Modal> */}
         </React.Fragment>
       );

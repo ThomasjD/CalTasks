@@ -2,61 +2,95 @@ import React, { Component } from 'react';
 import classes from './PickedDayBudget.module.css';
 import StoreDataContext from '../../../../../context/StoreDataContext';
 import PickedDayData from '../WeeklyTimeBudget';
-
+import daily from './PickedDayBudget.module.css';
 class PickedDayBudget extends Component {
-  TimeBudgetPickedDay = () => {
-    let pickedDay = this.props.pickedDay;
-    let dailyBudget = this.props.dailyBudget;
-    let foundDayBudget = dailyBudget[pickedDay];
-  };
-
   render() {
-    // let PickedDayDataObj = { ...PickedDayData };
+    let displayDailyTimeBudget = null;
 
-    let PickedDayDataObj = new PickedDayData();
+    let dataBudget = this.context.dataBudget;
 
-    // let newObj = new PickedDayBudget();
-    console.log(PickedDayData.state.word);
+    let dataBudget1 = { ...dataBudget };
+    let dataBudget2 = dataBudget1.dataBudget;
+    let dataBudget3 = { ...dataBudget2 };
+    let pickedDay = dataBudget3.pickedDay;
+    console.log(JSON.stringify(this.context.dataBudget));
+    let dailyBudgetObj = dataBudget3.dailyBudget;
+    let activityWeekCategoriesObj = dataBudget3.activityWeekCategories;
 
-    // let word = null;
-    // if (PickedDayData.word === 'chicken') {
-    //   word = <div>{PickedDayData.word}</div>;
-    // }
-    // let dynamicDisableMoreBtn = null;
-    // if (this.props.pickedDay) {
-    //   dynamicDisableMoreBtn = true;
-    // }
+    let dailyBudget = { ...dailyBudgetObj };
+    let activityWeekCategories = { ...activityWeekCategoriesObj };
 
-    // let displayPickedDay = null;
-    // if (this.props.pickedDay) {
-    //   let activity = this.props.activity;
-    //   let hours = this.props.dailyBudget[this.props.pickedDay][activity];
-    //   displayPickedDay = (
-    //     <div className={classes.DailyTimeBudget}>
-    //       <div className={classes.Activity}>{activity.toUpperCase()}</div>
-    //       <div className={classes.ActivityHours}>{hours}</div>
+    let disabledDeductBtnWeek = { ...activityWeekCategories };
 
-    //       <button
-    //         className={classes.Less}
-    //         onClick={this.props.reducePickedDay}
-    //         disabled={this.props.pickDayLess0hours}
-    //       >
-    //         Less
-    //       </button>
-    //       <button
-    //         className={classes.More}
-    //         onClick={this.props.addPickedDay}
-    //         //disabled={this.props.moreButtonDisabled}
-    //         disabled={this.props.disabled24hr}
-    //         //disabled={this.props.moreButtonDisabled}
-    //       >
-    //         More
-    //       </button>
-    //     </div>
-    //   );
-    // }
+    for (let key in disabledDeductBtnWeek) {
+      disabledDeductBtnWeek[key] = disabledDeductBtnWeek[key] <= 0;
+    }
 
-    return <div>word: {PickedDayData.word}</div>;
+    displayDailyTimeBudget = Object.keys(activityWeekCategories).map(
+      eachCategory => {
+        let moreButtonDisabled = null;
+        let lessButtonDisabled = null;
+
+        if (activityWeekCategories.totalHours >= 168) {
+          // alert(activityWeekCategories.totalHours);
+          moreButtonDisabled = true;
+        }
+        if (activityWeekCategories[eachCategory] <= 0) {
+          lessButtonDisabled = true;
+        }
+        let disabled24hr = null;
+        let pickDayLess0hours = null;
+
+        if (this.context.dataBudget.pickedDay) {
+          let pickedDay = this.context.dataBudget.pickedDay;
+          if (dailyBudget[pickedDay].totalHours >= 24) {
+            disabled24hr = true;
+          }
+          if (dailyBudget[pickedDay][eachCategory] <= 0) {
+            pickDayLess0hours = true;
+          }
+        }
+        return (
+          <React.Fragment key={eachCategory.concat('word')}>
+            <div className={daily.DailyTimeBudget}>
+              <div className={daily.DailyTimeBudget}>
+                <div className={daily.Activity}>
+                  {eachCategory.toUpperCase()}
+                </div>
+                <div className={daily.ActivityHours}>
+                  {activityWeekCategories[eachCategory]}
+                </div>
+
+                <button
+                  className={daily.Less}
+                  onClick={event =>
+                    this.requestDataHandler(event, eachCategory)
+                  }
+                  value="2"
+                  disabled={lessButtonDisabled}
+                >
+                  Less
+                </button>
+
+                <button
+                  className={daily.More}
+                  onClick={event =>
+                    this.requestDataHandler(event, eachCategory)
+                  }
+                  // disabled={this.props.moreButtonDisabled}
+                  value="3"
+                  disabled={moreButtonDisabled}
+                >
+                  More
+                </button>
+              </div>
+              {/* <div>{displayPickedDay}</div> */}
+            </div>
+          </React.Fragment>
+        );
+      }
+    );
+    return <div>insidePickedDay}</div>;
 
     // <div className={classes.DailyTimeBudget}>
     //   <div className={classes.DailyTimeBudget}>

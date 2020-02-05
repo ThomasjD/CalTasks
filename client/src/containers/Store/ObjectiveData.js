@@ -59,38 +59,84 @@ class ObjectiveData extends Component {
     dataBaseName: 'obj',
     firstTimeData: true,
     dailyBudget: null,
-    activityWeekCategories: null
+    activityWeekCategories: null,
+    pickedDay: null
   };
   dataForDisplay = () => {
     this.timeBudgetDay();
     this.setState(
       {
-        dataLocation: 'new'
+        dataLocation: 'new',
+        dailyBudget: this.dailyBudget,
+        activityWeekCategories: this.activityWeekCategories,
+        firstTimeData: !this.state.firstTimeData
       },
 
       () => this.context.dataReceiverHandler(this.state)
     );
   };
 
-  pickedDayHandler = () => {
-    let pickedDay = this.context.dataRequestDetails.info;
+  pickedDayHandler = pickedDay => {
     this.setState({ pickedDay: pickedDay }, () =>
       this.context.dataReceiverHandler(this.state)
     );
   };
   initialRun = () => {
-    this.setState({
-      dailyBudget: this.dailyBudget,
-      activityWeekCategories: this.activityDayCategories,
-      firstTimeData: !this.state.firstTimeData
-    });
+    this.setState(
+      {
+        dailyBudget: this.dailyBudget,
+        activityWeekCategories: this.activityWeekCategories,
+        firstTimeData: !this.state.firstTimeData
+      },
+      () => this.context.dataReceiverHandler(this.state)
+    );
   };
+
+  addHourToActivity = activity => {
+    let activityWeekCategories = { ...this.state.activityWeekCategories };
+    let currentTotalHourCount = activityWeekCategories.totalHours;
+    let currentActivityHourCount = activityWeekCategories[activity];
+
+    //const [[activity], totalHours] = {...this.state.activityWeekCategories}
+    let updatedTotalHourCount = currentTotalHourCount + 1;
+    activityWeekCategories.totalHours = updatedTotalHourCount;
+    let updatedActivityHourCount = currentActivityHourCount + 1;
+    activityWeekCategories[activity] = updatedActivityHourCount;
+
+    this.setState({ activityWeekCategories: activityWeekCategories }, () =>
+      this.context.dataReceiverHandler(this.state)
+    );
+    //this.deductHourToActivity(activity);
+    //this.updatePurchaseState(updatedIngredients);
+  };
+
+  deductHourToActivity = activity => {
+    let activityWeekCategories = { ...this.state.activityWeekCategories };
+    let currentTotalHourCount = activityWeekCategories.totalHours;
+    let currentActivityHourCount = activityWeekCategories[activity];
+
+    //const [[activity], totalHours] = {...this.state.activityWeekCategories}
+    let updatedTotalHourCount = currentTotalHourCount - 1;
+    activityWeekCategories.totalHours = updatedTotalHourCount;
+    let updatedActivityHourCount = currentActivityHourCount - 1;
+    activityWeekCategories[activity] = updatedActivityHourCount;
+
+    this.setState({ activityWeekCategories: activityWeekCategories }, () =>
+      this.context.dataReceiverHandler(this.state)
+    );
+  };
+
   static contextType = StoreDataContext;
   render() {
-    console.log(this.context.dataRequestDetails.handlerChoice);
     if (this.state.firstTimeData) {
       this.initialRun(this.timeBudgetDay());
     }
+    console.log(
+      `this.context.dataRequestDetails.handlerChoice: ${this.context.dataRequestDetails.handlerChoice}`
+    );
+    let Week = { ...this.state.dailyBudget };
+    let TuesdayObj = { ...Week.Tuesday };
+    console.dir(`this.state.dailyBudget.Tuesday.sleep: ${TuesdayObj.sleep}`);
 
     if (
       !this.state.firstTimeData &&
@@ -100,14 +146,28 @@ class ObjectiveData extends Component {
 
       switch (this.context.dataRequestDetails.handlerChoice) {
         case '1': //show picked day timeBudget
-          alert(
-            `inside case 1 this.context.dataRequestDetails.handlerChoice: ${this.context.dataRequestDetails.handlerChoice}`
-          );
+          // alert(
+          //   `inside case 1 this.context.dataRequestDetails.handlerChoice: ${this.context.dataRequestDetails.handlerChoice}`
+          // );
           this.context.resetHandlerChoice(this.dataForDisplay());
 
           break;
-        case '2': //show picked day timeBudget
-          this.context.resetHandlerChoice(() => this.pickedDayHandler());
+        case '2': //deduct
+          this.context.resetHandlerChoice(
+            this.deductHourToActivity(this.context.dataRequestDetails.value)
+          );
+
+          break;
+        case '3': //add
+          this.context.resetHandlerChoice(
+            this.addHourToActivity(this.context.dataRequestDetails.value)
+          );
+          break;
+
+        case '4': //show picked day timeBudget
+          this.context.resetHandlerChoice(
+            this.pickedDayHandler(this.context.dataRequestDetails.value)
+          );
 
           break;
       }

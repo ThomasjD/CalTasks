@@ -122,7 +122,7 @@ class WeeklyTimeBudget extends Component {
 
     let dataRequestMessage = {
       typeOfData: 'obj',
-      handlerChoice: '2',
+      handlerChoice: '4',
       dataLocation: '',
       infoType: 'pickedDay',
       info: pickedDay
@@ -135,13 +135,6 @@ class WeeklyTimeBudget extends Component {
       }
     };
     this.context.contentViewHandler(contentViewObject);
-
-    // this.setState(
-    //   {
-    //     pickedDay: pickedDay
-    //   },
-    //   () => this.context.contentViewHandler(contentViewObject)
-    // );
   };
 
   initialState = () => {
@@ -155,49 +148,47 @@ class WeeklyTimeBudget extends Component {
     });
   };
 
-  requestDataHandler = () => {
-    let event = {
-      target: {
-        value: 'blah'
-      }
-    };
+  requestDataHandler = (event, eachCategory) => {
+    let handlerChoice = event.target.value;
     let dataRequestMessage = {
       typeOfData: 'obj',
-      handlerChoice: '1',
+      handlerChoice: handlerChoice,
       dataLocation: '',
       infoType: '',
-      info: ''
+      info: eachCategory
     };
-    alert(
-      `dataRequestMessage.handlerchoice ${dataRequestMessage.handlerchoice}`
-    );
+    // switch (handlerchoice) {
+    //   case '1':
+    //     dataRequestMessage.handlerChoice = handlerChoice;
+    //     break;
+    //   case '2':
+    //     break;
+    // }
+
+    // alert(
+    //   `dataRequestMessage.handlerchoice ${dataRequestMessage.handleChoice}`
+    // );
     this.context.dataRequestHandler(event, dataRequestMessage);
   };
 
   static contextType = StoreDataContext;
   render() {
-    if (!this.context.dataBudget) {
-      alert('what the fuck');
-      this.requestDataHandler();
-    }
-    //alert('run it');
-    //when first starting -> fetch data, store it as local data
-    //once all editing done, data gets sent back to objData
-
     //Display Week Data
     let displayDailyTimeBudget = null;
 
-    if (this.context.dataBudget.dataBudget) {
-      let dataBudgetObj = { ...this.context.dataBudget };
-      //this.initialState();
-      alert(
-        `this.context.dataBudget.dataBudget: ${this.context.dataBudget.dataBudget}`
-      );
-      let dailyBudget = this.context.dataBudget.dailyBudget;
-      let activityWeekCategories = {
-        ...dataBudgetObj.activityWeekCategories
-      };
-      alert(Object.keys(activityWeekCategories));
+    if (this.context.dataBudget && this.context.dataBudget.dataBudget) {
+      let dataBudget = this.context.dataBudget;
+
+      let dataBudget1 = { ...dataBudget };
+      let dataBudget2 = dataBudget1.dataBudget;
+      let dataBudget3 = { ...dataBudget2 };
+
+      let dailyBudgetObj = dataBudget3.dailyBudget;
+      let activityWeekCategoriesObj = dataBudget3.activityWeekCategories;
+
+      let dailyBudget = { ...dailyBudgetObj };
+      let activityWeekCategories = { ...activityWeekCategoriesObj };
+
       let disabledDeductBtnWeek = { ...activityWeekCategories };
 
       for (let key in disabledDeductBtnWeek) {
@@ -210,6 +201,7 @@ class WeeklyTimeBudget extends Component {
           let lessButtonDisabled = null;
 
           if (activityWeekCategories.totalHours >= 168) {
+            // alert(activityWeekCategories.totalHours);
             moreButtonDisabled = true;
           }
           if (activityWeekCategories[eachCategory] <= 0) {
@@ -218,15 +210,15 @@ class WeeklyTimeBudget extends Component {
           let disabled24hr = null;
           let pickDayLess0hours = null;
 
-          if (this.context.dataBudget.pickedDay) {
-            let pickedDay = this.context.dataBudget.pickedDay;
-            if (dailyBudget[pickedDay].totalHours >= 24) {
-              disabled24hr = true;
-            }
-            if (dailyBudget[pickedDay][eachCategory] <= 0) {
-              pickDayLess0hours = true;
-            }
-          }
+          // if (this.context.dataBudget.pickedDay) {
+          //   let pickedDay = this.context.dataBudget.pickedDay;
+          //   if (dailyBudget[pickedDay].totalHours >= 24) {
+          //     disabled24hr = true;
+          //   }
+          //   if (dailyBudget[pickedDay][eachCategory] <= 0) {
+          //     pickDayLess0hours = true;
+          //   }
+          // }
           return (
             // <PickedDayBudget
             //   key={eachCategory.concat(eachCategory)}
@@ -246,36 +238,42 @@ class WeeklyTimeBudget extends Component {
             //   disabled24hr={disabled24hr}
             //   pickDayLess0hours={pickDayLess0hours}
             // />
-
-            <div className={daily.DailyTimeBudget}>
+            <React.Fragment key={eachCategory.concat('word')}>
               <div className={daily.DailyTimeBudget}>
-                <div className={daily.Activity}>
-                  {eachCategory.toUpperCase()}
+                <div className={daily.DailyTimeBudget}>
+                  <div className={daily.Activity}>
+                    {eachCategory.toUpperCase()}
+                  </div>
+                  <div className={daily.ActivityHours}>
+                    {activityWeekCategories[eachCategory]}
+                  </div>
+
+                  <button
+                    className={daily.Less}
+                    onClick={event =>
+                      this.requestDataHandler(event, eachCategory)
+                    }
+                    value="2"
+                    disabled={lessButtonDisabled}
+                  >
+                    Less
+                  </button>
+
+                  <button
+                    className={daily.More}
+                    onClick={event =>
+                      this.requestDataHandler(event, eachCategory)
+                    }
+                    // disabled={this.props.moreButtonDisabled}
+                    value="3"
+                    disabled={moreButtonDisabled}
+                  >
+                    More
+                  </button>
                 </div>
-                <div className={daily.ActivityHours}>
-                  {activityWeekCategories[eachCategory]}
-                </div>
-
-                <button
-                  className={daily.Less}
-                  onClick={() => this.deductHourToActivity(eachCategory)}
-                  disabled={lessButtonDisabled}
-                >
-                  Less
-                </button>
-
-                <button
-                  className={daily.More}
-                  onClick={() => this.addHourToActivity(eachCategory)}
-                  // disabled={this.props.moreButtonDisabled}
-
-                  disabled={moreButtonDisabled}
-                >
-                  More
-                </button>
+                {/* <div>{displayPickedDay}</div> */}
               </div>
-              {/* <div>{displayPickedDay}</div> */}
-            </div>
+            </React.Fragment>
           );
         }
       );
