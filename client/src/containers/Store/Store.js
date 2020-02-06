@@ -6,7 +6,7 @@ import SyllabusData from './SyllabusData';
 import SyllabusContext from '../../context/syllabusContext.js';
 import TasksDataContext from '../../context/tasksContext.js';
 import Aux from '../../hoc/Aux';
-import Layout from '../../hoc/Layout';
+import Layout from '../../hoc/Layout/Layout';
 import CalendarContext from '../../context/calendarContext';
 //import Basic from './react-big-scheduler-master/Basic';
 import StoreDataContext from '../../context/StoreDataContext';

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import classes from './Layout.css';
-import Aux from './Aux';
-//import classes from './Layout.css';
-// import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
+import classes from './Layout.module.css';
+import Aux from '../Aux';
+import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 // import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
 const layout = props => (

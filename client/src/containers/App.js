@@ -25,7 +25,7 @@ import RightCockpit from './RightCockpit/RightCockpit';
 // import Post from '../components/Post';
 // import Header from '../components/Header';
 // import SideCard from '../components/SideCard';
-
+import Layout from '../hoc/Layout/Layout';
 import TasksData from './Store/TasksData';
 import SyllabusData from './Store/SyllabusData';
 import Store from './Store/Store';
