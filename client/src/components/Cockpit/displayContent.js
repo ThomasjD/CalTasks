@@ -15,7 +15,7 @@ import PickedDayTasks from '../ViewContent/PickedDayTasks/PickedDayTasks';
 import SyllabiList from '../ViewContent/Syllabus/SyllabiList';
 import DisplayPickedSyllabus from '../ViewContent/Syllabus/displayPickedSyllabus';
 import PickedDayBudget from '../ViewContent/Objectives/TimeBudget/PickedDayBudget/PickedDayBudget';
-//import TimeBudgetForWeek from '../';
+
 import Modal from '../../components/UI/Modal/Modal';
 
 const DisplayContent = props => {
@@ -165,20 +165,18 @@ const DisplayContent = props => {
       break;
 
     case '12': //Show Modal
-      if (
-        storeDataContext.dataBudget.dataBudget &&
-        storeDataContext.dataBudget.dataBudget.pickedDay
-      )
-        console.dir(JSON.stringify(storeDataContext.dataBudget.dataBudget));
       displayContent = (
         <React.Fragment>
-          <div>inside displaycontent</div>
-          <PickedDayBudget
-            pickedDay={storeDataContext.dataBudget.dataBudget.pickedDay}
-          />
-          {/* <Modal></Modal> */}
+          {storeDataContext.dataBudget &&
+          storeDataContext.dataBudget.dataBudget &&
+          storeDataContext.dataBudget.dataBudget.pickedDay ? (
+            <div>
+              <PickedDayBudget />
+            </div>
+          ) : null}
         </React.Fragment>
       );
+
       break;
   }
 
@@ -186,3 +184,18 @@ const DisplayContent = props => {
 };
 
 export default DisplayContent;
+// displayContent = (
+//   <React.Fragment>
+//     {storeDataContext.tasksData.tasksData ? (
+//       <Modal>
+//         <div>
+//           <Tasks />
+//         </div>
+//       </Modal>
+//     ) : null}
+//
+//   </React.Fragment>
+// );
+
+// &&
+//           storeDataContext.dataBudget.dataBudget.pickedDay

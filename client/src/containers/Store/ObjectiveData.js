@@ -91,7 +91,51 @@ class ObjectiveData extends Component {
       () => this.context.dataReceiverHandler(this.state)
     );
   };
+  addHourToActivityPickedDay = activity => {
+    let pickedDay = this.state.pickedDay;
+    let allDaysTimeBudget = this.state.dailyBudget;
+    let pickedDayDailyBudget = { ...this.state.dailyBudget[pickedDay] };
 
+    let pickedDayCurrentTotalHourCount = pickedDayDailyBudget.totalHours;
+    let pickedDayCurrentActivityHourCount = pickedDayDailyBudget[activity];
+
+    //const [[activity], totalHours] = {...this.state.activityWeekCategories}
+    let pickedDayUpdatedTotalHourCount = pickedDayCurrentTotalHourCount + 1;
+
+    let pickedDayUpdatedActivityHourCount =
+      pickedDayCurrentActivityHourCount + 1;
+    pickedDayDailyBudget.totalHours = pickedDayUpdatedTotalHourCount;
+    pickedDayDailyBudget[activity] = pickedDayUpdatedActivityHourCount;
+    allDaysTimeBudget[pickedDay] = pickedDayDailyBudget;
+
+    this.setState({ dailyBudget: allDaysTimeBudget }, () =>
+      this.addHourToActivity(activity)
+    );
+
+    //this.updatePurchaseState(updatedIngredients);
+  };
+
+  deductHourToActivityPickedDay = activity => {
+    let pickedDay = this.state.pickedDay;
+    let allDaysTimeBudget = this.state.dailyBudget;
+    let pickedDayDailyBudget = { ...this.state.dailyBudget[pickedDay] };
+
+    let pickedDayCurrentTotalHourCount = pickedDayDailyBudget.totalHours;
+    let pickedDayCurrentActivityHourCount = pickedDayDailyBudget[activity];
+
+    //const [[activity], totalHours] = {...this.state.activityWeekCategories}
+    let pickedDayUpdatedTotalHourCount = pickedDayCurrentTotalHourCount - 1;
+
+    let pickedDayUpdatedActivityHourCount =
+      pickedDayCurrentActivityHourCount - 1;
+    pickedDayDailyBudget.totalHours = pickedDayUpdatedTotalHourCount;
+    pickedDayDailyBudget[activity] = pickedDayUpdatedActivityHourCount;
+    allDaysTimeBudget[pickedDay] = pickedDayDailyBudget;
+
+    this.setState({ dailyBudget: allDaysTimeBudget }, () =>
+      this.deductHourToActivity(activity)
+    );
+  };
   addHourToActivity = activity => {
     let activityWeekCategories = { ...this.state.activityWeekCategories };
     let currentTotalHourCount = activityWeekCategories.totalHours;
@@ -165,14 +209,32 @@ class ObjectiveData extends Component {
           break;
 
         case '4': //show picked day timeBudget
+          console.log(
+            `inside ObjData this.context.dataRequestDetails.value: ${this.context.dataRequestDetails.value}`
+          );
           this.context.resetHandlerChoice(
             this.pickedDayHandler(this.context.dataRequestDetails.value)
           );
 
           break;
+
+        case '5':
+          this.context.resetHandlerChoice(
+            this.deductHourToActivityPickedDay(
+              this.context.dataRequestDetails.value
+            )
+          );
+          break;
+        case '6':
+          this.context.resetHandlerChoice(
+            this.addHourToActivityPickedDay(
+              this.context.dataRequestDetails.value
+            )
+          );
+          break;
       }
     }
-    return <div>Inside of ObjData </div>;
+    return null;
   }
 }
 

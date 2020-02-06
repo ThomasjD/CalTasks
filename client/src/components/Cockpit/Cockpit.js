@@ -216,12 +216,15 @@ const Cockpit = props => {
   return (
     <React.Fragment>
       <div>
+        {displayHowBusyThisWeek}
+        {displayShowTimeBudgetForWeek}
         <img
           className={classes.leftCockpitIcon}
           src={require('../../Assets/aptIcon.png')}
         />
 
         <h5>Pick Content View!</h5>
+
         <br></br>
         <br></br>
         <div className="btn-group-toggle d-flex-between" data-toggle="buttons">
@@ -259,8 +262,7 @@ const Cockpit = props => {
 
         <br></br>
         <br></br>
-        {displayHowBusyThisWeek}
-        {displayShowTimeBudgetForWeek}
+
         {cockpitViewOptions.showTasksNumEachDay ? (
           <React.Fragment>
             <Template />

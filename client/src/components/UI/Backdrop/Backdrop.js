@@ -18,7 +18,7 @@ const Backdrop = props => {
       ></div>
     );
   }
-
+  //||storeDataContext.contentChoice === '12'
   // {
   //   storeDataContext.contentChoice === '1' ? (
   //     <div className={classes.Backdrop}></div>
