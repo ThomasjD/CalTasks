@@ -1,23 +1,20 @@
 import React from 'react';
 
-import Logo from '../../Logo/Logo';
+//import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
-import classes from './SideDrawer.css';
-import Backdrop from '../../UI/Backdrop/Backdrop';
-import Aux from '../../../hoc/Aux/Aux';
-
+import classes from './SideDrawer.module.css';
+// import Backdrop from '../../UI/Backdrop/Backdrop';
+import Aux from '../../../hoc/Aux';
+import Logo from '../../Logo/Logo';
 const sideDrawer = props => {
-  let attachedClasses = [classes.SideDrawer, classes.Close];
-  if (props.open) {
-    attachedClasses = [classes.SideDrawer, classes.Open];
-  }
+  // let attachedClasses = [classes.SideDrawer, classes.Close];
+  // if (props.open) {
+  //   attachedClasses = [classes.SideDrawer, classes.Open];
+  // }
   return (
     <Aux>
-      <Backdrop />
-      <div className={attachedClasses.join(' ')}>
-        <div className={classes.Logo}>
-          <Logo />
-        </div>
+      <div className={classes.SideDrawer}>
+        <Logo />
         <nav>
           <NavigationItems />
         </nav>
@@ -27,3 +24,12 @@ const sideDrawer = props => {
 };
 
 export default sideDrawer;
+{
+  /* 
+<Backdrop />
+<div className={attachedClasses.join(' ')}>
+<div className={classes.Logo}>
+  <Logo />
+</div>;
+</div> */
+}

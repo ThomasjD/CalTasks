@@ -6,7 +6,7 @@ import Cockpit from '../components/Cockpit/Cockpit';
 import classes from '../components/Cockpit/Cockpit.module.css';
 
 import WithClass from '../hoc/WithClass';
-
+//import Toolbar from '../components/Navigation/Toolbar/Toolbar';
 import RightCockpit from './RightCockpit/RightCockpit';
 
 // var CanvasJSReact = require('./canvasjs.react');
@@ -25,15 +25,15 @@ import RightCockpit from './RightCockpit/RightCockpit';
 // import Post from '../components/Post';
 // import Header from '../components/Header';
 // import SideCard from '../components/SideCard';
-import Layout from '../hoc/Layout/Layout';
+//import Layout from './Layout/Layout';
 import TasksData from './Store/TasksData';
 import SyllabusData from './Store/SyllabusData';
 import Store from './Store/Store';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
   //
   //React Date
 
@@ -47,7 +47,7 @@ class App extends Component {
 }
 //<p>{this.props.appTitle}</p>
 export default App;
-//
+
 //using css modules on multiple classNames
 //{classNames({[styles.foo]: true, [styles.bar]: true})}
 //<p className={classNames({[rocky[classes]]: true, [rocky.red]: true})}

@@ -1,0 +1,80 @@
+/* Mobile View */
+.NavigationItem {
+  margin: 10px 0;
+
+  box-sizing: border-box;
+  /* display: flex; */
+  display: block;
+  /* display: flex -> to center the link vertically, 
+			-the link inside the list item */
+
+  width: 100%;
+  /* width to auto - can omit it, 
+			-which will become important later once we add mobile design.  */
+
+  /* height: 100%; */
+  /* height so that to have active links look.  */
+  align-items: center;
+  /* set this display flex to center the link  */
+}
+
+/* for  styling the links inside the list item */
+.NavigationItem a {
+  color: #3fae30;
+  text-decoration: none;
+  /* text-decoration => so that it's not underlined */
+  /* padding: 16px 10px; */
+  /* 10px left and right. */
+  /* height: 100%; */
+  width: 100%;
+  box-sizing: border-box;
+  /* - to make sure that the height really includes the padding and the border.  */
+
+  /* border-bottom: 4px solid transparent; */
+  /* will be invisible 
+			-but this border will become important 
+			-once we actually highlight a link,
+				- once you hover over it. */
+
+  display: block;
+  /* - so that my height has an effect. */
+}
+
+/* this only works when attached to a link a.active */
+.NavigationItem a:hover,
+.NavigationItem a:active,
+.NavigationItem a.active {
+  /* background-color: #8f5c2c;
+  border-bottom: 4px solid #40a4c8;
+  color: white; */
+
+  color: #40a4c8;
+}
+
+/* Desktop View */
+@media (min-width: 500px) {
+  .NavigationItem {
+    margin: 0;
+    display: flex;
+    height: 100%;
+    width: auto;
+    align-items: center;
+    /* color should not be white 
+    -because the background of the sideDrawer is white */
+  }
+
+  .NavigationItem a {
+    color: white;
+    height: 100%;
+    padding: 16px 10px;
+    border-bottom: 4px solid transparent;
+  }
+
+  .NavigationItem a:hover,
+  .NavigationItem a:active,
+  .NavigationItem a.active {
+    background-color: #faa91c;
+    border-bottom: 4px solid #1ea1d0;
+    color: white;
+  }
+}

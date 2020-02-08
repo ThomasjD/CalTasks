@@ -1,0 +1,39 @@
+.SideDrawer {
+  position: fixed;
+  width: 280px;
+  max-width: 70%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 200;
+  /* index of 200
+	-having a higher number than the backdrop(was 100) 
+-because the sideDrawer should be above the backdrop  */
+  background-color: white;
+  padding: 32px 16px;
+  box-sizing: border-box;
+  /* adjust the size to the padding */
+  transition: transform 0.3s ease-out;
+  /* -for opening and closing the sideDrawer. */
+}
+
+/* Desktop screen -> navigationItems won't show */
+@media (min-width: 500px) {
+  /* bigger devices: above 500px -> sideDrawer won't be seen */
+  .SideDrawer {
+    display: none;
+  }
+}
+
+.Open {
+  transform: translateX(0);
+}
+
+.Close {
+  transform: translateX(-100%);
+}
+
+.Logo {
+  height: 11%;
+  margin-bottom: 32px;
+}

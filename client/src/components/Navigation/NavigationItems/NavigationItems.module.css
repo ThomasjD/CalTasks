@@ -1,0 +1,24 @@
+/* not developing this mobile first 
+-because we don't have  sideDrawer yet */
+/* in the toolbar-adjust them for mobile devices later.  */
+.NavigationItems {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* none bec this class is going to get added to unordered list  */
+  display: flex;
+  /* display: flex;-to align the list items next to each other */
+
+  flex-flow: column;
+  /* mobile-need items to sit beneath each other */
+  align-items: center;
+  height: 100%;
+  /* height to  take the full height of the toolbar */
+}
+
+@media (min-width: 500px) {
+  .NavigationItems {
+    flex-flow: row;
+    /* desktop-need items to sit next to each other */
+  }
+}
