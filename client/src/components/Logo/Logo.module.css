@@ -13,7 +13,7 @@
 .Logo {
   background-color: white;
   padding: 8px;
-  height: 20%;
+  height: 80%;
   /* height prevent the logo from taking up the whole vertical space of toolbar */
   box-sizing: border-box;
   border-radius: 5px;

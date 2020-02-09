@@ -229,33 +229,33 @@ class Store extends Component {
     }
     return (
       <Aux>
-        <Layout>
-          <StoreDataContext.Provider
-            value={{
-              //all dataBases
-              dataRequestHandler: this.dataRequestHandler,
-              dataRequestDetails: this.state.dataRequestDetails,
-              dataReceiverHandler: this.dataReceiverHandler,
-              resetHandlerChoice: this.resetHandlerChoice,
-              storeData: this.state,
-              //calendarData
-              everythingCalendar: this.state,
+        <StoreDataContext.Provider
+          value={{
+            //all dataBases
+            dataRequestHandler: this.dataRequestHandler,
+            dataRequestDetails: this.state.dataRequestDetails,
+            dataReceiverHandler: this.dataReceiverHandler,
+            resetHandlerChoice: this.resetHandlerChoice,
+            storeData: this.state,
+            //calendarData
+            everythingCalendar: this.state,
 
-              //syllabusData
-              everythingSyllabus: this.state,
+            //syllabusData
+            everythingSyllabus: this.state,
 
-              //tasksData
-              tasksData: this.state,
-              newDataHandler: this.newDataHandler,
-              showLeftOverTasksForWeek: this.state.showLeftOverTasksForWeek,
+            //tasksData
+            tasksData: this.state,
+            newDataHandler: this.newDataHandler,
+            showLeftOverTasksForWeek: this.state.showLeftOverTasksForWeek,
 
-              //UI
-              contentViewHandler: this.contentViewHandler,
-              contentChoice: this.state.contentChoice,
-              //ObjectiveData
-              dataBudget: this.state
-            }}
-          >
+            //UI
+            contentViewHandler: this.contentViewHandler,
+            contentChoice: this.state.contentChoice,
+            //ObjectiveData
+            dataBudget: this.state
+          }}
+        >
+          <Layout>
             <CalendarContext.Provider
               value={{
                 resetHandlerChoice: this.resetHandlerChoice,
@@ -302,8 +302,8 @@ class Store extends Component {
                 </TasksDataContext.Provider>
               </SyllabusContext.Provider>
             </CalendarContext.Provider>
-          </StoreDataContext.Provider>
-        </Layout>
+          </Layout>
+        </StoreDataContext.Provider>
       </Aux>
     );
   }

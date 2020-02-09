@@ -13,10 +13,10 @@ const sideDrawer = props => {
   }
   return (
     <Aux>
-      <DrawerToggle clicked={props.drawerToggleClicked} />
+      {/* <DrawerToggle clicked={props.drawerToggleClicked} /> */}
       <Backdrop show={props.open} clicked={props.closed} />
       <div className={attachedClasses.join(' ')}>
-        <div className={classes.SideDrawer}>
+        <div className={classes.Logo}>
           <Logo />
         </div>
         <nav>

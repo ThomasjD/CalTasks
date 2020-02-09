@@ -1,3 +1,21 @@
 .Content {
-  margin-top: 16px;
+  /* margin-top: 16px; */
+  margin: 0 auto;
+}
+#wrapper {
+  margin: 0 auto;
+}
+
+#content {
+  margin-top: 0;
+}
+
+#appleNav {
+  margin: 0 0 20px 0;
+}
+
+#footerwrapper {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
