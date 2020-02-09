@@ -7,7 +7,7 @@ import calTaskLogo from '../../Assets/calTaskLogo.png';
 //<img src="../../assets/images/burger-logo.png" />
 const logo = props => (
   // <div className={classes.Logo} style={{ height: props.height }}>
-  <div className={classes.Logo}>
+  <div className={classes.Logo} style={{ height: props.height }}>
     <img src={calTaskLogo} alt="CalTask" />
   </div>
 );

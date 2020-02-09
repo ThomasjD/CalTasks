@@ -9,15 +9,29 @@ const Backdrop = props => {
       value: '0'
     }
   };
+  return (
+    <div>
+      {props.show ? (
+        <div className={classes.Backdrop} onClick={props.clicked}></div>
+      ) : null}
+    </div>
+  );
+  // if (storeDataContext.contentChoice === '1') {
+  //   return (
+  //     <div
+  //       className={classes.Backdrop}
+  //       onClick={() => storeDataContext.contentViewHandler(contentViewObject)}
+  //     ></div>
+  //   );
+  // }
 
-  if (storeDataContext.contentChoice === '1') {
-    return (
-      <div
-        className={classes.Backdrop}
-        onClick={() => storeDataContext.contentViewHandler(contentViewObject)}
-      ></div>
-    );
-  }
+  // return (
+  //   <div
+  //     className={classes.Backdrop}
+  //     onClick={() => storeDataContext.contentViewHandler(contentViewObject)}
+  //   ></div>
+  // );
+
   //||storeDataContext.contentChoice === '12'
   // {
   //   storeDataContext.contentChoice === '1' ? (
