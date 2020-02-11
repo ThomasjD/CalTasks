@@ -1,19 +1,16 @@
-.Logo {
+/* .Logo {
   background-color: white;
   padding: 8px;
   /* height: 1%;
-  width: 1%; */
+  width: 1%; 
   box-sizing: border-box;
   border-radius: 5px;
-}
+} */
 
-.Logo img {
-  height: 20%;
-}
 .Logo {
   background-color: white;
-  padding: 8px;
-  height: 80%;
+  padding: 4px;
+  height: 100%;
   /* height prevent the logo from taking up the whole vertical space of toolbar */
   box-sizing: border-box;
   border-radius: 5px;

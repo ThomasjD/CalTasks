@@ -1,0 +1,37 @@
+.Toolbar {
+  height: 80px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: white;
+  /* 51bdc9 */
+  display: flex;
+  flex-flow: row;
+  /* not on hamburger app */
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  box-sizing: border-box;
+
+  z-index: 90;
+  /* toolbar z-index has to be lower than the number we picked 
+    for the backdrop of 100
+      because the backdrop should go above the toolbar */
+}
+/* all the items in the toolbar are aligned next to each other 
+-because the default directional flexbox is row*/
+.Toolbar nav {
+  height: 100%;
+}
+
+.Logo2 {
+  height: 80%;
+}
+
+/* mobile screen will not show (the NavigationItems) */
+@media (max-width: 499px) {
+  .DesktopOnly {
+    display: none;
+  }
+}

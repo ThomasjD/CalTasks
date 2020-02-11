@@ -19,3 +19,13 @@
   bottom: 0;
   width: 100%;
 }
+.Toolbar {
+  margin-top: 10px;
+}
+/* Desktop screen -> navigationItems won't show */
+@media (min-width: 500px) {
+  /* bigger devices: above 500px -> sideDrawer won't be seen */
+  .Toolbar {
+    display: none;
+  }
+}

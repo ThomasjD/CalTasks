@@ -1,11 +1,14 @@
 .Toolbar {
-  height: 50px;
+  height: 70px;
   width: 100%;
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #51bdc9;
+  background-color: white;
+  /* 51bdc9 */
   display: flex;
+  flex-flow: row;
+  /* not on hamburger app */
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
@@ -23,7 +26,7 @@
 }
 .Logo {
   margin-top: 10px;
-  height: 100%;
+  height: 80%;
 }
 
 /* mobile screen will not show (the NavigationItems) */
