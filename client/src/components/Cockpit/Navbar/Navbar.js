@@ -8,6 +8,7 @@ import SyllabiList from '../../ViewContent/Syllabus/SyllabiList';
 import calendarObj from '../../Calendar/calendarObj';
 import StoreContext from '../../../context/StoreDataContext';
 import DrawerToggle from '../../Navigation/SideDrawer/DrawerToggle/DrawerToggle';
+import classesNavbar from './Navbar.module.css';
 const Navbar = props => {
   const [newTaskState, setTaskState] = useState({
     showNewTaskForm: false
@@ -16,32 +17,28 @@ const Navbar = props => {
   const storeContext = useContext(StoreContext);
 
   const requestDataHandler = event => {
-    let contentchoice = event.target.value;
+    let requestChoice = event.target.value;
+    let contentChoice = '0';
     let typeOfData = ''; //string: syllabus,tasks,events,objectives
     let handlerChoice = ''; //string: '#' handler inside of database
     let dataLocation = ''; // string: where obj found inside database
     let infoType = ''; //string: index/id/
     let info = ''; //string: actual info
     let today = calendarObj();
+    let requestData = false;
 
     // let value = '';
     let dataRequestMessage = {};
-    switch (contentchoice) {
+    switch (requestChoice) {
       case '1':
         typeOfData = 'tasks';
         handlerChoice = '1';
         dataLocation = 'unAssignedTasksForWeek';
         infoType = null;
         info = null;
-        dataRequestMessage = {
-          typeOfData: typeOfData,
-          handlerChoice: handlerChoice,
-          dataLocation: dataLocation,
-          infoType: infoType,
-          info: info
-        };
+        contentChoice = '1';
+        requestData = true;
 
-        storeContext.dataRequestHandler(event, dataRequestMessage);
         break;
       case '2':
         typeOfData = 'tasks';
@@ -49,19 +46,14 @@ const Navbar = props => {
         dataLocation = today;
         infoType = null;
         info = null;
-        dataRequestMessage = {
-          typeOfData: typeOfData,
-          handlerChoice: handlerChoice,
-          dataLocation: dataLocation,
-          infoType: infoType,
-          info: info
-        };
+        contentChoice = '2';
+        requestData = true;
 
-        storeContext.dataRequestHandler(event, dataRequestMessage);
         break;
       case '3':
         break;
       case '4':
+        contentChoice = '4';
         break;
       case '5':
         break;
@@ -71,23 +63,24 @@ const Navbar = props => {
         dataLocation = 'maxReactWorkLeft';
         infoType = null;
         info = null;
-        dataRequestMessage = {
-          typeOfData: typeOfData,
-          handlerChoice: handlerChoice,
-          dataLocation: dataLocation,
-          infoType: infoType,
-          info: info
-        };
 
-        storeContext.dataRequestHandler(event, dataRequestMessage);
         break;
     }
-
+    dataRequestMessage = {
+      typeOfData: typeOfData,
+      handlerChoice: handlerChoice,
+      dataLocation: dataLocation,
+      infoType: infoType,
+      info: info
+    };
     let contentViewObject = {
       target: {
-        value: contentchoice
+        value: contentChoice
       }
     };
+    if (requestData) {
+      storeContext.dataRequestHandler(event, dataRequestMessage);
+    }
 
     storeContext.contentViewHandler(contentViewObject);
   };
@@ -207,7 +200,7 @@ const Navbar = props => {
   };
 
   const navbarDisplay = (
-    <div>
+    <div className={classesNavbar.Navbar}>
       {/* <DrawerToggle clicked={props.drawerToggleClicked} /> */}
       <nav className="navbar navbar-expand-sm navbar-light bg-light mb-3">
         {/* <button className="btn btn-primary" onClick={props.deleteCockpit}>
@@ -257,11 +250,7 @@ const Navbar = props => {
                   Calendar
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Plans
-                </a>
-              </li>
+
               <li className="nav-item">
                 <a className="nav-link" href="#">
                   Objetivos

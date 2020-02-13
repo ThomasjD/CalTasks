@@ -115,6 +115,10 @@ class Store extends Component {
           case 'howBusy':
             value = null;
             break;
+
+          case 'newTask':
+            value = null;
+            break;
         }
         //alert('inside typeOfData of tasks ');
         dataRequestDetails = {

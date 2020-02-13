@@ -133,10 +133,10 @@ class RightCockpit extends Component {
     return (
       <React.Fragment>
         {/* {navbar} */}
-        <div className="rightcockpitClasses.deskTop">
+        <div className={rightcockpitClasses.ViewOptions}>
           <ViewContentOptions />
-          {displayCockpit}
         </div>
+        <div className="rightcockpitClasses.deskTop">{displayCockpit}</div>
       </React.Fragment>
     );
   }

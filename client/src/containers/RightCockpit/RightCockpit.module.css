@@ -1,3 +1,7 @@
+.ViewOptions {
+  margin-top: 40px;
+}
+
 .DisplayCockpit {
   display: flex;
 }

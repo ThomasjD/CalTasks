@@ -20,15 +20,50 @@ const NewTask = props => {
       task: '',
       deadline: '',
       category: '',
-      assignedTimeStart: '',
-      assignedTimeStop: '',
-      assignedDate: '',
-      taskDuration: '', //
+      startTimeDate: '',
+      finishTimeDate: '',
+      // assignedDate: '',
+      // taskDuration: '',
       blockOffTimeSlot: false,
       showStartTimeDate: false,
       showFinishTimeDate: false
     }
   });
+
+  const [startTimeDate, setStartTimeDate] = useState({
+    dateString: '',
+    day: '',
+    date: '',
+    month: '',
+    year: '',
+    timeString: '',
+    hour: '',
+    minute: '',
+    showStartTimeDate: false
+  });
+  const [finishTimeDate, setFinishTimeDate] = useState({
+    dateString: '',
+    day: '',
+    date: '',
+    month: '',
+    year: '',
+    timeString: '',
+    hour: '',
+    minute: '',
+    showFinishTimeDate: false
+  });
+
+  // const [newTask, setNewTask] = useState({
+  //   task: {
+  //     id: '',
+  //     todo: '',
+  //     deadline: '',
+  //     category: '',
+  //     startTimeDate: '',
+  //     finishTimeDate: null
+  //   }
+  //   // showFinishTimeDate: false
+  // });
 
   const change = e => {
     let name = e.target.name;
@@ -80,7 +115,9 @@ const NewTask = props => {
         id: newTask.task['todo'],
         todo: newTask.task['todo'],
         deadline: newTask.task['deadline'],
-        category: newTask.task['category']
+        category: newTask.task['category'],
+        startTimeDate: startTimeDate,
+        finishTimeDate: finishTimeDate
       }
     });
 
@@ -97,6 +134,54 @@ const NewTask = props => {
 
     console.log(`after resetting state ${newTask}`);
     props.newestTaskHandler('3');
+  };
+
+  const startDateTimeHandler = date => {
+    //setStartTimeDate
+    // dateObjectString: date.dateObjectString,
+    //   dateString: date.dateString,
+    //   day: date.day,
+    //   date: date.date,
+    //   month: date.month,
+    //   year: date.year,
+    //   timeString: date.time,
+    //   hour: date.hour,
+    //   minute: date.minute,
+    //   showStartTimeDate: false
+    setStartTimeDate({
+      dateObjectString: date.dateObjectString,
+      dateString: date.dateString,
+      day: date.day,
+      date: date.date,
+      month: date.month,
+      year: date.year,
+      timeString: date.time,
+      hour: date.hour,
+      minute: date.minute,
+      showStartTimeDate: true
+    });
+    // this.setState({
+    //   startTimeDate: eventStartTimeDate,
+    //   showFinishTimeDate: true
+    // });
+  };
+
+  const finishTimeDateHandler = date => {
+    setFinishTimeDate({
+      dateObjectString: date.dateObjectString,
+      dateString: date.dateString,
+      day: date.day,
+      date: date.date,
+      month: date.month,
+      year: date.year,
+      timeString: date.time,
+      hour: date.hour,
+      minute: date.minute
+    });
+
+    // let currentShowFinishTimeDate = this.state.showFinishTimeDate
+    // showFinishTimeDate: !currentShowFinishTimeDate
+    // this.setState({ finishTimeDate: eventFinishTimeDate });
   };
 
   return (
@@ -149,8 +234,8 @@ const NewTask = props => {
             <label>Start Time</label>
 
             <DatePickerPicker
-              startDateTimeHandler={date => this.startDateTimeHandler(date)}
-              finishTimeDateHandler={date => this.finishTimeHandler(date)}
+              startDateTimeHandler={date => startDateTimeHandler(date)}
+              finishTimeDateHandler={date => finishTimeDateHandler(date)}
             />
           </div>
 

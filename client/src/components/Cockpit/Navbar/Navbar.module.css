@@ -1,20 +1,21 @@
-.Toolbar {
-  height: 80px;
+.Navbar {
+  height: 45px;
   width: 100%;
-  position: fixed;
+  /* position: fixed; */
   top: 0;
   left: 0;
   background-color: white;
   /* 51bdc9 */
   display: flex;
   flex-flow: row;
+  box-sizing: border-box;
   /* not on hamburger app */
-  justify-content: space-between;
+  /* justify-content: space-between;
   align-items: center;
   padding: 0;
-  box-sizing: border-box;
+  
 
-  z-index: 90;
+  z-index: 90; 
   /* toolbar z-index has to be lower than the number we picked 
     for the backdrop of 100
       because the backdrop should go above the toolbar */
