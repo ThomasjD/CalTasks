@@ -66,11 +66,11 @@ class Store extends Component {
   };
 
   dataRequestHandler = (event, dataRequestMessage) => {
-    // alert(` in Store dataRequestHandler-->  typeOfData: ${dataRequestMessage.typeOfData}
-    // handlerChoice: ${dataRequestMessage.handlerChoice}
-    // dataLocation: ${dataRequestMessage.dataLocation}
-    // infoType: ${dataRequestMessage.infoType}
-    // info: ${dataRequestMessage.info}`);
+    alert(` in Store dataRequestHandler-->  typeOfData: ${dataRequestMessage.typeOfData}
+    handlerChoice: ${dataRequestMessage.handlerChoice}
+    dataLocation: ${dataRequestMessage.dataLocation}
+    infoType: ${dataRequestMessage.infoType}
+    info: ${dataRequestMessage.info}`);
     let {
       typeOfData,
       handlerChoice,
@@ -85,18 +85,18 @@ class Store extends Component {
     let dataRequestDetails = null;
     //let inspection = event.value;
     switch (typeOfData) {
-      case 'UiData':
-        value = info;
-        //alert(`inside Store dataRequest typeOfData: UiData value: ${value}`);
-        dataRequestDetails = {
-          handlerChoice: handlerChoice,
-          index: index,
-          id: id,
-          value: value,
-          typeOfData: typeOfData,
-          dataLocation: dataLocation
-        };
-        break;
+      // case 'UiData':
+      //   value = info;
+      // alert(`inside Store dataRequest typeOfData: UiData value: ${value}`);
+      // dataRequestDetails = {
+      //   handlerChoice: handlerChoice,
+      //   index: index,
+      //   id: id,
+      //   value: value,
+      //   typeOfData: typeOfData,
+      //   dataLocation: dataLocation
+      // };
+      //   break;
       case 'tasks':
         switch (infoType) {
           case 'index':
@@ -117,7 +117,7 @@ class Store extends Component {
             break;
 
           case 'newTask':
-            value = null;
+            value = info;
             break;
         }
         //alert('inside typeOfData of tasks ');
@@ -228,7 +228,7 @@ class Store extends Component {
 
   render() {
     // Layout wrap displayed
-    console.log(this.state.dataBudget);
+
     if (this.state.dataBudget) {
     }
     return (

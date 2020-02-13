@@ -175,12 +175,12 @@ class ObjectiveData extends Component {
     if (this.state.firstTimeData) {
       this.initialRun(this.timeBudgetDay());
     }
-    console.log(
-      `this.context.dataRequestDetails.handlerChoice: ${this.context.dataRequestDetails.handlerChoice}`
-    );
+    // console.log(
+    //   `this.context.dataRequestDetails.handlerChoice: ${this.context.dataRequestDetails.handlerChoice}`
+    // );
     let Week = { ...this.state.dailyBudget };
     let TuesdayObj = { ...Week.Tuesday };
-    console.dir(`this.state.dailyBudget.Tuesday.sleep: ${TuesdayObj.sleep}`);
+    // console.dir(`this.state.dailyBudget.Tuesday.sleep: ${TuesdayObj.sleep}`);
 
     if (
       !this.state.firstTimeData &&

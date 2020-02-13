@@ -2,11 +2,10 @@ import React, { useRef, useEffect, useState, useContext } from 'react';
 //import useForm from 'react-hook-form';
 import { tsPropertySignature } from '@babel/types';
 import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
-import RightCockpit from '../../containers/RightCockpit/RightCockpit';
-import TasksContext from '../../context/tasksContext';
+import StoreContext from '../../context/StoreDataContext';
 
 const NewTask = props => {
-  const tasksContext = useContext(TasksContext);
+  const storeContext = useContext(StoreContext);
   const taskTitleRef = useRef(null);
   useEffect(() => {
     //runs after initial render & last render
@@ -14,20 +13,35 @@ const NewTask = props => {
     taskTitleRef.current.focus();
   }, []); //only executes when component renders 1st time & cleans up when unmounted
   const [newTask, setNewTask] = useState({
-    task: {
-      id: '',
-      timeOfDay: '',
-      task: '',
-      deadline: '',
-      category: '',
-      startTimeDate: '',
-      finishTimeDate: '',
-      // assignedDate: '',
-      // taskDuration: '',
-      blockOffTimeSlot: false,
-      showStartTimeDate: false,
-      showFinishTimeDate: false
-    }
+    // task: {
+    id: 'klgdshljkhgkjsdg',
+    timeOfDay: '9:00',
+    task: 'Watch show',
+    deadline: 'Thursday',
+    category: 'watch show',
+    startTimeDate: '',
+    finishTimeDate: '',
+    // assignedDate: '',
+    // taskDuration: '',
+    blockOffTimeSlot: false,
+    showStartTimeDate: false,
+    showFinishTimeDate: false
+    //}
+
+    // task: {
+    //   id: '',
+    //   timeOfDay: '',
+    //   task: '',
+    //   deadline: '',
+    //   category: '',
+    //   startTimeDate: '',
+    //   finishTimeDate: '',
+    //   // assignedDate: '',
+    //   // taskDuration: '',
+    //   blockOffTimeSlot: false,
+    //   showStartTimeDate: false,
+    //   showFinishTimeDate: false
+    // }
   });
 
   const [startTimeDate, setStartTimeDate] = useState({
@@ -108,46 +122,88 @@ const NewTask = props => {
     // });
   };
 
-  const onSubmit = e => {
-    e.preventDefault();
-    setNewTask({
-      task: {
-        id: newTask.task['todo'],
-        todo: newTask.task['todo'],
-        deadline: newTask.task['deadline'],
-        category: newTask.task['category'],
-        startTimeDate: startTimeDate,
-        finishTimeDate: finishTimeDate
-      }
-    });
+  const newTaskHandler = (event, info) => {
+    //let contentchoice = event.target.value;
+    let typeOfData = ''; //string: syllabus,tasks,events,objectives
+    let handlerChoice = ''; //string: '#' handler inside of database
+    let dataLocation = ''; // string: where obj found inside database
+    let infoType = ''; //string: index/id/
+    //let info = ''; //string: actual info
+
+    // let value = '';
+    let dataRequestMessage = {};
+    //alert(`dataRequestMessage: ${dataRequestMessage}`);
+    switch (this.context.contentChoice) {
+      case '5':
+        typeOfData = 'events';
+        handlerChoice = '1';
+        dataLocation = '';
+        infoType = 'id';
+        //info = '';
+        break;
+      case '4':
+        break;
+      case '5':
+        break;
+      case '6':
+        break;
+    }
+    dataRequestMessage = {
+      typeOfData: typeOfData,
+      handlerChoice: handlerChoice,
+      dataLocation: dataLocation,
+      infoType: infoType,
+      info: info
+    };
+
+    this.context.dataRequestHandler(event, dataRequestMessage);
+  };
+
+  const onSubmit = event => {
+    event.preventDefault();
+    let dataRequestMessage = {};
+    let newTaskObj = { ...newTask.startDateTime };
+    console.log(newTask);
+
+    // setNewTask({
+    //   task: {
+    //     id: newTask.id,
+    //     task: newTask.task,
+    //     deadline: newTask.deadline,
+    //     category: newTask.category,
+    //     startTimeDate: startTimeDate,
+    //     finishTimeDate: finishTimeDate,
+    //     blockOffTimeSlot: newTask.blockOffTimeSlot,
+    //     showStartTimeDate: newTask.showStartTimeDate,
+    //     showFinishTimeDate: newTask.showFinishTimeDate
+    //   }
+    // });
 
     //props.newestTask(newTask);
     //reset the state for this component
-    setNewTask({
-      task: {
-        id: '',
-        todo: '',
-        deadline: '',
-        category: ''
-      }
-    });
+    // setNewTask({
+    //   task: {
+    //     id: '',
+    //     todo: '',
+    //     deadline: '',
+    //     category: ''
+    //   }
+    // });
 
-    console.log(`after resetting state ${newTask}`);
-    props.newestTaskHandler('3');
+    // console.log(`after resetting state ${newTask}`);
+    dataRequestMessage = {
+      typeOfData: 'tasks',
+      handlerChoice: '11',
+      dataLocation: '',
+      infoType: 'newTask',
+      info: newTask
+    };
+
+    storeContext.dataRequestHandler(event, dataRequestMessage);
   };
 
   const startDateTimeHandler = date => {
-    //setStartTimeDate
-    // dateObjectString: date.dateObjectString,
-    //   dateString: date.dateString,
-    //   day: date.day,
-    //   date: date.date,
-    //   month: date.month,
-    //   year: date.year,
-    //   timeString: date.time,
-    //   hour: date.hour,
-    //   minute: date.minute,
-    //   showStartTimeDate: false
+    // console.log('inside startDateTimeHandler');
     setStartTimeDate({
       dateObjectString: date.dateObjectString,
       dateString: date.dateString,
@@ -160,10 +216,23 @@ const NewTask = props => {
       minute: date.minute,
       showStartTimeDate: true
     });
+
+    setNewTask({
+      id: newTask.id,
+      task: newTask.task,
+      deadline: newTask.deadline,
+      category: newTask.category,
+      startTimeDate: startTimeDate,
+      finishTimeDate: finishTimeDate,
+      blockOffTimeSlot: newTask.blockOffTimeSlot,
+      showStartTimeDate: newTask.showStartTimeDate,
+      showFinishTimeDate: newTask.showFinishTimeDate
+    });
     // this.setState({
     //   startTimeDate: eventStartTimeDate,
     //   showFinishTimeDate: true
     // });
+    console.log(startTimeDate);
   };
 
   const finishTimeDateHandler = date => {
@@ -187,7 +256,7 @@ const NewTask = props => {
   return (
     <React.Fragment>
       <div className="container">
-        <form onSubmit={e => onSubmit(e)}>
+        <form onSubmit={event => onSubmit(event)}>
           <div className="form-group">
             <label>Task</label>
             <textarea
@@ -256,8 +325,6 @@ const NewTask = props => {
           </button>
         </form>
       </div>
-      <p>{props.newTaskTitle}</p>
-      <p>{props.category}</p>
     </React.Fragment>
   );
 };

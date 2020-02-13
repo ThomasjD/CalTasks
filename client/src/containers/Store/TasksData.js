@@ -366,16 +366,6 @@ class TasksData extends Component {
         break;
     }
   };
-  //dynamic edit task for Today (Monday)
-  addTaskHandler = e => {
-    console.log(e.task);
-    //need to fix this in newTask so that it automaticly picks up the default value of the radio button
-
-    let newestEvent = [...this.state.tasks, e.task];
-
-    this.setState({ tasks: newestEvent });
-    //this.setState({ showEvents: true });
-  };
 
   deleteTaskFromUnAssignedTasksForWeekHandler = taskIndex => {
     let currentUnassignedTasksForWeek = [...this.state.unAssignedTasksForWeek];
@@ -496,6 +486,18 @@ class TasksData extends Component {
       { numTasksThisWeek: numTasksThisWeek, showHowBusyWeek: true },
       () => this.context.dataReceiverHandler(this.state)
     );
+  };
+
+  //newTask
+  newTaskHandler = () => {
+    console.log('inside TasksData newTaskHandler');
+    //need to fix this in newTask so that it automaticly picks up the default value of the radio button
+    let newTask = { ...this.context.dataRequestDetails.value };
+    //let currentTasks = [...this.state.tasks, e.task];
+    let newTaskObj = { ...newTask };
+    console.log(newTaskObj);
+    //this.setState({ tasks: newestEvent });
+    //this.setState({ showEvents: true });
   };
 
   newEventHandler = value => {
@@ -694,6 +696,11 @@ class TasksData extends Component {
           break;
         case '10': //picked day
           this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
+          break;
+        case '11': //newTask
+          console.log('inside TasksData case 11');
+          this.context.resetHandlerChoice(this.newTaskHandler());
+          //this.newTaskHandler();
           break;
       }
     }
