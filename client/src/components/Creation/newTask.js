@@ -175,11 +175,15 @@ const NewTask = props => {
       infoType: 'newTask',
       info: newTask
     };
+    let word = {
+      one: 'mot',
+      two: 'hai'
+    };
 
     storeContext.dataRequestHandler(event, dataRequestMessage);
     // console.log('before contViewHandler');
     axios
-      .post('https://caltask-f1e28.firebaseio.com/newTak', newTask)
+      .post('https://caltask-f1e28.firebaseio.com/newtask.json', newTask)
       .catch(error => console.log(error));
     resetState();
   };
