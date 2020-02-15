@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState, useContext } from 'react';
 import { tsPropertySignature } from '@babel/types';
 import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
 import StoreContext from '../../context/StoreDataContext';
+import axios from 'axios';
 
 const NewTask = props => {
   const storeContext = useContext(StoreContext);
@@ -161,36 +162,12 @@ const NewTask = props => {
 
   const onSubmit = event => {
     event.preventDefault();
+    // alert(storeContext.contentChoice);
+
     let dataRequestMessage = {};
     let newTaskObj = { ...newTask.startDateTime };
     console.log(newTask);
 
-    // setNewTask({
-    //   task: {
-    //     id: newTask.id,
-    //     task: newTask.task,
-    //     deadline: newTask.deadline,
-    //     category: newTask.category,
-    //     startTimeDate: startTimeDate,
-    //     finishTimeDate: finishTimeDate,
-    //     blockOffTimeSlot: newTask.blockOffTimeSlot,
-    //     showStartTimeDate: newTask.showStartTimeDate,
-    //     showFinishTimeDate: newTask.showFinishTimeDate
-    //   }
-    // });
-
-    //props.newestTask(newTask);
-    //reset the state for this component
-    // setNewTask({
-    //   task: {
-    //     id: '',
-    //     todo: '',
-    //     deadline: '',
-    //     category: ''
-    //   }
-    // });
-
-    // console.log(`after resetting state ${newTask}`);
     dataRequestMessage = {
       typeOfData: 'tasks',
       handlerChoice: '11',
@@ -200,8 +177,35 @@ const NewTask = props => {
     };
 
     storeContext.dataRequestHandler(event, dataRequestMessage);
+    // console.log('before contViewHandler');
+    axios
+      .post('https://caltask-f1e28.firebaseio.com/newTak', newTask)
+      .catch(error => console.log(error));
+    resetState();
   };
+  const resetState = () => {
+    setNewTask({
+      id: '',
+      timeOfDay: '',
+      task: '',
+      deadline: '',
+      category: '',
+      startTimeDate: '',
+      finishTimeDate: '',
+      // assignedDate: '',
+      // taskDuration: '',
+      blockOffTimeSlot: false,
+      showStartTimeDate: false,
+      showFinishTimeDate: false
+    });
+    let contentChoiceObj = {
+      target: {
+        value: '0'
+      }
+    };
 
+    storeContext.contentViewHandler(contentChoiceObj);
+  };
   const startDateTimeHandler = date => {
     // console.log('inside startDateTimeHandler');
     setStartTimeDate({

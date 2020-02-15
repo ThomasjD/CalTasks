@@ -27,7 +27,7 @@ const DisplayContent = props => {
     case '0':
       displayContent = (
         <React.Fragment>
-          <NewTask />
+          {/* <NewTask /> */}
           <h3>Hello Thomas.... What would you like to see?</h3>
           <img
             className={classes.logoImage}

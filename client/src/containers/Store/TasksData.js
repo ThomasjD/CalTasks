@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import RightCockpit from '../RightCockpit/RightCockpit';
 //import TasksContext from '../../context/tasksContext';
 import calendarObj from '../../components/Calendar/calendarObj';
+import numToDay from '../../components/Calendar/numToDay';
 import StoreContext from '../../context/StoreDataContext';
 
 class TasksData extends Component {
@@ -493,10 +494,17 @@ class TasksData extends Component {
     console.log('inside TasksData newTaskHandler');
     //need to fix this in newTask so that it automaticly picks up the default value of the radio button
     let newTask = { ...this.context.dataRequestDetails.value };
-    //let currentTasks = [...this.state.tasks, e.task];
+
     let newTaskObj = { ...newTask };
-    console.log(newTaskObj);
-    //this.setState({ tasks: newestEvent });
+
+    let day = numToDay(newTaskObj.startTimeDate.day);
+    console.log(day);
+    let currentDayTasks = this.state[day];
+    console.log(currentDayTasks);
+    let updatedDayTasks = currentDayTasks.push(newTaskObj);
+    this.setState({ tasks: updatedDayTasks, dataLocation: day }, () =>
+      this.context.dataReceiverHandler(this.state)
+    );
     //this.setState({ showEvents: true });
   };
 
