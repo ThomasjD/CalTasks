@@ -68,18 +68,6 @@ const NewTask = props => {
     showFinishTimeDate: false
   });
 
-  // const [newTask, setNewTask] = useState({
-  //   task: {
-  //     id: '',
-  //     todo: '',
-  //     deadline: '',
-  //     category: '',
-  //     startTimeDate: '',
-  //     finishTimeDate: null
-  //   }
-  //   // showFinishTimeDate: false
-  // });
-
   const change = e => {
     let name = e.target.name;
 
@@ -175,10 +163,6 @@ const NewTask = props => {
       infoType: 'newTask',
       info: newTask
     };
-    let word = {
-      one: 'mot',
-      two: 'hai'
-    };
 
     storeContext.dataRequestHandler(event, dataRequestMessage);
     // console.log('before contViewHandler');
@@ -204,7 +188,7 @@ const NewTask = props => {
     });
     let contentChoiceObj = {
       target: {
-        value: '0'
+        value: '9'
       }
     };
 
