@@ -148,3 +148,68 @@ class RightCockpit extends Component {
 }
 
 export default RightCockpit;
+/*
+
+calendar: {
+  200219Wed: {
+    unScheduledTask: ['task22', 'task23'],
+    scheduledHours: {
+      //hourOfDay: taskID
+      8 : 'task1',
+      9 : 'task2',
+      10: '',
+      11: '',
+      12: '',
+      13: '',
+      14: '',
+      15: '',
+      16: '',
+      17: '',
+      18: '',
+      19: '',
+      20: '',
+      21: '',
+      22: '',
+  
+    }, 
+    reminders: [
+      'post question on forum', 'make datastructure schema'
+    ]
+  },
+  200220Thur: {
+    8 : 'task3',
+  9 : 'task4',
+  10: '',
+  11: '',
+  12: '',
+  13: '',
+  14: '',
+  15: '',
+  16: '',
+  17: '',
+  18: '',
+  19: '',
+  20: '',
+  21: '',
+  22: '',},
+  200221Fri: {},
+  200222Sat: {},
+}
+
+tasksAndEvents: {
+  'task1': {
+    title: 'cook',
+    scheduledDay: '200219Wed'
+  },
+  'task2': {
+      title: 'clean',
+      scheduledDay: '200219Wed'},
+  'task3': { 
+      title: 'order shoes',
+      scheduledDay: '200220Thur'},
+  'task4': { 
+      title: 'wash clothes',
+      scheduledDay: '200220Thur'}
+}
+ 
+*/
