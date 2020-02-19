@@ -15,7 +15,7 @@ import NewEvent from '../../components/Creation/NewEvent';
 import WeeklyTimeBudget from '../../components/Creation/WeeklyTimeBudget/WeeklyTimeBudget';
 import StoreDataContext from '../../context/StoreDataContext';
 import Modal from '../../components/UI/Modal/Modal';
-
+import axios from 'axios';
 class RightCockpit extends Component {
   constructor(props) {
     super(props);
@@ -86,7 +86,13 @@ class RightCockpit extends Component {
       }
     }
   };
-
+  getData = () => {
+    axios
+      .get('https://caltask-f1e28.firebaseio.com/currentWeek.json')
+      .then(response => {
+        console.log(response);
+      });
+  };
   static contextType = StoreDataContext;
 
   render() {
@@ -133,10 +139,12 @@ class RightCockpit extends Component {
     return (
       <React.Fragment>
         {/* {navbar} */}
+
         <div className={rightcockpitClasses.ViewOptions}>
           <ViewContentOptions />
         </div>
         <div className="rightcockpitClasses.deskTop">{displayCockpit}</div>
+        <button onClick={this.getData}>Get Data</button>
       </React.Fragment>
     );
   }
