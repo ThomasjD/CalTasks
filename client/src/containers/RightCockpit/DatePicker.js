@@ -113,7 +113,7 @@ class DatePickerPicker extends Component {
             timeFormat="HH:mm"
             timeIntervals={15}
             timeCaption="End"
-            dateFormat="MMMM d, yyyy h:mm aa"
+            dateFormat="MMMM DD, yyyy h:mm aa"
           />
         </div>
       </React.Fragment>
