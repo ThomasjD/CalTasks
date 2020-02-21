@@ -69,33 +69,10 @@ class CalendarData extends Component {
           '24.30': ''
         }
       };
-      console.dir(dayObjName);
-
-      // let currentDaysObj = { ...this.state.days };
-      // let upgradeDaysObj = {};
-
-      // if (currentDaysObj[dayObjName]) {
-      //   upgradeDaysObj = { ...currentDaysObj, [dayObjName]: day };
-      // } else {
-      //   let randomTask = { id: '2432', title: 'grocery shopping' };
-      //   let currentDayObj = { ...this.state.days[dayObjName] };
-      //   let currentDayUnScheduledTask = currentDayObj.unScheduledTask;
-      //   let upgradedDayUnScheduledTask = currentDayUnScheduledTask.push(
-      //     randomTask
-      //   );
-
-      //   let upgradedDayObj = {
-      //     ...currentDayObj,
-      //     unScheduledTask: upgradedDayUnScheduledTask
-      //   };
 
       let updatedDayObj = { ...this.state.days, [dayObjName]: dayObjName2 };
       this.setState({ days: updatedDayObj });
-
-      // }
     };
-
-    //this.createDayObjName = () => {};
   }
   state = {
     showChooseDate: false,
@@ -128,8 +105,9 @@ class CalendarData extends Component {
     console.log(`year: ${year} type: ${typeof year}`);
     console.log(`month: ${month} type: ${typeof month}`);
     console.log(`dayObjName: ${dayObjName} type: ${typeof dayObjName}`);
-    let currentDaysObj = this.state.days;
 
+    let currentDaysObj = this.state.days;
+    let currentDayObj = currentDaysObj[dayObjName];
     //if there there is NO obj for that day
     if (typeof currentDaysObj[dayObjName] == 'undefined') {
       this.newDayObj(dayObjName);
@@ -138,40 +116,17 @@ class CalendarData extends Component {
 
       let newTask = { id: 'task243', title: 'groceries' };
 
-      //[dayObjName]
-      let updatedDaysObj = {
-        ...this.state.days[dayObjName],
-        [dayObjName]: newTask
+      currentDaysObj[dayObjName].unscheduledtasks.push(newTask);
+      console.log(currentDaysObj[dayObjName]);
 
-        //[dayObjName]: newTask
-      };
       this.setState(
         {
-          days: updatedDaysObj
+          days: currentDaysObj
         },
-        // () => console.log('afterSetState')
+
         () => console.log(this.state.days[dayObjName])
       );
     }
-
-    // //dynamic keys use []
-    // let currentDaysObj = {
-    //   ...this.state.days,
-    //   [dayObjName]: {
-    //     word: 'hello'
-    //   }
-    // };
-
-    // console.dir(currentDaysObj);
-
-    // this.setState(
-    //   {
-    //     showStartTimeDate: !currentShowStartTimeDate,
-    //     startDate: date
-    //     // startTimeDate: startTimeDate
-    //   },
-    //   () => console.log(day)
-    // );
   }
 
   render() {
