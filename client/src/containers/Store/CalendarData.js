@@ -11,9 +11,11 @@ class CalendarData extends Component {
     super(props);
 
     this.newDayObj = dayObjName => {
-      let day = {
-        unScheduledTask: [],
-        repeats: [],
+      console.log('inside newDayObj ');
+      //empty obj if dayObjName doesn't exist
+      let dayObjName2 = {
+        unScheduledTask: dayObjName,
+        repeats: ['hello', 'there'],
         hours: {
           '00:00': '',
           '00:30': '',
@@ -67,31 +69,41 @@ class CalendarData extends Component {
           '24.30': ''
         }
       };
-      let currentDaysObj = { ...this.state.days };
-      let upgradeDaysObj = {};
+      console.dir(dayObjName);
 
-      if (currentDaysObj[dayObjName]) {
-        upgradeDaysObj = { ...currentDaysObj, [dayObjName]: day };
-      } else {
-        let randomTask = { id: '2432', title: 'grocery shopping' };
-        let currentDayObj = { ...this.state.days[dayObjName] };
-        let currentDayUnScheduledTask = currentDayObj.unScheduledTask;
-        let upgradedDayUnScheduledTask = currentDayUnScheduledTask.push(
-          randomTask
-        );
-        let upgradedDayObj = {
-          ...currentDayObj,
-          unScheduledTask: upgradedDayUnScheduledTask
-        };
-        this.setState({});
-      }
+      // let currentDaysObj = { ...this.state.days };
+      // let upgradeDaysObj = {};
+
+      // if (currentDaysObj[dayObjName]) {
+      //   upgradeDaysObj = { ...currentDaysObj, [dayObjName]: day };
+      // } else {
+      //   let randomTask = { id: '2432', title: 'grocery shopping' };
+      //   let currentDayObj = { ...this.state.days[dayObjName] };
+      //   let currentDayUnScheduledTask = currentDayObj.unScheduledTask;
+      //   let upgradedDayUnScheduledTask = currentDayUnScheduledTask.push(
+      //     randomTask
+      //   );
+
+      //   let upgradedDayObj = {
+      //     ...currentDayObj,
+      //     unScheduledTask: upgradedDayUnScheduledTask
+      //   };
+
+      let updatedDayObj = { ...this.state.days, [dayObjName]: dayObjName2 };
+      this.setState({ days: updatedDayObj });
+
+      // }
     };
 
-    this.createDayObjName = () => {};
+    //this.createDayObjName = () => {};
   }
   state = {
     showChooseDate: false,
-    days: {}
+    days: {
+      '200204Tue': {
+        unscheduledtasks: [{ id: 'task8', title: 'homework;' }]
+      }
+    }
   };
 
   createDayObjName = event => {
@@ -116,28 +128,54 @@ class CalendarData extends Component {
     console.log(`year: ${year} type: ${typeof year}`);
     console.log(`month: ${month} type: ${typeof month}`);
     console.log(`dayObjName: ${dayObjName} type: ${typeof dayObjName}`);
+    let currentDaysObj = this.state.days;
 
-    //dynamic keys use []
-    let currentDaysObj = {
-      ...this.state.days,
-      [dayObjName]: {
-        word: 'hello'
-      }
-    };
+    //if there there is NO obj for that day
+    if (typeof currentDaysObj[dayObjName] == 'undefined') {
+      this.newDayObj(dayObjName);
+    } else {
+      //if there is an obj for that day
 
-    console.dir(currentDaysObj);
+      let newTask = { id: 'task243', title: 'groceries' };
 
-    this.setState(
-      {
-        showStartTimeDate: !currentShowStartTimeDate,
-        startDate: date
-        // startTimeDate: startTimeDate
-      },
-      () => console.log(day)
-    );
+      //[dayObjName]
+      let updatedDaysObj = {
+        ...this.state.days[dayObjName],
+        [dayObjName]: newTask
+
+        //[dayObjName]: newTask
+      };
+      this.setState(
+        {
+          days: updatedDaysObj
+        },
+        // () => console.log('afterSetState')
+        () => console.log(this.state.days[dayObjName])
+      );
+    }
+
+    // //dynamic keys use []
+    // let currentDaysObj = {
+    //   ...this.state.days,
+    //   [dayObjName]: {
+    //     word: 'hello'
+    //   }
+    // };
+
+    // console.dir(currentDaysObj);
+
+    // this.setState(
+    //   {
+    //     showStartTimeDate: !currentShowStartTimeDate,
+    //     startDate: date
+    //     // startTimeDate: startTimeDate
+    //   },
+    //   () => console.log(day)
+    // );
   }
 
   render() {
+    console.dir(this.state);
     return (
       <React.Fragment>
         <div className="container">
@@ -150,9 +188,6 @@ class CalendarData extends Component {
             timeIntervals={30}
             timeCaption="Start"
             dateFormat="MMMM dd, yyyy"
-            //dateFormat="MMMM d, yyyy h:mm aa"
-            //dateFormat="mm/dd/yyyy h:m aa",
-            // format="mm/dd/yyyy"
           />
         </div>
       </React.Fragment>
