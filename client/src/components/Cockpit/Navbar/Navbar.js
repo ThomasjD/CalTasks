@@ -56,6 +56,13 @@ const Navbar = props => {
         contentChoice = '4';
         break;
       case '5':
+        // typeOfData = 'events';
+        // handlerChoice = '1';
+        // dataLocation = null;
+        // infoType = null;
+        // info = null;
+        contentChoice = '5';
+        // requestData = false;
         break;
       case '6': //load up newSyllabus component -> get data prepared to display maxReactWorkLeft
         typeOfData = 'syllabus';

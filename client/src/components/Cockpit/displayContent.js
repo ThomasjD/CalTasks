@@ -132,7 +132,9 @@ const DisplayContent = props => {
       }
 
       break;
-    case '8':
+    case '8': //After submitting a newEvent it will show the date where its added on calendar
+      //will be under the unScheduledEvent list
+
       break;
     case '9': //View tasks according to chosen day
       displayContent = (

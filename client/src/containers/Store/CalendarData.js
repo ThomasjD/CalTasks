@@ -4,7 +4,8 @@ import RightCockpit from '../RightCockpit/RightCockpit';
 import TasksContext from '../../context/tasksContext';
 import DatePicker from 'react-datepicker';
 import numToDay from '../../components/Calendar/numToDay';
-//import * as moment from 'moment';
+import StoreContext from '../../context/StoreDataContext';
+
 import { format, compareAsc } from 'date-fns';
 class CalendarData extends Component {
   constructor(props) {
@@ -82,7 +83,7 @@ class CalendarData extends Component {
       }
     }
   };
-
+  static contextType = StoreContext;
   createDayObjName = event => {
     event.preventDefault();
     alert('inside createDayObjName');
@@ -107,7 +108,7 @@ class CalendarData extends Component {
     console.log(`dayObjName: ${dayObjName} type: ${typeof dayObjName}`);
 
     let currentDaysObj = this.state.days;
-    let currentDayObj = currentDaysObj[dayObjName];
+
     //if there there is NO obj for that day
     if (typeof currentDaysObj[dayObjName] == 'undefined') {
       this.newDayObj(dayObjName);
@@ -129,8 +130,153 @@ class CalendarData extends Component {
     }
   }
 
+  // newEventHandler = value => {
+  //   let newEvent = this.context.dataRequestDetails.value;
+  //   let startTimeDate = this.context.dataRequestDetails.value.startTimeDate;
+
+  //   let assignTask = {
+  //     id: newEvent.startTimeDate.dateObjectString,
+  //     timeOfDay: startTimeDate.time,
+  //     task: newEvent.eventTitle,
+  //     note: newEvent.eventNote,
+  //     deadline: newEvent.deadline,
+  //     category: newEvent.eventCategory,
+  //     assignedTimeStart: startTimeDate,
+  //     assignedTimeStop: newEvent.finishTimeDate
+  //   };
+
+  //   //Thur blocked out
+  //   let dataLocation = this.context.dataRequestDetails.dataLocation;
+
+  //   // let availableObjects = Object.keys(this.state)
+
+  //   if (!this.state[dataLocation]) {
+  //     // object exists
+  //     let addNewEventToNewDataLocation = [assignTask];
+
+  //     this.setState(
+  //       {
+  //         [dataLocation]: addNewEventToNewDataLocation,
+  //         pickedDayTasksHeader: assignTask,
+  //         dataLocation: dataLocation
+  //       },
+
+  //       () => this.context.dataReceiverHandler(this.state)
+  //     );
+  //   } else {
+  //     let addNewEventToExistingDataLocation = this.state[dataLocation][0];
+
+  //     this.setState(
+  //       {
+  //         [dataLocation]: addNewEventToExistingDataLocation,
+  //         pickedDayTasksHeader: assignTask,
+  //         dataLocation: dataLocation
+  //       },
+
+  //       () => this.context.dataReceiverHandler(this.state)
+  //     );
+  //   }
+  // };
+  newEventHandler = value => {
+    let newEvent = this.context.dataRequestDetails.value;
+    //let startTimeDate = this.context.dataRequestDetails.value.startTimeDate;
+    let dayObjName = this.context.dataRequestDetails.value.dayObjName;
+    let newTask = {
+      id: newEvent.task, //.concat(newEvent.dayObjName),
+      // timeOfDay: startTimeDate.time,
+      objName: newEvent.dayObjName,
+      task: newEvent.eventTitle,
+      note: newEvent.eventNote,
+      deadline: newEvent.deadline,
+      category: newEvent.eventCategory
+      // assignedTimeStart: startTimeDate,
+      // assignedTimeStop: newEvent.finishTimeDate
+    };
+
+    // let dataLocation = this.context.dataRequestDetails.dataLocation;
+    let dataLocation = newEvent.dayObjName;
+    let currentDaysObj = this.state.days;
+
+    //if there there is NO obj for that day
+    if (typeof currentDaysObj[this.state.dayObjName] == 'undefined') {
+      this.newDayObj(dayObjName);
+      console.log('Inside if of newEventHandler() ');
+    } else {
+      //if there is an obj for that day
+
+      // let newTask = { id: 'task243', title: 'groceries' };
+
+      currentDaysObj[dayObjName].unscheduledtasks.push(newTask);
+      console.log(currentDaysObj[dayObjName]);
+
+      this.setState(
+        {
+          days: currentDaysObj
+        },
+        () => console.log('Inside of newevent() setState  ')
+      );
+      //() => this.context.dataReceiverHandler(this.state)
+
+      // console.log(this.state)
+      // );
+    }
+
+    // if (!this.state[dataLocation]) {
+    //   // object exists
+    //   let addNewEventToNewDataLocation = [assignTask];
+
+    //   this.setState(
+    //     {
+    //       [dataLocation]: addNewEventToNewDataLocation,
+    //       pickedDayTasksHeader: assignTask,
+    //       dataLocation: dataLocation
+    //     },
+
+    //     () => this.context.dataReceiverHandler(this.state)
+    //   );
+    // } else {
+    //   let addNewEventToExistingDataLocation = this.state[dataLocation][0];
+
+    //   this.setState(
+    //     {
+    //       [dataLocation]: addNewEventToExistingDataLocation,
+    //       pickedDayTasksHeader: assignTask,
+    //       dataLocation: dataLocation
+    //     },
+
+    //     () => this.context.dataReceiverHandler(this.state)
+    //   );
+    // }
+  };
+
   render() {
     console.dir(this.state);
+    if (
+      this.context.dataRequestDetails &&
+      this.context.dataRequestDetails.typeOfData === 'events'
+    ) {
+      switch (this.context.dataRequestDetails.handlerChoice) {
+        case '1': //new Event
+          // alert(
+          //   `doogie inside TasksData events case 1 contentChoice: ${this.context.dataRequestDetails.handlerChoice}`
+          // );
+
+          this.context.resetHandlerChoice(
+            this.newEventHandler(this.context.dataRequestDetails.value)
+          );
+
+          // this.context.resetHandlerChoice(() =>
+          //   this.lastTaskHeaderHandler(() =>
+          //     this.newEventHandler(this.context.dataRequestDetails.value)
+          //   )
+          // );
+
+          // this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
+
+          break;
+      }
+    }
+
     return (
       <React.Fragment>
         <div className="container">

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import numToDay from '../Calendar/numToDay';
 import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
 import ReactDatePicker from '../Calendar/ReactDatePicker';
-//import RightCockpitContext from '../../context/RightCockpitContext';
-
+import DatePicker from 'react-datepicker';
+import { format, compareAsc } from 'date-fns';
 import StoreDataContext from '../../context/StoreDataContext';
 import Icon from '../Calendar/Icon';
 import { Form, Input, FormGroup, Container, Label } from 'reactstrap';
@@ -50,42 +50,60 @@ class NewEvent extends Component {
     deadline: ''
   };
 
-  newEventHandler = (event, info) => {
-    //let contentchoice = event.target.value;
-    let typeOfData = ''; //string: syllabus,tasks,events,objectives
-    let handlerChoice = ''; //string: '#' handler inside of database
-    let dataLocation = ''; // string: where obj found inside database
-    let infoType = ''; //string: index/id/
-    //let info = ''; //string: actual info
+  // newEventHandler = (event, info) => {
+  //   //let contentchoice = event.target.value;
+  //   let typeOfData = ''; //string: syllabus,tasks,events,objectives
+  //   let handlerChoice = ''; //string: '#' handler inside of database
+  //   let dataLocation = ''; // string: where obj found inside database
+  //   let infoType = ''; //string: index/id/
+  //   //let info = ''; //string: actual info
 
-    // let value = '';
-    let dataRequestMessage = {};
-    //alert(`dataRequestMessage: ${dataRequestMessage}`);
-    switch (this.context.contentChoice) {
-      case '5':
-        typeOfData = 'events';
-        handlerChoice = '1';
-        dataLocation = '';
-        infoType = 'id';
-        //info = '';
-        break;
-      case '4':
-        break;
-      case '5':
-        break;
-      case '6':
-        break;
-    }
-    dataRequestMessage = {
-      typeOfData: typeOfData,
-      handlerChoice: handlerChoice,
-      dataLocation: dataLocation,
-      infoType: infoType,
-      info: info
-    };
+  //   // let value = '';
+  //   let dataRequestMessage = {};
+  //   //alert(`dataRequestMessage: ${dataRequestMessage}`);
+  //   switch (this.context.contentChoice) {
+  //     case '5':
+  //       typeOfData = 'events';
+  //       handlerChoice = '1';
+  //       dataLocation = '';
+  //       infoType = '';
+  //       //info = '';
+  //       break;
 
-    this.context.dataRequestHandler(event, dataRequestMessage);
-  };
+  //   }
+  //   dataRequestMessage = {
+  //     typeOfData: typeOfData,
+  //     handlerChoice: handlerChoice,
+  //     dataLocation: dataLocation,
+  //     infoType: infoType,
+  //     info: info
+  //   };
+
+  //   this.context.dataRequestHandler(event, dataRequestMessage);
+  // };
+
+  // onSubmit = event => {
+  //   event.preventDefault();
+  //   //if forgot to fill out the title it will focus on it
+  //   if (!this.state.eventTitle) {
+  //     this.emptyTitle.current.focus();
+  //     return alert('Give the event a name!');
+  //   }
+  //   let start = this.state.startTimeDate;
+
+  //   let findDay = numToDay(start.day);
+
+  //   let dataRequestMessage = {
+  //     typeOfData: 'events',
+  //     handlerChoice: '1',
+  //     dataLocation: findDay,
+  //     infoType: 'newEvent',
+  //     info: this.state
+  //   };
+  //   this.context.dataRequestHandler(event, dataRequestMessage);
+
+  //   this.resetState();
+  // };
 
   onSubmit = event => {
     event.preventDefault();
@@ -94,20 +112,21 @@ class NewEvent extends Component {
       this.emptyTitle.current.focus();
       return alert('Give the event a name!');
     }
-    let start = this.state.startTimeDate;
+    // let start = this.state.startTimeDate;
 
-    let findDay = numToDay(start.day);
+    // let findDay = numToDay(start.day);
+    if (this.state.dayObjName) {
+      let dataRequestMessage = {
+        typeOfData: 'events',
+        handlerChoice: '1',
+        dataLocation: this.state.dayObjName,
+        infoType: 'newEvent',
+        info: this.state
+      };
+      this.context.dataRequestHandler(event, dataRequestMessage);
 
-    let dataRequestMessage = {
-      typeOfData: 'events',
-      handlerChoice: '1',
-      dataLocation: findDay,
-      infoType: 'pickedDayTasks',
-      info: this.state
-    };
-    this.context.dataRequestHandler(event, dataRequestMessage);
-
-    this.resetState();
+      this.resetState();
+    }
   };
 
   resetState = () => {
@@ -196,6 +215,38 @@ class NewEvent extends Component {
     });
   };
 
+  handleStartTimeDateChange(date) {
+    //let currentShowStartTimeDate = this.state.showStartTimeDate;
+    let day = format(date, 'E');
+    let dateDigit = format(date, 'dd');
+    let year = format(date, 'yy');
+    let month = format(date, 'MM');
+    let dayObjName = year + month + dateDigit + day;
+
+    console.log(`day: ${day} type: ${typeof day}`);
+    console.log(`date: ${dateDigit} type: ${typeof dateDigit}`);
+    console.log(`year: ${year} type: ${typeof year}`);
+    console.log(`month: ${month} type: ${typeof month}`);
+    console.log(`dayObjName: ${dayObjName} type: ${typeof dayObjName}`);
+
+    // let currentDaysObj = this.state.days;
+
+    // //if there there is NO obj for that day
+    // if (typeof currentDaysObj[dayObjName] == 'undefined') {
+    //   this.newDayObj(dayObjName);
+    // } else {
+    //   //if there is an obj for that day
+
+    //   let newTask = { id: 'task243', title: 'groceries' };
+
+    //   currentDaysObj[dayObjName].unscheduledtasks.push(newTask);
+    //   console.log(currentDaysObj[dayObjName]);
+
+    this.setState({
+      dayObjName: dayObjName
+    });
+  }
+
   static contextType = StoreDataContext;
 
   render() {
@@ -246,9 +297,20 @@ class NewEvent extends Component {
                 //ref={eventNoteRef => eventNoteRef.focus()}
               />
 
-              <DatePickerPicker
+              {/* <DatePickerPicker
                 startDateTimeHandler={date => this.startDateTimeHandler(date)}
                 finishTimeDateHandler={date => this.finishTimeHandler(date)}
+              /> */}
+
+              <DatePicker
+                placeholderText="Choose Start Time"
+                selected={this.state.startDate}
+                onChange={date => this.handleStartTimeDateChange(date)}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={30}
+                timeCaption="Start"
+                dateFormat="MMMM dd, yyyy"
               />
             </div>
 

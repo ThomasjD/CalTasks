@@ -559,32 +559,6 @@ class TasksData extends Component {
   render() {
     //need to put back this.context.
 
-    if (
-      this.context.dataRequestDetails &&
-      this.context.dataRequestDetails.typeOfData === 'events'
-    ) {
-      switch (this.context.dataRequestDetails.handlerChoice) {
-        case '1': //new Event
-          // alert(
-          //   `doogie inside TasksData events case 1 contentChoice: ${this.context.dataRequestDetails.handlerChoice}`
-          // );
-
-          this.context.resetHandlerChoice(
-            this.newEventHandler(this.props.dataRequestDetails.value)
-          );
-
-          this.context.resetHandlerChoice(() =>
-            this.lastTaskHeaderHandler(() =>
-              this.newEventHandler(this.props.dataRequestDetails.value)
-            )
-          );
-
-          // this.context.resetHandlerChoice(this.lastTaskHeaderHandler());
-
-          break;
-      }
-    }
-
     //dataRequestDetails.typeOfData === 'events';
     if (this.context.dataRequestDetails.typeOfData === 'tasks') {
       switch (this.context.dataRequestDetails.handlerChoice) {
