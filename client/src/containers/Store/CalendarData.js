@@ -11,11 +11,11 @@ class CalendarData extends Component {
   constructor(props) {
     super(props);
 
-    this.newDayObj = dayObjName => {
+    this.newDayObj = (dayObjName, newEvent) => {
       console.log('inside newDayObj ');
       //empty obj if dayObjName doesn't exist
-      let dayObjName2 = {
-        unScheduledTask: dayObjName,
+      let newDayObj = {
+        unScheduledTask: newEvent,
         repeats: ['hello', 'there'],
         hours: {
           '00:00': '',
@@ -71,7 +71,7 @@ class CalendarData extends Component {
         }
       };
 
-      let updatedDayObj = { ...this.state.days, [dayObjName]: dayObjName2 };
+      let updatedDayObj = { ...this.state.days, [dayObjName]: newDayObj };
       this.setState({ days: updatedDayObj });
     };
   }
@@ -198,8 +198,8 @@ class CalendarData extends Component {
     let currentDaysObj = this.state.days;
 
     //if there there is NO obj for that day
-    if (typeof currentDaysObj[this.state.dayObjName] == 'undefined') {
-      this.newDayObj(dayObjName);
+    if (typeof currentDaysObj[dayObjName] == 'undefined') {
+      this.newDayObj(dayObjName, newEvent);
       console.log('Inside if of newEventHandler() ');
     } else {
       //if there is an obj for that day
@@ -207,6 +207,7 @@ class CalendarData extends Component {
       // let newTask = { id: 'task243', title: 'groceries' };
 
       currentDaysObj[dayObjName].unscheduledtasks.push(newTask);
+
       console.log(currentDaysObj[dayObjName]);
 
       this.setState(
