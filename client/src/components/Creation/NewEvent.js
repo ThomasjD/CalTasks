@@ -205,7 +205,7 @@ class NewEvent extends Component {
   };
   eventNoteChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      eventNote: e.target.value
     });
   };
 

@@ -323,11 +323,7 @@ class TasksData extends Component {
         //   `inside case 9 datalocation: ${this.state[pickedDay].eventTitle}`
         // );
         if (!this.state[pickedDay]) {
-          let chair = this.state[pickedDay]; //[]
-          // alert(pickedDay);
-          // alert(
-          //   `Inside of lastTaskHeaderHandler case 2 if statement: ${chair}`
-          // );
+          // let chair = this.state[pickedDay]; //[]
 
           this.setState(
             {
