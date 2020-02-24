@@ -202,14 +202,11 @@ class Store extends Component {
 
         break;
       case 'obj':
-        this.setState(
-          {
-            dataBudget: dataBase,
-            dataLocation: dataBase.dataLocation,
-            showDataBudget: true //Cockpit: prevent setState() infinite
-          }
-          //   () => console.log(this.state.dataBudget)
-        );
+        this.setState({
+          dataBudget: dataBase,
+          dataLocation: dataBase.dataLocation,
+          showDataBudget: true //Cockpit: prevent setState() infinite
+        });
 
         break;
     }
@@ -262,40 +259,20 @@ class Store extends Component {
         >
           <Layout>
             <ObjectiveData />
-            <SyllabusContext.Provider
-              value={{
-                resetHandlerChoice: this.resetHandlerChoice,
-                everythingSyllabus: this.state,
-                dataRequestHandler: this.dataRequestHandler,
-                dataRequestDetails: this.state.dataRequestDetails,
-                dataReceiverHandler: this.dataReceiverHandler
-              }}
-            >
-              <SyllabusData></SyllabusData>
-              {/* <UiData></UiData> */}
-              {/* <Modal>
+            <SyllabusData></SyllabusData>
+
+            <TasksData
+              showLeftOverTasksForWeek={this.state.showLeftOverTasksForWeek}
+              dataRequestDetails={this.state.dataRequestDetails}
+            />
+            <RightCockpit crunk={this.state.crunk}></RightCockpit>
+            <UiData></UiData>
+            <CalendarData>Inside CalendarData</CalendarData>
+
+            {/* <Modal>
                   <h3>calTech</h3>
                 </Modal> */}
-              <TasksDataContext.Provider
-                value={{
-                  crunk: this.state.crunk,
-                  dataReceiverHandler: this.dataReceiverHandler,
-                  dataRequestHandler: this.dataRequestHandler,
-                  dataRequestDetails: this.state.dataRequestDetails,
-                  tasksData: this.state,
-                  resetHandlerChoice: this.resetHandlerChoice,
-                  newDataHandler: this.newDataHandler
-                }}
-              >
-                <TasksData
-                  showLeftOverTasksForWeek={this.state.showLeftOverTasksForWeek}
-                  dataRequestDetails={this.state.dataRequestDetails}
-                />
-                <RightCockpit crunk={this.state.crunk}></RightCockpit>
-              </TasksDataContext.Provider>
-            </SyllabusContext.Provider>
           </Layout>
-          <CalendarData>Inside CalendarData</CalendarData>
         </StoreDataContext.Provider>
       </Aux>
     );
