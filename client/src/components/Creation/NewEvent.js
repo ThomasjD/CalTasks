@@ -1,36 +1,22 @@
 import React, { Component } from 'react';
-import numToDay from '../Calendar/numToDay';
-import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
-import ReactDatePicker from '../Calendar/ReactDatePicker';
 import DatePicker from 'react-datepicker';
 import { format, compareAsc } from 'date-fns';
 import StoreDataContext from '../../context/StoreDataContext';
-import Icon from '../Calendar/Icon';
-import { Form, Input, FormGroup, Container, Label } from 'reactstrap';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
-import {
-  DateRangePicker,
-  SingleDatePicker,
-  DayPickerRangeController
-} from 'react-dates';
-import { fi } from 'date-fns/locale';
+//import numToDay from '../Calendar/numToDay';
+//import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
+//import ReactDatePicker from '../Calendar/ReactDatePicker';
+//import Icon from '../Calendar/Icon';
+//import { Form, Input, FormGroup, Container, Label } from 'reactstrap';
+// import {
+//   DateRangePicker,
+//   SingleDatePicker,
+//   DayPickerRangeController
+// } from 'react-dates';
+// import { fi } from 'date-fns/locale';
 
 class NewEvent extends Component {
-  // state = {
-  //   eventId: '', //task + date + start time
-  //   eventTitle: '',
-  //   eventNote: '',
-  //   eventCategory: '', //errand,multiday event, single day event, (radial choices)
-  //   //required
-  //   startTimeDate: '',
-  //   finishTimeDate: '',
-  //   eventDuration: '', //
-  //   blockOffTimeSlot: false,
-  //   showStartTimeDate: false,
-  //   showFinishTimeDate: false,
-  //   deadline: ''
-  // };
   constructor(props) {
     super(props);
     this.emptyTitle = React.createRef();
@@ -41,69 +27,19 @@ class NewEvent extends Component {
     eventTitle: '',
     eventNote: '',
     eventCategory: '',
-    startTimeDate: '',
-    finishTimeDate: '',
-    eventDuration: '', //
+    eventStartTimeDate: '',
+    eventFinishTimeDate: '',
+    //later: If one-day event
+    eventDuration: '',
+    //later: T -> schedule it on calendarData
+    //F--> put into unScheduledEventsList for that day
     blockOffTimeSlot: false,
     showStartTimeDate: false,
     showFinishTimeDate: false,
-    deadline: ''
+    eventDeadline: '',
+    //later: show multiday non-continous event
+    showMultidayNonContinousDate: false
   };
-
-  // newEventHandler = (event, info) => {
-  //   //let contentchoice = event.target.value;
-  //   let typeOfData = ''; //string: syllabus,tasks,events,objectives
-  //   let handlerChoice = ''; //string: '#' handler inside of database
-  //   let dataLocation = ''; // string: where obj found inside database
-  //   let infoType = ''; //string: index/id/
-  //   //let info = ''; //string: actual info
-
-  //   // let value = '';
-  //   let dataRequestMessage = {};
-  //   //alert(`dataRequestMessage: ${dataRequestMessage}`);
-  //   switch (this.context.contentChoice) {
-  //     case '5':
-  //       typeOfData = 'events';
-  //       handlerChoice = '1';
-  //       dataLocation = '';
-  //       infoType = '';
-  //       //info = '';
-  //       break;
-
-  //   }
-  //   dataRequestMessage = {
-  //     typeOfData: typeOfData,
-  //     handlerChoice: handlerChoice,
-  //     dataLocation: dataLocation,
-  //     infoType: infoType,
-  //     info: info
-  //   };
-
-  //   this.context.dataRequestHandler(event, dataRequestMessage);
-  // };
-
-  // onSubmit = event => {
-  //   event.preventDefault();
-  //   //if forgot to fill out the title it will focus on it
-  //   if (!this.state.eventTitle) {
-  //     this.emptyTitle.current.focus();
-  //     return alert('Give the event a name!');
-  //   }
-  //   let start = this.state.startTimeDate;
-
-  //   let findDay = numToDay(start.day);
-
-  //   let dataRequestMessage = {
-  //     typeOfData: 'events',
-  //     handlerChoice: '1',
-  //     dataLocation: findDay,
-  //     infoType: 'newEvent',
-  //     info: this.state
-  //   };
-  //   this.context.dataRequestHandler(event, dataRequestMessage);
-
-  //   this.resetState();
-  // };
 
   onSubmit = event => {
     event.preventDefault();
@@ -117,7 +53,8 @@ class NewEvent extends Component {
     // let findDay = numToDay(start.day);
     if (this.state.dayObjName) {
       let dataRequestMessage = {
-        typeOfData: 'events',
+        //if task/event scheduled on calendar
+        typeOfData: 'calendar',
         handlerChoice: '1',
         dataLocation: this.state.dayObjName,
         infoType: 'newEvent',
@@ -138,46 +75,30 @@ class NewEvent extends Component {
 
     this.setState(
       {
-        eventId: '', //task + date + start time
+        eventId: '',
         eventTitle: '',
         eventNote: '',
-        eventCategory: '',
-        //required
-        startTimeDate: '',
-        finishTimeDate: '',
-        showStartTimeDate: false,
-        showFinishTimeDate: false,
-        deadline: '',
+        eventCategory: '', //task + date + start time
+        eventStartTimeDate: '',
+        eventFinishTimeDate: '',
         eventDuration: '', //
+        blockOffTimeSlot: false,
+        //required
+        showStartTimeDate: false,
+        //later: show another datePicker to pick a multiday event
+        showFinishTimeDate: false,
+
+        //later: show multiday non-continous event
+        showMultidayNonContinousDate: false,
+        eventDeadline: '',
+        //later: If one-day event
+        eventDuration: '',
+        //later: T -> schedule it on calendarData
+        //F--> put into unScheduledEventsList for that day
         blockOffTimeSlot: ''
       },
       () => this.context.contentViewHandler(contentChoiceObj)
     );
-  };
-
-  handleDateChange = date => {
-    this.setState({
-      startTimeDate: date,
-      showStartTimeDate: true
-    });
-  };
-
-  startDateTimeHandler = date => {
-    let eventStartTimeDate = {
-      dateObjectString: date.dateObjectString,
-      dateString: date.dateString,
-      day: date.day,
-      date: date.date,
-      month: date.month,
-      year: date.year,
-      timeString: date.time,
-      hour: date.hour,
-      minute: date.minute
-    };
-    this.setState({
-      startTimeDate: eventStartTimeDate,
-      showFinishTimeDate: true
-    });
   };
 
   finishTimeDateHandler = date => {
@@ -215,6 +136,7 @@ class NewEvent extends Component {
     });
   };
 
+  //if now day obj !available, will make one for that day, add events to it, else add events to that day
   handleStartTimeDateChange(date) {
     //let currentShowStartTimeDate = this.state.showStartTimeDate;
     let day = format(date, 'E');
@@ -229,21 +151,19 @@ class NewEvent extends Component {
     console.log(`month: ${month} type: ${typeof month}`);
     console.log(`dayObjName: ${dayObjName} type: ${typeof dayObjName}`);
 
-    // let currentDaysObj = this.state.days;
-
-    // //if there there is NO obj for that day
-    // if (typeof currentDaysObj[dayObjName] == 'undefined') {
-    //   this.newDayObj(dayObjName);
-    // } else {
-    //   //if there is an obj for that day
-
-    //   let newTask = { id: 'task243', title: 'groceries' };
-
-    //   currentDaysObj[dayObjName].unscheduledtasks.push(newTask);
-    //   console.log(currentDaysObj[dayObjName]);
-
     this.setState({
-      dayObjName: dayObjName
+      dayObjName: dayObjName,
+      eventStartTimeDate: {
+        dateObjectString: date.dateObjectString,
+        dateString: date.dateString,
+        day: date.day,
+        date: date.date,
+        month: date.month,
+        year: date.year,
+        timeString: date.time,
+        hour: date.hour,
+        minute: date.minute
+      }
     });
   }
 

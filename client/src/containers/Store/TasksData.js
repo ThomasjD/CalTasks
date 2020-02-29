@@ -489,9 +489,8 @@ class TasksData extends Component {
   newTaskHandler = () => {
     console.log('inside TasksData newTaskHandler');
     //need to fix this in newTask so that it automaticly picks up the default value of the radio button
-    let newTask = { ...this.context.dataRequestDetails.value };
 
-    let newTaskObj = { ...newTask };
+    let newTaskObj = { ...this.context.dataRequestDetails.value };
 
     let day = numToDay(newTaskObj.startTimeDate.day);
     console.log(day);

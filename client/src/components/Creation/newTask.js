@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
 //import useForm from 'react-hook-form';
-import { tsPropertySignature } from '@babel/types';
+//import { tsPropertySignature } from '@babel/types';
 import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
 import StoreContext from '../../context/StoreDataContext';
 import axios from 'axios';
@@ -8,41 +8,32 @@ import axios from 'axios';
 const NewTask = props => {
   const storeContext = useContext(StoreContext);
   const taskTitleRef = useRef(null);
+
   useEffect(() => {
     //runs after initial render & last render
 
     taskTitleRef.current.focus();
   }, []); //only executes when component renders 1st time & cleans up when unmounted
+
   const [newTask, setNewTask] = useState({
-    // task: {
-    id: 'klgdshljkhgkjsdg',
-    timeOfDay: '9:00',
-    task: 'Watch show',
-    deadline: 'Thursday',
-    category: 'watch show',
+    eventId: 'klgdshljkhgkjsdg',
+    eventTitle: 'Watch show',
+    eventDeadline: 'Thursday',
+    eventCategory: 'watch show',
     startTimeDate: '',
     finishTimeDate: '',
     // assignedDate: '',
     // taskDuration: '',
     blockOffTimeSlot: false,
+    //option to scheduleTask -> takes it directly to calenDarData
+    //if don't schedule task -> must go into list of categories (taskData)
     showStartTimeDate: false,
-    showFinishTimeDate: false
-    //}
+    //button to schedule task to pop out PickDate
 
-    // task: {
-    //   id: '',
-    //   timeOfDay: '',
-    //   task: '',
-    //   deadline: '',
-    //   category: '',
-    //   startTimeDate: '',
-    //   finishTimeDate: '',
-    //   // assignedDate: '',
-    //   // taskDuration: '',
-    //   blockOffTimeSlot: false,
-    //   showStartTimeDate: false,
-    //   showFinishTimeDate: false
-    // }
+    showFinishTimeDate: false,
+    //button to elect a multi day task
+
+    showScheduleUncontinousDays: false
   });
 
   const [startTimeDate, setStartTimeDate] = useState({
@@ -150,14 +141,18 @@ const NewTask = props => {
 
   const onSubmit = event => {
     event.preventDefault();
-    // alert(storeContext.contentChoice);
-
     let dataRequestMessage = {};
     let newTaskObj = { ...newTask.startDateTime };
     console.log(newTask);
 
+    let typeOfData = null;
+    if (newTask.taskStartTimeDate) {
+      typeOfData = 'calendar';
+    } else {
+      typeOfData = 'tasks';
+    }
     dataRequestMessage = {
-      typeOfData: 'tasks',
+      typeOfData: typeOfData,
       handlerChoice: '11',
       dataLocation: '',
       infoType: 'newTask',
@@ -255,7 +250,8 @@ const NewTask = props => {
               className="form-control form-control-sm"
               name="task"
               type="text"
-              ref={taskTitleRef} //will focus when loading & rendering
+              //ref will focus when loading & rendering
+              ref={taskTitleRef}
               placeholder="Enter new task."
               onChange={e => change(e)}
             />
@@ -269,7 +265,7 @@ const NewTask = props => {
               className="form-control"
               defaultValue="Watch on Chanel 13"
               //value={this.state.eventNote}
-              onChange={e => this.eventNoteChange(e)}
+              onChange={e => change(e)}
               //ref={eventNoteRef => eventNoteRef.focus()}
             />
           </div>

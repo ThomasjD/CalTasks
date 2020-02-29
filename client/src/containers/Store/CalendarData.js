@@ -13,8 +13,8 @@ class CalendarData extends Component {
       console.log('inside newDayObj ');
       //empty obj if dayObjName doesn't exist
       let newDayObj = {
-        unScheduledTask: newTask,
-        unScheduledEvent: newEvent,
+        unScheduledTasks: newTask,
+        unScheduledEvents: newEvent,
         repeats: ['hello', 'there'],
         hours: {
           '00:00': '',
@@ -77,46 +77,98 @@ class CalendarData extends Component {
   state = {
     showChooseDate: false,
     days: {
-      '200204Tue': {
-        unscheduledtasks: [{ id: 'task8', title: 'homework;' }]
+      '200131Fri': {
+        unScheduledTasks: [{ id: 'task8', title: 'homework;' }],
+        unScheduledEvents: [
+          {
+            eventId: 'event37',
+            eventTitle: 'homework festival;',
+            eventNote: '',
+            eventCategory: '',
+            eventStartTimeDate: {
+              date: 31,
+              dateObjectString:
+                'Fri Jan 31 2020 08:00:00 GMT-0500 (Colombia Standard Time)',
+              toISOString: '2020-01-31T13:00:00.000Z',
+              toUTCString: 'Fri, 31 Jan 2020 13:00:00 GMT',
+              toGMTString: 'Fri, 31 Jan 2020 13:00:00 GMT',
+              dateString: 'Fri Jan 31 2020',
+              timeString: '08:00:00 GMT-0500 (Colombia Standard Time)',
+              year: 2020,
+              yearShort: 120,
+              month: 0,
+              day: 5,
+              time: '8:00:00 AM',
+              hour: 8,
+              minute: 0,
+              UTCDate: 31,
+              toLocalString: '1/31/2020, 8:00:00 AM',
+              toLocalDateString: '1/31/2020',
+              toLocaleTimeString: '8:00:00 AM'
+            },
+            eventFinishTimeDate: '',
+            //later: If one-day event
+            eventDuration: '',
+            //later: T -> schedule it on calendarData
+            //F--> put into unScheduledEventsList for that day
+            blockOffTimeSlot: false,
+            showStartTimeDate: false,
+            showFinishTimeDate: false,
+            eventDeadline: '',
+            //later: show multiday non-continous event
+            showMultidayNonContinousDate: false
+          }
+        ]
       }
     }
   };
   static contextType = StoreContext;
-  createDayObjName = event => {
-    event.preventDefault();
-    alert('inside createDayObjName');
-    let day = this.state.startTimeDate.day;
-
-    let date = this.state.startTimeDate.toLocalString;
-    console.log(date);
-  };
 
   newTaskHandler = value => {
-    let newTask = {
-      id: value.task, //.concat(newEvent.dayObjName),
+    let newTask = this.context.dataRequestDetails.value;
+    let newTaskObj = {
+      eventId: value.eventId, //.concat(newEvent.dayObjName),
       // timeOfDay: startTimeDate.time,
       objName: value.dayObjName,
-      task: value.eventTitle,
-      note: value.eventNote,
-      deadline: value.deadline,
-      category: value.eventCategory
-      // assignedTimeStart: startTimeDate,
-      // assignedTimeStop: newEvent.finishTimeDate
-    };
-    let dayObjName = value.dayObjName;
+      taskTitle: value.taskTitle,
+      taskNote: value.taskNote,
+      taskDeadline: value.taskDeadline,
+      taskCategory: value.taskCategory,
+      taskStartTimeDate: value.taskStartTimeDate,
+      taskFinishTimeDate: value.taskFinishTimeDate,
+      taskDuration: value.taskDuration, //
+      blockOffTimeSlot: value.blockOffTimeSlot,
+      //required
+      showStartTimeDate: value.showStartTimeDate,
+      //later: show another datePicker to pick a multiday task
+      showFinishTimeDate: value.showFinishTimeDate,
 
-    // let dataLocation = this.context.dataRequestDetails.dataLocation;
-    let dataLocation = value.dayObjName;
+      //later: show multiday non-continous task
+      showMultidayNonContinousDate: value.showMultidayNonContinousDate,
+      taskDeadline: value.taskDeadline,
+      //later: If one-day task
+      taskDuration: value.taskDuration,
+      //later: T -> schedule it on calendarData
+      //F--> put into unScheduledTasksList for that day
+      blockOffTimeSlot: value.blockOffTimeSlot
+    };
+
+    let dayObjName = this.context.dataRequestDetails.value.dayObjName;
+
+    let dataLocation = newTaskObj.dayObjName;
     let currentDaysObj = this.state.days;
 
     //if there there is NO obj for that day
     if (typeof currentDaysObj[dayObjName] == 'undefined') {
-      let newEvent = null;
-      this.newDayObj(dayObjName, newTask, newEvent);
-      console.log('Inside if of newEventHandler() ');
+      let newTaskObj = null;
+      let newEventObj = null;
+      //This way a day can store these new objs
+      this.newDayObj(dayObjName, newTaskObj, newEventObj);
     } else {
-      currentDaysObj[dayObjName].unscheduledtasks.push(newTask);
+      //if there is an obj for that day -> add this newEvent
+
+      //adding the newEvent to the unScheduledEvents list for that day
+      currentDaysObj[dayObjName].unScheduledTasks.push(newTaskObj);
 
       console.log(currentDaysObj[dayObjName]);
 
@@ -131,34 +183,47 @@ class CalendarData extends Component {
   newEventHandler = value => {
     let newEvent = this.context.dataRequestDetails.value;
     let newEventObj = {
-      id: value.eventId, //.concat(newEvent.dayObjName),
+      eventId: value.eventId, //.concat(newEvent.dayObjName),
       // timeOfDay: startTimeDate.time,
       objName: value.dayObjName,
       eventTitle: value.eventTitle,
       eventNote: value.eventNote,
-      deadline: value.deadline,
-      category: value.eventCategory
-      // assignedTimeStart: startTimeDate,
-      // assignedTimeStop: newEvent.finishTimeDate
+      eventDeadline: value.eventDeadline,
+      eventCategory: value.eventCategory,
+      eventStartTimeDate: value.eventStartTimeDate,
+      eventFinishTimeDate: value.eventFinishTimeDate,
+      eventDuration: value.eventDuration, //
+      blockOffTimeSlot: value.blockOffTimeSlot,
+      //required
+      showStartTimeDate: value.showStartTimeDate,
+      //later: show another datePicker to pick a multiday event
+      showFinishTimeDate: value.showFinishTimeDate,
+
+      //later: show multiday non-continous event
+      showMultidayNonContinousDate: value.showMultidayNonContinousDate,
+      eventDeadline: value.eventDeadline,
+      //later: If one-day event
+      eventDuration: value.eventDuration,
+      //later: T -> schedule it on calendarData
+      //F--> put into unScheduledEventsList for that day
+      blockOffTimeSlot: value.blockOffTimeSlot
     };
     //let startTimeDate = this.context.dataRequestDetails.value.startTimeDate;
     let dayObjName = this.context.dataRequestDetails.value.dayObjName;
 
-    // let dataLocation = this.context.dataRequestDetails.dataLocation;
     let dataLocation = newEvent.dayObjName;
     let currentDaysObj = this.state.days;
 
     //if there there is NO obj for that day
     if (typeof currentDaysObj[dayObjName] == 'undefined') {
       let newTask = null;
+      //This way a day can store these new objs
       this.newDayObj(dayObjName, newTask, newEventObj);
-      console.log('Inside if of newEventHandler() ');
     } else {
-      //if there is an obj for that day
+      //if there is an obj for that day -> add this newEvent
 
-      // let newTask = { id: 'task243', title: 'groceries' };
-
-      currentDaysObj[dayObjName].unscheduledtasks.push(newEventObj);
+      //adding the newEvent to the unScheduledEvents list for that day
+      currentDaysObj[dayObjName].unScheduledEvents.push(newEventObj);
 
       console.log(currentDaysObj[dayObjName]);
 
@@ -179,7 +244,7 @@ class CalendarData extends Component {
     console.dir(this.state);
     if (
       this.context.dataRequestDetails &&
-      this.context.dataRequestDetails.typeOfData === 'events'
+      this.context.dataRequestDetails.typeOfData === 'calendar'
     ) {
       switch (this.context.dataRequestDetails.handlerChoice) {
         case '1': //new Event
@@ -196,7 +261,7 @@ class CalendarData extends Component {
 }
 export default CalendarData;
 
-/*
+/* function for datePicker for react & handler change()
 handleStartTimeDateChange(date) {
   let currentShowStartTimeDate = this.state.showStartTimeDate;
   let day = format(date, 'E');
