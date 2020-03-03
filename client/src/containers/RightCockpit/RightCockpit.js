@@ -139,7 +139,7 @@ class RightCockpit extends Component {
     return (
       <React.Fragment>
         {/* {navbar} */}
-        <NewEvent />
+
         <div className={rightcockpitClasses.ViewOptions}>
           <ViewContentOptions />
         </div>

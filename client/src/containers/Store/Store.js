@@ -130,7 +130,6 @@ class Store extends Component {
           dataLocation: dataLocation
         };
         break;
-
       case 'EventsData':
         //alert('inside store case events');
         dataRequestDetails = {
@@ -142,19 +141,6 @@ class Store extends Component {
           value: info
         };
         break;
-
-      case 'CalendarData':
-        //alert('inside store case CalendarData');
-        dataRequestDetails = {
-          handlerChoice: handlerChoice,
-          index: index,
-          id: id,
-          typeOfData: typeOfData,
-          dataLocation: dataLocation,
-          value: info
-        };
-        break;
-
       case 'syllabus':
         switch (infoType) {
           case 'index':
