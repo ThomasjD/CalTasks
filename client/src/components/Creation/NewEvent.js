@@ -29,8 +29,8 @@ class NewEvent extends Component {
   }
 
   state = {
-    eventId: '',
-    eventTitle: '',
+    eventId: '', //this.today + eventTitle
+    eventTitle: 'rodeo',
     eventNote: '',
     eventCategory: '',
     eventStartTimeDate: '',
@@ -70,7 +70,7 @@ class NewEvent extends Component {
       console.log(dataRequestMessage);
       this.context.dataRequestHandler(event, dataRequestMessage);
 
-      //this.resetState();
+      this.resetState();
     }
   };
 

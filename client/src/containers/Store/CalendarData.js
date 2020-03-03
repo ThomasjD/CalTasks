@@ -216,15 +216,17 @@ class CalendarData extends Component {
 
     //if there there is NO obj for that day
     if (typeof currentDaysObj[dayObjName] == 'undefined') {
+      console.log('psychoT');
       let newTask = null;
       //This way a day can store these new objs
       this.newDayObj(dayObjName, newTask, newEventObj);
     } else {
       //if there is an obj for that day -> add this newEvent
-
-      //adding the newEvent to the unScheduledEvents list for that day
-      currentDaysObj[dayObjName].unScheduledEvents.push(newEventObj);
-
+      console.log('psychoT');
+      if (!newEventObj.blockOffTimeSlot) {
+        //adding the newEvent to the unScheduledEvents list for that day
+        currentDaysObj[dayObjName].unScheduledEvents.push(newEventObj);
+      }
       console.log(currentDaysObj[dayObjName]);
 
       this.setState(
@@ -233,21 +235,18 @@ class CalendarData extends Component {
         },
         () => console.log('Inside of newevent() setState  ')
       );
-      //() => this.context.dataReceiverHandler(this.state)
-
-      // console.log(this.state)
-      // );
     }
   };
 
   render() {
     console.dir(this.state);
+
     if (
       this.context.dataRequestDetails &&
-      this.context.dataRequestDetails.typeOfData === 'calendar'
+      this.context.dataRequestDetails.typeOfData === 'CalendarData'
     ) {
       switch (this.context.dataRequestDetails.handlerChoice) {
-        case '1': //new Event
+        case '1': //new Event unblocked hours
           this.context.resetHandlerChoice(
             this.newEventHandler(this.context.dataRequestDetails.value)
           );
