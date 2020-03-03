@@ -127,7 +127,7 @@ class CalendarData extends Component {
   newTaskHandler = value => {
     let newTask = this.context.dataRequestDetails.value;
     let newTaskObj = {
-      eventId: value.eventId, //.concat(newEvent.dayObjName),
+      taskId: value.eventId, //.concat(newEvent.dayObjName),
       // timeOfDay: startTimeDate.time,
       objName: value.dayObjName,
       taskTitle: value.taskTitle,

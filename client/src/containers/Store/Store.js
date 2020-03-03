@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import RightCockpit from '../RightCockpit/RightCockpit';
 import TasksData from './TasksData';
 import SyllabusData from './SyllabusData';
-import SyllabusContext from '../../context/syllabusContext.js';
-import TasksDataContext from '../../context/tasksContext.js';
+import EventsData from './EventsData';
 import Aux from '../../hoc/Aux';
 import Layout from '../../hoc/Layout/Layout';
 import CalendarContext from '../../context/calendarContext';
@@ -67,11 +66,11 @@ class Store extends Component {
   };
 
   dataRequestHandler = (event, dataRequestMessage) => {
-    alert(` in Store dataRequestHandler-->  typeOfData: ${dataRequestMessage.typeOfData}
-    handlerChoice: ${dataRequestMessage.handlerChoice}
-    dataLocation: ${dataRequestMessage.dataLocation}
-    infoType: ${dataRequestMessage.infoType}
-    info: ${dataRequestMessage.info}`);
+    // alert(` in Store dataRequestHandler-->  typeOfData: ${dataRequestMessage.typeOfData}
+    // handlerChoice: ${dataRequestMessage.handlerChoice}
+    // dataLocation: ${dataRequestMessage.dataLocation}
+    // infoType: ${dataRequestMessage.infoType}
+    // info: ${dataRequestMessage.info}`);
     let {
       typeOfData,
       handlerChoice,
@@ -131,7 +130,7 @@ class Store extends Component {
           dataLocation: dataLocation
         };
         break;
-      case 'events':
+      case 'EventsData':
         //alert('inside store case events');
         dataRequestDetails = {
           handlerChoice: handlerChoice,
@@ -260,7 +259,7 @@ class Store extends Component {
           <Layout>
             <ObjectiveData />
             <SyllabusData></SyllabusData>
-
+            <EventsData />
             <TasksData
               showLeftOverTasksForWeek={this.state.showLeftOverTasksForWeek}
               dataRequestDetails={this.state.dataRequestDetails}
@@ -268,10 +267,6 @@ class Store extends Component {
             <RightCockpit crunk={this.state.crunk}></RightCockpit>
             <UiData></UiData>
             <CalendarData>Inside CalendarData</CalendarData>
-
-            {/* <Modal>
-                  <h3>calTech</h3>
-                </Modal> */}
           </Layout>
         </StoreDataContext.Provider>
       </Aux>
@@ -280,3 +275,7 @@ class Store extends Component {
 }
 
 export default Store;
+
+/* <Modal>
+                  <h3>calTech</h3>
+                </Modal> */

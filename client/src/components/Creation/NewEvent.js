@@ -4,7 +4,8 @@ import { format, compareAsc } from 'date-fns';
 import StoreDataContext from '../../context/StoreDataContext';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
-//import numToDay from '../Calendar/numToDay';
+import EventsData from '../../containers/Store/EventsData';
+import numToDay from '../Calendar/numToDay';
 //import DatePickerPicker from '../../containers/RightCockpit/DatePicker.js';
 //import ReactDatePicker from '../Calendar/ReactDatePicker';
 //import Icon from '../Calendar/Icon';
@@ -20,6 +21,11 @@ class NewEvent extends Component {
   constructor(props) {
     super(props);
     this.emptyTitle = React.createRef();
+    this.today = ' ' + new Date().toDateString();
+    // this.todayDate = () => {
+    //   let today = new Date()
+
+    // }
   }
 
   state = {
@@ -31,7 +37,8 @@ class NewEvent extends Component {
     eventFinishTimeDate: '',
     //later: If one-day event
     eventDuration: '',
-    //later: T -> schedule it on calendarData
+    //later:
+    //T -> schedule it on calendarData
     //F--> put into unScheduledEventsList for that day
     blockOffTimeSlot: false,
     showStartTimeDate: false,
@@ -43,33 +50,34 @@ class NewEvent extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    //if forgot to fill out the title it will focus on it
+
+    //if forgot to fill out the title it will focus input box
     if (!this.state.eventTitle) {
       this.emptyTitle.current.focus();
       return alert('Give the event a name!');
     }
     // let start = this.state.startTimeDate;
 
-    // let findDay = numToDay(start.day);
     if (this.state.dayObjName) {
       let dataRequestMessage = {
         //if task/event scheduled on calendar
-        typeOfData: 'calendar',
+        typeOfData: 'EventsData',
         handlerChoice: '1',
         dataLocation: this.state.dayObjName,
         infoType: 'newEvent',
         info: this.state
       };
+      console.log(dataRequestMessage);
       this.context.dataRequestHandler(event, dataRequestMessage);
 
-      this.resetState();
+      //this.resetState();
     }
   };
 
   resetState = () => {
     let contentChoiceObj = {
       target: {
-        value: '9'
+        value: '0' //was 9
       }
     };
 
@@ -121,7 +129,8 @@ class NewEvent extends Component {
 
   eventTitleChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
+      eventId: e.target.value.concat(this.today)
     });
   };
   eventNoteChange = e => {
@@ -139,6 +148,8 @@ class NewEvent extends Component {
   //if now day obj !available, will make one for that day, add events to it, else add events to that day
   handleStartTimeDateChange(date) {
     //let currentShowStartTimeDate = this.state.showStartTimeDate;
+    let today = new Date();
+
     let day = format(date, 'E');
     let dateDigit = format(date, 'dd');
     let year = format(date, 'yy');
@@ -150,19 +161,22 @@ class NewEvent extends Component {
     console.log(`year: ${year} type: ${typeof year}`);
     console.log(`month: ${month} type: ${typeof month}`);
     console.log(`dayObjName: ${dayObjName} type: ${typeof dayObjName}`);
-
+    let differenceTime = date.getTime() - today.getTime();
+    let milliSeconds = 1000 * 60 * 60 * 24; //ms in a day
+    let numDaysFromCurrentDay = differenceTime / milliSeconds;
     this.setState({
       dayObjName: dayObjName,
       eventStartTimeDate: {
-        dateObjectString: date.dateObjectString,
-        dateString: date.dateString,
-        day: date.day,
-        date: date.date,
-        month: date.month,
-        year: date.year,
-        timeString: date.time,
-        hour: date.hour,
-        minute: date.minute
+        dateObjectString: date.toString(),
+        dateString: date.toDateString(),
+        day: numToDay(date.getDay()),
+        date: date.toDateString(),
+        month: date.getMonth(),
+        year: date.getYear(),
+        timeString: date.getMonth(),
+        hour: date.getHours(),
+        minute: date.getMinutes(),
+        numDaysFromCurrentDay: numDaysFromCurrentDay
       }
     });
   }
@@ -170,6 +184,7 @@ class NewEvent extends Component {
   static contextType = StoreDataContext;
 
   render() {
+    //EventsData.toyCapability();
     return (
       <React.Fragment>
         <div className="container">
