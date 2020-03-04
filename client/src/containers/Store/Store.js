@@ -24,7 +24,6 @@ class Store extends Component {
     syllabusData: null,
     tasksData: null,
     fish: 'blowFish',
-
     dataRequestDetails: {
       handlerChoice: false,
       dataLocation: null,
@@ -41,7 +40,6 @@ class Store extends Component {
       this.setState({ contentChoice: newViewChoice });
     }
   };
-
   receiveSyllabusDataHandler = dataBase => {
     switch (dataBase.dataBaseName) {
       case 'syllabus':
@@ -55,7 +53,6 @@ class Store extends Component {
           }
         );
         break;
-
       case 'tasks':
         this.setState({
           tasksData: dataBase,
@@ -64,9 +61,8 @@ class Store extends Component {
         break;
     }
   };
-
   dataRequestHandler = (event, dataRequestMessage) => {
-    // alert(` in Store dataRequestHandler-->  typeOfData: ${dataRequestMessage.typeOfData}
+    // alert(` in Store dataRequestHandler--> typeOfData: ${dataRequestMessage.typeOfData}
     // handlerChoice: ${dataRequestMessage.handlerChoice}
     // dataLocation: ${dataRequestMessage.dataLocation}
     // infoType: ${dataRequestMessage.infoType}
@@ -78,7 +74,6 @@ class Store extends Component {
       infoType,
       info
     } = dataRequestMessage;
-
     let index = null;
     let id = null;
     let value = '';
@@ -86,28 +81,26 @@ class Store extends Component {
     //let inspection = event.value;
     switch (typeOfData) {
       // case 'UiData':
-      //   value = info;
+      // value = info;
       // alert(`inside Store dataRequest typeOfData: UiData value: ${value}`);
       // dataRequestDetails = {
-      //   handlerChoice: handlerChoice,
-      //   index: index,
-      //   id: id,
-      //   value: value,
-      //   typeOfData: typeOfData,
-      //   dataLocation: dataLocation
+      // handlerChoice: handlerChoice,
+      // index: index,
+      // id: id,
+      // value: value,
+      // typeOfData: typeOfData,
+      // dataLocation: dataLocation
       // };
-      //   break;
+      // break;
       case 'tasks':
         switch (infoType) {
           case 'index':
             index = info;
             value = event.target.value;
-
             break;
           case 'id':
             id = info;
             value = event.target.value;
-
             break;
           case 'pickedDayTasks':
             value = null;
@@ -115,7 +108,6 @@ class Store extends Component {
           case 'howBusy':
             value = null;
             break;
-
           case 'newTask':
             value = info;
             break;
@@ -141,6 +133,17 @@ class Store extends Component {
           value: info
         };
         break;
+      case 'CalendarData':
+        //alert('inside store case CalendarData');
+        dataRequestDetails = {
+          handlerChoice: handlerChoice,
+          index: index,
+          id: id,
+          typeOfData: typeOfData,
+          dataLocation: dataLocation,
+          value: info
+        };
+        break;
       case 'syllabus':
         switch (infoType) {
           case 'index':
@@ -152,7 +155,6 @@ class Store extends Component {
             value = event.target.value;
             break;
         }
-
         dataRequestDetails = {
           handlerChoice: handlerChoice,
           index: index,
@@ -162,7 +164,6 @@ class Store extends Component {
           value: value
         };
         break;
-
       case 'obj':
         dataRequestDetails = {
           handlerChoice: handlerChoice,
@@ -174,13 +175,11 @@ class Store extends Component {
         };
         break;
     }
-
     //event, index, handlerType
     this.setState({
       dataRequestDetails: dataRequestDetails
     });
   };
-
   dataReceiverHandler = dataBase => {
     console.log({ ...dataBase });
     switch (dataBase.dataBaseName) {
@@ -190,7 +189,6 @@ class Store extends Component {
           syllabusData: dataBase
         });
         break;
-
       case 'tasks':
         //alert(`Inside of dataReceiverHandler taskData dataBase: ${dataBase}`);
         // console.log(dataBase);
@@ -198,7 +196,6 @@ class Store extends Component {
           tasksData: dataBase,
           dataLocation: dataBase.dataLocation
         });
-
         break;
       case 'obj':
         this.setState({
@@ -206,11 +203,9 @@ class Store extends Component {
           dataLocation: dataBase.dataLocation,
           showDataBudget: true //Cockpit: prevent setState() infinite
         });
-
         break;
     }
   };
-
   resetHandlerChoice = () => {
     this.setState({
       dataRequestDetails: {
@@ -222,10 +217,8 @@ class Store extends Component {
       }
     });
   };
-
   render() {
     // Layout wrap displayed
-
     if (this.state.dataBudget) {
     }
     return (
@@ -240,15 +233,12 @@ class Store extends Component {
             storeData: this.state,
             //calendarData
             everythingCalendar: this.state,
-
             //syllabusData
             everythingSyllabus: this.state,
-
             //tasksData
             tasksData: this.state,
             newDataHandler: this.newDataHandler,
             showLeftOverTasksForWeek: this.state.showLeftOverTasksForWeek,
-
             //UI
             contentViewHandler: this.contentViewHandler,
             contentChoice: this.state.contentChoice,
@@ -273,9 +263,7 @@ class Store extends Component {
     );
   }
 }
-
 export default Store;
-
 /* <Modal>
-                  <h3>calTech</h3>
-                </Modal> */
+<h3>calTech</h3>
+</Modal> */

@@ -3,12 +3,10 @@ import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import numToDay from '../../components/Calendar/numToDay';
 import StoreContext from '../../context/StoreDataContext';
-
 import { format, compareAsc } from 'date-fns';
 class CalendarData extends Component {
   constructor(props) {
     super(props);
-
     this.newDayObj = (dayObjName, newTask, newEvent) => {
       console.log('inside newDayObj ');
       //empty obj if dayObjName doesn't exist
@@ -69,7 +67,6 @@ class CalendarData extends Component {
           '24.30': ''
         }
       };
-
       let updatedDayObj = { ...this.state.days, [dayObjName]: newDayObj };
       this.setState({ days: updatedDayObj });
     };
@@ -77,7 +74,8 @@ class CalendarData extends Component {
   state = {
     showChooseDate: false,
     days: {
-      '200131Fri': {
+      //'200131Fri': {
+      '200304Wed': {
         unScheduledTasks: [{ id: 'task8', title: 'homework;' }],
         unScheduledEvents: [
           {
@@ -123,7 +121,6 @@ class CalendarData extends Component {
     }
   };
   static contextType = StoreContext;
-
   newTaskHandler = value => {
     let newTask = this.context.dataRequestDetails.value;
     let newTaskObj = {
@@ -142,7 +139,6 @@ class CalendarData extends Component {
       showStartTimeDate: value.showStartTimeDate,
       //later: show another datePicker to pick a multiday task
       showFinishTimeDate: value.showFinishTimeDate,
-
       //later: show multiday non-continous task
       showMultidayNonContinousDate: value.showMultidayNonContinousDate,
       taskDeadline: value.taskDeadline,
@@ -152,12 +148,9 @@ class CalendarData extends Component {
       //F--> put into unScheduledTasksList for that day
       blockOffTimeSlot: value.blockOffTimeSlot
     };
-
     let dayObjName = this.context.dataRequestDetails.value.dayObjName;
-
     let dataLocation = newTaskObj.dayObjName;
     let currentDaysObj = this.state.days;
-
     //if there there is NO obj for that day
     if (typeof currentDaysObj[dayObjName] == 'undefined') {
       let newTaskObj = null;
@@ -166,17 +159,14 @@ class CalendarData extends Component {
       this.newDayObj(dayObjName, newTaskObj, newEventObj);
     } else {
       //if there is an obj for that day -> add this newEvent
-
       //adding the newEvent to the unScheduledEvents list for that day
       currentDaysObj[dayObjName].unScheduledTasks.push(newTaskObj);
-
       console.log(currentDaysObj[dayObjName]);
-
       this.setState(
         {
           days: currentDaysObj
         },
-        () => console.log('Inside of newevent() setState  ')
+        () => console.log('Inside of newevent() setState ')
       );
     }
   };
@@ -198,7 +188,6 @@ class CalendarData extends Component {
       showStartTimeDate: value.showStartTimeDate,
       //later: show another datePicker to pick a multiday event
       showFinishTimeDate: value.showFinishTimeDate,
-
       //later: show multiday non-continous event
       showMultidayNonContinousDate: value.showMultidayNonContinousDate,
       eventDeadline: value.eventDeadline,
@@ -208,9 +197,8 @@ class CalendarData extends Component {
       //F--> put into unScheduledEventsList for that day
       blockOffTimeSlot: value.blockOffTimeSlot
     };
-    //let startTimeDate = this.context.dataRequestDetails.value.startTimeDate;
-    let dayObjName = this.context.dataRequestDetails.value.dayObjName;
 
+    let dayObjName = this.context.dataRequestDetails.value.dayObjName;
     let dataLocation = newEvent.dayObjName;
     let currentDaysObj = this.state.days;
 
@@ -222,91 +210,79 @@ class CalendarData extends Component {
     } else {
       //if there is an obj for that day -> add this newEvent
 
-      //adding the newEvent to the unScheduledEvents list for that day
-      currentDaysObj[dayObjName].unScheduledEvents.push(newEventObj);
-
+      if (!newEventObj.blockOffTimeSlot) {
+        console.log('inside if');
+        //adding the newEvent to the unScheduledEvents list for that day
+        currentDaysObj[dayObjName].unScheduledEvents.push(newEventObj);
+      } else {
+        console.log('inside else');
+        console.log(newEventObj.eventStartTimeDate.hour);
+      }
       console.log(currentDaysObj[dayObjName]);
-
       this.setState(
         {
           days: currentDaysObj
         },
-        () => console.log('Inside of newevent() setState  ')
+        () => console.log('Inside of newevent() setState ')
       );
-      //() => this.context.dataReceiverHandler(this.state)
-
-      // console.log(this.state)
-      // );
     }
   };
-
   render() {
     console.dir(this.state);
     if (
       this.context.dataRequestDetails &&
-      this.context.dataRequestDetails.typeOfData === 'calendar'
+      this.context.dataRequestDetails.typeOfData === 'CalendarData'
     ) {
       switch (this.context.dataRequestDetails.handlerChoice) {
-        case '1': //new Event
+        case '1': //new Event unblocked hours
           this.context.resetHandlerChoice(
             this.newEventHandler(this.context.dataRequestDetails.value)
           );
-
           break;
       }
     }
-
     return <React.Fragment></React.Fragment>;
   }
 }
 export default CalendarData;
-
 /* function for datePicker for react & handler change()
 handleStartTimeDateChange(date) {
-  let currentShowStartTimeDate = this.state.showStartTimeDate;
-  let day = format(date, 'E');
-  let dateDigit = format(date, 'dd');
-  let year = format(date, 'yy');
-  let month = format(date, 'MM');
-  let dayObjName = year + month + dateDigit + day;
-
-  // console.log(`day: ${day} type: ${typeof day}`);
-  // console.log(`date: ${dateDigit} type: ${typeof dateDigit}`);
-  // console.log(`year: ${year} type: ${typeof year}`);
-  // console.log(`month: ${month} type: ${typeof month}`);
-  // console.log(`dayObjName: ${dayObjName} type: ${typeof dayObjName}`);
-
-  let currentDaysObj = this.state.days;
-
-  //if there there is NO obj for that day
-  if (typeof currentDaysObj[dayObjName] == 'undefined') {
-    this.newDayObj(dayObjName);
-  } else {//if there is an obj for that day
-    
-
-    let newTask = { id: 'task243', title: 'groceries' };
-
-    currentDaysObj[dayObjName].unscheduledtasks.push(newTask);
-    console.log(currentDaysObj[dayObjName]);
-
-    this.setState(
-      {
-        days: currentDaysObj
-      },
-
-      () => console.log(this.state.days[dayObjName])
-    );
-  }
+let currentShowStartTimeDate = this.state.showStartTimeDate;
+let day = format(date, 'E');
+let dateDigit = format(date, 'dd');
+let year = format(date, 'yy');
+let month = format(date, 'MM');
+let dayObjName = year + month + dateDigit + day;
+// console.log(`day: ${day} type: ${typeof day}`);
+// console.log(`date: ${dateDigit} type: ${typeof dateDigit}`);
+// console.log(`year: ${year} type: ${typeof year}`);
+// console.log(`month: ${month} type: ${typeof month}`);
+// console.log(`dayObjName: ${dayObjName} type: ${typeof dayObjName}`);
+let currentDaysObj = this.state.days;
+//if there there is NO obj for that day
+if (typeof currentDaysObj[dayObjName] == 'undefined') {
+this.newDayObj(dayObjName);
+} else {//if there is an obj for that day
+let newTask = { id: 'task243', title: 'groceries' };
+currentDaysObj[dayObjName].unscheduledtasks.push(newTask);
+console.log(currentDaysObj[dayObjName]);
+this.setState(
+{
+days: currentDaysObj
+},
+() => console.log(this.state.days[dayObjName])
+);
 }
- <div className="container">
-          <DatePicker
-            placeholderText="Choose Start Time"
-            selected={this.state.startDate}
-            onChange={date => this.handleStartTimeDateChange(date)}
-            showTimeSelect
-            timeFormat="HH:mm"
-            timeIntervals={30}
-            timeCaption="Start"
-            dateFormat="MMMM dd, yyyy"
-          />
-        </div> */
+}
+<div className="container">
+<DatePicker
+placeholderText="Choose Start Time"
+selected={this.state.startDate}
+onChange={date => this.handleStartTimeDateChange(date)}
+showTimeSelect
+timeFormat="HH:mm"
+timeIntervals={30}
+timeCaption="Start"
+dateFormat="MMMM dd, yyyy"
+/>
+</div> */

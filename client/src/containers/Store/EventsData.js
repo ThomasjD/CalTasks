@@ -1,40 +1,57 @@
 import React, { Component } from 'react';
 import StoreContext from '../../context/StoreDataContext';
-
 class EventsData extends Component {
   constructor(props) {
     super(props);
   }
-
   state = {
-    currentMonthEvents: ['hello', 'there']
+    currentMonthEvents: ['hello', 'there'],
+    afterCurrentMonthEvents: {}
   };
-
   static contextType = StoreContext;
   newEventHandler = () => {
-    console.log(this.state.currentMonthEvents[1]);
+    //console.log(this.state.currentMonthEvents[1]);
     console.log(typeof this.state.currentMonthEvents);
-
     let newEvent = this.context.dataRequestDetails.value;
-    console.dir(newEvent);
-
+    //currentMonthEvents kept in array
     if (newEvent.eventStartTimeDate.numDaysFromCurrentDay < 31) {
       let currentMonthEvents = this.state.currentMonthEvents;
       console.log(typeof currentMonthEvents);
-
       currentMonthEvents.push(newEvent);
-
       console.log(currentMonthEvents);
       this.setState(
         {
           currentMonthEvents: currentMonthEvents
         },
-        () => {
-          let eventTitleObj = { ...this.state.currentMonthEvents };
-          console.log(this.state.currentMonthEvents[2]);
-        }
+        () => this.sendToCalendarData(newEvent)
+      );
+    } else {
+      let afterMonthEvents = this.state.afterCurrentMonthEvents;
+      let afterCurrentMonthEventsObj = {
+        ...afterMonthEvents,
+        [newEvent.eventId]: newEvent
+      };
+      this.setState(
+        {
+          afterCurrentMonthEvents: afterCurrentMonthEventsObj
+        },
+        () => this.sendToCalendarData(newEvent)
       );
     }
+    //send to calendarData
+  };
+  //send to calendarData on unblockedTime
+  sendToCalendarData = newEvent => {
+    let dataRequestMessage = {
+      //if task/event scheduled on calendar
+      typeOfData: 'CalendarData',
+      handlerChoice: '1',
+      dataLocation: newEvent.dayObjName,
+      infoType: 'newEvent',
+      info: newEvent
+    };
+    let event = null;
+    this.context.dataRequestHandler(event, dataRequestMessage);
   };
   render() {
     if (this.context.dataRequestDetails.typeOfData === 'EventsData') {
@@ -47,9 +64,8 @@ class EventsData extends Component {
     return <React.Fragment></React.Fragment>;
   }
 }
-
 export default EventsData;
-
+//properties for newEvent
 // eventId: '',
 // eventTitle: '',
 // eventNote: '',

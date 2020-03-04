@@ -29,8 +29,8 @@ class NewEvent extends Component {
   }
 
   state = {
-    eventId: '',
-    eventTitle: '',
+    eventId: 'rodeo', //this.today + eventTitle
+    eventTitle: 'rodeo',
     eventNote: '',
     eventCategory: '',
     eventStartTimeDate: '',
@@ -40,7 +40,7 @@ class NewEvent extends Component {
     //later:
     //T -> schedule it on calendarData
     //F--> put into unScheduledEventsList for that day
-    blockOffTimeSlot: false,
+    blockOffTimeSlot: true,
     showStartTimeDate: false,
     showFinishTimeDate: false,
     eventDeadline: '',
@@ -50,7 +50,7 @@ class NewEvent extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-
+    console.log(this.today);
     //if forgot to fill out the title it will focus input box
     if (!this.state.eventTitle) {
       this.emptyTitle.current.focus();
@@ -68,9 +68,10 @@ class NewEvent extends Component {
         info: this.state
       };
       console.log(dataRequestMessage);
+      let event = null;
       this.context.dataRequestHandler(event, dataRequestMessage);
 
-      //this.resetState();
+      this.resetState();
     }
   };
 
