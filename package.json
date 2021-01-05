@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/ThomasjD/CalTasks#readme",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "mdbootstrap": "^4.11.0",
     "mdbreact": "^4.24.0",
     "react-time-picker": "^3.9.0"
